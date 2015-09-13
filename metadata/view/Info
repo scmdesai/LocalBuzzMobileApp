@@ -211,7 +211,7 @@
                                         "implHandler": [
                                             "console.log(textfield.getValue());",
                                             "numberToDial = textfield.getValue();",
-                                            "window.location = 'tel:numberToDial' ;"
+                                            "window.location = 'tel:'+ numberToDial ;"
                                         ],
                                         "name": "focus"
                                     },
