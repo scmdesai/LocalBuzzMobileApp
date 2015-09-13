@@ -19,7 +19,7 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.appsonmobile.LocalBuzz"
+            "PACKAGE_NAME": "com.appsonmobile.localbuzz"
         }
     },
     "dependent_plugins": {}

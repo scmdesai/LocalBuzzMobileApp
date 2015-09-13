@@ -18,6 +18,7 @@ if (!Ext.dataview.element) Ext.dataview.element = {};
 if (!Ext.device) Ext.device = {};
 if (!Ext.device.camera) Ext.device.camera = {};
 if (!Ext.device.communicator) Ext.device.communicator = {};
+if (!Ext.device.device) Ext.device.device = {};
 if (!Ext.direct) Ext.direct = {};
 if (!Ext.dom) Ext.dom = {};
 if (!Ext.env) Ext.env = {};
@@ -45,7 +46,7 @@ if (!Ext.util.paintmonitor) Ext.util.paintmonitor = {};
 if (!Ext.util.sizemonitor) Ext.util.sizemonitor = {};
 if (!Ext.util.translatable) Ext.util.translatable = {};
 if (!Ext.viewport) Ext.viewport = {};
-var LatestDeals = LatestDeals || {};
+var dealPicture = dealPicture || {};
 /* 
  * Helper code for compiler optimization
  */
@@ -55504,6 +55505,373 @@ Ext.define('Ext.direct.Manager', {
     'Camera'
 ], 0));
 
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Abstract', Ext.Base, {
+    /**
+     * @event schemeupdate
+     * Event which is fired when your Sencha Native packaged application is opened from another application using a custom URL scheme.
+     * 
+     * This event will only fire if the application was already open (in other words; `onReady` was already fired). This means you should check
+     * if {@link Ext.device.Device#scheme} is set in your Application `launch`/`onReady` method, and perform any needed changes for that URL (if defined).
+     * Then listen to this event for future changed.
+     *
+     * ## Example
+     *
+     *     Ext.application({
+     *         name: 'Sencha',
+     *         requires: ['Ext.device.Device'],
+     *         launch: function() {
+     *             if (Ext.device.Device.scheme) {
+     *                 // the application was opened via another application. Do something:
+     *                 console.log('Applicaton opened via another application: ' + Ext.device.Device.scheme.url);
+     *             }
+     *
+     *             // Listen for future changes
+     *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
+     *                 // the application was launched, closed, and then launched another from another application
+     *                 // this means onReady wont be called again ('cause the application is already running in the 
+     *                 // background) - but this event will be fired
+     *                 console.log('Applicated reopened via another application: ' + scheme.url);
+     *             }, this);
+     *         }
+     *     });
+     *
+     * __Note:__ This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
+     * PhoneGap or simply in the browser, it will never fire.**
+     * 
+     * @param {Ext.device.Device} this The instance of Ext.device.Device
+     * @param {Object/Boolean} scheme The scheme information, if opened via another application
+     * @param {String} scheme.url The URL that was opened, if this application was opened via another application. Example: `sencha:`
+     * @param {String} scheme.sourceApplication The source application that opened this application. Example: `com.apple.safari`.
+     */
+    /**
+     * @property {String} name
+     * Returns the name of the current device. If the current device does not have a name (for example, in a browser), it will
+     * default to `not available`.
+     *
+     *     alert('Device name: ' + Ext.device.Device.name);
+     */
+    name: 'not available',
+    /**
+     * @property {String} uuid
+     * Returns a unique identifier for the current device. If the current device does not have a unique identifier (for example,
+     * in a browser), it will default to `anonymous`.
+     *
+     *     alert('Device UUID: ' + Ext.device.Device.uuid);
+     */
+    uuid: 'anonymous',
+    /**
+     * @property {String} platform
+     * The current platform the device is running on.
+     *
+     *     alert('Device platform: ' + Ext.device.Device.platform);
+     */
+    platform: Ext.os.name,
+    /**
+     * @property {Object/Boolean} scheme
+     * 
+     */
+    scheme: false,
+    /**
+     * Opens a specified URL. The URL can contain a custom URL Scheme for another app or service:
+     *
+     *     // Safari
+     *     Ext.device.Device.openURL('http://sencha.com');
+     *
+     *     // Telephone
+     *     Ext.device.Device.openURL('tel:6501231234');
+     *
+     *     // SMS with a default number
+     *     Ext.device.Device.openURL('sms:+12345678901');
+     *
+     *     // Email client
+     *     Ext.device.Device.openURL('mailto:rob@sencha.com');
+     *
+     * You can find a full list of available URL schemes here: [http://wiki.akosma.com/IPhone_URL_Schemes](http://wiki.akosma.com/IPhone_URL_Schemes).
+     *
+     * __Note:__ This currently only works with the Sencha Native Packager. Attempting to use this on PhoneGap, iOS Simulator
+     * or the browser will simply result in the current window location changing.**
+     *
+     * If successful, this will close the application (as another one opens).
+     * 
+     * @param {String} url The URL to open
+     */
+    openURL: function(url) {
+        window.location = url;
+    }
+}, 0, 0, 0, 0, 0, [
+    [
+        Ext.mixin.Observable.prototype.mixinId || Ext.mixin.Observable.$className,
+        Ext.mixin.Observable
+    ]
+], [
+    Ext.device.device,
+    'Abstract'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Cordova', Ext.device.device.Abstract, {
+    alternateClassName: 'Ext.device.device.PhoneGap',
+    availableListeners: [
+        'pause',
+        'resume',
+        'backbutton',
+        'batterycritical',
+        'batterylow',
+        'batterystatus',
+        'menubutton',
+        'searchbutton',
+        'startcallbutton',
+        'endcallbutton',
+        'volumeupbutton',
+        'volumedownbutton'
+    ],
+    constructor: function() {
+        // We can't get the device details until the device is ready, so lets wait.
+        if (Ext.isReady) {
+            this.onReady();
+        } else {
+            Ext.onReady(this.onReady, this, {
+                single: true
+            });
+        }
+    },
+    /**
+     * @property {String} cordova
+     * Returns the version of Cordova running on the device.
+     *
+     *     alert('Device cordova: ' + Ext.device.Device.cordova);
+     */
+    /**
+     * @property {String} version
+     * Returns the operating system version.
+     *
+     *     alert('Device Version: ' + Ext.device.Device.version);
+     */
+    /**
+     * @property {String} model
+     * Returns the device's model name.
+     *
+     *     alert('Device Model: ' + Ext.device.Device.model);
+     */
+    /**
+     * @event pause
+     * Fires when the application goes into the background
+     */
+    /**
+     * @event resume
+     * Fires when the application goes into the foreground
+     */
+    /**
+     * @event batterycritical
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has reached the critical battery threshold.
+     */
+    /**
+     * @event batterylow
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has reached the low battery threshold.
+     */
+    /**
+     * @event batterystatus
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has changed by at least 1 percent.
+     */
+    /**
+     * @event backbutton
+     * This is an event that fires when the user presses the back button.
+     */
+    /**
+     * @event menubutton
+     * This is an event that fires when the user presses the menu button.
+     */
+    /**
+     * @event searchbutton
+     * This is an event that fires when the user presses the search button.
+     */
+    /**
+     * @event startcallbutton
+     * This is an event that fires when the user presses the start call button.
+     */
+    /**
+     * @event endcallbutton
+     * This is an event that fires when the user presses the end call button.
+     */
+    /**
+     * @event volumeupbutton
+     * This is an event that fires when the user presses the volume up button.
+     */
+    /**
+     * @event volumedownbutton
+     * This is an event that fires when the user presses the volume down button.
+     */
+    onReady: function() {
+        var me = this,
+            device = window.device;
+        me.name = device.name || device.model;
+        me.cordova = device.cordova;
+        me.platform = device.platform || Ext.os.name;
+        me.uuid = device.uuid;
+        me.version = device.version;
+        me.model = device.model;
+    },
+    doAddListener: function(name) {
+        if (!this.addedListeners) {
+            this.addedListeners = [];
+        }
+        if (this.availableListeners.indexOf(name) != -1 && this.addedListeners.indexOf(name) == -1) {
+            // Add the listeners
+            this.addedListeners.push(name);
+            document.addEventListener(name, function() {
+                me.fireEvent(name, me);
+            });
+        }
+        Ext.device.Device.mixins.observable.doAddListener.apply(Ext.device.Device.mixins.observable, arguments);
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Cordova',
+    Ext.device.device,
+    'PhoneGap'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Sencha', Ext.device.device.Abstract, {
+    constructor: function() {
+        Ext.device.device.Abstract.prototype.constructor.apply(this, arguments);
+        this.name = device.name;
+        this.uuid = device.uuid;
+        this.platform = device.platformName || Ext.os.name;
+        this.scheme = Ext.device.Communicator.send({
+            command: 'OpenURL#getScheme',
+            sync: true
+        }) || false;
+        Ext.device.Communicator.send({
+            command: 'OpenURL#watch',
+            callbacks: {
+                callback: function(scheme) {
+                    this.scheme = scheme || false;
+                    this.fireEvent('schemeupdate', this, this.scheme);
+                }
+            },
+            scope: this
+        });
+    },
+    openURL: function(url) {
+        Ext.device.Communicator.send({
+            command: 'OpenURL#open',
+            url: url
+        });
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Sencha'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Simulator', Ext.device.device.Abstract, {}, 0, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Simulator'
+], 0));
+
+/**
+ * Provides a cross device way to get information about the device your application is running on. There are 3 different implementations:
+ *
+ * - Sencha Packager
+ * - [Cordova](http://cordova.apache.org/docs/en/2.5.0/cordova_device_device.md.html#Device)
+ * - Simulator
+ *
+ * ## Examples
+ *
+ * #### Device Information
+ *
+ * Getting the device information:
+ *
+ *     Ext.application({
+ *         name: 'Sencha',
+ *
+ *         // Remember that the Ext.device.Device class *must* be required
+ *         requires: ['Ext.device.Device'],
+ *
+ *         launch: function() {
+ *             alert([
+ *                 'Device name: ' + Ext.device.Device.name,
+ *                 'Device platform: ' + Ext.device.Device.platform,
+ *                 'Device UUID: ' + Ext.device.Device.uuid
+ *             ].join('\n'));
+ *         }
+ *     });
+ *
+ * ### Custom Scheme URL
+ *
+ * Using custom scheme URL to application your application from other applications:
+ *
+ *     Ext.application({
+ *         name: 'Sencha',
+ *         requires: ['Ext.device.Device'],
+ *         launch: function() {
+ *             if (Ext.device.Device.scheme) {
+ *                 // the application was opened via another application. Do something:
+ *                 alert('Applicaton penned via another application: ' + Ext.device.Device.scheme.url);
+ *             }
+ *
+ *             // Listen for future changes
+ *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
+ *                 // the application was launched, closed, and then launched another from another application
+ *                 // this means onReady wont be called again ('cause the application is already running in the 
+ *                 // background) - but this event will be fired
+ *                 alert('Applicated reopened via another application: ' + scheme.url);
+ *             }, this);
+ *         }
+ *     });
+ *
+ * Of course, you must add the custom scheme URL you would like to use when packaging your application.
+ * You can do this by setting the `URLScheme` property inside your `package.json` file (Sencha Native Packager configuration file):
+ *
+ *     {
+ *         ...
+ *         "URLScheme": "sencha",
+ *         ...
+ *     }
+ *
+ * You can change the available URL scheme.
+ *
+ * You can then test it by packaging and installing the application onto a device/iOS Simulator, opening Safari and typing: `sencha:testing`.
+ * The application will launch and it will `alert` the URL you specified.
+ *
+ * **PLEASE NOTE: This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
+ * PhoneGap or simply in the browser, it will not function.**
+ *
+ * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
+ *
+ * @mixins Ext.device.device.Abstract
+ */
+(Ext.cmd.derive('Ext.device.Device', Ext.Base, {
+    singleton: true,
+    constructor: function() {
+        var browserEnv = Ext.browser.is;
+        if (browserEnv.WebView) {
+            if (browserEnv.Cordova) {
+                return Ext.create('Ext.device.device.Cordova');
+            } else if (browserEnv.Sencha) {
+                return Ext.create('Ext.device.device.Sencha');
+            }
+        }
+        return Ext.create('Ext.device.device.Simulator');
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device,
+    'Device'
+], 0));
+
 // Using @mixins to include all members of Ext.event.Touch
 // into here to keep documentation simpler
 /**
@@ -63048,47 +63416,6 @@ Ext.define('Ext.direct.Manager', {
 (Ext.cmd.derive('Contact.store.MyJsonPStore', Ext.data.Store, {
     config: {
         autoLoad: true,
-        data: [
-            {
-                businessName: 'accusantium',
-                category: 'iure',
-                phoneNumber: '(048) 469-4751',
-                emailAddress: '2 Monument Trail',
-                address: '4520 Northport Drive',
-                city: 'Inventore',
-                state: 'VA',
-                zipcode: 'voluptatem',
-                picture: 'quidem',
-                isFavorite: true,
-                customerId: '1'
-            },
-            {
-                businessName: 'sunt',
-                category: 'ad',
-                phoneNumber: '(123) 808-8668',
-                emailAddress: '8074 Nova Hill',
-                address: '9494 Arapahoe Trail',
-                city: 'Impedit',
-                state: 'SC',
-                zipcode: 'non',
-                picture: 'voluptas',
-                isFavorite: true,
-                customerId: '2'
-            },
-            {
-                businessName: 'eum',
-                category: 'ad',
-                phoneNumber: '(030) 376-6883',
-                emailAddress: '685 Colorado Lane',
-                address: '1036 Holmberg Lane',
-                city: 'Pariatur',
-                state: 'SD',
-                zipcode: 'dolore',
-                picture: 'autem',
-                isFavorite: true,
-                customerId: '3'
-            }
-        ],
         groupField: 'category',
         model: 'Contact.model.Contact',
         storeId: 'MyJsonPStore',
@@ -63103,7 +63430,7 @@ Ext.define('Ext.direct.Manager', {
         },
         proxy: {
             type: 'jsonp',
-            url: 'http://localhost:3001/stores',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
             reader: {
                 type: 'json'
             }
@@ -63131,38 +63458,12 @@ Ext.define('Ext.direct.Manager', {
 (Ext.cmd.derive('Contact.store.MyDealsStore', Ext.data.Store, {
     config: {
         autoLoad: true,
-        data: [
-            {
-                customerId: '1',
-                dealName: 'temporibus',
-                dealStatus: 'Active',
-                dealStartDate: 'ea',
-                dealEndDate: 'ipsum',
-                dealPictureURL: 'resources/img/defaultContactPic.png'
-            },
-            {
-                customerId: '2',
-                dealName: 'dolor',
-                dealStatus: 'Active',
-                dealStartDate: 'qui',
-                dealEndDate: 'vel',
-                dealPictureURL: 'resources/img/defaultContactPic.png'
-            },
-            {
-                customerId: '3',
-                dealName: 'consequatur',
-                dealStatus: 'Active',
-                dealStartDate: 'vitae',
-                dealEndDate: 'et',
-                dealPictureURL: 'resources/img/defaultContactPic.png'
-            }
-        ],
         model: 'Contact.model.Deal',
         storeId: 'MyDealsStore',
         proxy: {
             type: 'jsonp',
             extraParams: '{customerId}',
-            url: 'http://localhost:3001/deals',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/deals',
             reader: {
                 type: 'json'
             }
@@ -63382,16 +63683,16 @@ Ext.define('Ext.direct.Manager', {
  * Do NOT hand edit this file.
  */
 (Ext.cmd.derive('Contact.view.ListOfDeals', Ext.dataview.List, {
-    alternateClassName: [
-        'LatestDeals'
-    ],
     config: {
-        fullscreen: false,
-        itemId: 'mylist',
-        styleHtmlContent: true,
+        height: 247,
+        id: 'ListOfDeals',
         store: 'MyDealsStore',
+        onItemDisclosure: false,
+        striped: true,
+        useSimpleItems: false,
         itemTpl: [
-            '<div><img src = "{dealPictureURL}" width : "10" height : "10"/></div>'
+            '<div>{dealName}</div>',
+            '<div>{dealStartDate} - {dealEndDate}</div>'
         ]
     }
 }, 0, [
@@ -63412,9 +63713,7 @@ Ext.define('Ext.direct.Manager', {
     "widget.listofdeals"
 ], 0, [
     Contact.view,
-    'ListOfDeals',
-    0,
-    'LatestDeals'
+    'ListOfDeals'
 ], 0));
 
 /*
@@ -63450,6 +63749,7 @@ Ext.define('Ext.direct.Manager', {
                         xtype: 'component',
                         flex: 1,
                         cls: 'contact-name',
+                        disabled: true,
                         html: 'First Name Last Name',
                         itemId: 'nameTxt'
                     }
@@ -63459,7 +63759,7 @@ Ext.define('Ext.direct.Manager', {
                 xtype: 'panel',
                 border: '',
                 docked: 'top',
-                height: 196,
+                height: 162,
                 scrollable: false,
                 layout: {
                     type: 'hbox',
@@ -63480,47 +63780,11 @@ Ext.define('Ext.direct.Manager', {
                         }
                     },
                     {
-                        xtype: 'panel',
-                        flex: 1,
-                        docked: 'left',
-                        height: 139,
-                        layout: {
-                            type: 'vbox',
-                            align: 'stretchmax',
-                            pack: 'center'
-                        },
-                        items: [
-                            {
-                                xtype: 'button',
-                                flex: 1,
-                                padding: 10,
-                                style: 'background : transparent ; color : black;',
-                                ui: 'confirm-round',
-                                iconCls: 'icon-phone'
-                            },
-                            {
-                                xtype: 'button',
-                                flex: 1,
-                                style: 'background : transparent ; color : black;',
-                                ui: 'confirm-round',
-                                iconCls: 'info',
-                                text: ''
-                            },
-                            {
-                                xtype: 'button',
-                                flex: 1,
-                                style: 'background : transparent ; color : black;',
-                                ui: 'confirm-round',
-                                iconCls: 'maps',
-                                text: ''
-                            }
-                        ]
-                    },
-                    {
                         xtype: 'formpanel',
                         flex: 3,
                         docked: 'right',
                         height: 144,
+                        itemId: 'myformpanel',
                         style: 'background: transparent',
                         width: '50%',
                         scrollable: false,
@@ -63533,15 +63797,19 @@ Ext.define('Ext.direct.Manager', {
                         items: [
                             {
                                 xtype: 'textfield',
-                                flex: 1,
+                                flex: 2,
+                                cls: 'icon-phone',
                                 itemId: 'phoneNumber',
                                 style: 'opacity : 0.5;',
+                                inputCls: '',
                                 label: '',
                                 name: 'phoneNumber',
                                 readOnly: true
                             },
                             {
                                 xtype: 'textfield',
+                                flex: 2,
+                                cls: 'icon-info',
                                 itemId: 'emailAddress',
                                 style: 'opacity :0.5;',
                                 label: '',
@@ -63550,6 +63818,8 @@ Ext.define('Ext.direct.Manager', {
                             },
                             {
                                 xtype: 'textfield',
+                                flex: 4,
+                                cls: 'icon-location',
                                 itemId: 'address',
                                 style: 'opacity:0.5',
                                 label: '',
@@ -63561,33 +63831,43 @@ Ext.define('Ext.direct.Manager', {
                 ]
             },
             {
-                xtype: 'panel',
-                docked: 'top',
-                height: 236,
-                scrollable: false,
-                layout: {
-                    type: 'vbox',
-                    align: 'stretchmax',
-                    pack: 'end'
-                },
-                items: [
-                    {
-                        xtype: 'listofdeals',
-                        docked: 'top',
-                        height: 201,
-                        grouped: false
-                    }
-                ]
+                xtype: 'listofdeals'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onPhoneNumberFocus',
+                event: 'focus',
+                delegate: '#phoneNumber'
+            },
+            {
+                fn: 'onAddressFocus',
+                event: 'focus',
+                delegate: '#address'
             }
         ]
+    },
+    onPhoneNumberFocus: function(textfield, e, eOpts) {
+        console.log(textfield.getValue());
+        numberToDial = textfield.getValue();
+        window.location = 'tel:numberToDial';
+    },
+    onAddressFocus: function(textfield, e, eOpts) {
+        //console.log("Address Field value is:" + textfield.getValue()) ;
+        //console.log("Device is: " + Ext.os.name) ;
+        //console.log("City is: " + this.getRecord().getData().get('city')) ;
+        var queryString = encodeURIComponent(textfield.getValue());
+        var url = 'geo:0,0?q=' + queryString;
+        Ext.device.Device.openURL(url);
     },
     setRecord: function(record) {
         (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
         if (record) {
             var name = record.get('businessName') + ' ' + (record.get('category') || '');
-            //var isFavorite = record.get('isFavorite');
+            var isFavorite = record.get('isFavorite');
             this.down('#nameTxt').setHtml(name);
-            //this.down('#favoriteBtn')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            //this.down('#favlist')[isFavorite ? 'addCls' : 'removeCls']('empty-star');
+            // this.down('#favoriteBtn')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
             this.down('contactpic').setData(record.data);
             var customerId = record.get('customerId');
             var ds = Ext.StoreManager.lookup('MyDealsStore');
@@ -63621,6 +63901,70 @@ Ext.define('Ext.direct.Manager', {
     Contact.view,
     'Info'
 ], 0));
+
+/*
+ * File: app/view/DealPicture.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.DealPicture', Ext.Container, {
+    alternateClassName: [
+        'dealPicture'
+    ],
+    config: {
+        fullscreen: true,
+        itemId: 'dealPicture',
+        layout: 'fit',
+        tpl: [
+            '<img src="{dealPictureURL}" />'
+        ],
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                items: [
+                    {
+                        xtype: 'button',
+                        itemId: 'dealBackBtn',
+                        ui: 'back',
+                        text: 'Back'
+                    }
+                ]
+            }
+        ]
+    },
+    setRecord: function(record) {
+        //console.log(record.getData()) ;
+        this.setData(record.getData());
+    }
+}, 0, [
+    "dealpicture"
+], [
+    "component",
+    "container",
+    "dealpicture"
+], {
+    "component": true,
+    "container": true,
+    "dealpicture": true
+}, [
+    "widget.dealpicture"
+], 0, [
+    Contact.view,
+    'DealPicture',
+    0,
+    'dealPicture'
+], 0));
+//this.setTpl('<img src="'+record.get('dealPictureURL') +'"/>') ;
 
 /*
  * File: app/controller/Contacts.js
@@ -63658,7 +64002,11 @@ Ext.define('Ext.direct.Manager', {
                 selector: 'dealsinfo',
                 xtype: 'listofdeals'
             },
-            listofdeals: 'listofdeals'
+            dealpicture: {
+                autoCreate: true,
+                selector: 'dealpicture',
+                xtype: 'dealpicture'
+            }
         },
         control: {
             "dataview": {
@@ -63670,11 +64018,17 @@ Ext.define('Ext.direct.Manager', {
             "favoriteview": {
                 activate: 'onFavoriteViewActivate'
             },
+            "contactpic": {
+                change: 'onContactPickerChange'
+            },
             "list": {
                 activate: 'onListActivate'
             },
-            "contactpic": {
-                change: 'onContactPickerChange'
+            "listofdeals": {
+                itemtap: 'onListOfDealsItemTap'
+            },
+            "button#dealBackBtn": {
+                tap: 'onDealBackBtnTap'
             }
         }
     },
@@ -63684,15 +64038,13 @@ Ext.define('Ext.direct.Manager', {
         Ext.Viewport.setActiveItem(info);
     },
     onInfoBackBtnTapHome: function(button, e, eOpts) {
+        var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter();
         Ext.Viewport.setActiveItem(0);
     },
     onFavoriteViewActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
         ds.filter('isFavorite', true);
-    },
-    onListActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        var ds = Ext.StoreManager.lookup('MyJsonPStore');
-        ds.clearFilter();
     },
     onContactPickerChange: function(picker, value, eOpts) {
         var currentForm = Ext.Viewport.getActiveItem();
@@ -63702,11 +64054,46 @@ Ext.define('Ext.direct.Manager', {
             record.commit();
             currentForm.setRecord(record);
         }
+    },
+    onListActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter();
+    },
+    onListOfDealsItemTap: function(dataview, index, target, record, e, eOpts) {
+        var pic = this.getDealpicture();
+        /*console.log("Data View is: ") ;
+        console.log(dataview) ;
+        console.log("Index is: " + index) ;
+        console.log("Target is: ") ;
+        console.log(target) ;
+        console.log("Event is: ") ;
+        console.log(e) ;
+        console.log("Event Options is: ") ;
+        console.log(eOpts) ;*/
+        pic.setRecord(record);
+        Ext.Viewport.setActiveItem(pic);
+    },
+    onDealBackBtnTap: function(button, e, eOpts) {
+        var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter();
+        var dealRecord = this.getContactinfo().getRecord();
+        //console.log("Deal Record is:") ;
+        //console.log(dealRecord) ;
+        var customerId = dealRecord.get('customerId');
+        //console.log("Customer Id is " + customerId) ;
+        ds.filter('customerId', customerId);
+        var customerData = ds.getData().getAt(0);
+        //console.log("Customer Data is:") ;
+        //console.log(customerData) ;
+        var info = this.getContactinfo();
+        info.setRecord(customerData);
+        Ext.Viewport.setActiveItem(info);
     }
 }, 0, 0, 0, 0, 0, 0, [
     Contact.controller,
     'Contacts'
 ], 0));
+//Ext.Viewport.setActiveItem('contactinfo') ;
 
 /*
  * File: app.js
@@ -63740,6 +64127,7 @@ Ext.application({
         'Picture',
         'List',
         'FavoriteView',
+        'DealPicture',
         'ListOfDeals'
     ],
     controllers: [
@@ -63773,5 +64161,5 @@ Ext.application({
 });
 
 // @tag full-page
-// @require H:\Apps\Sencha Architect Apps\MyCouponApp_CustomButton _WorkingAWS\app.js
+// @require H:\Apps\Sencha Architect Apps\LocalBuzzMobileApp\app.js
 

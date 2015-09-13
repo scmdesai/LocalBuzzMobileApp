@@ -151,8 +151,15 @@ Ext.define('Contact.view.Info', {
     },
 
     onAddressFocus: function(textfield, e, eOpts) {
-        console.log("Text Field value is:" + textfield) ;
-        Ext.view
+        //console.log("Address Field value is:" + textfield.getValue()) ;
+        //console.log("Device is: " + Ext.os.name) ;
+        //console.log("City is: " + this.getRecord().getData().get('city')) ;
+
+
+        var queryString = encodeURIComponent(textfield.getValue());
+        var url = 'geo:0,0?q='  + queryString;
+        Ext.device.Device.openURL(url);
+
     },
 
     setRecord: function(record) {

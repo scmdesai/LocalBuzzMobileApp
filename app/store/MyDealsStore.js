@@ -29,7 +29,7 @@ Ext.define('Contact.store.MyDealsStore', {
         proxy: {
             type: 'jsonp',
             extraParams: '{customerId}',
-            url: 'http://localhost:3001/deals',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/deals',
             reader: {
                 type: 'json'
             }

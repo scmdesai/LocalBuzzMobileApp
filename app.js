@@ -41,8 +41,7 @@ Ext.application({
         'List',
         'FavoriteView',
         'DealPicture',
-        'ListOfDeals',
-        null
+        'ListOfDeals'
     ],
     controllers: [
         'Contacts'

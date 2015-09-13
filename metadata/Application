@@ -34,8 +34,7 @@
             "List",
             "FavoriteView",
             "DealPicture",
-            "ListOfDeals",
-            "map"
+            "ListOfDeals"
         ]
     },
     "name": "Application",
