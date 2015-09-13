@@ -1,0 +1,40 @@
+{
+    "type": "Ext.dataview.List",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "listofdeals",
+        "designer|userClassName": "ListOfDeals",
+        "height": 247,
+        "id": "ListOfDeals",
+        "onItemDisclosure": false,
+        "preventSelectionOnDisclose": null,
+        "store": "MyDealsStore",
+        "striped": true,
+        "useSimpleItems": false
+    },
+    "name": "MyList1",
+    "designerId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af",
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "itemTpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "itemTpl",
+                "implHandler": [
+                    "<div>{dealName}</div>",
+                    "<div>{dealStartDate} - {dealEndDate}</div>"
+                ]
+            },
+            "name": "itemTpl",
+            "designerId": "934d6a84-9570-4eb4-b57f-89e366d383e2"
+        }
+    ]
+}

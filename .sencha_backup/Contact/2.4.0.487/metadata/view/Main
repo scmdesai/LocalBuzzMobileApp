@@ -1,0 +1,58 @@
+{
+    "type": "Ext.tab.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|initialView": true,
+        "designer|userClassName": "Main"
+    },
+    "designerId": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
+    "cn": [
+        {
+            "type": "Ext.tab.Bar",
+            "reference": {
+                "name": "tabBar",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "border": "",
+                "container|pack": "center",
+                "docked": "top"
+            },
+            "name": "MyTabBar",
+            "designerId": "8952dde9-dac2-4b88-9838-9ef8f3fe34b8"
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "Home"
+            },
+            "name": "list",
+            "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
+            "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "My Favorite Deals"
+            },
+            "name": "favoriteview",
+            "designerId": "2ce4f1c3-5577-42a8-b2ac-501455c9e8f1",
+            "masterInstanceId": "e83d8bd0-aa8b-4b79-bf87-9a8797bca19b"
+        }
+    ]
+}

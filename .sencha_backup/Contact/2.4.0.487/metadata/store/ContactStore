@@ -1,0 +1,139 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": true,
+        "autoSync": true,
+        "data": [
+            "[",
+            "    {",
+            "        \"businessName\": \"iste\",",
+            "        \"category\": \"illo\",",
+            "        \"phoneNumber\": \"(599) 543-9099\",",
+            "        \"emailAddress\": \"198 Hovde Trail\",",
+            "        \"address\": \"304 Monica Crossing\",",
+            "        \"city\": \"Officia\",",
+            "        \"state\": \"AS\",",
+            "        \"zipcode\": \"atque\",",
+            "        \"picture\": \"ea\",",
+            "        \"isFavorite\": false",
+            "    },",
+            "    {",
+            "        \"businessName\": \"fugit\",",
+            "        \"category\": \"et\",",
+            "        \"phoneNumber\": \"(515) 687-0416\",",
+            "        \"emailAddress\": \"28 Banding Drive\",",
+            "        \"address\": \"263 West Point\",",
+            "        \"city\": \"Veritatis\",",
+            "        \"state\": \"FL\",",
+            "        \"zipcode\": \"repellendus\",",
+            "        \"picture\": \"recusandae\",",
+            "        \"isFavorite\": false",
+            "    },",
+            "    {",
+            "        \"businessName\": \"nisi\",",
+            "        \"category\": \"dolorem\",",
+            "        \"phoneNumber\": \"(883) 506-3306\",",
+            "        \"emailAddress\": \"47 Elmside Place\",",
+            "        \"address\": \"263 West Point\",",
+            "        \"city\": \"Laboriosam\",",
+            "        \"state\": \"WY\",",
+            "        \"zipcode\": \"optio\",",
+            "        \"picture\": \"et\",",
+            "        \"isFavorite\": false",
+            "    },",
+            "    {",
+            "        \"businessName\": \"est\",",
+            "        \"category\": \"nulla\",",
+            "        \"phoneNumber\": \"(827) 412-2582\",",
+            "        \"emailAddress\": \"70664 Twin Pines Street\",",
+            "        \"address\": \"296 Reindahl Center\",",
+            "        \"city\": \"Aspernatur\",",
+            "        \"state\": \"IA\",",
+            "        \"zipcode\": \"soluta\",",
+            "        \"picture\": \"ullam\",",
+            "        \"isFavorite\": true",
+            "    },",
+            "    {",
+            "        \"businessName\": \"provident\",",
+            "        \"category\": \"veritatis\",",
+            "        \"phoneNumber\": \"(673) 355-2351\",",
+            "        \"emailAddress\": \"47 Elmside Place\",",
+            "        \"address\": \"28 Banding Drive\",",
+            "        \"city\": \"Voluptate\",",
+            "        \"state\": \"AR\",",
+            "        \"zipcode\": \"eius\",",
+            "        \"picture\": \"rerum\",",
+            "        \"isFavorite\": true",
+            "    }",
+            "]"
+        ],
+        "designer|userClassName": "ContactStore",
+        "groupDir": "ASC",
+        "groupField": "category",
+        "model": "Contact",
+        "storeId": "ContactStore"
+    },
+    "designerId": "8173b689-b7f9-4661-9bb0-6cba367d3d80",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.LocalStorage",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "name": "MyLocalStorageProxy",
+            "designerId": "dbc31c38-13b6-41fa-bf8f-6b29f6b2a358"
+        },
+        {
+            "type": "Ext.util.Grouper",
+            "reference": {
+                "name": "grouper",
+                "type": "object"
+            },
+            "codeClass": null,
+            "name": "MyGrouper",
+            "designerId": "3bba5afe-a9bb-427a-864f-f08f3fde514f",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "record"
+                        ],
+                        "fn": "groupFn",
+                        "implHandler": [
+                            "return record.get('businessName')[0];",
+                            ""
+                        ]
+                    },
+                    "name": "groupFn",
+                    "designerId": "797a643d-743c-4884-9d31-7dfa69d7afc7"
+                }
+            ]
+        },
+        {
+            "type": "Ext.util.Sorter",
+            "reference": {
+                "name": "sorters",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "property": "businessName"
+            },
+            "name": "MySorter",
+            "designerId": "5f089979-7818-4125-bcde-c8f7d886c5ba"
+        }
+    ]
+}

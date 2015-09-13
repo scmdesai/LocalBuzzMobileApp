@@ -1,0 +1,90 @@
+{
+    "type": "Ext.Container",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "alternateClassName": [
+            "dealPicture"
+        ],
+        "designer|userAlias": "dealpicture",
+        "designer|userClassName": "DealPicture",
+        "fullscreen": true,
+        "itemId": "dealPicture",
+        "layout": "fit"
+    },
+    "name": "MyContainer",
+    "designerId": "b78d5436-71c8-48eb-ba05-2d08234588cd",
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "tpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "tpl",
+                "implHandler": [
+                    "<img src=\"{dealPictureURL}\" />"
+                ]
+            },
+            "name": "tpl",
+            "designerId": "4e0e035c-51d3-4815-917e-7e49cd179054"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "record"
+                ],
+                "fn": "setRecord",
+                "implHandler": [
+                    "//console.log(record.getData()) ;",
+                    "this.setData(record.getData()) ;",
+                    "//this.setTpl('<img src=\"'+record.get('dealPictureURL') +'\"/>') ;"
+                ]
+            },
+            "name": "setRecord",
+            "designerId": "bd192d59-9420-4d9a-8ede-cfcd87d4dcf2"
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top"
+            },
+            "name": "MyToolbar",
+            "designerId": "e8991b81-aeac-41f5-a463-35e9463e4691",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|createAlias": "",
+                        "itemId": "dealBackBtn",
+                        "text": "Back",
+                        "ui": "back"
+                    },
+                    "name": "MyButton3",
+                    "designerId": "8a619015-ca77-426d-a471-e9fd1f449825"
+                }
+            ]
+        }
+    ]
+}

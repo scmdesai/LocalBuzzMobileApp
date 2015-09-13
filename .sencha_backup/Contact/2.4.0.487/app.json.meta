@@ -1,0 +1,1 @@
+{"_comment":"Please don't edit. This is Architect data.","name":"Contact","resources":["resources/css/contacts.css"],"requires":[],"classpath":null,"css":[{"path":"resources/css/contacts.css"},{"update":"delta","platform":["phone","tablet","desktop"],"theme":"Default","path":"resources/css/sencha-touch-3d5a1b45-6cb9-49d7-a0e7-75f6a80eb13c.css"}],"js":[]}

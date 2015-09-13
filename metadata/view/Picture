@@ -1,0 +1,64 @@
+{
+    "type": "Ext.Container",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "container|align": "center",
+        "designer|userAlias": "contactpic",
+        "designer|userClassName": "Picture",
+        "height": 120,
+        "html": null,
+        "id": null,
+        "layout": "vbox",
+        "masked": null,
+        "minHeight": 100,
+        "modal": null,
+        "overflow": "hidden",
+        "scrollable": null,
+        "style": "overflow: hidden",
+        "ui": ""
+    },
+    "designerId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "overflow",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.Component",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "html": "",
+                "style": null
+            },
+            "name": "MyComponent",
+            "designerId": "4b25a1d2-93b2-49cd-b330-0e99c3ee3b1c"
+        },
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "tpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "tpl",
+                "implHandler": [
+                    "<img src=\"{picture}\" width=\"160\" />"
+                ]
+            },
+            "name": "tpl2",
+            "designerId": "5e626d68-4190-4e23-8849-e5b9efe59bbd"
+        }
+    ]
+}

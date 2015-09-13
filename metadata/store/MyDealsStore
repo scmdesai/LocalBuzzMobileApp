@@ -1,0 +1,48 @@
+{
+    "type": "jsonpstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": true,
+        "designer|userClassName": "MyDealsStore",
+        "groupDir": null,
+        "groupField": null,
+        "model": "Deal",
+        "storeId": "MyDealsStore"
+    },
+    "name": "MyJsonPStore1",
+    "designerId": "d5c1b349-0a17-49f8-bed3-73fc582b1c6f",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.JsonP",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "extraParams": [
+                    "{customerId}"
+                ],
+                "url": "http://localhost:3001/deals"
+            },
+            "name": "MyJsonPProxy",
+            "designerId": "5f0c6a2a-28f1-49e3-ae40-c3e66ad53b13",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "name": "MyJsonReader1",
+                    "designerId": "0fa62a77-154a-4109-ac82-32850ec3ade6"
+                }
+            ]
+        }
+    ]
+}

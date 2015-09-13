@@ -1,0 +1,93 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "Deal"
+    },
+    "name": "MyModel",
+    "designerId": "48a1a992-a4bf-43db-aa9f-5ea2fd062954",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "customerId"
+            },
+            "name": "field11",
+            "designerId": "7e65c5e0-f992-4310-96f0-38d993aee3e9"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealName"
+            },
+            "name": "field12",
+            "designerId": "a2663c82-3219-44a3-8bfa-f2dedea417e6"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealStatus"
+            },
+            "name": "field13",
+            "designerId": "4859345f-e1f5-4305-8858-100f8689e44b"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealStartDate"
+            },
+            "name": "field14",
+            "designerId": "5bbeb984-5107-4dfb-bb09-1dd07cc6b302"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealEndDate"
+            },
+            "name": "field15",
+            "designerId": "5fe1dacf-0656-4b14-a4fa-f64b1764075c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealPictureURL"
+            },
+            "name": "field16",
+            "designerId": "c9a7b0e3-18c0-4457-9396-1e94b3657f2c"
+        }
+    ]
+}

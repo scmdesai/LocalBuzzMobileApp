@@ -1,0 +1,86 @@
+{
+    "type": "Ext.app.Application",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "controllers": [
+            "Contacts"
+        ],
+        "icon": [
+            "icon.png"
+        ],
+        "models": [
+            "Contact",
+            "Deal"
+        ],
+        "name": "Contact",
+        "requires": [
+            "Ext.MessageBox",
+            "Ext.device.Camera"
+        ],
+        "startupImage": null,
+        "stores": [
+            "ContactStore",
+            "MyJsonPStore",
+            "MyDealsStore"
+        ],
+        "views": [
+            "Main",
+            "Info",
+            "Picture",
+            "List",
+            "FavoriteView",
+            "DealPicture",
+            "ListOfDeals",
+            "map"
+        ]
+    },
+    "name": "Application",
+    "designerId": "application",
+    "cn": [
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "launch",
+                "implHandler": [
+                    "",
+                    "Ext.util.Format.empty = function(value, defaultValue) {",
+                    "    return !Ext.isEmpty(value) ? value : defaultValue;",
+                    "};",
+                    "Ext.util.Format.undef = function(value, defaultValue) {",
+                    "    return Ext.isDefined(value) ? value : defaultValue;",
+                    "};",
+                    "",
+                    "",
+                    "",
+                    "var view = Ext.create('Contact.view.Main',{}) ;",
+                    "Ext.create('Contact.store.MyJsonPStore', {",
+                    "            autoLoad: true,",
+                    "            listeners: {",
+                    "                load: function (self, records) {",
+                    "                    view.setData(records);",
+                    "                }",
+                    "            }",
+                    "        });",
+                    "",
+                    "Ext.create('Contact.store.MyDealsStore', {",
+                    "            autoLoad: true",
+                    "",
+                    "});",
+                    "",
+                    ""
+                ]
+            },
+            "name": "launch",
+            "designerId": "ba1fcbb2-e63e-445e-a67c-ec117224b08e"
+        }
+    ]
+}

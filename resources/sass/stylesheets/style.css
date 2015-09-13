@@ -1,0 +1,37 @@
+@font-face {
+	font-family: 'MyIcons';
+	src:url('fonts/MyIcons.eot?492zar');
+	src:url('fonts/MyIcons.eot?#iefix492zar') format('embedded-opentype'),
+		url('fonts/MyIcons.ttf?492zar') format('truetype'),
+		url('fonts/MyIcons.woff?492zar') format('woff'),
+		url('fonts/MyIcons.svg?492zar#MyIcons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'MyIcons';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-phone:before {
+	content: "\21";
+}
+.icon-location:before {
+	content: "\22";
+}
+.icon-star-empty:before {
+	content: "\23";
+}
+.icon-share:before {
+	content: "\24";
+}

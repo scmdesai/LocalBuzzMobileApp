@@ -1,0 +1,108 @@
+$list-active-color: rgba(248,248,248,1);
+$form-field-color: rgba(0,0,0,1);
+$form-fieldset-border-color: rgba(105,105,105,1);
+$form-light: rgba(100,100,100,1);
+$form-spacing: 0.01em;
+
+@import 'sencha-touch/default';
+@import 'sencha-touch/default/all';
+
+
+/* Adding custom icon-fonts */
+
+@include icon-font('MyIcons',
+inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+
+
+@include icon-font('MyIcons1',
+inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+
+
+@include icon("icon-phone","!", "MyIcons");
+@include icon("icon-star-empty","#", "MyIcons");
+@include icon("icon-share","$", "MyIcons");
+@include icon("icon-location","\"", "MyIcons");
+@include icon("icon-star-full","%", "MyIcons1");
+
+
+
+@include icon-font('pictos',
+inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+
+@include icon('globe1');
+
+/* Adding icon fonts in the Info Page */
+.icon-phone:before {
+    font-family: "MyIcons";
+    content: "!";
+    padding-left: 10px;
+    display:inline-block;
+    padding-top: 10px;
+    font-size: 1.2em;
+    border: none;
+}
+
+.icon-info:before {
+    font-family: "pictos";
+    padding-left: 10px;
+    display:inline-block;
+    padding-top: 10px;
+    font-size: 1.2em;
+    border: none;
+}
+
+.icon-location:before {
+    font-family: "MyIcons";
+    content: "\"";
+    padding-left: 10px;
+    display:inline-block;
+    padding-top: 10px;
+    font-size: 1.2em;
+    border: none;
+}
+
+.list-item{
+    font-size : 15px;
+}
+
+
+/* Adding icon fonts in the ListOfDeals itemtpl */
+.empty-star:before{
+    font-family: "MyIcons";
+    content: "#";
+    display:inline-block;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    font-size: 1.5em;
+    color:#D3D3D3;
+}
+.empty-star:after{
+    font-family: "MyIcons1";
+    content: "%";
+    display:inline-block;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    font-size: 1.5em;
+    color:#FFFF00;
+
+}
+
+
+
+.share:before {
+    font-family: "MyIcons";
+    content: "$";
+    display:inline-block;
+    padding-bottom: 20px;
+    font-size: 1.5em;
+    color:#D3D3D3;
+}
+/* ui mixin: untitled-ui-1 for of type: sencha-button-ui */
+$_arch_color: rgba(255,255,255,0);
+@include sencha-button-ui(
+  $ui-label:"untitled-ui-1",
+    $color: $_arch_color,
+    $gradient: bevel
+);

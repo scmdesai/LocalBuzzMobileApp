@@ -1,0 +1,108 @@
+{
+    "type": "jsonpstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": true,
+        "designer|userClassName": "MyJsonPStore",
+        "groupField": "category",
+        "model": "Contact",
+        "storeId": "MyJsonPStore"
+    },
+    "name": "MyJsonPStore",
+    "designerId": "f2b42ccc-3468-44fa-aeaa-c9a19d0d154a",
+    "cn": [
+        {
+            "type": "Ext.util.Grouper",
+            "reference": {
+                "name": "grouper",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "sortProperty": ""
+            },
+            "name": "MyGrouper1",
+            "designerId": "288d3628-cff8-4a2b-95d4-c299016a0db4",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "item"
+                        ],
+                        "fn": "groupFn",
+                        "implHandler": [
+                            "return record.get('category');"
+                        ]
+                    },
+                    "name": "groupFn",
+                    "designerId": "b3b00b23-700b-43b0-b3b5-5d8910580afc"
+                }
+            ]
+        },
+        {
+            "type": "Ext.util.Sorter",
+            "reference": {
+                "name": "sorters",
+                "type": "object"
+            },
+            "codeClass": null,
+            "name": "MySorter1",
+            "designerId": "2676e446-360f-47ee-ac40-0a28df13b702",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "first",
+                            "second"
+                        ],
+                        "fn": "sorterFn",
+                        "implHandler": null
+                    },
+                    "name": "sorterFn",
+                    "designerId": "c34c3e7d-ba1d-4539-bcbf-6f4b67d101c1"
+                }
+            ]
+        },
+        {
+            "type": "Ext.data.proxy.JsonP",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://localhost:3001/stores"
+            },
+            "name": "MyJsonPProxy1",
+            "designerId": "1846d814-355e-4617-8cca-9776e4b1c013",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "name": "MyJsonReader",
+                    "designerId": "9a8ff3cf-738a-4902-a9f3-952958f8b949"
+                }
+            ]
+        }
+    ]
+}

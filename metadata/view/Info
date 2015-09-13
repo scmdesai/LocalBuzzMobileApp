@@ -1,0 +1,304 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "border": 5,
+        "designer|userAlias": "contactinfo",
+        "designer|userClassName": "Info",
+        "enableSubmissionForm": false,
+        "id": null,
+        "padding": null,
+        "style": null
+    },
+    "name": "MyFormPanel1",
+    "designerId": "266d5780-ee4a-4dca-a156-841cf77894ee",
+    "cn": [
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top"
+            },
+            "name": "MyToolbar1",
+            "designerId": "b4f1c33c-db01-4a13-9131-db478a8a0b21",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|createAlias": "",
+                        "itemId": "infoBackBtn",
+                        "text": "Back",
+                        "ui": "back"
+                    },
+                    "name": "MyButton3",
+                    "designerId": "59364094-80aa-40dc-81a9-6b24a0cf0d09"
+                },
+                {
+                    "type": "Ext.Component",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "contact-name"
+                        ],
+                        "disabled": true,
+                        "height": null,
+                        "html": "First Name Last Name",
+                        "id": null,
+                        "itemId": "nameTxt",
+                        "layout|flex": 1
+                    },
+                    "name": "MyComponent1",
+                    "designerId": "a8e6751f-5a9a-4f5c-946c-43e2a9282518"
+                }
+            ]
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "record"
+                ],
+                "fn": "setRecord",
+                "implHandler": [
+                    "this.callParent(arguments);",
+                    "if (record) {",
+                    "    var name = record.get('businessName') + ' ' + (record.get('category') || '');",
+                    "   var isFavorite = record.get('isFavorite');",
+                    "",
+                    "    this.down('#nameTxt').setHtml(name);",
+                    "    //this.down('#favlist')[isFavorite ? 'addCls' : 'removeCls']('empty-star');",
+                    "   // this.down('#favoriteBtn')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');",
+                    "    this.down('contactpic').setData(record.data);",
+                    "",
+                    "    var customerId = record.get('customerId');",
+                    "    var ds = Ext.StoreManager.lookup('MyDealsStore');",
+                    "    ds.clearFilter() ;",
+                    "    ds.filter('customerId', customerId);",
+                    "    /*dealsData  = ds.getData().getAt(0);",
+                    "    var dealName = 'No Deals';",
+                    "    if(dealsData) {",
+                    "         dealName = dealsData.get('dealName');",
+                    "    }*/",
+                    "   this.down('listofdeals').setData(ds.getData()) ;",
+                    "",
+                    "",
+                    "",
+                    "}",
+                    "",
+                    ""
+                ]
+            },
+            "name": "setRecord",
+            "designerId": "d9797c1a-36ac-4a31-a8b0-01d1ad2a4bbe"
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "border": "",
+                "container|align": "start",
+                "docked": "top",
+                "height": 162,
+                "layout": "hbox",
+                "scrollable": false,
+                "style": null
+            },
+            "name": "MyPanel1",
+            "designerId": "e236050b-c634-4513-8845-84e9148807ee",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|pack": "center",
+                        "designer|uiInterfaceName": "light",
+                        "docked": "left",
+                        "height": 146,
+                        "layout": "hbox",
+                        "layout|flex": 0.5,
+                        "scrollable": false,
+                        "ui": "light",
+                        "width": 127
+                    },
+                    "name": "picture",
+                    "designerId": "11b52498-1b3f-4cbb-9bda-c4460a0770c8",
+                    "masterInstanceId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd"
+                },
+                {
+                    "type": "Ext.form.Panel",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "container|align": "start",
+                        "container|pack": "end",
+                        "docked": "right",
+                        "enableSubmissionForm": false,
+                        "height": 144,
+                        "itemId": "myformpanel",
+                        "layout": "vbox",
+                        "layout|flex": 3,
+                        "scrollable": false,
+                        "style": "background: transparent",
+                        "width": "50%"
+                    },
+                    "name": "MyFormPanel",
+                    "designerId": "95b764c9-4b93-4988-89fe-d8e2d0487419",
+                    "cn": [
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "icon-phone"
+                                ],
+                                "inputCls": "",
+                                "itemId": "phoneNumber",
+                                "label": "",
+                                "layout|flex": 2,
+                                "name": "phoneNumber",
+                                "readOnly": true,
+                                "style": "opacity : 0.5;"
+                            },
+                            "name": "MyTextField",
+                            "designerId": "5deb1e75-8f79-4b32-986e-ec4bfb00a3d6",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onPhoneNumberFocus",
+                                        "implHandler": [
+                                            "console.log(textfield.getValue());",
+                                            "numberToDial = textfield.getValue();",
+                                            "window.location = 'tel:numberToDial' ;"
+                                        ],
+                                        "name": "focus"
+                                    },
+                                    "name": "onPhoneNumberFocus",
+                                    "designerId": "31d3c13d-84dd-4506-b9ec-a3ceae8c465a"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "icon-info"
+                                ],
+                                "itemId": "emailAddress",
+                                "label": "",
+                                "layout|flex": 2,
+                                "name": "emailAddress",
+                                "readOnly": true,
+                                "style": "opacity :0.5;"
+                            },
+                            "name": "MyTextField3",
+                            "designerId": "ed76d704-7d91-487d-8918-fcce93970fcb"
+                        },
+                        {
+                            "type": "Ext.field.Text",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "cls": [
+                                    "icon-location"
+                                ],
+                                "itemId": "address",
+                                "label": "",
+                                "layout|flex": 4,
+                                "name": "address",
+                                "readOnly": true,
+                                "style": "opacity:0.5"
+                            },
+                            "name": "MyTextField5",
+                            "designerId": "f5b1b555-4232-4302-847c-68fd5d605768",
+                            "cn": [
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onAddressFocus",
+                                        "implHandler": [
+                                            "console.log(\"Text Field value is:\" + textfield) ;",
+                                            "Ext.view"
+                                        ],
+                                        "name": "focus"
+                                    },
+                                    "name": "onAddressFocus",
+                                    "designerId": "a28137fa-ebec-437e-8730-26939597097e"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "listofdeals"
+            },
+            "name": "listofdeals",
+            "designerId": "494976eb-4caa-4d13-8c2d-3e65c0b41357",
+            "masterInstanceId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af"
+        }
+    ]
+}

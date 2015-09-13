@@ -1,0 +1,72 @@
+{
+    "name": "MyCouponApp",
+    "settings": {
+        "cmd": {
+            "license": "commercial",
+            "cmdVersion": "5.1.3.61",
+            "frameworkVersion": "2.4.2.571"
+        },
+        "canvasControls": {
+            "viewportSize": {
+                "name": "iPhone",
+                "builtIn": true,
+                "height": 480,
+                "width": 320
+            },
+            "viewportOrientation": "portrait"
+        },
+        "urlPrefix": "http://localhost:1841",
+        "exportPath": "",
+        "spacesToIndent": 4,
+        "sdkPath": "",
+        "lineEnding": "CRLF",
+        "genTimestamps": false,
+        "cacheBust": false,
+        "buildShouldOverwriteIndex": true,
+        "generateArchitectVersion": true,
+        "projectHasEnabledWebServer": true,
+        "lastBuildSelection": {
+            "value": "webBuild",
+            "display": "Build web app"
+        },
+        "lockUrlPrefix": true,
+        "installStatus": "Not Installed"
+    },
+    "xdsVersion": "3.2.0",
+    "xdsBuild": 320,
+    "schemaVersion": 1,
+    "upgradeVersion": 310000000001,
+    "framework": "touch24",
+    "viewOrderMap": {
+        "view": [
+            "e83d8bd0-aa8b-4b79-bf87-9a8797bca19b",
+            "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd",
+            "266d5780-ee4a-4dca-a156-841cf77894ee",
+            "5b610c64-3053-4d2f-8bfb-77077b9b2217",
+            "ab0ebc18-fc5b-43b1-8958-7395bd191769",
+            "b78d5436-71c8-48eb-ba05-2d08234588cd",
+            "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af"
+        ],
+        "store": [
+            "8173b689-b7f9-4661-9bb0-6cba367d3d80",
+            "f2b42ccc-3468-44fa-aeaa-c9a19d0d154a",
+            "d5c1b349-0a17-49f8-bed3-73fc582b1c6f"
+        ],
+        "controller": [
+            "12f4e105-fe10-4110-a7c7-4be456e0092e"
+        ],
+        "model": [
+            "218f2c46-69a4-44c6-8b9e-29b8e3d800dc",
+            "48a1a992-a4bf-43db-aa9f-5ea2fd062954"
+        ],
+        "resource": [
+            "f81dd17b-02a8-4071-9594-4730c3b71ef7",
+            "83d5f462-ac48-477a-8b82-5867e132986d",
+            "3d5a1b45-6cb9-49d7-a0e7-75f6a80eb13c",
+            "9182e262-637f-4587-ac8b-7a0eff12cc1d"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}
