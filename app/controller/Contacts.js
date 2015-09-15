@@ -170,8 +170,8 @@ Ext.define('Contact.controller.Contacts', {
     onAddressFocus: function(textfield, e, eOpts) {
         console.log(textfield.getValue());
         var queryString = encodeURIComponent(textfield.getValue());
-                        var url = 'geo:0,0?q='  + queryString;
-                        Ext.device.Device.openURL(url);
+        var url = 'geo:0,0?q='  + queryString;
+        Ext.device.Device.openURL(url);
     }
 
 });
