@@ -30,6 +30,7 @@ Ext.define('Contact.view.DealPicture', {
         fullscreen: true,
         itemId: 'dealPicture',
         layout: 'fit',
+        scrollable: true,
         tpl: [
             '<img src="{dealPictureURL}" />'
         ],
@@ -37,10 +38,12 @@ Ext.define('Contact.view.DealPicture', {
             {
                 xtype: 'toolbar',
                 docked: 'top',
+                ui: 'light',
                 items: [
                     {
                         xtype: 'button',
                         itemId: 'dealBackBtn',
+                        style: '',
                         ui: 'back',
                         text: 'Back'
                     }

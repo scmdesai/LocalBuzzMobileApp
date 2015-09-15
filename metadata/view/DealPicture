@@ -13,7 +13,8 @@
         "designer|userClassName": "DealPicture",
         "fullscreen": true,
         "itemId": "dealPicture",
-        "layout": "fit"
+        "layout": "fit",
+        "scrollable": true
     },
     "name": "MyContainer",
     "designerId": "b78d5436-71c8-48eb-ba05-2d08234588cd",
@@ -63,7 +64,9 @@
             },
             "codeClass": null,
             "userConfig": {
-                "docked": "top"
+                "designer|uiInterfaceName": "light",
+                "docked": "top",
+                "ui": "light"
             },
             "name": "MyToolbar",
             "designerId": "e8991b81-aeac-41f5-a463-35e9463e4691",
@@ -78,6 +81,7 @@
                     "userConfig": {
                         "designer|createAlias": "",
                         "itemId": "dealBackBtn",
+                        "style": "",
                         "text": "Back",
                         "ui": "back"
                     },

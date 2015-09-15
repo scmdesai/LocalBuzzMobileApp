@@ -269,6 +269,87 @@
             },
             "name": "onDealBackBtnTap",
             "designerId": "0763678e-c846-4210-b4f5-5f610c744056"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "phoneNumber",
+                "selector": "textfield#phoneNumber"
+            },
+            "name": "phoneNumber",
+            "designerId": "e4904c87-4a35-4cdc-a394-8ecacc1d5486"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "address",
+                "selector": "textfield#address"
+            },
+            "name": "address",
+            "designerId": "33fc8322-ac07-4be1-8597-4005b50a7781"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "textfield#phoneNumber",
+                "designer|params": [
+                    "textfield",
+                    "e",
+                    "eOpts"
+                ],
+                "designer|targetType": "Ext.field.Text",
+                "fn": "onPhoneNumberFocus",
+                "implHandler": [
+                    "console.log(textfield.getValue());",
+                    "numberToDial = textfield.getValue();",
+                    "window.location = 'tel:'+ numberToDial ;"
+                ],
+                "name": "focus"
+            },
+            "name": "onPhoneNumberFocus",
+            "designerId": "dd2cf2bb-a7c7-457a-a9ff-df73f53429f7"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "textfield#address",
+                "designer|params": [
+                    "textfield",
+                    "e",
+                    "eOpts"
+                ],
+                "designer|targetType": "Ext.field.Text",
+                "fn": "onAddressFocus",
+                "implHandler": [
+                    "var queryString = encodeURIComponent(textfield.getValue());",
+                    "                var url = 'geo:0,0?q='  + queryString;",
+                    "                Ext.device.Device.openURL(url);",
+                    ""
+                ],
+                "name": "focus"
+            },
+            "name": "onAddressFocus",
+            "designerId": "4e5ada91-5430-401a-97d0-f17dc637be6d"
         }
     ]
 }

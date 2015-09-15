@@ -39,7 +39,6 @@ Ext.application({
         'Info',
         'Picture',
         'List',
-        'FavoriteView',
         'DealPicture',
         'ListOfDeals'
     ],
@@ -48,6 +47,7 @@ Ext.application({
     ],
     icon: 'icon.png',
     name: 'Contact',
+    startupImage: 'icon.png',
 
     launch: function() {
 

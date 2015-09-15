@@ -39,7 +39,6 @@
     "framework": "touch24",
     "viewOrderMap": {
         "view": [
-            "e83d8bd0-aa8b-4b79-bf87-9a8797bca19b",
             "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd",
             "266d5780-ee4a-4dca-a156-841cf77894ee",
             "5b610c64-3053-4d2f-8bfb-77077b9b2217",
@@ -62,8 +61,8 @@
         "resource": [
             "f81dd17b-02a8-4071-9594-4730c3b71ef7",
             "83d5f462-ac48-477a-8b82-5867e132986d",
-            "3d5a1b45-6cb9-49d7-a0e7-75f6a80eb13c",
-            "9182e262-637f-4587-ac8b-7a0eff12cc1d"
+            "9182e262-637f-4587-ac8b-7a0eff12cc1d",
+            "d3f299e8-0ad7-43b2-9846-bdcf0ea3cf87"
         ],
         "app": [
             "application"

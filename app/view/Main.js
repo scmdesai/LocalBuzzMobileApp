@@ -14,32 +14,31 @@
  */
 
 Ext.define('Contact.view.Main', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.Panel',
 
     requires: [
         'Contact.view.List',
-        'Contact.view.FavoriteView',
-        'Ext.tab.Bar',
+        'Ext.Toolbar',
         'Ext.dataview.List'
     ],
 
     config: {
-        tabBar: {
-            border: '',
-            docked: 'top',
-            layout: {
-                type: 'hbox',
-                pack: 'center'
-            }
-        },
+        cls: 'home',
+        layout: 'fit',
+        scrollable: true,
         items: [
             {
-                xtype: 'contactlist',
-                title: 'Home'
+                xtype: 'toolbar',
+                docked: 'top',
+                style: '',
+                title: 'Local Buzz',
+                layout: {
+                    type: 'hbox',
+                    pack: 'end'
+                }
             },
             {
-                xtype: 'favoriteview',
-                title: 'My Favorite Deals'
+                xtype: 'contactlist'
             }
         ]
     }

@@ -21,7 +21,9 @@
             "Ext.MessageBox",
             "Ext.device.Camera"
         ],
-        "startupImage": null,
+        "startupImage": [
+            "icon.png"
+        ],
         "stores": [
             "ContactStore",
             "MyJsonPStore",
@@ -32,7 +34,6 @@
             "Info",
             "Picture",
             "List",
-            "FavoriteView",
             "DealPicture",
             "ListOfDeals"
         ]

@@ -8,7 +8,7 @@
          "phonegap": {
             "config": {
                "platform": "android",
-			   "id": "com.appsonmobile.localbuzz",
+               "id": "com.appsonmobile.localbuzz",
                "name": "LocalBuzz"
             }
          }
@@ -44,7 +44,7 @@
             "desktop"
          ],
          "theme": "Default",
-         "path": "resources/css/sencha-touch-3d5a1b45-6cb9-49d7-a0e7-75f6a80eb13c.css"
+         "path": "resources/css/sencha-touch-d3f299e8-0ad7-43b2-9846-bdcf0ea3cf87.css"
       }
    ],
    "appCache": {

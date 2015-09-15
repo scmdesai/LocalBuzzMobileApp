@@ -31,20 +31,6 @@
     ],
     "cn": [
         {
-            "type": "Ext.Component",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "html": "",
-                "style": null
-            },
-            "name": "MyComponent",
-            "designerId": "4b25a1d2-93b2-49cd-b330-0e99c3ee3b1c"
-        },
-        {
             "type": "Ext.XTemplate",
             "reference": {
                 "name": "tpl",

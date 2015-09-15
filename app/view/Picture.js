@@ -18,7 +18,6 @@ Ext.define('Contact.view.Picture', {
     alias: 'widget.contactpic',
 
     requires: [
-        'Ext.Component',
         'Ext.XTemplate'
     ],
 
@@ -34,13 +33,7 @@ Ext.define('Contact.view.Picture', {
         layout: {
             type: 'vbox',
             align: 'center'
-        },
-        items: [
-            {
-                xtype: 'component',
-                html: ''
-            }
-        ]
+        }
     }
 
 });

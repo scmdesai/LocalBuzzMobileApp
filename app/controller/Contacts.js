@@ -46,7 +46,9 @@ Ext.define('Contact.controller.Contacts', {
                 autoCreate: true,
                 selector: 'dealpicture',
                 xtype: 'dealpicture'
-            }
+            },
+            phoneNumber: 'textfield#phoneNumber',
+            address: 'textfield#address'
         },
 
         control: {
@@ -70,6 +72,12 @@ Ext.define('Contact.controller.Contacts', {
             },
             "button#dealBackBtn": {
                 tap: 'onDealBackBtnTap'
+            },
+            "textfield#phoneNumber": {
+                focus: 'onPhoneNumberFocus'
+            },
+            "textfield#address": {
+                focus: 'onAddressFocus'
             }
         }
     },
@@ -150,6 +158,19 @@ Ext.define('Contact.controller.Contacts', {
 
 
 
+
+    },
+
+    onPhoneNumberFocus: function(textfield, e, eOpts) {
+        console.log(textfield.getValue());
+        numberToDial = textfield.getValue();
+        window.location = 'tel:'+ numberToDial ;
+    },
+
+    onAddressFocus: function(textfield, e, eOpts) {
+        var queryString = encodeURIComponent(textfield.getValue());
+                        var url = 'geo:0,0?q='  + queryString;
+                        Ext.device.Device.openURL(url);
 
     }
 

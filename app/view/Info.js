@@ -34,10 +34,12 @@ Ext.define('Contact.view.Info', {
             {
                 xtype: 'toolbar',
                 docked: 'top',
+                ui: 'light',
                 items: [
                     {
                         xtype: 'button',
                         itemId: 'infoBackBtn',
+                        style: '',
                         ui: 'back',
                         text: 'Back'
                     },
@@ -46,8 +48,9 @@ Ext.define('Contact.view.Info', {
                         flex: 1,
                         cls: 'contact-name',
                         disabled: true,
-                        html: 'First Name Last Name',
-                        itemId: 'nameTxt'
+                        html: '<b>First Name</b>',
+                        itemId: 'nameTxt',
+                        style: ''
                     }
                 ]
             },
@@ -59,27 +62,28 @@ Ext.define('Contact.view.Info', {
                 scrollable: false,
                 layout: {
                     type: 'hbox',
-                    align: 'start'
+                    align: 'start',
+                    pack: 'end'
                 },
                 items: [
                     {
                         xtype: 'contactpic',
                         docked: 'left',
-                        height: 146,
+                        height: '100%',
                         ui: 'light',
                         width: 127,
                         scrollable: false,
                         flex: 0.5,
                         layout: {
                             type: 'hbox',
-                            pack: 'center'
+                            align: 'start',
+                            pack: 'end'
                         }
                     },
                     {
                         xtype: 'formpanel',
-                        flex: 3,
-                        docked: 'right',
-                        height: 144,
+                        flex: 2,
+                        height: 156,
                         itemId: 'myformpanel',
                         style: 'background: transparent',
                         width: '50%',
@@ -93,32 +97,28 @@ Ext.define('Contact.view.Info', {
                         items: [
                             {
                                 xtype: 'textfield',
-                                flex: 2,
+                                flex: 1,
                                 cls: 'icon-phone',
+                                height: '30%',
+                                html: '',
                                 itemId: 'phoneNumber',
-                                style: 'opacity : 0.5;',
+                                style: 'opacity : 0.5;font-size:14px;',
+                                width: '100%',
+                                clearIcon: false,
                                 inputCls: '',
                                 label: '',
+                                labelWidth: '',
                                 name: 'phoneNumber',
                                 readOnly: true
                             },
                             {
                                 xtype: 'textfield',
-                                flex: 2,
-                                cls: 'icon-info',
-                                itemId: 'emailAddress',
-                                style: 'opacity :0.5;',
-                                label: '',
-                                name: 'emailAddress',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'textfield',
-                                flex: 4,
+                                flex: 1,
                                 cls: 'icon-location',
-                                itemId: 'address',
-                                style: 'opacity:0.5',
-                                label: '',
+                                height: '70%',
+                                itemId: 'mytextfield1',
+                                style: 'opacity:0.5;font-size:14px',
+                                width: '100%',
                                 name: 'address',
                                 readOnly: true
                             }
@@ -127,39 +127,10 @@ Ext.define('Contact.view.Info', {
                 ]
             },
             {
-                xtype: 'listofdeals'
-            }
-        ],
-        listeners: [
-            {
-                fn: 'onPhoneNumberFocus',
-                event: 'focus',
-                delegate: '#phoneNumber'
-            },
-            {
-                fn: 'onAddressFocus',
-                event: 'focus',
-                delegate: '#address'
+                xtype: 'listofdeals',
+                style: 'font-size: 18px'
             }
         ]
-    },
-
-    onPhoneNumberFocus: function(textfield, e, eOpts) {
-        console.log(textfield.getValue());
-        numberToDial = textfield.getValue();
-        window.location = 'tel:'+ numberToDial ;
-    },
-
-    onAddressFocus: function(textfield, e, eOpts) {
-        //console.log("Address Field value is:" + textfield.getValue()) ;
-        //console.log("Device is: " + Ext.os.name) ;
-        //console.log("City is: " + this.getRecord().getData().get('city')) ;
-
-
-        var queryString = encodeURIComponent(textfield.getValue());
-        var url = 'geo:0,0?q='  + queryString;
-        Ext.device.Device.openURL(url);
-
     },
 
     setRecord: function(record) {

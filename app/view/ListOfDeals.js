@@ -24,13 +24,14 @@ Ext.define('Contact.view.ListOfDeals', {
     config: {
         height: 247,
         id: 'ListOfDeals',
+        style: 'font-size: 10px',
         store: 'MyDealsStore',
         onItemDisclosure: false,
         striped: true,
         useSimpleItems: false,
         itemTpl: [
             '<div>{dealName}</div>',
-            '<div>{dealStartDate} - {dealEndDate}</div>'
+            '<div style="color:#0000FF;font-size:14px;font-style:italics" >{dealStartDate} - {dealEndDate}</div>'
         ]
     }
 

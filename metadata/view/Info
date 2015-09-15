@@ -25,7 +25,9 @@
             },
             "codeClass": null,
             "userConfig": {
-                "docked": "top"
+                "designer|uiInterfaceName": "light",
+                "docked": "top",
+                "ui": "light"
             },
             "name": "MyToolbar1",
             "designerId": "b4f1c33c-db01-4a13-9131-db478a8a0b21",
@@ -39,7 +41,10 @@
                     "codeClass": null,
                     "userConfig": {
                         "designer|createAlias": "",
+                        "designer|uiInterfaceName": "back",
                         "itemId": "infoBackBtn",
+                        "layout|flex": null,
+                        "style": "",
                         "text": "Back",
                         "ui": "back"
                     },
@@ -59,10 +64,11 @@
                         ],
                         "disabled": true,
                         "height": null,
-                        "html": "First Name Last Name",
+                        "html": "<b>First Name</b>",
                         "id": null,
                         "itemId": "nameTxt",
-                        "layout|flex": 1
+                        "layout|flex": 1,
+                        "style": ""
                     },
                     "name": "MyComponent1",
                     "designerId": "a8e6751f-5a9a-4f5c-946c-43e2a9282518"
@@ -123,6 +129,7 @@
             "userConfig": {
                 "border": "",
                 "container|align": "start",
+                "container|pack": "end",
                 "docked": "top",
                 "height": 162,
                 "layout": "hbox",
@@ -140,10 +147,11 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "container|pack": "center",
+                        "container|align": "start",
+                        "container|pack": "end",
                         "designer|uiInterfaceName": "light",
                         "docked": "left",
-                        "height": 146,
+                        "height": "100%",
                         "layout": "hbox",
                         "layout|flex": 0.5,
                         "scrollable": false,
@@ -164,12 +172,12 @@
                     "userConfig": {
                         "container|align": "start",
                         "container|pack": "end",
-                        "docked": "right",
+                        "docked": null,
                         "enableSubmissionForm": false,
-                        "height": 144,
+                        "height": 156,
                         "itemId": "myformpanel",
                         "layout": "vbox",
-                        "layout|flex": 3,
+                        "layout|flex": 2,
                         "scrollable": false,
                         "style": "background: transparent",
                         "width": "50%"
@@ -185,61 +193,25 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "clearIcon": false,
                                 "cls": [
                                     "icon-phone"
                                 ],
+                                "docked": null,
+                                "height": "30%",
+                                "html": "",
                                 "inputCls": "",
                                 "itemId": "phoneNumber",
                                 "label": "",
-                                "layout|flex": 2,
+                                "labelWidth": "",
+                                "layout|flex": 1,
                                 "name": "phoneNumber",
                                 "readOnly": true,
-                                "style": "opacity : 0.5;"
+                                "style": "opacity : 0.5;font-size:14px;",
+                                "width": "100%"
                             },
                             "name": "MyTextField",
-                            "designerId": "5deb1e75-8f79-4b32-986e-ec4bfb00a3d6",
-                            "cn": [
-                                {
-                                    "type": "basiceventbinding",
-                                    "reference": {
-                                        "name": "listeners",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "fn": "onPhoneNumberFocus",
-                                        "implHandler": [
-                                            "console.log(textfield.getValue());",
-                                            "numberToDial = textfield.getValue();",
-                                            "window.location = 'tel:'+ numberToDial ;"
-                                        ],
-                                        "name": "focus"
-                                    },
-                                    "name": "onPhoneNumberFocus",
-                                    "designerId": "31d3c13d-84dd-4506-b9ec-a3ceae8c465a"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "Ext.field.Text",
-                            "reference": {
-                                "name": "items",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "cls": [
-                                    "icon-info"
-                                ],
-                                "itemId": "emailAddress",
-                                "label": "",
-                                "layout|flex": 2,
-                                "name": "emailAddress",
-                                "readOnly": true,
-                                "style": "opacity :0.5;"
-                            },
-                            "name": "MyTextField3",
-                            "designerId": "ed76d704-7d91-487d-8918-fcce93970fcb"
+                            "designerId": "5deb1e75-8f79-4b32-986e-ec4bfb00a3d6"
                         },
                         {
                             "type": "Ext.field.Text",
@@ -252,42 +224,18 @@
                                 "cls": [
                                     "icon-location"
                                 ],
-                                "itemId": "address",
-                                "label": "",
-                                "layout|flex": 4,
+                                "designer|displayName": "address",
+                                "height": "70%",
+                                "itemId": "mytextfield1",
+                                "label": null,
+                                "layout|flex": 1,
                                 "name": "address",
                                 "readOnly": true,
-                                "style": "opacity:0.5"
+                                "style": "opacity:0.5;font-size:14px",
+                                "width": "100%"
                             },
-                            "name": "MyTextField5",
-                            "designerId": "f5b1b555-4232-4302-847c-68fd5d605768",
-                            "cn": [
-                                {
-                                    "type": "basiceventbinding",
-                                    "reference": {
-                                        "name": "listeners",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "fn": "onAddressFocus",
-                                        "implHandler": [
-                                            "//console.log(\"Address Field value is:\" + textfield.getValue()) ;",
-                                            "//console.log(\"Device is: \" + Ext.os.name) ;",
-                                            "//console.log(\"City is: \" + this.getRecord().getData().get('city')) ;",
-                                            "",
-                                            "",
-                                            "var queryString = encodeURIComponent(textfield.getValue());",
-                                            "var url = 'geo:0,0?q='  + queryString;",
-                                            "Ext.device.Device.openURL(url);",
-                                            ""
-                                        ],
-                                        "name": "focus"
-                                    },
-                                    "name": "onAddressFocus",
-                                    "designerId": "a28137fa-ebec-437e-8730-26939597097e"
-                                }
-                            ]
+                            "name": "MyTextField1",
+                            "designerId": "7615e86c-d3ba-49da-b149-75ed20729999"
                         }
                     ]
                 }
@@ -301,7 +249,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "designer|displayName": "listofdeals"
+                "designer|displayName": "listofdeals",
+                "style": "font-size: 18px"
             },
             "name": "listofdeals",
             "designerId": "494976eb-4caa-4d13-8c2d-3e65c0b41357",
