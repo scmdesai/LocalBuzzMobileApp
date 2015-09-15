@@ -42,6 +42,7 @@
                     "userConfig": {
                         "designer|createAlias": "",
                         "designer|uiInterfaceName": "back",
+                        "height": null,
                         "itemId": "infoBackBtn",
                         "layout|flex": null,
                         "style": "",
@@ -50,6 +51,20 @@
                     },
                     "name": "MyButton3",
                     "designerId": "59364094-80aa-40dc-81a9-6b24a0cf0d09"
+                },
+                {
+                    "type": "Ext.Spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": 10,
+                        "width": 47
+                    },
+                    "name": "MySpacer",
+                    "designerId": "64c29608-35ca-49e6-8ca2-0ed9d759a43d"
                 },
                 {
                     "type": "Ext.Component",
@@ -226,7 +241,7 @@
                                 ],
                                 "designer|displayName": "address",
                                 "height": "70%",
-                                "itemId": "mytextfield1",
+                                "itemId": "address",
                                 "label": null,
                                 "layout|flex": 1,
                                 "name": "address",

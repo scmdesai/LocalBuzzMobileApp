@@ -341,10 +341,10 @@
                 "designer|targetType": "Ext.field.Text",
                 "fn": "onAddressFocus",
                 "implHandler": [
+                    "console.log(textfield.getValue());",
                     "var queryString = encodeURIComponent(textfield.getValue());",
                     "                var url = 'geo:0,0?q='  + queryString;",
-                    "                Ext.device.Device.openURL(url);",
-                    ""
+                    "                Ext.device.Device.openURL(url);"
                 ],
                 "name": "focus"
             },

@@ -22,6 +22,7 @@ Ext.define('Contact.view.Info', {
         'Contact.view.ListOfDeals',
         'Ext.Toolbar',
         'Ext.Button',
+        'Ext.Spacer',
         'Ext.form.Panel',
         'Ext.field.Text',
         'Ext.dataview.List'
@@ -42,6 +43,11 @@ Ext.define('Contact.view.Info', {
                         style: '',
                         ui: 'back',
                         text: 'Back'
+                    },
+                    {
+                        xtype: 'spacer',
+                        height: 10,
+                        width: 47
                     },
                     {
                         xtype: 'component',
@@ -116,7 +122,7 @@ Ext.define('Contact.view.Info', {
                                 flex: 1,
                                 cls: 'icon-location',
                                 height: '70%',
-                                itemId: 'mytextfield1',
+                                itemId: 'address',
                                 style: 'opacity:0.5;font-size:14px',
                                 width: '100%',
                                 name: 'address',
