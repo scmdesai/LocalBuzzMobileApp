@@ -79,7 +79,7 @@ Ext.application({
 
                 function onBackKeyDown(eve) {
                     eve.preventDefault();
-                    Ext.Msg.confirm("Exit",  function ( answer ) {
+                    Ext.Msg.confirm("Exit", "",  function ( answer ) {
                         if ( answer == 'yes') {
                             navigator.app.exitApp();
                         } else {
