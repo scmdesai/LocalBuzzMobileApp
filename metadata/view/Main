@@ -24,6 +24,9 @@
                 "type": "array"
             },
             "codeClass": null,
+            "userConfig": {
+                "itemCls": "list-items"
+            },
             "name": "list",
             "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
             "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"

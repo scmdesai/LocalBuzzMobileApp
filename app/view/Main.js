@@ -28,7 +28,8 @@ Ext.define('Contact.view.Main', {
         scrollable: true,
         items: [
             {
-                xtype: 'contactlist'
+                xtype: 'contactlist',
+                itemCls: 'list-items'
             }
         ]
     }
