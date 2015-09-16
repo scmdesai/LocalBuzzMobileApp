@@ -311,10 +311,10 @@
         "topInstance": "266d5780-ee4a-4dca-a156-841cf77894ee"
     },
     "inspectorState": {
-        "topInstance": "266d5780-ee4a-4dca-a156-841cf77894ee",
-        "selectedInstance": "a8e6751f-5a9a-4f5c-946c-43e2a9282518"
+        "topInstance": "d3f299e8-0ad7-43b2-9846-bdcf0ea3cf87",
+        "selectedInstance": "ae601e82-a6d0-4bc8-b6d3-fec0fee633e4"
     },
-    "editMode": "design",
+    "editMode": "code",
     "userSettings": {
         "no-cmd": false
     }

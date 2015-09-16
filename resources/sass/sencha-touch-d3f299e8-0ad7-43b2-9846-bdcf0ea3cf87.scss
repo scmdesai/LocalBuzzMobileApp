@@ -38,16 +38,14 @@ inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-we
     padding-left: 10px;
     display:inline-block;
     padding-top: 10px;
-    font-size:14px;
+    font-size:5vw;
     border: none;
     color:#009900;
 }
 
 .icon-info:before {
-    font-family: "pictos";
-    padding-left: 10px;
-    display:inline-block;
-    padding-top: 10px;
+    font-family: "pictos";   
+    display:inline-block;    
     font-size: 1.2em;
     border: none;
 }
@@ -58,7 +56,7 @@ inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-we
     padding-left: 10px;
     display:inline-block;
     padding-top: 10px;
-    font-size:14px;
+    font-size:5vw;
     border: none;
     color:#ff6666;
 }
@@ -73,9 +71,6 @@ inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-we
     font-family: "MyIcons";
     content: "#";
     display:inline-block;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 20px;
     font-size: 1.5em;
     color:#D3D3D3;
 }
