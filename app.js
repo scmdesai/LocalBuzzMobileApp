@@ -62,32 +62,32 @@ Ext.application({
 
         var view = Ext.create('Contact.view.Main',{}) ;
         Ext.create('Contact.store.MyJsonPStore', {
-                    autoLoad: true,
-                    listeners: {
-                        load: function (self, records) {
-                            view.setData(records);
-                        }
-                    }
-                });
+            autoLoad: true,
+            listeners: {
+                load: function (self, records) {
+                    view.setData(records);
+                }
+            }
+        });
 
         Ext.create('Contact.store.MyDealsStore', {
-                    autoLoad: true
+            autoLoad: true
 
         });
         if (Ext.os.is('Android')) {
-                document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
+            document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
 
-                function onBackKeyDown(eve) {
-                    eve.preventDefault();
-                    Ext.Msg.confirm("Exit", "",  function ( answer ) {
-                        if ( answer == 'yes') {
-                            navigator.app.exitApp();
-                        } else {
-                            //do nothing
-                        }
-                    });
-                }
+            function onBackKeyDown(eve) {
+                eve.preventDefault();
+                Ext.Msg.confirm("Exit", "",  function ( answer ) {
+                    if ( answer == 'yes') {
+                        navigator.app.exitApp();
+                    } else {
+                        //do nothing
+                    }
+                });
             }
+        }
 
 
         Ext.create('Contact.view.Main', {fullscreen: true});

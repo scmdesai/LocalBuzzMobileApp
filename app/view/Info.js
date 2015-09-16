@@ -108,7 +108,7 @@ Ext.define('Contact.view.Info', {
                                 height: '30%',
                                 html: '',
                                 itemId: 'phoneNumber',
-                                style: 'opacity : 0.5;font-size:14px;',
+                                style: 'opacity : 0.5;font-size:5vw',
                                 width: '100%',
                                 clearIcon: false,
                                 inputCls: '',
@@ -123,7 +123,7 @@ Ext.define('Contact.view.Info', {
                                 cls: 'icon-location',
                                 height: '70%',
                                 itemId: 'address',
-                                style: 'opacity:0.5;font-size:14px',
+                                style: 'opacity:0.5;font-size:4.15vw',
                                 width: '100%',
                                 name: 'address',
                                 readOnly: true

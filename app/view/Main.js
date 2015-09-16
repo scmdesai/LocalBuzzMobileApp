@@ -18,7 +18,6 @@ Ext.define('Contact.view.Main', {
 
     requires: [
         'Contact.view.List',
-        'Ext.Toolbar',
         'Ext.dataview.List'
     ],
 
@@ -27,16 +26,6 @@ Ext.define('Contact.view.Main', {
         layout: 'fit',
         scrollable: true,
         items: [
-            {
-                xtype: 'toolbar',
-                docked: 'top',
-                style: '',
-                title: 'Local Buzz',
-                layout: {
-                    type: 'hbox',
-                    pack: 'end'
-                }
-            },
             {
                 xtype: 'contactlist'
             }

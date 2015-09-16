@@ -68,9 +68,6 @@
             "id": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
             "cn": [
                 {
-                    "id": "9e1f5815-c0ec-4d56-a09a-27b2be4fab80"
-                },
-                {
                     "id": "84624564-a015-48ea-8088-c56c025a60d5"
                 }
             ]
@@ -311,13 +308,13 @@
         ]
     },
     "canvasState": {
-        "topInstance": null
+        "topInstance": "266d5780-ee4a-4dca-a156-841cf77894ee"
     },
     "inspectorState": {
-        "topInstance": "application",
-        "selectedInstance": "ba1fcbb2-e63e-445e-a67c-ec117224b08e"
+        "topInstance": "266d5780-ee4a-4dca-a156-841cf77894ee",
+        "selectedInstance": "a8e6751f-5a9a-4f5c-946c-43e2a9282518"
     },
-    "editMode": "code",
+    "editMode": "design",
     "userSettings": {
         "no-cmd": false
     }

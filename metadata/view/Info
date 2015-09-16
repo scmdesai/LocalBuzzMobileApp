@@ -222,7 +222,7 @@
                                 "layout|flex": 1,
                                 "name": "phoneNumber",
                                 "readOnly": true,
-                                "style": "opacity : 0.5;font-size:14px;",
+                                "style": "opacity : 0.5;font-size:5vw",
                                 "width": "100%"
                             },
                             "name": "MyTextField",
@@ -246,7 +246,7 @@
                                 "layout|flex": 1,
                                 "name": "address",
                                 "readOnly": true,
-                                "style": "opacity:0.5;font-size:14px",
+                                "style": "opacity:0.5;font-size:4.15vw",
                                 "width": "100%"
                             },
                             "name": "MyTextField1",

@@ -17,30 +17,13 @@
     "designerId": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
     "cn": [
         {
-            "type": "Ext.Toolbar",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "container|pack": "end",
-                "designer|uiInterfaceName": "dark",
-                "docked": "top",
-                "style": "",
-                "title": "Local Buzz"
-            },
-            "name": "MyToolbar2",
-            "designerId": "9e1f5815-c0ec-4d56-a09a-27b2be4fab80"
-        },
-        {
             "type": "linkedinstance",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
-            "name": "list",
+            "name": "list1",
             "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
             "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
         }
