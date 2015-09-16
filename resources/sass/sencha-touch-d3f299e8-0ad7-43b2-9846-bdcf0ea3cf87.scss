@@ -11,11 +11,11 @@ $toolbar-gradient: bevel;
 /* Adding custom icon-fonts */
 
 @include icon-font('MyIcons',
-inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+    inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
 
 
 @include icon-font('MyIcons1',
-inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+    inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
 
 
 @include icon("icon-phone","!", "MyIcons");
@@ -27,7 +27,7 @@ inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg'
 
 
 @include icon-font('pictos',
-inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+    inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
 
 @include icon('globe1');
 
