@@ -13,11 +13,11 @@ $toolbar-gradient: bevel;
 /* Adding custom icon-fonts */
 
 @include icon-font('MyIcons',
-inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+    inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
 
 
 @include icon-font('MyIcons1',
-inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+    inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
 
 
 @include icon("icon-phone","!", "MyIcons");
@@ -29,7 +29,7 @@ inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg'
 
 
 @include icon-font('pictos',
-inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+    inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
 
 @include icon('globe1');
 
@@ -40,14 +40,14 @@ inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-we
     padding-left: 10px;
     display:inline-block;
     padding-top: 10px;
-    font-size:5vw;
+    font-size:6vw;
     border: none;
     color:#009900;
 }
 
 .icon-info:before {
-    font-family: "pictos";   
-    display:inline-block;    
+    font-family: "pictos";
+    display:inline-block;
     font-size: 1.2em;
     border: none;
 }

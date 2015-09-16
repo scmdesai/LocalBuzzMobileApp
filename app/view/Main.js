@@ -23,6 +23,7 @@ Ext.define('Contact.view.Main', {
 
     config: {
         cls: 'home',
+        style: '',
         layout: 'fit',
         scrollable: true,
         items: [

@@ -14,7 +14,8 @@
         "fullscreen": true,
         "itemId": "dealPicture",
         "layout": "fit",
-        "scrollable": true
+        "scrollable": true,
+        "style": "font-size:6vw"
     },
     "name": "MyContainer",
     "designerId": "b78d5436-71c8-48eb-ba05-2d08234588cd",

@@ -27,6 +27,7 @@
             "userConfig": {
                 "designer|uiInterfaceName": "light",
                 "docked": "top",
+                "style": "font-size:6vw",
                 "ui": "light"
             },
             "name": "MyToolbar1",
@@ -60,8 +61,8 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "height": 10,
-                        "width": 47
+                        "height": 11,
+                        "width": 18
                     },
                     "name": "MySpacer",
                     "designerId": "64c29608-35ca-49e6-8ca2-0ed9d759a43d"
@@ -105,7 +106,7 @@
                 "implHandler": [
                     "this.callParent(arguments);",
                     "if (record) {",
-                    "    var name = record.get('businessName') + ' ' + (record.get('category') || '');",
+                    "    var name = record.get('businessName');",
                     "   var isFavorite = record.get('isFavorite');",
                     "",
                     "    this.down('#nameTxt').setHtml(name);",

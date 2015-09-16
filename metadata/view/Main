@@ -12,7 +12,8 @@
         "designer|initialView": true,
         "designer|userClassName": "Main",
         "layout": "fit",
-        "scrollable": true
+        "scrollable": true,
+        "style": ""
     },
     "designerId": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
     "cn": [
@@ -23,7 +24,7 @@
                 "type": "array"
             },
             "codeClass": null,
-            "name": "list1",
+            "name": "list",
             "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
             "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
         }

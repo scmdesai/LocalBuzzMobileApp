@@ -35,6 +35,7 @@ Ext.define('Contact.view.Info', {
             {
                 xtype: 'toolbar',
                 docked: 'top',
+                style: 'font-size:6vw',
                 ui: 'light',
                 items: [
                     {
@@ -46,8 +47,8 @@ Ext.define('Contact.view.Info', {
                     },
                     {
                         xtype: 'spacer',
-                        height: 10,
-                        width: 47
+                        height: 11,
+                        width: 18
                     },
                     {
                         xtype: 'component',
@@ -142,7 +143,7 @@ Ext.define('Contact.view.Info', {
     setRecord: function(record) {
         this.callParent(arguments);
         if (record) {
-            var name = record.get('businessName') + ' ' + (record.get('category') || '');
+            var name = record.get('businessName');
            var isFavorite = record.get('isFavorite');
 
             this.down('#nameTxt').setHtml(name);

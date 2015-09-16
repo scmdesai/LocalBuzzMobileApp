@@ -29,6 +29,7 @@ Ext.define('Contact.view.DealPicture', {
     config: {
         fullscreen: true,
         itemId: 'dealPicture',
+        style: 'font-size:6vw',
         layout: 'fit',
         scrollable: true,
         tpl: [
