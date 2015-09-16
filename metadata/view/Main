@@ -25,7 +25,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "itemCls": "list-items"
+                "itemCls": "list-items",
+                "style": "font-size:7vw"
             },
             "name": "list",
             "designerId": "84624564-a015-48ea-8088-c56c025a60d5",

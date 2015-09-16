@@ -29,6 +29,7 @@ Ext.define('Contact.view.Main', {
         items: [
             {
                 xtype: 'contactlist',
+                style: 'font-size:7vw',
                 itemCls: 'list-items'
             }
         ]
