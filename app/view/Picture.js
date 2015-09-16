@@ -25,6 +25,7 @@ Ext.define('Contact.view.Picture', {
         overflow: 'hidden',
         height: 120,
         minHeight: 100,
+        padding: '5 5 5 5',
         style: 'overflow: hidden',
         ui: '',
         tpl: [

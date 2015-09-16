@@ -144,16 +144,18 @@
             "codeClass": null,
             "userConfig": {
                 "border": "",
-                "container|align": "start",
-                "container|pack": "end",
-                "docked": "top",
-                "height": 162,
-                "layout": "hbox",
-                "scrollable": false,
-                "style": null
+                "container|align": "end",
+                "designer|displayName": "Main Panel",
+                "height": "",
+                "layout": "vbox",
+                "maxHeight": "100%",
+                "minHeight": "100%",
+                "minWidth": "",
+                "padding": "5 5 5 5",
+                "style": "border:1px inset"
             },
-            "name": "MyPanel1",
-            "designerId": "e236050b-c634-4513-8845-84e9148807ee",
+            "name": "MyPanel",
+            "designerId": "e03204e3-cf8f-462c-ac0c-227b5bdb2df7",
             "cn": [
                 {
                     "type": "linkedinstance",
@@ -163,43 +165,43 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "border": "",
                         "container|align": "start",
-                        "container|pack": "end",
+                        "container|pack": "center",
                         "designer|uiInterfaceName": "light",
                         "docked": "left",
-                        "height": "100%",
+                        "height": 137,
                         "layout": "hbox",
                         "layout|flex": 0.5,
+                        "maxHeight": "100%",
+                        "minHeight": "50%",
+                        "minWidth": "30%",
                         "scrollable": false,
+                        "style": "",
                         "ui": "light",
-                        "width": 127
+                        "width": 97
                     },
-                    "name": "picture",
+                    "name": "picture1",
                     "designerId": "11b52498-1b3f-4cbb-9bda-c4460a0770c8",
                     "masterInstanceId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd"
                 },
                 {
-                    "type": "Ext.form.Panel",
+                    "type": "Ext.Panel",
                     "reference": {
                         "name": "items",
                         "type": "array"
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "container|align": "start",
-                        "container|pack": "end",
-                        "docked": null,
-                        "enableSubmissionForm": false,
-                        "height": 156,
-                        "itemId": "myformpanel",
-                        "layout": "vbox",
-                        "layout|flex": 2,
-                        "scrollable": false,
-                        "style": "background: transparent",
-                        "width": "50%"
+                        "designer|displayName": "Details Panel",
+                        "height": "",
+                        "maxHeight": "100%",
+                        "minHeight": "100%",
+                        "padding": null,
+                        "width": "100%"
                     },
-                    "name": "MyFormPanel",
-                    "designerId": "95b764c9-4b93-4988-89fe-d8e2d0487419",
+                    "name": "MyPanel1",
+                    "designerId": "adc7c1e9-9263-4a05-a222-6034e16c218a",
                     "cn": [
                         {
                             "type": "Ext.field.Text",
@@ -211,66 +213,110 @@
                             "userConfig": {
                                 "clearIcon": false,
                                 "cls": [
-                                    "icon-phone"
+                                    "icon-phone",
+                                    "customfield"
                                 ],
-                                "docked": null,
-                                "height": "30%",
-                                "html": "",
-                                "inputCls": "",
+                                "designer|displayName": "phoneNumber",
+                                "height": "",
+                                "inputCls": "customfield",
                                 "itemId": "phoneNumber",
-                                "label": "",
-                                "labelWidth": "",
-                                "layout|flex": 1,
+                                "label": null,
+                                "maxHeight": "30%",
+                                "maxWidth": "100%",
+                                "minHeight": "",
+                                "minWidth": "100%",
                                 "name": "phoneNumber",
                                 "readOnly": true,
-                                "style": "opacity : 0.5;font-size:5vw",
                                 "width": "100%"
                             },
                             "name": "MyTextField",
-                            "designerId": "5deb1e75-8f79-4b32-986e-ec4bfb00a3d6"
+                            "designerId": "593e7c45-76fd-4425-88eb-3b0a999a1be0"
                         },
                         {
-                            "type": "Ext.field.Text",
+                            "type": "Ext.Spacer",
                             "reference": {
                                 "name": "items",
                                 "type": "array"
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "height": "10px"
+                            },
+                            "name": "MySpacer1",
+                            "designerId": "0b05b49e-e7ba-464e-8699-271f157eaa75"
+                        },
+                        {
+                            "type": "Ext.field.TextArea",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "clearIcon": false,
                                 "cls": [
-                                    "icon-location"
+                                    "icon-location",
+                                    "customfield"
                                 ],
                                 "designer|displayName": "address",
-                                "height": "70%",
+                                "docked": null,
+                                "height": "100%",
+                                "inputCls": "customfield",
                                 "itemId": "address",
                                 "label": null,
-                                "layout|flex": 1,
+                                "maxHeight": "100%",
+                                "maxRows": 3,
+                                "maxWidth": "100%",
+                                "minHeight": "100%",
+                                "minWidth": "100%",
                                 "name": "address",
                                 "readOnly": true,
-                                "style": "opacity:0.5;font-size:4.15vw",
+                                "style": "border:1 px inset",
                                 "width": "100%"
                             },
-                            "name": "MyTextField1",
-                            "designerId": "7615e86c-d3ba-49da-b149-75ed20729999"
+                            "name": "MyTextArea",
+                            "designerId": "300184c3-073e-49d3-ab0c-b75d6578cd1f"
                         }
                     ]
                 }
             ]
         },
         {
-            "type": "linkedinstance",
+            "type": "Ext.Panel",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
-                "designer|displayName": "listofdeals",
-                "style": "font-size: 18px"
+                "designer|displayName": "List Panel",
+                "padding": "5 5 5 5",
+                "style": "border:1px inset"
             },
-            "name": "listofdeals",
-            "designerId": "494976eb-4caa-4d13-8c2d-3e65c0b41357",
-            "masterInstanceId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af"
+            "name": "MyPanel2",
+            "designerId": "e155af53-2c42-49ca-bcab-aa89be0776ea",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "border": "",
+                        "cls": [
+                            "list-item"
+                        ],
+                        "designer|displayName": "listofdeals",
+                        "itemCls": "list-item",
+                        "style": ""
+                    },
+                    "name": "listofdeals1",
+                    "designerId": "494976eb-4caa-4d13-8c2d-3e65c0b41357",
+                    "masterInstanceId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af"
+                }
+            ]
         }
     ]
 }

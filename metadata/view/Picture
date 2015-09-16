@@ -17,6 +17,7 @@
         "minHeight": 100,
         "modal": null,
         "overflow": "hidden",
+        "padding": "5 5 5 5",
         "scrollable": null,
         "style": "overflow: hidden",
         "ui": ""

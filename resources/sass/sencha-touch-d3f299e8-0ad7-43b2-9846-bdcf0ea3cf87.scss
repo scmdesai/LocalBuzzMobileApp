@@ -56,13 +56,15 @@ $toolbar-gradient: bevel;
     padding-left: 10px;
     display:inline-block;
     padding-top: 10px;
-    font-size:5vw;
+    font-size:6vw;
     border: none;
-    color:#ff6666;
+    color:#ff0000;
 }
 
 .list-item{
-    font-size : 15px;
+    background:#D3D3D3;
+    font-size:5vw;
+
 }
 
 
@@ -95,4 +97,20 @@ $toolbar-gradient: bevel;
     padding-bottom: 20px;
     font-size: 1.5em;
     color:#D3D3D3;
+}
+
+.customfield{
+	background:#D3D3D3;
+    font-size:4vw;
+    font-family: "Helvetica";
+    width: 100%;
+    
+
+
+
+
+
+
+
+
 }
