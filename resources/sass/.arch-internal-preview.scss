@@ -1,9 +1,5 @@
 /* _arch-vars-start */
-$button-font-size: 2em;
-$button-line-height: 2em;
-$list-bg-color: rgba(234,241,247,1);
-$list-pressed-color: rgba(240,249,255,1);
-$toolbar-gradient: bevel;
+
 
 @import 'sencha-touch/default';
 @import 'sencha-touch/default/all';
@@ -64,7 +60,7 @@ $toolbar-gradient: bevel;
 }
 
 .list-item{
-    background:#D3D3D3;
+    background:#d7d7d7;
     font-size:5vw;
 
 }
@@ -102,14 +98,16 @@ $toolbar-gradient: bevel;
 }
 
 .customfield{
-    background:#D3D3D3;
+    background:#d7d7d7;
     font-size:4vw;
     font-family: "Helvetica";
     width: 100%;
 
 
 
-
+.customToolbar{
+    font-family:"Harlow";
+}
 
 
 

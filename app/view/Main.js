@@ -18,15 +18,25 @@ Ext.define('Contact.view.Main', {
 
     requires: [
         'Contact.view.List',
+        'Ext.Toolbar',
         'Ext.dataview.List'
     ],
 
     config: {
         cls: 'home',
+        html: '',
         style: '',
         layout: 'fit',
         scrollable: true,
         items: [
+            {
+                xtype: 'toolbar',
+                cls: 'customToolbar',
+                docked: 'top',
+                html: '<center><span style="font-family: Harlow Solid Italic;font-size: 30pt;text-align: center;color:white">Local</span><img src="butterfly.png"/><span style="font-family: Harlow Solid Italic;font-size: 30pt;text-align: center;color:white">Buzz</span></center>',
+                style: '',
+                ui: 'light'
+            },
             {
                 xtype: 'contactlist',
                 style: 'font-size:7vw',

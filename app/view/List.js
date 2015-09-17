@@ -27,7 +27,6 @@ Ext.define('Contact.view.List', {
         emptyText: 'No Contacts',
         store: 'MyJsonPStore',
         grouped: true,
-        striped: true,
         itemTpl: [
             '<div>{businessName}</div>'
         ],

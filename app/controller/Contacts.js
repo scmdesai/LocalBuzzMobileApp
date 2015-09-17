@@ -164,6 +164,7 @@ Ext.define('Contact.controller.Contacts', {
     onPhoneNumberFocus: function(textfield, e, eOpts) {
         console.log(textfield.getValue());
         numberToDial = textfield.getValue();
+        textfield.blur();
         window.location = 'tel:'+ numberToDial ;
     },
 
@@ -171,6 +172,7 @@ Ext.define('Contact.controller.Contacts', {
         console.log(textfield.getValue());
         var queryString = encodeURIComponent(textfield.getValue());
         var url = 'geo:0,0?q='  + queryString;
+        textfield.blur();
         Ext.device.Device.openURL(url);
     }
 

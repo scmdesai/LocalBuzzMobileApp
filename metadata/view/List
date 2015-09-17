@@ -11,8 +11,7 @@
         "disableSelection": true,
         "emptyText": "No Contacts",
         "grouped": true,
-        "store": "MyJsonPStore",
-        "striped": true
+        "store": "MyJsonPStore"
     },
     "designerId": "5b610c64-3053-4d2f-8bfb-77077b9b2217",
     "cn": [
