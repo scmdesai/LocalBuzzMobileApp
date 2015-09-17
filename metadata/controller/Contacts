@@ -318,6 +318,7 @@
                     "console.log(textfield.getValue());",
                     "numberToDial = textfield.getValue();",
                     "textfield.blur();",
+                    "e.destroy();",
                     "window.location = 'tel:'+ numberToDial ;"
                 ],
                 "name": "focus"

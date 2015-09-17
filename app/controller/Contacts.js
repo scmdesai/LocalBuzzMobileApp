@@ -165,6 +165,7 @@ Ext.define('Contact.controller.Contacts', {
         console.log(textfield.getValue());
         numberToDial = textfield.getValue();
         textfield.blur();
+        e.destroy();
         window.location = 'tel:'+ numberToDial ;
     },
 
