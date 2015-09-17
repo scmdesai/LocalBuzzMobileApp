@@ -315,10 +315,11 @@
                 "designer|targetType": "Ext.field.Text",
                 "fn": "onPhoneNumberFocus",
                 "implHandler": [
-                    "console.log(textfield.getValue());",
+                    "console.log(e);",
                     "numberToDial = textfield.getValue();",
                     "textfield.blur();",
                     "e.destroy();",
+                    "e.stopEvent();",
                     "window.location = 'tel:'+ numberToDial ;"
                 ],
                 "name": "focus"
@@ -347,6 +348,7 @@
                     "var queryString = encodeURIComponent(textfield.getValue());",
                     "var url = 'geo:0,0?q='  + queryString;",
                     "textfield.blur();",
+                    "e.stopEvent();",
                     "e.destroy();",
                     "Ext.device.Device.openURL(url);"
                 ],
