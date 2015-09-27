@@ -22,6 +22,7 @@ Ext.define('Contact.store.UserPreferences', {
     ],
 
     config: {
+        autoLoad: true,
         autoSync: true,
         buffered: true,
         model: 'Contact.model.UserPreferences',
