@@ -93,7 +93,7 @@ Ext.define('Contact.controller.Contacts', {
         var info = this.getContactinfo();
         info.setRecord(record);
         Ext.Viewport.setActiveItem(info);
-        console.log(record);
+        //console.log(record);
     },
 
     onInfoBackBtnTapHome: function(button, e, eOpts) {

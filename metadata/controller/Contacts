@@ -66,7 +66,7 @@
                     "var info = this.getContactinfo();",
                     "info.setRecord(record);",
                     "Ext.Viewport.setActiveItem(info);",
-                    "console.log(record);"
+                    "//console.log(record);"
                 ],
                 "name": "itemtap"
             },

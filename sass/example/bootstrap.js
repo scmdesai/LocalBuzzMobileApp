@@ -1590,16 +1590,21 @@ Ext.ClassManager.addNameAlternateMappings({
   "Contact.controller.Contacts": [],
   "Contact.model.Contact": [],
   "Contact.model.Deal": [],
+  "Contact.model.UserPreferences": [],
   "Contact.store.ContactStore": [],
   "Contact.store.MyDealsStore": [],
   "Contact.store.MyJsonPStore": [],
+  "Contact.store.MyJsonPStore1": [],
+  "Contact.store.UserPreferences": [],
   "Contact.view.DealPicture": [
     "dealPicture"
   ],
+  "Contact.view.FavoriteView": [],
   "Contact.view.Info": [],
   "Contact.view.List": [],
   "Contact.view.ListOfDeals": [],
   "Contact.view.Main": [],
+  "Contact.view.Main1": [],
   "Contact.view.Picture": [],
   "Ext.AbstractComponent": [],
   "Ext.AbstractManager": [],
@@ -2228,11 +2233,17 @@ Ext.ClassManager.addNameAliasMappings({
   "Contact.controller.Contacts": [],
   "Contact.model.Contact": [],
   "Contact.model.Deal": [],
+  "Contact.model.UserPreferences": [],
   "Contact.store.ContactStore": [],
   "Contact.store.MyDealsStore": [],
   "Contact.store.MyJsonPStore": [],
+  "Contact.store.MyJsonPStore1": [],
+  "Contact.store.UserPreferences": [],
   "Contact.view.DealPicture": [
     "widget.dealpicture"
+  ],
+  "Contact.view.FavoriteView": [
+    "widget.favoriteview"
   ],
   "Contact.view.Info": [
     "widget.contactinfo"
@@ -2244,6 +2255,7 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.listofdeals"
   ],
   "Contact.view.Main": [],
+  "Contact.view.Main1": [],
   "Contact.view.Picture": [
     "widget.contactpic"
   ],

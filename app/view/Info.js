@@ -215,7 +215,7 @@ Ext.define('Contact.view.Info', {
 
                 }
 
-        console.log(customerId + isPressed);
+        //console.log(customerId + isPressed);
 
 
 
