@@ -253,7 +253,7 @@ Ext.define('Contact.view.Info', {
 
 
             this.down('#nameTxt').setHtml(name);
-            console.log(store.getData());
+           // console.log(store.getData());
             if(isFavorite===true) {
                this.down('#favbutton').setCls('fill-star');
                 //store.setData({'isFavorite':isFavorite});
