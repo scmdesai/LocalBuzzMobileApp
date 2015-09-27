@@ -1,61 +1,75 @@
 {
-    "type": "Ext.Panel",
+    "type": "Ext.tab.Panel",
     "reference": {
         "name": "items",
         "type": "array"
     },
     "codeClass": null,
     "userConfig": {
-        "cls": [
-            "home"
-        ],
         "designer|initialView": true,
-        "designer|userClassName": "Main",
-        "html": "",
-        "layout": "fit",
-        "scrollable": true,
-        "style": ""
+        "designer|userClassName": "Main"
     },
-    "designerId": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
+    "name": "MyTabPanel",
+    "designerId": "97e773e8-9968-4a40-aed9-737fc69a1a3c",
     "cn": [
         {
-            "type": "Ext.Toolbar",
+            "type": "Ext.Container",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
-                "baseCls": null,
-                "cls": [
-                    "customToolbar"
-                ],
-                "designer|displayName": "LocalBuzz",
-                "designer|uiInterfaceName": "light",
-                "docked": "top",
-                "html": "<center><img src=\"localbuzz.png\"/></center>",
-                "padding": "10 0 0 0",
-                "style": "font-size:5vw",
-                "title": null,
-                "ui": "light"
+                "title": "Home"
             },
-            "name": "MyToolbar2",
-            "designerId": "107b3638-e2a1-42f8-98ae-ecf1beed92f2"
+            "name": "MyContainer",
+            "designerId": "d7355cdb-915f-4444-9266-7dc7bea2c454",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": 403
+                    },
+                    "name": "list2",
+                    "designerId": "a67656c8-2230-4649-8a4c-d5f872fcff61",
+                    "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
+                }
+            ]
         },
         {
-            "type": "linkedinstance",
+            "type": "Ext.Container",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
-                "itemCls": "list-items",
-                "style": "font-size:7vw"
+                "itemId": "mycontainer1",
+                "title": "My Favorites"
             },
-            "name": "list",
-            "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
-            "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
+            "name": "MyContainer1",
+            "designerId": "215e2a13-a3c3-4958-987d-b86053609cd2",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "itemId": "favoriteview1"
+                    },
+                    "name": "favoriteview",
+                    "designerId": "d536582a-2449-46e0-ad68-17adbe17166d",
+                    "masterInstanceId": "df87baa7-a395-439f-89a0-673a141cda15"
+                }
+            ]
         }
     ]
 }

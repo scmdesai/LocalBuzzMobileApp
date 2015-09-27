@@ -30,6 +30,7 @@ Ext.define('Contact.view.Info', {
 
     config: {
         border: 5,
+        height: 463,
         enableSubmissionForm: false,
         items: [
             {
@@ -46,13 +47,22 @@ Ext.define('Contact.view.Info', {
                         text: 'Back'
                     },
                     {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            button.addCls('x-button-pressed');
+                        },
+                        cls: 'empty-star',
+                        docked: 'right',
+                        itemId: 'favbutton',
+                        style: ''
+                    },
+                    {
                         xtype: 'spacer',
                         height: 11,
                         width: 18
                     },
                     {
                         xtype: 'component',
-                        flex: 1,
                         cls: 'contact-name',
                         disabled: true,
                         html: '<b>First Name</b>',
@@ -161,30 +171,126 @@ Ext.define('Contact.view.Info', {
                     }
                 ]
             }
+        ],
+        listeners: [
+            {
+                fn: 'onFavbuttonTap',
+                event: 'tap',
+                delegate: '#favbutton'
+            }
         ]
     },
 
+    onFavbuttonTap: function(button, e, eOpts) {
+                var store = Ext.getStore('UserPreferences');
+                //store.clearFilter();
+                var pressingCls = 'x-button-pressed';
+                button.element.toggleCls(pressingCls);
+                var isPressed = button.element.hasCls(pressingCls);
+                var record = this.getRecord();
+                var customerId = record.get('customerId');
+
+                 store.add({'customerId':customerId,'isFavorite':isPressed});
+
+                if(isPressed===true){
+                    button.setCls('fill-star');
+                   // localStorage.setItem('customerId',record.get('customerId'));
+                   // localStorage.setItem('isFavorite', isPressed);
+                   // store.add({'customerId':customerId,'isFavorite':isPressed});
+                  //  store.sync();
+
+                }
+                else {
+                    button.setCls('empty-star');
+
+                   // localStorage.removeItem('customerId');
+                   // localStorage.removeItem('isFavorite
+
+                    store.findRecord('customerId',customerId).destroy();
+                    store.sync();
+
+
+
+
+
+                }
+
+        console.log(customerId + isPressed);
+
+
+
+        record.set('isFavorite', isPressed);
+        store.sync();
+
+
+
+
+
+    },
+
     setRecord: function(record) {
+
         this.callParent(arguments);
+
+
         if (record) {
+
+
             var name = record.get('businessName');
-           var isFavorite = record.get('isFavorite');
+            var isFavorite = record.get('isFavorite');
+            var customerId = record.get('customerId');
+
+            var store = Ext.getStore('UserPreferences');
+
+           if(store.getAllCount()!==0){
+            store.each(function(rec) {
+                if(rec.get('customerId')==customerId) {
+                    isFavorite = rec.get('isFavorite');
+                }
+            });
+           }
+
+
 
             this.down('#nameTxt').setHtml(name);
-            //this.down('#favlist')[isFavorite ? 'addCls' : 'removeCls']('empty-star');
-           // this.down('#favoriteBtn')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            console.log(store.getData());
+            if(isFavorite===true) {
+               this.down('#favbutton').setCls('fill-star');
+                //store.setData({'isFavorite':isFavorite});
+            }
+            else {
+                this.down('#favbutton').setCls('empty-star');
+
+
+
+
+
+            }
+
+
+
+
+          // this.down('#favoriteview')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            this.down('#favbutton')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
             this.down('contactpic').setData(record.data);
 
-            var customerId = record.get('customerId');
+
             var ds = Ext.StoreManager.lookup('MyDealsStore');
             ds.clearFilter() ;
             ds.filter('customerId', customerId);
+            this.down('listofdeals').setData(ds.getData()) ;
+
+
+
+
+
             /*dealsData  = ds.getData().getAt(0);
             var dealName = 'No Deals';
             if(dealsData) {
                  dealName = dealsData.get('dealName');
             }*/
-           this.down('listofdeals').setData(ds.getData()) ;
+
+
 
 
 

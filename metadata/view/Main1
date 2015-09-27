@@ -1,0 +1,59 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "cls": [
+            "home"
+        ],
+        "designer|userClassName": "Main1",
+        "html": "",
+        "style": ""
+    },
+    "designerId": "ab0ebc18-fc5b-43b1-8958-7395bd191769",
+    "cn": [
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "cls": [
+                    "customToolbar"
+                ],
+                "designer|displayName": "LocalBuzz",
+                "designer|uiInterfaceName": "light",
+                "docked": "top",
+                "html": "<center><img src=\"localbuzz.png\"/></center>",
+                "padding": "10 0 0 0",
+                "style": "font-size:5vw",
+                "title": null,
+                "ui": "light"
+            },
+            "name": "MyToolbar2",
+            "designerId": "107b3638-e2a1-42f8-98ae-ecf1beed92f2"
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "height": 379,
+                "itemCls": "list-items",
+                "style": "font-size:7vw"
+            },
+            "name": "list3",
+            "designerId": "84624564-a015-48ea-8088-c56c025a60d5",
+            "masterInstanceId": "5b610c64-3053-4d2f-8bfb-77077b9b2217"
+        }
+    ]
+}

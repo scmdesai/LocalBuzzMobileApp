@@ -27,20 +27,25 @@ Ext.application({
     ],
     models: [
         'Contact',
-        'Deal'
+        'Deal',
+        'UserPreferences'
     ],
     stores: [
         'ContactStore',
         'MyJsonPStore',
-        'MyDealsStore'
+        'MyDealsStore',
+        'UserPreferences',
+        'MyJsonPStore1'
     ],
     views: [
-        'Main',
+        'Main1',
         'Info',
         'Picture',
         'List',
         'DealPicture',
-        'ListOfDeals'
+        'ListOfDeals',
+        'Main',
+        'FavoriteView'
     ],
     controllers: [
         'Contacts'

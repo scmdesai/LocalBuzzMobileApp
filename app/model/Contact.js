@@ -59,10 +59,6 @@ Ext.define('Contact.model.Contact', {
                 name: 'picture'
             },
             {
-                name: 'isFavorite',
-                type: 'boolean'
-            },
-            {
                 name: 'customerId'
             }
         ]

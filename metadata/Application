@@ -14,7 +14,8 @@
         ],
         "models": [
             "Contact",
-            "Deal"
+            "Deal",
+            "UserPreferences"
         ],
         "name": "Contact",
         "requires": [
@@ -27,15 +28,19 @@
         "stores": [
             "ContactStore",
             "MyJsonPStore",
-            "MyDealsStore"
+            "MyDealsStore",
+            "UserPreferences",
+            "MyJsonPStore1"
         ],
         "views": [
-            "Main",
+            "Main1",
             "Info",
             "Picture",
             "List",
             "DealPicture",
-            "ListOfDeals"
+            "ListOfDeals",
+            "Main",
+            "FavoriteView"
         ]
     },
     "name": "Application",

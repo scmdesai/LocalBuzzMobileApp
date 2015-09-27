@@ -23,7 +23,9 @@ Ext.define('Contact.controller.Contacts', {
     config: {
         stores: [
             'MyJsonPStore',
-            'MyDealsStore'
+            'MyDealsStore',
+            'MyJsonPStore1',
+            'UserPreferences'
         ],
 
         refs: {
@@ -48,7 +50,12 @@ Ext.define('Contact.controller.Contacts', {
                 xtype: 'dealpicture'
             },
             phoneNumber: 'textfield#phoneNumber',
-            address: 'textfield#address'
+            address: 'textfield#address',
+            mycontainer1: {
+                selector: 'container#mycontainer1',
+                xtype: 'favoriteview'
+            },
+            favoriteview: 'dataview#favoriteview'
         },
 
         control: {
@@ -57,9 +64,6 @@ Ext.define('Contact.controller.Contacts', {
             },
             "button#infoBackBtn": {
                 tap: 'onInfoBackBtnTapHome'
-            },
-            "favoriteview": {
-                activate: 'onFavoriteViewActivate'
             },
             "contactpic": {
                 change: 'onContactPickerChange'
@@ -78,6 +82,9 @@ Ext.define('Contact.controller.Contacts', {
             },
             "textfield#address": {
                 focus: 'onAddressFocus'
+            },
+            "container#mycontainer1": {
+                activate: 'onMycontainer1Activate'
             }
         }
     },
@@ -86,19 +93,54 @@ Ext.define('Contact.controller.Contacts', {
         var info = this.getContactinfo();
         info.setRecord(record);
         Ext.Viewport.setActiveItem(info);
-
+        console.log(record);
     },
 
     onInfoBackBtnTapHome: function(button, e, eOpts) {
-        var ds = Ext.StoreManager.lookup('MyJsonPStore');
-        ds.clearFilter() ;
+        /*var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter() ;*/
+
         Ext.Viewport.setActiveItem(0);
 
-    },
+        var store = Ext.getStore('UserPreferences');
 
-    onFavoriteViewActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        var ds = Ext.StoreManager.lookup('MyJsonPStore');
-        ds.filter('isFavorite', true);
+                        var records= [];
+
+
+
+
+
+                        var ds = Ext.getStore('MyJsonPStore1');
+                        ds.clearFilter();
+                       //store.clearFilter();
+
+
+
+                       store.each(function(rec)
+                        {
+
+
+
+                                if(rec.get('isFavorite')===true) {
+
+                                    records.push(rec.get('customerId'));
+
+
+                                }
+                            else {
+                                Ext.Array.remove(records,rec.get('customerId'));
+                            }
+
+
+
+                        });
+
+
+                        ds.filterBy(function(record){
+                            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
+
+                                                              }, this);
+
     },
 
     onContactPickerChange: function(picker, value, eOpts) {
@@ -178,6 +220,49 @@ Ext.define('Contact.controller.Contacts', {
         e.stopEvent();
         e.destroy();
         Ext.device.Device.openURL(url);
+    },
+
+    onMycontainer1Activate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var store = Ext.getStore('UserPreferences');
+
+                        var records= [];
+
+
+
+
+
+                        var ds = Ext.getStore('MyJsonPStore1');
+                        ds.clearFilter();
+                       //store.clearFilter();
+
+
+
+                       store.each(function(rec)
+                        {
+
+
+
+                                if(rec.get('isFavorite')===true) {
+
+                                    records.push(rec.get('customerId'));
+
+
+                                }
+                            else {
+                                Ext.Array.remove(records,rec.get('customerId'));
+                            }
+
+
+
+                        });
+
+
+                        ds.filterBy(function(record){
+                            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
+
+                                                              }, this);
+
+
     }
 
 });

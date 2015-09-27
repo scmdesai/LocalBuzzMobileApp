@@ -12,7 +12,9 @@
         ],
         "stores": [
             "MyJsonPStore",
-            "MyDealsStore"
+            "MyDealsStore",
+            "MyJsonPStore1",
+            "UserPreferences"
         ]
     },
     "designerId": "12f4e105-fe10-4110-a7c7-4be456e0092e",
@@ -64,7 +66,7 @@
                     "var info = this.getContactinfo();",
                     "info.setRecord(record);",
                     "Ext.Viewport.setActiveItem(info);",
-                    ""
+                    "console.log(record);"
                 ],
                 "name": "itemtap"
             },
@@ -83,35 +85,55 @@
                 "designer|targetType": "Ext.Button",
                 "fn": "onInfoBackBtnTapHome",
                 "implHandler": [
-                    "var ds = Ext.StoreManager.lookup('MyJsonPStore');",
-                    "ds.clearFilter() ;",
+                    "/*var ds = Ext.StoreManager.lookup('MyJsonPStore');",
+                    "ds.clearFilter() ;*/",
+                    "",
                     "Ext.Viewport.setActiveItem(0);",
+                    "",
+                    "var store = Ext.getStore('UserPreferences');",
+                    "",
+                    "                var records= [];",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "                var ds = Ext.getStore('MyJsonPStore1');",
+                    "                ds.clearFilter();",
+                    "               //store.clearFilter();",
+                    "",
+                    "",
+                    "",
+                    "               store.each(function(rec)",
+                    "                {",
+                    "",
+                    "",
+                    "",
+                    "                        if(rec.get('isFavorite')===true) {",
+                    "",
+                    "                            records.push(rec.get('customerId'));",
+                    "",
+                    "",
+                    "                        }",
+                    "                    else {",
+                    "                        Ext.Array.remove(records,rec.get('customerId'));",
+                    "                    }",
+                    "",
+                    "",
+                    "",
+                    "                });",
+                    "",
+                    "",
+                    "                ds.filterBy(function(record){",
+                    "                    return Ext.Array.indexOf(records, record.get('customerId')) !== -1;",
+                    "",
+                    "                                                      }, this);",
                     ""
                 ],
                 "name": "tap"
             },
             "name": "onInfoBackBtnTapHome",
             "designerId": "7178feed-9d27-44dd-b23b-28e93c9f757c"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "designer|controlQuery": "favoriteview",
-                "designer|targetType": "Ext.dataview.DataView",
-                "fn": "onFavoriteViewActivate",
-                "implHandler": [
-                    "var ds = Ext.StoreManager.lookup('MyJsonPStore');",
-                    "ds.filter('isFavorite', true);"
-                ],
-                "name": "activate"
-            },
-            "name": "onFavoriteViewActivate",
-            "designerId": "a03bdc4d-ba07-46cf-a75a-a814494edc0e"
         },
         {
             "type": "controlleraction",
@@ -356,6 +378,99 @@
             },
             "name": "onAddressFocus",
             "designerId": "4e5ada91-5430-401a-97d0-f17dc637be6d"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "mycontainer1",
+                "selector": "container#mycontainer1",
+                "xtype": "favoriteview"
+            },
+            "name": "mycontainer1",
+            "designerId": "c3b7bb25-1281-4b0f-82c7-a9b31e6b1602"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "container#mycontainer1",
+                "designer|params": [
+                    "newActiveItem",
+                    "container",
+                    "oldActiveItem",
+                    "eOpts"
+                ],
+                "designer|targetType": "Ext.Container",
+                "fn": "onMycontainer1Activate",
+                "implHandler": [
+                    "var store = Ext.getStore('UserPreferences');",
+                    "",
+                    "                var records= [];",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "                var ds = Ext.getStore('MyJsonPStore1');",
+                    "                ds.clearFilter();",
+                    "               //store.clearFilter();",
+                    "",
+                    "",
+                    "",
+                    "               store.each(function(rec)",
+                    "                {",
+                    "",
+                    "",
+                    "",
+                    "                        if(rec.get('isFavorite')===true) {",
+                    "",
+                    "                            records.push(rec.get('customerId'));",
+                    "",
+                    "",
+                    "                        }",
+                    "                    else {",
+                    "                        Ext.Array.remove(records,rec.get('customerId'));",
+                    "                    }",
+                    "",
+                    "",
+                    "",
+                    "                });",
+                    "",
+                    "",
+                    "                ds.filterBy(function(record){",
+                    "                    return Ext.Array.indexOf(records, record.get('customerId')) !== -1;",
+                    "                   ",
+                    "                                                      }, this);",
+                    "",
+                    ""
+                ],
+                "name": "activate"
+            },
+            "name": "onMycontainer1Activate",
+            "designerId": "dd83faa9-fdc3-4412-aed3-96593a7ce459"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "favoriteview",
+                "selector": "dataview#favoriteview"
+            },
+            "name": "favoriteview",
+            "designerId": "dc02fcd0-0e42-4ada-9613-8bcf4d935d66"
         }
     ]
 }
