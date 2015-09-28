@@ -175,7 +175,7 @@ Ext.define('Contact.controller.Contacts', {
 
 
 
-
+        onClick="_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture']);";
     },
 
     onDealBackBtnTap: function(button, e, eOpts) {

@@ -224,7 +224,7 @@
                     "",
                     "",
                     "",
-                    ""
+                    "onClick=\"_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture']);\";"
                 ],
                 "name": "itemtap"
             },
