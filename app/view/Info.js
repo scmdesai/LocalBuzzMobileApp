@@ -240,6 +240,7 @@ Ext.define('Contact.view.Info', {
             var isFavorite = record.get('isFavorite');
             var customerId = record.get('customerId');
 
+
             var store = Ext.getStore('UserPreferences');
 
            if(store.getAllCount()!==0){
@@ -251,7 +252,7 @@ Ext.define('Contact.view.Info', {
            }
 
 
-
+        //console.log(customerId + isFavorite );
             this.down('#nameTxt').setHtml(name);
            // console.log(store.getData());
             if(isFavorite===true) {

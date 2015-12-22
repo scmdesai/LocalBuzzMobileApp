@@ -6,9 +6,7 @@
     },
     "codeClass": null,
     "userConfig": {
-        "autoLoad": true,
-        "autoSync": true,
-        "buffered": true,
+        "clearOnPageLoad": false,
         "designer|userClassName": "UserPreferences",
         "model": "UserPreferences",
         "remoteFilter": true,
