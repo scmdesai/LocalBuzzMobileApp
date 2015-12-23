@@ -224,7 +224,10 @@
                     "",
                     "",
                     "",
-                    "onClick=\"_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture']);\";"
+                    "onClick=\"_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture']);\";",
+                    "console.log(onClick);",
+                    "",
+                    ""
                 ],
                 "name": "itemtap"
             },

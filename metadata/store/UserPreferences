@@ -6,6 +6,7 @@
     },
     "codeClass": null,
     "userConfig": {
+        "autoSync": true,
         "clearOnPageLoad": false,
         "designer|userClassName": "UserPreferences",
         "model": "UserPreferences",
