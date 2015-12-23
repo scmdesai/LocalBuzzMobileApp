@@ -175,7 +175,9 @@ Ext.define('Contact.controller.Contacts', {
 
 
 
-        onClick="_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);";
+        //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
+
+
 
 
 
