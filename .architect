@@ -394,9 +394,6 @@
                     "id": "2d4dc98f-6831-4147-b775-49ff7ff44e6f"
                 }
             ]
-        },
-        "ac304264-9bce-4165-a7d6-a64b644d9469": {
-            "id": "ac304264-9bce-4165-a7d6-a64b644d9469"
         }
     },
     "tabState": {
@@ -410,8 +407,8 @@
         "topInstance": null
     },
     "inspectorState": {
-        "topInstance": "12f4e105-fe10-4110-a7c7-4be456e0092e",
-        "selectedInstance": "e374b0ee-8aa9-4764-84b9-256bd69c667c"
+        "topInstance": "97e773e8-9968-4a40-aed9-737fc69a1a3c",
+        "selectedInstance": "97e773e8-9968-4a40-aed9-737fc69a1a3c"
     },
     "editMode": "code",
     "userSettings": {

@@ -1,19 +1,4 @@
 {
-   "builds": {
-      "web": {
-         "default": true
-      },
-      "native": {
-         "packager": "phonegap",
-         "phonegap": {
-            "config": {
-               "platform": "android",
-               "id": "com.appsonmobile.localbuzz",
-               "name": "LocalBuzz"
-            }
-         }
-      }
-   },
    "name": "Contact",
    "indexHtmlPath": "index.html",
    "url": null,
@@ -67,5 +52,5 @@
    ],
    "archivePath": "archive",
    "requires": [],
-   "id": "ebc4f696-1e89-476c-adac-9fb508192e9f"
+   "id": "bfd9c2ff-6347-4718-8919-f7a4bd0f7cde"
 }
