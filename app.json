@@ -1,4 +1,19 @@
 {
+   "builds": {
+      "web": {
+         "default": true
+      },
+      "native": {
+         "packager": "phonegap",
+         "phonegap": {
+            "config": {
+               "id": "com.domain.Contact",
+               "name": "Contact",
+               "platform": "android"
+            }
+         }
+      }
+   },
    "name": "Contact",
    "indexHtmlPath": "index.html",
    "url": null,
