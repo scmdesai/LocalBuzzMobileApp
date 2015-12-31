@@ -1,4 +1,4 @@
-function _7ed719f9400571db8ae5a214587677dcc122c8eb(){};//@tag foundation,core
+function _4591331ebca9fb3a29870781b79d62ddf1bbadfb(){};//@tag foundation,core
 //@define Ext
 /**
  * @class Ext
@@ -63618,10 +63618,10 @@ Ext.define('Contact.controller.Contacts', {
         console.log(eOpts) ;*/
         pic.setRecord(record);
         Ext.Viewport.setActiveItem(pic);
-        console.log(record.getData());
+        console.log(record.get('customerId'));
     },
     //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
-    //analytics.trackEvent('Deals', 'DealClick', record.get);
+    //analytics.trackEvent('TouchEvent', 'Touch', 'Main');
     onDealBackBtnTap: function(button, e, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
         ds.clearFilter();
