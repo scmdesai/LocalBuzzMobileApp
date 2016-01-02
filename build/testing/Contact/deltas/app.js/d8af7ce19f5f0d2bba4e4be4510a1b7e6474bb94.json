@@ -1,1 +1,1 @@
-["function _7ed719f9400571db8ae5a214587677dcc122c8eb(){};",176303,37,92,1048484,1048576,1048576,2097152,272049,2369210,113,"Deals', 'DealClick', record.get",2369351,5773]
+["function _d0b54a0f1ea5aad292e2aa679f6014072c330f2a(){};",176303,37,92,1048484,1048576,1048576,2097152,272021,2369226,73,"    analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));\r\n    },",2369353,5771]

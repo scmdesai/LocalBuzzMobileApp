@@ -172,13 +172,13 @@ Ext.define('Contact.controller.Contacts', {
         console.log(eOpts) ;*/
         pic.setRecord(record);
         Ext.Viewport.setActiveItem(pic);
-        console.log(record.getData());
+
 
 
 
         //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
 
-        analytics.trackEvent('Deals', 'DealClick', record.get('dealName'));
+        analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
 
 
 

@@ -1,4 +1,4 @@
-function _d0b54a0f1ea5aad292e2aa679f6014072c330f2a(){};//@tag foundation,core
+function _e9de89a52ecb48e4b150b283d4b262ed545877b1(){};//@tag foundation,core
 //@define Ext
 /**
  * @class Ext
@@ -63618,6 +63618,7 @@ Ext.define('Contact.controller.Contacts', {
         console.log(eOpts) ;*/
         pic.setRecord(record);
         Ext.Viewport.setActiveItem(pic);
+        console.log(dataview.getData());
         //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
         analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
     },
