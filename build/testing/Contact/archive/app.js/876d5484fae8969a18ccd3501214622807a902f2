@@ -1,4 +1,4 @@
-function _0cbf42668f71a5c0efd2a8c34b5add3fa693cc1e(){};//@tag foundation,core
+function _876d5484fae8969a18ccd3501214622807a902f2(){};//@tag foundation,core
 //@define Ext
 /**
  * @class Ext
@@ -63620,23 +63620,7 @@ Ext.define('Contact.controller.Contacts', {
         Ext.Viewport.setActiveItem(pic);
         //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
         analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
-        var showPosition;
-        if (navigator.geolocation) {
-            //if you have the geolocation, run the showPosition function
-            navigator.geolocation.getCurrentPosition(function showPosition(position) {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                console.log(latitude + "," + longitude);
-                // api call for postal code and track event
-                $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
-                    analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
-                    analytics.trackEvent(record.get('dealName'), 'DealClick', json.postalCodes[0].postalCode);
-                });
-            });
-        } else {
-            //geolocation not happening
-            analytics.trackEvent('DealClick', 'geolocation', 'Location Not Set');
-        }
+        getLocation(record.get('dealName'));
     },
     onDealBackBtnTap: function(button, e, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
@@ -63689,6 +63673,25 @@ Ext.define('Contact.controller.Contacts', {
         ds.filterBy(function(record) {
             return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
         }, this);
+    },
+    getLocation: function(dealName) {
+        if (navigator.geolocation) {
+            //if you have the geolocation, run the showPosition function
+            navigator.geolocation.getCurrentPosition(showPosition, dealName);
+        } else {
+            //geolocation not happening
+            analytics.trackEvent('DealClick', 'geolocation', 'Location Not Set');
+        }
+    },
+    showPosition: function(position, dealName) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        console.log(dealName);
+        // api call for postal code and track event
+        $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
+            analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
+            analytics.trackEvent(dealName, 'DealClick', json.postalCodes[0].postalCode);
+        });
     }
 });
 
