@@ -199,6 +199,7 @@ Ext.define('Contact.controller.Contacts', {
             });
         } else {
             //geolocation not happening
+            console.log("Location service not turned on");
             analytics.trackEvent(record.get('dealName'), 'DealClick', 'Unknown');
         }
 
