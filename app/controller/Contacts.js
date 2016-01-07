@@ -192,7 +192,7 @@ Ext.define('Contact.controller.Contacts', {
 
                 // api call for postal code and track event
                 $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
-                    analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
+                   // analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
 
                     analytics.trackEvent(record.get('dealName'),'DealClick',json.postalCodes[0].postalCode);
                 });
