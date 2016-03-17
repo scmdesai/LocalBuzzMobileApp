@@ -7,17 +7,19 @@
     "codeClass": null,
     "userConfig": {
         "border": null,
+        "designer|uiInterfaceName": "dark",
         "designer|userAlias": "contactinfo",
         "designer|userClassName": "Info",
         "enableSubmissionForm": false,
         "height": "100%",
-        "hideOnMaskTap": true,
+        "hideOnMaskTap": false,
         "id": null,
         "layout": "vbox",
-        "modal": true,
+        "modal": false,
         "padding": null,
         "scrollable": true,
-        "style": "background:#fff"
+        "style": "background:#fff",
+        "ui": "dark"
     },
     "name": "MyFormPanel1",
     "designerId": "266d5780-ee4a-4dca-a156-841cf77894ee",
@@ -30,10 +32,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "designer|uiInterfaceName": "light",
                 "docked": "top",
                 "style": null,
-                "ui": "light",
                 "width": null
             },
             "name": "MyToolbar1",
@@ -176,7 +176,7 @@
                         "id": "nameTxt",
                         "itemId": "nameTxt",
                         "layout|flex": null,
-                        "style": "font-size:8vw",
+                        "style": "font-size:6vw",
                         "width": null
                     },
                     "name": "MyComponent1",
@@ -207,6 +207,9 @@
                     "    var name = record.get('businessName');",
                     "    var isFavorite = record.get('isFavorite');",
                     "    var customerId = record.get('customerId');",
+                    "    ",
+                    "    Ext.get('phoneNumber').enable();",
+                    "    Ext.get('address').enable();",
                     "",
                     "",
                     "    var store = Ext.getStore('UserPreferences');",
@@ -259,7 +262,7 @@
                     "    }*/",
                     "",
                     "",
-                    "     ",
+                    "",
                     "",
                     "",
                     "",
@@ -362,6 +365,7 @@
                             "customfield"
                         ],
                         "designer|displayName": "phoneNumber",
+                        "disabled": true,
                         "height": "",
                         "inputCls": null,
                         "itemId": "phoneNumber",
@@ -393,6 +397,7 @@
                             "customfield"
                         ],
                         "designer|displayName": "address",
+                        "disabled": true,
                         "docked": null,
                         "height": "100%",
                         "inputCls": null,
@@ -450,7 +455,10 @@
                             "",
                             "//Ext.Viewport.getActiveItem().destroy();",
                             "var view = Ext.Viewport.add({xtype:'DealsPanel'});",
-                            "Ext.Viewport.setActiveItem(view);"
+                            "Ext.Viewport.setActiveItem(view);",
+                            "Ext.get('phoneNumber').disable();",
+                            "    Ext.get('address').disable();",
+                            ""
                         ]
                     },
                     "name": "handler",

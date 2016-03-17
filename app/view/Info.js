@@ -29,16 +29,16 @@ Ext.define('Contact.view.Info', {
     config: {
         height: '100%',
         style: 'background:#fff',
-        hideOnMaskTap: true,
+        ui: 'dark',
+        hideOnMaskTap: false,
         layout: 'vbox',
-        modal: true,
+        modal: false,
         scrollable: true,
         enableSubmissionForm: false,
         items: [
             {
                 xtype: 'toolbar',
                 docked: 'top',
-                ui: 'light',
                 items: [
                     {
                         xtype: 'button',
@@ -66,7 +66,7 @@ Ext.define('Contact.view.Info', {
                         html: '<b>First Name</b>',
                         id: 'nameTxt',
                         itemId: 'nameTxt',
-                        style: 'font-size:8vw'
+                        style: 'font-size:6vw'
                     }
                 ]
             },
@@ -119,6 +119,7 @@ Ext.define('Contact.view.Info', {
                             'icon-phone',
                             'customfield'
                         ],
+                        disabled: true,
                         height: '',
                         itemId: 'phoneNumber',
                         maxHeight: '30%',
@@ -134,6 +135,7 @@ Ext.define('Contact.view.Info', {
                             'icon-location',
                             'customfield'
                         ],
+                        disabled: true,
                         height: '100%',
                         itemId: 'address',
                         maxHeight: '100%',
@@ -155,6 +157,9 @@ Ext.define('Contact.view.Info', {
                     //Ext.Viewport.getActiveItem().destroy();
                     var view = Ext.Viewport.add({xtype:'DealsPanel'});
                     Ext.Viewport.setActiveItem(view);
+                    Ext.get('phoneNumber').disable();
+                    Ext.get('address').disable();
+
                 },
                 margin: '5 5 5 5',
                 style: 'border:none',
@@ -229,6 +234,9 @@ Ext.define('Contact.view.Info', {
             var name = record.get('businessName');
             var isFavorite = record.get('isFavorite');
             var customerId = record.get('customerId');
+
+            Ext.get('phoneNumber').enable();
+            Ext.get('address').enable();
 
 
             var store = Ext.getStore('UserPreferences');

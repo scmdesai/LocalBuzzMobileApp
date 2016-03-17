@@ -105,6 +105,8 @@ Ext.define('Contact.controller.Contacts', {
         //Ext.Viewport.setActiveItem(0);
 
         Ext.Viewport.getActiveItem().destroy();
+        Ext.get('phoneNumber').disable();
+            Ext.get('address').disable();
 
         /*var store = Ext.getStore('UserPreferences');
 
