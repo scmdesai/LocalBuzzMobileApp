@@ -18,7 +18,6 @@ Ext.define('Contact.view.List', {
     alias: 'widget.contactlist',
 
     requires: [
-        'Ext.dataview.IndexBar',
         'Ext.XTemplate'
     ],
 
@@ -29,10 +28,7 @@ Ext.define('Contact.view.List', {
         grouped: true,
         itemTpl: [
             '<div>{businessName}</div>'
-        ],
-        indexBar: {
-            itemId: 'myindexbar'
-        }
+        ]
     }
 
 });

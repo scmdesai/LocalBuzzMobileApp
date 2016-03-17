@@ -19,42 +19,37 @@ Ext.define('Contact.view.Info', {
 
     requires: [
         'Contact.view.Picture',
-        'Contact.view.ListOfDeals',
         'Ext.Toolbar',
         'Ext.Button',
         'Ext.Spacer',
         'Ext.Panel',
-        'Ext.field.TextArea',
-        'Ext.dataview.List'
+        'Ext.field.TextArea'
     ],
 
     config: {
-        border: 5,
-        height: 463,
+        height: '100%',
+        layout: 'vbox',
+        scrollable: true,
         enableSubmissionForm: false,
         items: [
             {
                 xtype: 'toolbar',
                 docked: 'top',
-                style: 'font-size:6vw',
                 ui: 'light',
                 items: [
                     {
                         xtype: 'button',
                         itemId: 'infoBackBtn',
-                        style: '',
-                        ui: 'back',
+                        style: 'font-size:8vw',
+                        ui: 'plain',
                         text: 'Back'
                     },
                     {
                         xtype: 'button',
-                        handler: function(button, e) {
-                            button.addCls('x-button-pressed');
-                        },
-                        cls: 'empty-star',
                         docked: 'right',
                         itemId: 'favbutton',
-                        style: ''
+                        style: 'font-size:7vw',
+                        ui: 'plain'
                     },
                     {
                         xtype: 'spacer',
@@ -66,20 +61,22 @@ Ext.define('Contact.view.Info', {
                         cls: 'contact-name',
                         disabled: true,
                         html: '<b>First Name</b>',
+                        id: 'nameTxt',
                         itemId: 'nameTxt',
-                        style: ''
+                        style: 'font-size:8vw'
                     }
                 ]
             },
             {
                 xtype: 'panel',
                 border: '',
-                height: '',
+                height: 160,
+                margin: '5 5 5 5',
                 maxHeight: '100%',
                 minHeight: '100%',
                 minWidth: '',
                 padding: '5 5 5 5',
-                style: 'border:1px inset',
+                style: 'background:#fff',
                 layout: {
                     type: 'vbox',
                     align: 'end'
@@ -89,13 +86,12 @@ Ext.define('Contact.view.Info', {
                         xtype: 'contactpic',
                         border: '',
                         docked: 'left',
-                        height: 137,
+                        height: 160,
                         maxHeight: '100%',
                         minHeight: '50%',
                         minWidth: '30%',
-                        style: '',
                         ui: 'light',
-                        width: 97,
+                        width: '100%',
                         scrollable: false,
                         flex: 0.5,
                         layout: {
@@ -103,73 +99,64 @@ Ext.define('Contact.view.Info', {
                             align: 'start',
                             pack: 'center'
                         }
-                    },
-                    {
-                        xtype: 'panel',
-                        height: '',
-                        maxHeight: '100%',
-                        minHeight: '100%',
-                        width: '100%',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                cls: [
-                                    'icon-phone',
-                                    'customfield'
-                                ],
-                                height: '',
-                                itemId: 'phoneNumber',
-                                maxHeight: '30%',
-                                maxWidth: '100%',
-                                minHeight: '',
-                                minWidth: '100%',
-                                width: '100%',
-                                clearIcon: false,
-                                inputCls: 'customfield',
-                                name: 'phoneNumber',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'spacer',
-                                height: '10px'
-                            },
-                            {
-                                xtype: 'textareafield',
-                                cls: [
-                                    'icon-location',
-                                    'customfield'
-                                ],
-                                height: '100%',
-                                itemId: 'address',
-                                maxHeight: '100%',
-                                maxWidth: '100%',
-                                minHeight: '100%',
-                                minWidth: '100%',
-                                style: 'border:1 px inset',
-                                width: '100%',
-                                clearIcon: false,
-                                inputCls: 'customfield',
-                                name: 'address',
-                                readOnly: true,
-                                maxRows: 3
-                            }
-                        ]
                     }
                 ]
             },
             {
                 xtype: 'panel',
-                padding: '5 5 5 5',
-                style: 'border:1px inset',
+                height: '',
+                margin: '15 15 15 15',
+                maxHeight: '100%',
+                minHeight: '100%',
+                width: '80%',
                 items: [
                     {
-                        xtype: 'listofdeals',
-                        border: '',
-                        cls: 'list-item',
-                        style: '',
-                        itemCls: 'list-item'
+                        xtype: 'textfield',
+                        cls: [
+                            'icon-phone',
+                            'customfield'
+                        ],
+                        height: '',
+                        itemId: 'phoneNumber',
+                        maxHeight: '30%',
+                        minHeight: '',
+                        style: 'font-size:4vw;',
+                        clearIcon: false,
+                        name: 'phoneNumber',
+                        readOnly: true
+                    },
+                    {
+                        xtype: 'textareafield',
+                        cls: [
+                            'icon-location',
+                            'customfield'
+                        ],
+                        height: '100%',
+                        itemId: 'address',
+                        maxHeight: '100%',
+                        minHeight: '100%',
+                        clearIcon: false,
+                        name: 'address',
+                        readOnly: true,
+                        maxRows: 3
                     }
                 ]
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+
+
+
+
+                    //Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({xtype:'DealsPanel'});
+                    Ext.Viewport.setActiveItem(view);
+                },
+                margin: '5 5 5 5',
+                style: 'border:none',
+                ui: 'confirm',
+                text: 'Latest Buzz!'
             }
         ],
         listeners: [
@@ -243,20 +230,20 @@ Ext.define('Contact.view.Info', {
 
             var store = Ext.getStore('UserPreferences');
 
-           if(store.getAllCount()!==0){
-            store.each(function(rec) {
-                if(rec.get('customerId')==customerId) {
-                    isFavorite = rec.get('isFavorite');
-                }
-            });
-           }
+            if(store.getAllCount()!==0){
+                store.each(function(rec) {
+                    if(rec.get('customerId')==customerId) {
+                        isFavorite = rec.get('isFavorite');
+                    }
+                });
+            }
 
 
-        //console.log(customerId + isFavorite );
+            //console.log(customerId + isFavorite );
             this.down('#nameTxt').setHtml(name);
-           // console.log(store.getData());
+            // console.log(store.getData());
             if(isFavorite===true) {
-               this.down('#favbutton').setCls('fill-star');
+                this.down('#favbutton').setCls('fill-star');
                 //store.setData({'isFavorite':isFavorite});
             }
             else {
@@ -265,21 +252,20 @@ Ext.define('Contact.view.Info', {
 
 
 
-
             }
 
 
 
 
-          // this.down('#favoriteview')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            // this.down('#favoriteview')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
             this.down('#favbutton')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
             this.down('contactpic').setData(record.data);
 
 
-            var ds = Ext.StoreManager.lookup('MyDealsStore');
+            /* var ds = Ext.StoreManager.lookup('MyDealsStore');
             ds.clearFilter() ;
             ds.filter('customerId', customerId);
-            this.down('listofdeals').setData(ds.getData()) ;
+            this.down('listofdeals').setData(ds.getData()) ;*/
 
 
 
@@ -295,7 +281,12 @@ Ext.define('Contact.view.Info', {
 
 
 
+
         }
+
+        var ds = Ext.StoreManager.lookup('MyDealsStore');
+                ds.clearFilter() ;
+                ds.filter('customerId', customerId);
 
 
     }

@@ -1,0 +1,75 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "container|align": "stretchmax",
+        "container|pack": "center",
+        "designer|userAlias": "DealsPanel",
+        "designer|userClassName": "DealsPanel",
+        "docked": null,
+        "height": "100%",
+        "layout": "vbox",
+        "maxHeight": null,
+        "minHeight": null,
+        "padding": "5 5 5 5",
+        "scrollable": false,
+        "style": "background:#fff"
+    },
+    "name": "MyPanel2",
+    "designerId": "a51c2d17-e2b6-4d6d-a9cf-47ab53cb47f8",
+    "cn": [
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "style": null
+            },
+            "name": "MyToolbar2",
+            "designerId": "a0a24f78-c2e0-4381-a489-b6e71fc6e0f8",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "plain",
+                        "itemId": "dealBackBtn",
+                        "style": "border:none;font-size:8vw",
+                        "text": "Back",
+                        "ui": "plain"
+                    },
+                    "name": "MyButton4",
+                    "designerId": "59e615c3-0f3c-4361-9465-4e1b642239c3"
+                }
+            ]
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "height": "90%",
+                "layout|flex": 1,
+                "minHeight": "90%"
+            },
+            "name": "listofdeals",
+            "designerId": "5392f687-e8e1-4116-9603-cedfcade0ea3",
+            "masterInstanceId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af"
+        }
+    ]
+}

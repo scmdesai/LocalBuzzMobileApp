@@ -32,10 +32,18 @@ Ext.define('Contact.model.Deal', {
                 name: 'dealStatus'
             },
             {
-                name: 'dealStartDate'
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                name: 'dealStartDate',
+                type: 'date'
             },
             {
-                name: 'dealEndDate'
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                name: 'dealEndDate',
+                type: 'date'
             },
             {
                 name: 'dealPictureURL'

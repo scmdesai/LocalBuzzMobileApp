@@ -1,19 +1,23 @@
 /* _arch-vars-start */
-
+$list-bg-color: #fff;
+$base-color: #1985d0;
+$list-header-bg-color: $base-color;
+$list-pressed-color: #fff;
 
 @import 'sencha-touch/default';
 @import 'sencha-touch/default/all';
 
 
 /* _arch-other-start */
+
 /* Adding custom icon-fonts */
 
 @include icon-font('MyIcons',
-    inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+	inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
 
 
 @include icon-font('MyIcons1',
-    inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+	inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
 
 
 @include icon("icon-phone","!", "MyIcons");
@@ -25,88 +29,130 @@
 
 
 @include icon-font('pictos',
-    inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+	inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
 
 @include icon('globe1');
 
+
+
 /* Adding icon fonts in the Info Page */
 .icon-phone:before {
-    font-family: "MyIcons";
-    content: "!";
-    padding-left: 10px;
-    display:inline-block;
-    padding-top: 10px;
-    font-size:6vw;
-    border: none;
-    color:#009900;
+	font-family: "MyIcons";
+	content: "!";
+	padding-left: 10px;
+	padding-top:20px;
+	display:inline-block;
+	padding-top: 20px;
+	font-size:6vw;
+	border: none;
+	color:#009900;
 }
 
 .icon-info:before {
-    font-family: "pictos";
-    display:inline-block;
-    font-size: 1.2em;
-    border: none;
+	font-family: "pictos";
+	display:inline-block;
+	font-size: 1.2em;
+	border: none;
 }
 
 .icon-location:before {
-    font-family: "MyIcons";
-    content: "\"";
-    padding-left: 10px;
-    display:inline-block;
-    padding-top: 10px;
-    font-size:6vw;
-    border: none;
-    color:#ff0000;
+	font-family: "MyIcons";
+	content: "\"";
+	padding-left: 10px;
+	display:inline-block;
+	padding-top: 20px;
+	font-size:6vw;
+	border: none;
+	color:#ff0000;
 }
 
 .list-item{
-    background:#d7d7d7;
-    font-size:5vw;
+	background:#fff;
+	font-size:5vw;
+
 
 }
 
+.customlist{
+	border:2px inset #eee;
+}
 
+.customcontainer{
+	background-color:#1985d0;
+	color:white;
+}
 /* Adding icon fonts in the ListOfDeals itemtpl */
 .empty-star:before{
-    font-family: "MyIcons";
-    content: "#";
+	font-family: "MyIcons";
+	content: "#";
 
-    font-size: 1.5em;
-    color:#D3D3D3;
+	font-size: 1.5em;
+	color:#D3D3D3;
 }
 .fill-star:before{
-    font-family: "MyIcons1";
-    content: "%";
-    font-size: 1.5em;
-    color:#FFFF00;
+	font-family: "MyIcons1";
+	content: "%";
+	font-size: 1.5em;
+	color:#FFFF00;
 
 }
 
 
 
 .share:before {
-    font-family: "MyIcons";
-    content: "$";
-    display:inline-block;
-    padding-bottom: 20px;
-    font-size: 1.5em;
-    color:#D3D3D3;
+	font-family: "MyIcons";
+	content: "$";
+	display:inline-block;
+	padding-bottom: 20px;
+	font-size: 1.5em;
+	color:#D3D3D3;
 }
 
-.customfield{
-    background:#d7d7d7;
-    font-size:4vw;
-    font-family: "Helvetica";
-    width: 100%;
+.delete_button{
+    font-family: "pictos";
+	content: "#";
+	color:#737373;
+	font-size: 1.2em;
+	border: none;
+	background:none;
 
-
-
-.customToolbar{
-    font-family:"Harlow";
 }
 
 
 
+.checkbox_hidden {
+	display:none;
+}
+
+.checkbox_visible {
+	display:normal;
+}
+
+.x-msgbox-dark
+ {
+    background-color: #fff !important;
+ }
+
+// To change messagebox text properties
+
+ .x-msgbox-dark .x-msgbox-text {
+	background-color: #fff !important;
+    color: $base-color !important;
+
+}
+
+// To change messagebox title
+
+.x-msgbox-dark .x-title {
+	background-color: #fff !important;
+    color:$base-color !important;
+
+}
 
 
+.label {
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
 }

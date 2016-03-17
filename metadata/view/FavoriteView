@@ -9,12 +9,13 @@
         "designer|userAlias": "favoriteview",
         "designer|userClassName": "FavoriteView",
         "emptyText": "No Favorites",
-        "height": 415,
+        "height": null,
         "inline": [
             "true"
         ],
         "itemId": "favoriteview",
-        "store": "MyJsonPStore1"
+        "store": "MyJsonPStore1",
+        "style": "background:#fff"
     },
     "name": "MyDataView",
     "designerId": "df87baa7-a395-439f-89a0-673a141cda15",

@@ -65,6 +65,7 @@
                 "implHandler": [
                     "var info = this.getContactinfo();",
                     "info.setRecord(record);",
+                    "Ext.Viewport.add(info);",
                     "Ext.Viewport.setActiveItem(info);",
                     "//console.log(info);"
                 ],
@@ -88,9 +89,11 @@
                     "/*var ds = Ext.StoreManager.lookup('MyJsonPStore');",
                     "ds.clearFilter() ;*/",
                     "",
-                    "Ext.Viewport.setActiveItem(0);",
+                    "//Ext.Viewport.setActiveItem(0);",
                     "",
-                    "var store = Ext.getStore('UserPreferences');",
+                    "Ext.Viewport.getActiveItem().destroy();",
+                    "",
+                    "/*var store = Ext.getStore('UserPreferences');",
                     "",
                     "                var records= [];",
                     "",
@@ -127,7 +130,7 @@
                     "                ds.filterBy(function(record){",
                     "                    return Ext.Array.indexOf(records, record.get('customerId')) !== -1;",
                     "",
-                    "                                                      }, this);",
+                    "                                                      }, this);*/",
                     ""
                 ],
                 "name": "tap"
@@ -219,7 +222,9 @@
                     "console.log(e) ;",
                     "console.log(\"Event Options is: \") ;",
                     "console.log(eOpts) ;*/",
+                    "",
                     "pic.setRecord(record);",
+                    "Ext.Viewport.add(pic);",
                     "Ext.Viewport.setActiveItem(pic);",
                     "",
                     "",
@@ -227,7 +232,7 @@
                     "",
                     "//_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);",
                     "",
-                    "analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));",
+                    "//analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));",
                     "",
                     "var showPosition;",
                     "if (navigator.geolocation) {",
@@ -241,14 +246,16 @@
                     "",
                     "        // api call for postal code and track event",
                     "        $.getJSON(\"http://api.geonames.org/findNearbyPostalCodesJSON?lat=\" + latitude + \"&lng=\" + longitude + \"&username=1234_5678\", function(json) {",
-                    "           // analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);",
+                    "            //analytics.trackEvent(record.get('dealName'),DealClick', json.postalCodes[0].postalCode);",
                     "",
-                    "            analytics.trackEvent(record.get('dealName'),'DealClick',json.postalCodes[0].postalCode);",
+                    "            //analytics.addCustomDimension('1', record.get('customerId'));",
+                    "",
+                    "            analytics.trackEvent(record.get('dealName'),json.postalCodes[0].postalCode,record.get('customerId'));",
                     "        });",
                     "    });",
                     "} else {",
                     "    //geolocation not happening",
-                    "    console.log(\"Location service not turned on\");",
+                    "    console.log(\"Gelocation not working\");",
                     "    analytics.trackEvent(record.get('dealName'), 'DealClick', 'Unknown');",
                     "}",
                     "",
@@ -313,7 +320,9 @@
                     "ds.clearFilter() ;",
                     "Ext.Viewport.setActiveItem(info);",
                     "",
-                    "//Ext.Viewport.setActiveItem('contactinfo') ;",
+                    "//Ext.Viewport.setActiveItem('contactinfo') ;*/",
+                    "",
+                    "//Ext.Viewport.getActiveItem().destroy();",
                     "",
                     "",
                     "",
@@ -401,31 +410,25 @@
                 "implHandler": [
                     "console.log(textfield.getValue());",
                     "var queryString = encodeURIComponent(textfield.getValue());",
-                    "var url = 'geo:0,0?q='  + queryString;",
+                    "var url;",
+                    "if(Ext.os.is('Android')) {",
+                    "    url = 'geo:0,0?q='  + queryString;",
+                    "}",
+                    "else {",
+                    "    url = 'maps:q='  + queryString;",
+                    "",
+                    "}",
+                    "",
                     "textfield.blur();",
                     "e.stopEvent();",
                     "e.destroy();",
-                    "Ext.device.Device.openURL(url);"
+                    "Ext.device.Device.openURL(url);",
+                    ""
                 ],
                 "name": "focus"
             },
             "name": "onAddressFocus",
             "designerId": "4e5ada91-5430-401a-97d0-f17dc637be6d"
-        },
-        {
-            "type": "controllerref",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "ref": "mycontainer1",
-                "selector": "container#mycontainer1",
-                "xtype": "favoriteview"
-            },
-            "name": "mycontainer1",
-            "designerId": "c3b7bb25-1281-4b0f-82c7-a9b31e6b1602"
         },
         {
             "type": "controlleraction",
@@ -435,7 +438,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "designer|controlQuery": "container#mycontainer1",
+                "designer|controlQuery": "container#Favorites",
                 "designer|params": [
                     "newActiveItem",
                     "container",
@@ -443,52 +446,52 @@
                     "eOpts"
                 ],
                 "designer|targetType": "Ext.Container",
-                "fn": "onMycontainer1Activate",
+                "fn": "onFavoritesActivate",
                 "implHandler": [
                     "var store = Ext.getStore('UserPreferences');",
                     "",
-                    "                var records= [];",
+                    "var records= [];",
                     "",
                     "",
                     "",
                     "",
                     "",
-                    "                var ds = Ext.getStore('MyJsonPStore1');",
-                    "                ds.clearFilter();",
-                    "               //store.clearFilter();",
+                    "var ds = Ext.getStore('MyJsonPStore1');",
+                    "ds.clearFilter();",
+                    "//store.clearFilter();",
                     "",
                     "",
                     "",
-                    "               store.each(function(rec)",
-                    "                {",
-                    "",
-                    "",
-                    "                        ",
-                    "                        if(rec.get('isFavorite')===true) {",
-                    "",
-                    "                            records.push(rec.get('customerId'));",
-                    "",
-                    "",
-                    "                        }",
-                    "                    else {",
-                    "                        Ext.Array.remove(records,rec.get('customerId'));",
-                    "                    }",
+                    "store.each(function(rec)",
+                    "           {",
                     "",
                     "",
                     "",
-                    "                });",
+                    "               if(rec.get('isFavorite')===true) {",
+                    "",
+                    "                   records.push(rec.get('customerId'));",
                     "",
                     "",
-                    "                ds.filterBy(function(record){",
-                    "                    return Ext.Array.indexOf(records, record.get('customerId')) !== -1;",
+                    "               }",
+                    "               else {",
+                    "                   Ext.Array.remove(records,rec.get('customerId'));",
+                    "               }",
                     "",
-                    "                                                      }, this);",
+                    "",
+                    "",
+                    "           });",
+                    "",
+                    "",
+                    "ds.filterBy(function(record){",
+                    "    return Ext.Array.indexOf(records, record.get('customerId')) !== -1;",
+                    "",
+                    "}, this);",
                     "",
                     ""
                 ],
                 "name": "activate"
             },
-            "name": "onMycontainer1Activate",
+            "name": "onFavoritesActivate",
             "designerId": "dd83faa9-fdc3-4412-aed3-96593a7ce459"
         },
         {
@@ -504,6 +507,65 @@
             },
             "name": "favoriteview",
             "designerId": "dc02fcd0-0e42-4ada-9613-8bcf4d935d66"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "share",
+                "selector": "button#share"
+            },
+            "name": "share",
+            "designerId": "732b97ef-7378-4bc2-b689-daaf8da617c3"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "button#share",
+                "designer|params": [
+                    "button",
+                    "e",
+                    "eOpts"
+                ],
+                "designer|targetType": "Ext.Button",
+                "fn": "onShareTap",
+                "implHandler": [
+                    "//var picture = button.getParent().getParent().getRecord().get('dealPictureURL');",
+                    "var record = button.getParent().getParent().getData();",
+                    "",
+                    "//console.log(businessName.customerId);",
+                    "",
+                    "",
+                    "",
+                    "window.plugins.socialsharing.share('Hi!Check out the latest deal from ' + record.customerId , null, null, record.dealPictureURL);"
+                ],
+                "name": "tap"
+            },
+            "name": "onShareTap",
+            "designerId": "15c9bc78-75dc-47cb-b044-d341f21a0cde"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "favorites",
+                "selector": "container#Favorites"
+            },
+            "name": "favorites",
+            "designerId": "26db2d50-fc9b-4e09-8732-eccd912783ed"
         }
     ]
 }

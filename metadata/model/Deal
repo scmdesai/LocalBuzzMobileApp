@@ -58,10 +58,33 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "dealStartDate"
+                "name": "dealStartDate",
+                "type": "date"
             },
             "name": "field14",
-            "designerId": "5bbeb984-5107-4dfb-bb09-1dd07cc6b302"
+            "designerId": "5bbeb984-5107-4dfb-bb09-1dd07cc6b302",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "v",
+                            "rec"
+                        ],
+                        "fn": "convert",
+                        "implHandler": [
+                            " return Ext.Date.format(new Date(v), 'n/j/Y');"
+                        ]
+                    },
+                    "name": "convert",
+                    "designerId": "637b520c-d1c3-4ce3-8301-9401fea07b1c"
+                }
+            ]
         },
         {
             "type": "Ext.data.Field",
@@ -71,10 +94,33 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "dealEndDate"
+                "name": "dealEndDate",
+                "type": "date"
             },
             "name": "field15",
-            "designerId": "5fe1dacf-0656-4b14-a4fa-f64b1764075c"
+            "designerId": "5fe1dacf-0656-4b14-a4fa-f64b1764075c",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "v",
+                            "rec"
+                        ],
+                        "fn": "convert",
+                        "implHandler": [
+                            " return Ext.Date.format(new Date(v), 'n/j/Y');"
+                        ]
+                    },
+                    "name": "convert",
+                    "designerId": "91630240-f94f-4294-bf25-256cd6aacbb1"
+                }
+            ]
         },
         {
             "type": "Ext.data.Field",

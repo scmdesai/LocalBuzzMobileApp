@@ -27,7 +27,7 @@
                 "extraParams": [
                     "{customerId}"
                 ],
-                "url": "http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/deals"
+                "url": "http://awseb-e-t-awsebloa-6jvxjux3fp3k-1527799463.us-west-2.elb.amazonaws.com/deals"
             },
             "name": "MyJsonPProxy",
             "designerId": "5f0c6a2a-28f1-49e3-ae40-c3e66ad53b13",

@@ -51,11 +51,9 @@ Ext.define('Contact.controller.Contacts', {
             },
             phoneNumber: 'textfield#phoneNumber',
             address: 'textfield#address',
-            mycontainer1: {
-                selector: 'container#mycontainer1',
-                xtype: 'favoriteview'
-            },
-            favoriteview: 'dataview#favoriteview'
+            favoriteview: 'dataview#favoriteview',
+            share: 'button#share',
+            favorites: 'container#Favorites'
         },
 
         control: {
@@ -83,8 +81,11 @@ Ext.define('Contact.controller.Contacts', {
             "textfield#address": {
                 focus: 'onAddressFocus'
             },
-            "container#mycontainer1": {
-                activate: 'onMycontainer1Activate'
+            "container#Favorites": {
+                activate: 'onFavoritesActivate'
+            },
+            "button#share": {
+                tap: 'onShareTap'
             }
         }
     },
@@ -92,6 +93,7 @@ Ext.define('Contact.controller.Contacts', {
     onContactItemTap: function(dataview, index, target, record, e, eOpts) {
         var info = this.getContactinfo();
         info.setRecord(record);
+        Ext.Viewport.add(info);
         Ext.Viewport.setActiveItem(info);
         //console.log(info);
     },
@@ -100,9 +102,11 @@ Ext.define('Contact.controller.Contacts', {
         /*var ds = Ext.StoreManager.lookup('MyJsonPStore');
         ds.clearFilter() ;*/
 
-        Ext.Viewport.setActiveItem(0);
+        //Ext.Viewport.setActiveItem(0);
 
-        var store = Ext.getStore('UserPreferences');
+        Ext.Viewport.getActiveItem().destroy();
+
+        /*var store = Ext.getStore('UserPreferences');
 
                         var records= [];
 
@@ -139,7 +143,7 @@ Ext.define('Contact.controller.Contacts', {
                         ds.filterBy(function(record){
                             return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
 
-                                                              }, this);
+                                                              }, this);*/
 
     },
 
@@ -170,7 +174,9 @@ Ext.define('Contact.controller.Contacts', {
         console.log(e) ;
         console.log("Event Options is: ") ;
         console.log(eOpts) ;*/
+
         pic.setRecord(record);
+        Ext.Viewport.add(pic);
         Ext.Viewport.setActiveItem(pic);
 
 
@@ -178,7 +184,7 @@ Ext.define('Contact.controller.Contacts', {
 
         //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
 
-        analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
+        //analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
 
         var showPosition;
         if (navigator.geolocation) {
@@ -192,14 +198,16 @@ Ext.define('Contact.controller.Contacts', {
 
                 // api call for postal code and track event
                 $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
-                   // analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
+                    //analytics.trackEvent(record.get('dealName'),DealClick', json.postalCodes[0].postalCode);
 
-                    analytics.trackEvent(record.get('dealName'),'DealClick',json.postalCodes[0].postalCode);
+                    //analytics.addCustomDimension('1', record.get('customerId'));
+
+                    analytics.trackEvent(record.get('dealName'),json.postalCodes[0].postalCode,record.get('customerId'));
                 });
             });
         } else {
             //geolocation not happening
-            console.log("Location service not turned on");
+            console.log("Gelocation not working");
             analytics.trackEvent(record.get('dealName'), 'DealClick', 'Unknown');
         }
 
@@ -228,7 +236,9 @@ Ext.define('Contact.controller.Contacts', {
         ds.clearFilter() ;
         Ext.Viewport.setActiveItem(info);
 
-        //Ext.Viewport.setActiveItem('contactinfo') ;
+        //Ext.Viewport.setActiveItem('contactinfo') ;*/
+
+        //Ext.Viewport.getActiveItem().destroy();
 
 
 
@@ -248,54 +258,74 @@ Ext.define('Contact.controller.Contacts', {
     onAddressFocus: function(textfield, e, eOpts) {
         console.log(textfield.getValue());
         var queryString = encodeURIComponent(textfield.getValue());
-        var url = 'geo:0,0?q='  + queryString;
+        var url;
+        if(Ext.os.is('Android')) {
+            url = 'geo:0,0?q='  + queryString;
+        }
+        else {
+            url = 'maps:q='  + queryString;
+
+        }
+
         textfield.blur();
         e.stopEvent();
         e.destroy();
         Ext.device.Device.openURL(url);
+
     },
 
-    onMycontainer1Activate: function(newActiveItem, container, oldActiveItem, eOpts) {
+    onFavoritesActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
         var store = Ext.getStore('UserPreferences');
 
-                        var records= [];
+        var records= [];
 
 
 
 
 
-                        var ds = Ext.getStore('MyJsonPStore1');
-                        ds.clearFilter();
-                       //store.clearFilter();
+        var ds = Ext.getStore('MyJsonPStore1');
+        ds.clearFilter();
+        //store.clearFilter();
 
 
 
-                       store.each(function(rec)
-                        {
+        store.each(function(rec)
+                   {
 
 
 
-                                if(rec.get('isFavorite')===true) {
+                       if(rec.get('isFavorite')===true) {
 
-                                    records.push(rec.get('customerId'));
-
-
-                                }
-                            else {
-                                Ext.Array.remove(records,rec.get('customerId'));
-                            }
+                           records.push(rec.get('customerId'));
 
 
-
-                        });
-
-
-                        ds.filterBy(function(record){
-                            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
-
-                                                              }, this);
+                       }
+                       else {
+                           Ext.Array.remove(records,rec.get('customerId'));
+                       }
 
 
+
+                   });
+
+
+        ds.filterBy(function(record){
+            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
+
+        }, this);
+
+
+    },
+
+    onShareTap: function(button, e, eOpts) {
+        //var picture = button.getParent().getParent().getRecord().get('dealPictureURL');
+        var record = button.getParent().getParent().getData();
+
+        //console.log(businessName.customerId);
+
+
+
+        window.plugins.socialsharing.share('Hi!Check out the latest deal from ' + record.customerId , null, null, record.dealPictureURL);
     }
 
 });

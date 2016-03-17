@@ -22,9 +22,6 @@
             "Ext.MessageBox",
             "Ext.device.Camera"
         ],
-        "startupImage": [
-            "icon.png"
-        ],
         "stores": [
             "ContactStore",
             "MyJsonPStore",
@@ -40,7 +37,8 @@
             "DealPicture",
             "ListOfDeals",
             "Main",
-            "FavoriteView"
+            "FavoriteView",
+            "DealsPanel"
         ]
     },
     "name": "Application",
@@ -66,7 +64,7 @@
                     "",
                     "",
                     "",
-                    "var view = Ext.create('Contact.view.Main',{}) ;",
+                    "/*var view = Ext.create('Contact.view.Main',{}) ;",
                     "Ext.create('Contact.store.MyJsonPStore', {",
                     "    autoLoad: true,",
                     "    listeners: {",
@@ -79,7 +77,7 @@
                     "Ext.create('Contact.store.MyDealsStore', {",
                     "    autoLoad: true",
                     "",
-                    "});",
+                    "});*/",
                     "if (Ext.os.is('Android')) {",
                     "    document.addEventListener(\"backbutton\", Ext.bind(onBackKeyDown, this), false);  // add back button listener",
                     "",

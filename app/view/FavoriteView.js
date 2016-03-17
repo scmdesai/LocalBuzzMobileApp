@@ -22,8 +22,8 @@ Ext.define('Contact.view.FavoriteView', {
     ],
 
     config: {
-        height: 415,
         itemId: 'favoriteview',
+        style: 'background:#fff',
         emptyText: 'No Favorites',
         inline: true,
         store: 'MyJsonPStore1',

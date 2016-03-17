@@ -28,8 +28,9 @@ Ext.define('Contact.view.DealPicture', {
 
     config: {
         fullscreen: true,
+        id: 'dealPicture',
         itemId: 'dealPicture',
-        style: 'font-size:6vw',
+        style: 'background:#fff',
         layout: 'fit',
         scrollable: true,
         tpl: [
@@ -39,24 +40,29 @@ Ext.define('Contact.view.DealPicture', {
             {
                 xtype: 'toolbar',
                 docked: 'top',
-                ui: 'light',
                 items: [
                     {
                         xtype: 'button',
-                        itemId: 'dealBackBtn',
-                        style: '',
-                        ui: 'back',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                            var view = Ext.Viewport.add({xtype:'DealsPanel'});
+                            Ext.Viewport.setActiveItem(view);
+                        },
+                        style: 'border:none;font-size:8vw',
+                        ui: 'plain',
                         text: 'Back'
+                    },
+                    {
+                        xtype: 'button',
+                        docked: 'right',
+                        itemId: 'share',
+                        style: 'border:none;font-size:7vw',
+                        ui: 'plain',
+                        iconCls: 'action'
                     }
                 ]
             }
         ]
-    },
-
-    setRecord: function(record) {
-        //console.log(record.getData()) ;
-        this.setData(record.getData()) ;
-        //this.setTpl('<img src="'+record.get('dealPictureURL') +'"/>') ;
     }
 
 });

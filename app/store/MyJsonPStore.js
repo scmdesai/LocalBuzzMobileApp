@@ -41,7 +41,7 @@ Ext.define('Contact.store.MyJsonPStore', {
         },
         proxy: {
             type: 'jsonp',
-            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
+            url: 'http://awseb-e-t-awsebloa-6jvxjux3fp3k-1527799463.us-west-2.elb.amazonaws.com/stores',
             reader: {
                 type: 'json'
             }

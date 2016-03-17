@@ -45,14 +45,14 @@ Ext.application({
         'DealPicture',
         'ListOfDeals',
         'Main',
-        'FavoriteView'
+        'FavoriteView',
+        'DealsPanel'
     ],
     controllers: [
         'Contacts'
     ],
     icon: 'icon.png',
     name: 'Contact',
-    startupImage: 'icon.png',
 
     launch: function() {
 
@@ -65,7 +65,7 @@ Ext.application({
 
 
 
-        var view = Ext.create('Contact.view.Main',{}) ;
+        /*var view = Ext.create('Contact.view.Main',{}) ;
         Ext.create('Contact.store.MyJsonPStore', {
             autoLoad: true,
             listeners: {
@@ -78,7 +78,7 @@ Ext.application({
         Ext.create('Contact.store.MyDealsStore', {
             autoLoad: true
 
-        });
+        });*/
         if (Ext.os.is('Android')) {
             document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
 

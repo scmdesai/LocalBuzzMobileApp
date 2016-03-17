@@ -6,14 +6,17 @@
     },
     "codeClass": null,
     "userConfig": {
+        "cls": [
+            "customlist"
+        ],
         "designer|userAlias": "listofdeals",
         "designer|userClassName": "ListOfDeals",
-        "height": 247,
-        "id": "ListOfDeals",
+        "height": "100%",
+        "id": null,
+        "minHeight": null,
         "onItemDisclosure": false,
         "preventSelectionOnDisclose": null,
         "store": "MyDealsStore",
-        "striped": true,
         "style": "font-size: 10px",
         "useSimpleItems": false
     },
@@ -30,8 +33,8 @@
             "userConfig": {
                 "designer|displayName": "itemTpl",
                 "implHandler": [
-                    "<div>{dealName}</div>",
-                    "<div style=\"color:#0000FF;font-size:14px;font-style:italics\" >{dealStartDate} - {dealEndDate}</div>"
+                    "<div style=\"font-size:6.3vw;color:black;font-weight:normal\">{dealName}</div>",
+                    "<div style=\"color:#1985d0;font-size:3.3vw;font-style:italics;font-weight:normal\">Valid {dealStartDate} to {dealEndDate}</div>"
                 ]
             },
             "name": "itemTpl",

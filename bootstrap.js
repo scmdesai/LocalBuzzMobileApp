@@ -49,6 +49,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Contact.view.DealPicture": [
     "dealPicture"
   ],
+  "Contact.view.DealsPanel": [],
   "Contact.view.FavoriteView": [],
   "Contact.view.Info": [],
   "Contact.view.List": [],
@@ -691,6 +692,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Contact.store.UserPreferences": [],
   "Contact.view.DealPicture": [
     "widget.dealpicture"
+  ],
+  "Contact.view.DealsPanel": [
+    "widget.DealsPanel"
   ],
   "Contact.view.FavoriteView": [
     "widget.favoriteview"

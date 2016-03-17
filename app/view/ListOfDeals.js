@@ -22,16 +22,15 @@ Ext.define('Contact.view.ListOfDeals', {
     ],
 
     config: {
-        height: 247,
-        id: 'ListOfDeals',
+        cls: 'customlist',
+        height: '100%',
         style: 'font-size: 10px',
         store: 'MyDealsStore',
         onItemDisclosure: false,
-        striped: true,
         useSimpleItems: false,
         itemTpl: [
-            '<div>{dealName}</div>',
-            '<div style="color:#0000FF;font-size:14px;font-style:italics" >{dealStartDate} - {dealEndDate}</div>'
+            '<div style="font-size:6.3vw;color:black;font-weight:normal">{dealName}</div>',
+            '<div style="color:#1985d0;font-size:3.3vw;font-style:italics;font-weight:normal">Valid {dealStartDate} to {dealEndDate}</div>'
         ]
     }
 

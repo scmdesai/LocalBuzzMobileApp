@@ -19,33 +19,50 @@ Ext.define('Contact.view.Main', {
     requires: [
         'Contact.view.List',
         'Contact.view.FavoriteView',
-        'Ext.dataview.List'
+        'Ext.dataview.List',
+        'Ext.tab.Bar'
     ],
 
     config: {
+        height: '100%',
+        minHeight: '',
+        modal: true,
         items: [
             {
                 xtype: 'container',
                 title: 'Home',
+                iconCls: 'home',
+                ui: 'dark',
+                layout: 'hbox',
+                modal: true,
                 items: [
                     {
                         xtype: 'contactlist',
-                        height: 403
+                        modal: true,
+                        flex: 1
                     }
                 ]
             },
             {
                 xtype: 'container',
                 title: 'My Favorites',
-                itemId: 'mycontainer1',
+                iconCls: 'star',
+                height: '100%',
+                itemId: 'Favorites',
+                modal: false,
                 items: [
                     {
                         xtype: 'favoriteview',
-                        itemId: 'favoriteview1'
+                        height: '100%',
+                        itemId: 'favoriteview1',
+                        modal: false
                     }
                 ]
             }
-        ]
+        ],
+        tabBar: {
+            docked: 'bottom'
+        }
     }
 
 });
