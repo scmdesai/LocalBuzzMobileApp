@@ -176,6 +176,8 @@ Ext.define('Contact.controller.Contacts', {
         console.log(eOpts) ;*/
 
         pic.setRecord(record);
+
+        Ext.getStore('LocalStore').add(record);
         Ext.Viewport.add(pic);
         Ext.Viewport.setActiveItem(pic);
 
@@ -319,13 +321,14 @@ Ext.define('Contact.controller.Contacts', {
 
     onShareTap: function(button, e, eOpts) {
         //var picture = button.getParent().getParent().getRecord().get('dealPictureURL');
-        var record = button.getParent().getParent().getData();
+        var record = Ext.getStore('LocalStore').getAt(0);
 
         //console.log(businessName.customerId);
 
 
 
-        window.plugins.socialsharing.share('Hi!Check out the latest deal from ' + record.customerId , null, null, record.dealPictureURL);
+        //window.plugins.socialsharing.share('Hi!Check out the latest deal from ' + record.customerId , null, null, record.dealPictureURL);
+        window.plugins.socialsharing.share(null, null,record.get('dealPictureURL'),null);
     }
 
 });

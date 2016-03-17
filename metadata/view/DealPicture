@@ -80,9 +80,11 @@
                                 ],
                                 "fn": "handler",
                                 "implHandler": [
+                                    "Ext.getStore('LocalStore').removeAt(0);",
                                     "Ext.Viewport.getActiveItem().destroy();",
                                     "var view = Ext.Viewport.add({xtype:'DealsPanel'});",
-                                    "Ext.Viewport.setActiveItem(view);"
+                                    "Ext.Viewport.setActiveItem(view);",
+                                    ""
                                 ]
                             },
                             "name": "handler",

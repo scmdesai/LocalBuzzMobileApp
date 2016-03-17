@@ -35,7 +35,8 @@ Ext.application({
         'MyJsonPStore',
         'MyDealsStore',
         'UserPreferences',
-        'MyJsonPStore1'
+        'MyJsonPStore1',
+        'LocalStore'
     ],
     views: [
         'Main1',

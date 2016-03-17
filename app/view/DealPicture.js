@@ -44,9 +44,11 @@ Ext.define('Contact.view.DealPicture', {
                     {
                         xtype: 'button',
                         handler: function(button, e) {
+                            Ext.getStore('LocalStore').removeAt(0);
                             Ext.Viewport.getActiveItem().destroy();
                             var view = Ext.Viewport.add({xtype:'DealsPanel'});
                             Ext.Viewport.setActiveItem(view);
+
                         },
                         style: 'border:none;font-size:8vw',
                         ui: 'plain',

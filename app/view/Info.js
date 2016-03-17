@@ -28,6 +28,7 @@ Ext.define('Contact.view.Info', {
 
     config: {
         height: '100%',
+        style: 'background:#fff',
         layout: 'vbox',
         scrollable: true,
         enableSubmissionForm: false,
@@ -40,7 +41,7 @@ Ext.define('Contact.view.Info', {
                     {
                         xtype: 'button',
                         itemId: 'infoBackBtn',
-                        style: 'font-size:8vw',
+                        style: 'font-size:6vw',
                         ui: 'plain',
                         text: 'Back'
                     },

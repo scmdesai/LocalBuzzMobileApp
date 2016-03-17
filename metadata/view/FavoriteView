@@ -30,7 +30,7 @@
             "userConfig": {
                 "designer|displayName": "itemTpl",
                 "implHandler": [
-                    "<div class=\"favorite\"><img src=\"{picture:empty(\"resources/img/defaultContactPic.png\")}\" width=\"160\" />,",
+                    "<div class=\"favorite\"><img src=\"{picture:empty(\"resources/img/defaultContactPic.png\")}\" width=\"160\" />",
                     "                <div>{businessName}</div>",
                     "            </div>"
                 ]

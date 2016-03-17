@@ -28,7 +28,7 @@ Ext.define('Contact.view.FavoriteView', {
         inline: true,
         store: 'MyJsonPStore1',
         itemTpl: [
-            '<div class="favorite"><img src="{picture:empty("resources/img/defaultContactPic.png")}" width="160" />,',
+            '<div class="favorite"><img src="{picture:empty("resources/img/defaultContactPic.png")}" width="160" />',
             '                <div>{businessName}</div>',
             '            </div>'
         ]

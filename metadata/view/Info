@@ -15,7 +15,7 @@
         "layout": "vbox",
         "padding": null,
         "scrollable": true,
-        "style": null
+        "style": "background:#fff"
     },
     "name": "MyFormPanel1",
     "designerId": "266d5780-ee4a-4dca-a156-841cf77894ee",
@@ -50,7 +50,7 @@
                         "height": null,
                         "itemId": "infoBackBtn",
                         "layout|flex": null,
-                        "style": "font-size:8vw",
+                        "style": "font-size:6vw",
                         "text": "Back",
                         "ui": "plain"
                     },
