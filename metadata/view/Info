@@ -11,8 +11,10 @@
         "designer|userClassName": "Info",
         "enableSubmissionForm": false,
         "height": "100%",
+        "hideOnMaskTap": true,
         "id": null,
         "layout": "vbox",
+        "modal": true,
         "padding": null,
         "scrollable": true,
         "style": "background:#fff"

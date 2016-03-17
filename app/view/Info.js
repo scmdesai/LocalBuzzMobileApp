@@ -29,7 +29,9 @@ Ext.define('Contact.view.Info', {
     config: {
         height: '100%',
         style: 'background:#fff',
+        hideOnMaskTap: true,
         layout: 'vbox',
+        modal: true,
         scrollable: true,
         enableSubmissionForm: false,
         items: [
