@@ -1,0 +1,71 @@
+{
+   "builds": {
+      "web": {
+         "default": true
+      },
+      "native": {
+         "packager": "phonegap",
+         "phonegap": {
+            "config": {
+               "id": "com.domain.Contact",
+               "name": "Contact",
+               "platform": "android"
+            }
+         }
+      }
+   },
+   "name": "Contact",
+   "indexHtmlPath": "index.html",
+   "url": null,
+   "js": [
+      {
+         "path": "touch/sencha-touch.js",
+         "x-bootstrap": true
+      },
+      {
+         "path": "bootstrap.js",
+         "x-bootstrap": true
+      },
+      {
+         "path": "app.js",
+         "bundle": true,
+         "update": "delta"
+      }
+   ],
+   "css": [
+      {
+         "path": "resources/css/contacts.css"
+      },
+      {
+         "update": "delta",
+         "platform": [
+            "phone",
+            "tablet",
+            "desktop"
+         ],
+         "theme": "Default",
+         "path": "resources/css/sencha-touch-bcdd5b97-dbf8-4dc3-9a52-df399e98c450.css"
+      }
+   ],
+   "appCache": {
+      "cache": [
+         "index.html"
+      ],
+      "network": [
+         "*"
+      ],
+      "fallback": []
+   },
+   "resources": [
+      "resources/images",
+      "resources/icons",
+      "resources/startup",
+      "resources/css/contacts.css"
+   ],
+   "ignore": [
+      ".svn$"
+   ],
+   "archivePath": "archive",
+   "requires": [],
+   "id": "bfd9c2ff-6347-4718-8919-f7a4bd0f7cde"
+}

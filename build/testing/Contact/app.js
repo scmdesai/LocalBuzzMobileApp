@@ -1,4 +1,4 @@
-function _0cbf42668f71a5c0efd2a8c34b5add3fa693cc1e(){};//@tag foundation,core
+//@tag foundation,core
 //@define Ext
 /**
  * @class Ext
@@ -30321,6 +30321,86 @@ Ext.define('Ext.Sheet', {
 });
 
 /**
+ * {@link Ext.ActionSheet ActionSheets} are used to display a list of {@link Ext.Button buttons} in a popup dialog.
+ *
+ * The key difference between ActionSheet and {@link Ext.Sheet} is that ActionSheets are docked at the bottom of the
+ * screen, and the {@link #defaultType} is set to {@link Ext.Button button}.
+ *
+ * ## Example
+ *
+ *     @example preview miniphone
+ *     var actionSheet = Ext.create('Ext.ActionSheet', {
+ *         items: [
+ *             {
+ *                 text: 'Delete draft',
+ *                 ui  : 'decline'
+ *             },
+ *             {
+ *                 text: 'Save draft'
+ *             },
+ *             {
+ *                 text: 'Cancel',
+ *                 ui  : 'confirm'
+ *             }
+ *         ]
+ *     });
+ *
+ *     Ext.Viewport.add(actionSheet);
+ *     actionSheet.show();
+ *
+ * As you can see from the code above, you no longer have to specify a `xtype` when creating buttons within a {@link Ext.ActionSheet ActionSheet},
+ * because the {@link #defaultType} is set to {@link Ext.Button button}.
+ *
+ */
+Ext.define('Ext.ActionSheet', {
+    extend: Ext.Sheet,
+    alias: 'widget.actionsheet',
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'sheet-action',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        left: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        right: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        bottom: 0,
+        // @hide
+        centered: false,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        height: 'auto',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        defaultType: 'button'
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ],
+            top: 0,
+            bottom: null
+        }
+    ]
+});
+
+/**
  * The Connection class encapsulates a connection to the page's originating domain, allowing requests to be made either
  * to a configured URL, or to a URL specified at request time.
  *
@@ -34897,6 +34977,334 @@ Ext.define('Ext.MessageBox', {
          */
         Ext.Msg = new MessageBox();
     });
+});
+
+/**
+ * {@link Ext.TitleBar}'s are most commonly used as a docked item within an {@link Ext.Container}.
+ *
+ * The main difference between a {@link Ext.TitleBar} and an {@link Ext.Toolbar} is that
+ * the {@link #title} configuration is **always** centered horizontally in a {@link Ext.TitleBar} between
+ * any items aligned left or right.
+ *
+ * You can also give items of a {@link Ext.TitleBar} an `align` configuration of `left` or `right`
+ * which will dock them to the `left` or `right` of the bar.
+ *
+ * ## Examples
+ *
+ *     @example preview
+ *     Ext.Viewport.add({
+ *         xtype: 'titlebar',
+ *         docked: 'top',
+ *         title: 'Navigation',
+ *         items: [
+ *             {
+ *                 iconCls: 'add',
+ *                 align: 'left'
+ *             },
+ *             {
+ *                 iconCls: 'home',
+ *                 align: 'right'
+ *             }
+ *         ]
+ *     });
+ *
+ *     Ext.Viewport.setStyleHtmlContent(true);
+ *     Ext.Viewport.setHtml('This shows the title being centered and buttons using align <i>left</i> and <i>right</i>.');
+ *
+ * <br />
+ *
+ *     @example preview
+ *     Ext.Viewport.add({
+ *         xtype: 'titlebar',
+ *         docked: 'top',
+ *         title: 'Navigation',
+ *         items: [
+ *             {
+ *                 align: 'left',
+ *                 text: 'This button has a super long title'
+ *             },
+ *             {
+ *                 iconCls: 'home',
+ *                 align: 'right'
+ *             }
+ *         ]
+ *     });
+ *
+ *     Ext.Viewport.setStyleHtmlContent(true);
+ *     Ext.Viewport.setHtml('This shows how the title is automatically moved to the right when one of the aligned buttons is very wide.');
+ *
+ * <br />
+ *
+ *     @example preview
+ *     Ext.Viewport.add({
+ *         xtype: 'titlebar',
+ *         docked: 'top',
+ *         title: 'A very long title',
+ *         items: [
+ *             {
+ *                 align: 'left',
+ *                 text: 'This button has a super long title'
+ *             },
+ *             {
+ *                 align: 'right',
+ *                 text: 'Another button'
+ *             }
+ *         ]
+ *     });
+ *
+ *     Ext.Viewport.setStyleHtmlContent(true);
+ *     Ext.Viewport.setHtml('This shows how the title and buttons will automatically adjust their size when the width of the items are too wide..');
+ *
+ * The {@link #defaultType} of Toolbar's is {@link Ext.Button button}.
+ */
+Ext.define('Ext.TitleBar', {
+    extend: Ext.Container,
+    xtype: 'titlebar',
+    // @private
+    isToolbar: true,
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'toolbar',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        cls: Ext.baseCSSPrefix + 'navigation-bar',
+        /**
+         * @cfg {String} ui
+         * Style options for Toolbar. Either 'light' or 'dark'.
+         * @accessor
+         */
+        ui: 'dark',
+        /**
+         * @cfg {String} title
+         * The title of the toolbar.
+         * @accessor
+         */
+        title: null,
+        /**
+         * @cfg {String} titleAlign
+         * The alignment for the title of the toolbar.
+         * @accessor
+         */
+        titleAlign: 'center',
+        /**
+         * @cfg {String} defaultType
+         * The default xtype to create.
+         * @accessor
+         */
+        defaultType: 'button',
+        /**
+         * @cfg {String} minHeight
+         * The minimum height height of the Toolbar.
+         * @accessor
+         */
+        minHeight: null,
+        /**
+         * @cfg
+         * @hide
+         */
+        layout: {
+            type: 'hbox'
+        },
+        /**
+         * @cfg {Array/Object} items The child items to add to this TitleBar. The {@link #defaultType} of
+         * a TitleBar is {@link Ext.Button}, so you do not need to specify an `xtype` if you are adding
+         * buttons.
+         *
+         * You can also give items a `align` configuration which will align the item to the `left` or `right` of
+         * the TitleBar.
+         * @accessor
+         */
+        items: [],
+        /**
+         * @cfg {String} maxButtonWidth The maximum width of the button by percentage
+         * @accessor
+         */
+        maxButtonWidth: '40%'
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Blackberry',
+                'Blackberry103',
+                'Tizen'
+            ],
+            titleAlign: 'left'
+        },
+        {
+            theme: [
+                'Cupertino'
+            ],
+            maxButtonWidth: '80%'
+        }
+    ],
+    hasCSSMinHeight: true,
+    beforeInitialize: function() {
+        this.applyItems = this.applyInitialItems;
+    },
+    initialize: function() {
+        delete this.applyItems;
+        this.add(this.initialItems);
+        delete this.initialItems;
+        this.on({
+            painted: 'refreshTitlePosition',
+            single: true
+        });
+    },
+    applyInitialItems: function(items) {
+        var me = this,
+            titleAlign = me.getTitleAlign(),
+            defaults = me.getDefaults() || {};
+        me.initialItems = items;
+        me.leftBox = me.add({
+            xtype: 'container',
+            style: 'position: relative',
+            layout: {
+                type: 'hbox',
+                align: 'center'
+            },
+            listeners: {
+                resize: 'refreshTitlePosition',
+                scope: me
+            }
+        });
+        me.spacer = me.add({
+            xtype: 'component',
+            style: 'position: relative',
+            flex: 1,
+            listeners: {
+                resize: 'refreshTitlePosition',
+                scope: me
+            }
+        });
+        me.rightBox = me.add({
+            xtype: 'container',
+            style: 'position: relative',
+            layout: {
+                type: 'hbox',
+                align: 'center'
+            },
+            listeners: {
+                resize: 'refreshTitlePosition',
+                scope: me
+            }
+        });
+        switch (titleAlign) {
+            case 'left':
+                me.titleComponent = me.leftBox.add({
+                    xtype: 'title',
+                    cls: Ext.baseCSSPrefix + 'title-align-left',
+                    hidden: defaults.hidden
+                });
+                me.refreshTitlePosition = Ext.emptyFn;
+                break;
+            case 'right':
+                me.titleComponent = me.rightBox.add({
+                    xtype: 'title',
+                    cls: Ext.baseCSSPrefix + 'title-align-right',
+                    hidden: defaults.hidden
+                });
+                me.refreshTitlePosition = Ext.emptyFn;
+                break;
+            default:
+                me.titleComponent = me.add({
+                    xtype: 'title',
+                    hidden: defaults.hidden,
+                    centered: true
+                });
+                break;
+        }
+        me.doAdd = me.doBoxAdd;
+        me.remove = me.doBoxRemove;
+        me.doInsert = me.doBoxInsert;
+    },
+    doBoxAdd: function(item) {
+        if (item.config.align == 'right') {
+            this.rightBox.add(item);
+        } else {
+            this.leftBox.add(item);
+        }
+    },
+    doBoxRemove: function(item, destroy) {
+        if (item.config.align == 'right') {
+            this.rightBox.remove(item, destroy);
+        } else {
+            this.leftBox.remove(item, destroy);
+        }
+    },
+    doBoxInsert: function(index, item) {
+        if (item.config.align == 'right') {
+            this.rightBox.insert(index, item);
+        } else {
+            this.leftBox.insert(index, item);
+        }
+    },
+    calculateMaxButtonWidth: function() {
+        var maxButtonWidth = this.getMaxButtonWidth();
+        //check if it is a percentage
+        if (Ext.isString(maxButtonWidth)) {
+            maxButtonWidth = parseInt(maxButtonWidth.replace('%', ''), 10);
+        }
+        maxButtonWidth = Math.round((this.element.getWidth() / 100) * maxButtonWidth);
+        return maxButtonWidth;
+    },
+    refreshTitlePosition: function() {
+        if (this.isDestroyed) {
+            return;
+        }
+        var titleElement = this.titleComponent.renderElement;
+        titleElement.setWidth(null);
+        titleElement.setLeft(null);
+        //set the min/max width of the left button
+        var leftBox = this.leftBox,
+            leftButton = leftBox.down('button'),
+            singleButton = leftBox.getItems().getCount() == 1,
+            leftBoxWidth, maxButtonWidth;
+        if (leftButton && singleButton) {
+            if (leftButton.getWidth() == null) {
+                leftButton.renderElement.setWidth('auto');
+            }
+            leftBoxWidth = leftBox.renderElement.getWidth();
+            maxButtonWidth = this.calculateMaxButtonWidth();
+            if (leftBoxWidth > maxButtonWidth) {
+                leftButton.renderElement.setWidth(maxButtonWidth);
+            }
+        }
+        var spacerBox = this.spacer.renderElement.getPageBox();
+        if (Ext.browser.is.IE) {
+            titleElement.setWidth(spacerBox.width);
+        }
+        var titleBox = titleElement.getPageBox(),
+            widthDiff = titleBox.width - spacerBox.width,
+            titleLeft = titleBox.left,
+            titleRight = titleBox.right,
+            halfWidthDiff, leftDiff, rightDiff;
+        if (widthDiff > 0) {
+            halfWidthDiff = widthDiff / 2;
+            titleLeft += halfWidthDiff;
+            titleRight -= halfWidthDiff;
+            titleElement.setWidth(spacerBox.width);
+        }
+        leftDiff = spacerBox.left - titleLeft;
+        rightDiff = titleRight - spacerBox.right;
+        if (leftDiff > 0) {
+            titleElement.setLeft(leftDiff);
+        } else if (rightDiff > 0) {
+            titleElement.setLeft(-rightDiff);
+        }
+        titleElement.repaint();
+    },
+    // @private
+    updateTitle: function(newTitle) {
+        this.titleComponent.setTitle(newTitle);
+        if (this.isPainted()) {
+            this.refreshTitlePosition();
+        }
+    }
 });
 
 /**
@@ -49929,77 +50337,45 @@ Ext.define('Ext.data.proxy.WebStorage', {
 /**
  * @author Ed Spencer
  *
- * The LocalStorageProxy uses the new HTML5 localStorage API to save {@link Ext.data.Model Model} data locally on the
- * client browser. HTML5 localStorage is a key-value store (e.g. cannot save complex objects like JSON), so
- * LocalStorageProxy automatically serializes and deserializes data when saving and retrieving it.
- *
- * localStorage is extremely useful for saving user-specific information without needing to build server-side
- * infrastructure to support it. Let's imagine we're writing a Twitter search application and want to save the user's
- * searches locally so they can easily perform a saved search again later. We'd start by creating a Search model:
- *
- *     Ext.define('Search', {
- *         extend: 'Ext.data.Model',
- *         config: {
- *             fields: ['id', 'query'],
- *             proxy: {
- *                 type: 'localstorage',
- *                 id  : 'twitter-Searches'
- *             }
- *         }
- *     });
- *
- * Our Search model contains just two fields - id and query - plus a Proxy definition. The only configuration we need to
- * pass to the LocalStorage proxy is an {@link #id}. This is important as it separates the Model data in this Proxy from
- * all others. The localStorage API puts all data into a single shared namespace, so by setting an id we enable
- * LocalStorageProxy to manage the saved Search data.
- *
- * Saving our data into localStorage is easy and would usually be done with a {@link Ext.data.Store Store}:
- *
- *     //our Store automatically picks up the LocalStorageProxy defined on the Search model
- *     var store = Ext.create('Ext.data.Store', {
- *         model: "Search"
- *     });
- *
- *     //loads any existing Search data from localStorage
- *     store.load();
- *
- *     //now add some Searches
- *     store.add({query: 'Sencha Touch'});
- *     store.add({query: 'Ext JS'});
- *
- *     //finally, save our Search data to localStorage
- *     store.sync();
- *
- * The LocalStorageProxy automatically gives our new Searches an id when we call store.sync(). It encodes the Model data
- * and places it into localStorage. We can also save directly to localStorage, bypassing the Store altogether:
- *
- *     var search = Ext.create('Search', {query: 'Sencha Animator'});
- *
- *     //uses the configured LocalStorageProxy to save the new Search to localStorage
- *     search.save();
- *
- * # Limitations
- *
- * If this proxy is used in a browser where local storage is not supported, the constructor will throw an error. A local
- * storage proxy requires a unique ID which is used as a key in which all record data are stored in the local storage
- * object.
+ * Proxy which uses HTML5 session storage as its data storage/retrieval mechanism. If this proxy is used in a browser
+ * where session storage is not supported, the constructor will throw an error. A session storage proxy requires a
+ * unique ID which is used as a key in which all record data are stored in the session storage object.
  *
  * It's important to supply this unique ID as it cannot be reliably determined otherwise. If no id is provided but the
  * attached store has a storeId, the storeId will be used. If neither option is presented the proxy will throw an error.
+ *
+ * Proxies are almost always used with a {@link Ext.data.Store store}:
+ *
+ *     new Ext.data.Store({
+ *         proxy: {
+ *             type: 'sessionstorage',
+ *             id  : 'myProxyKey'
+ *         }
+ *     });
+ *
+ * Alternatively you can instantiate the Proxy directly:
+ *
+ *     new Ext.data.proxy.SessionStorage({
+ *         id  : 'myOtherProxyKey'
+ *     });
+ *
+ * Note that session storage is different to local storage (see {@link Ext.data.proxy.LocalStorage}) - if a browser
+ * session is ended (e.g. by closing the browser) then all data in a SessionStorageProxy are lost. Browser restarts
+ * don't affect the {@link Ext.data.proxy.LocalStorage} - the data are preserved.
  *
  * ###Further Reading
  * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
  * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
  * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
- * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html) 
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
-Ext.define('Ext.data.proxy.LocalStorage', {
+Ext.define('Ext.data.proxy.SessionStorage', {
     extend: Ext.data.proxy.WebStorage,
-    alias: 'proxy.localstorage',
-    alternateClassName: 'Ext.data.LocalStorageProxy',
+    alias: 'proxy.sessionstorage',
+    alternateClassName: 'Ext.data.SessionStorageProxy',
     //inherit docs
     getStorageObject: function() {
-        return window.localStorage;
+        return window.sessionStorage;
     }
 });
 
@@ -54898,358 +55274,6 @@ Ext.define('Ext.device.Camera', {
     }
 });
 
-/**
- * @private
- */
-Ext.define('Ext.device.device.Abstract', {
-    mixins: [
-        Ext.mixin.Observable
-    ],
-    /**
-     * @event schemeupdate
-     * Event which is fired when your Sencha Native packaged application is opened from another application using a custom URL scheme.
-     * 
-     * This event will only fire if the application was already open (in other words; `onReady` was already fired). This means you should check
-     * if {@link Ext.device.Device#scheme} is set in your Application `launch`/`onReady` method, and perform any needed changes for that URL (if defined).
-     * Then listen to this event for future changed.
-     *
-     * ## Example
-     *
-     *     Ext.application({
-     *         name: 'Sencha',
-     *         requires: ['Ext.device.Device'],
-     *         launch: function() {
-     *             if (Ext.device.Device.scheme) {
-     *                 // the application was opened via another application. Do something:
-     *                 console.log('Applicaton opened via another application: ' + Ext.device.Device.scheme.url);
-     *             }
-     *
-     *             // Listen for future changes
-     *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
-     *                 // the application was launched, closed, and then launched another from another application
-     *                 // this means onReady wont be called again ('cause the application is already running in the 
-     *                 // background) - but this event will be fired
-     *                 console.log('Applicated reopened via another application: ' + scheme.url);
-     *             }, this);
-     *         }
-     *     });
-     *
-     * __Note:__ This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
-     * PhoneGap or simply in the browser, it will never fire.**
-     * 
-     * @param {Ext.device.Device} this The instance of Ext.device.Device
-     * @param {Object/Boolean} scheme The scheme information, if opened via another application
-     * @param {String} scheme.url The URL that was opened, if this application was opened via another application. Example: `sencha:`
-     * @param {String} scheme.sourceApplication The source application that opened this application. Example: `com.apple.safari`.
-     */
-    /**
-     * @property {String} name
-     * Returns the name of the current device. If the current device does not have a name (for example, in a browser), it will
-     * default to `not available`.
-     *
-     *     alert('Device name: ' + Ext.device.Device.name);
-     */
-    name: 'not available',
-    /**
-     * @property {String} uuid
-     * Returns a unique identifier for the current device. If the current device does not have a unique identifier (for example,
-     * in a browser), it will default to `anonymous`.
-     *
-     *     alert('Device UUID: ' + Ext.device.Device.uuid);
-     */
-    uuid: 'anonymous',
-    /**
-     * @property {String} platform
-     * The current platform the device is running on.
-     *
-     *     alert('Device platform: ' + Ext.device.Device.platform);
-     */
-    platform: Ext.os.name,
-    /**
-     * @property {Object/Boolean} scheme
-     * 
-     */
-    scheme: false,
-    /**
-     * Opens a specified URL. The URL can contain a custom URL Scheme for another app or service:
-     *
-     *     // Safari
-     *     Ext.device.Device.openURL('http://sencha.com');
-     *
-     *     // Telephone
-     *     Ext.device.Device.openURL('tel:6501231234');
-     *
-     *     // SMS with a default number
-     *     Ext.device.Device.openURL('sms:+12345678901');
-     *
-     *     // Email client
-     *     Ext.device.Device.openURL('mailto:rob@sencha.com');
-     *
-     * You can find a full list of available URL schemes here: [http://wiki.akosma.com/IPhone_URL_Schemes](http://wiki.akosma.com/IPhone_URL_Schemes).
-     *
-     * __Note:__ This currently only works with the Sencha Native Packager. Attempting to use this on PhoneGap, iOS Simulator
-     * or the browser will simply result in the current window location changing.**
-     *
-     * If successful, this will close the application (as another one opens).
-     * 
-     * @param {String} url The URL to open
-     */
-    openURL: function(url) {
-        window.location = url;
-    }
-});
-
-/**
- * @private
- */
-Ext.define('Ext.device.device.Cordova', {
-    alternateClassName: 'Ext.device.device.PhoneGap',
-    extend: Ext.device.device.Abstract,
-    availableListeners: [
-        'pause',
-        'resume',
-        'backbutton',
-        'batterycritical',
-        'batterylow',
-        'batterystatus',
-        'menubutton',
-        'searchbutton',
-        'startcallbutton',
-        'endcallbutton',
-        'volumeupbutton',
-        'volumedownbutton'
-    ],
-    constructor: function() {
-        // We can't get the device details until the device is ready, so lets wait.
-        if (Ext.isReady) {
-            this.onReady();
-        } else {
-            Ext.onReady(this.onReady, this, {
-                single: true
-            });
-        }
-    },
-    /**
-     * @property {String} cordova
-     * Returns the version of Cordova running on the device.
-     *
-     *     alert('Device cordova: ' + Ext.device.Device.cordova);
-     */
-    /**
-     * @property {String} version
-     * Returns the operating system version.
-     *
-     *     alert('Device Version: ' + Ext.device.Device.version);
-     */
-    /**
-     * @property {String} model
-     * Returns the device's model name.
-     *
-     *     alert('Device Model: ' + Ext.device.Device.model);
-     */
-    /**
-     * @event pause
-     * Fires when the application goes into the background
-     */
-    /**
-     * @event resume
-     * Fires when the application goes into the foreground
-     */
-    /**
-     * @event batterycritical
-     * This event that fires when a Cordova application detects the percentage of battery 
-     * has reached the critical battery threshold.
-     */
-    /**
-     * @event batterylow
-     * This event that fires when a Cordova application detects the percentage of battery 
-     * has reached the low battery threshold.
-     */
-    /**
-     * @event batterystatus
-     * This event that fires when a Cordova application detects the percentage of battery 
-     * has changed by at least 1 percent.
-     */
-    /**
-     * @event backbutton
-     * This is an event that fires when the user presses the back button.
-     */
-    /**
-     * @event menubutton
-     * This is an event that fires when the user presses the menu button.
-     */
-    /**
-     * @event searchbutton
-     * This is an event that fires when the user presses the search button.
-     */
-    /**
-     * @event startcallbutton
-     * This is an event that fires when the user presses the start call button.
-     */
-    /**
-     * @event endcallbutton
-     * This is an event that fires when the user presses the end call button.
-     */
-    /**
-     * @event volumeupbutton
-     * This is an event that fires when the user presses the volume up button.
-     */
-    /**
-     * @event volumedownbutton
-     * This is an event that fires when the user presses the volume down button.
-     */
-    onReady: function() {
-        var me = this,
-            device = window.device;
-        me.name = device.name || device.model;
-        me.cordova = device.cordova;
-        me.platform = device.platform || Ext.os.name;
-        me.uuid = device.uuid;
-        me.version = device.version;
-        me.model = device.model;
-    },
-    doAddListener: function(name) {
-        if (!this.addedListeners) {
-            this.addedListeners = [];
-        }
-        if (this.availableListeners.indexOf(name) != -1 && this.addedListeners.indexOf(name) == -1) {
-            // Add the listeners
-            this.addedListeners.push(name);
-            document.addEventListener(name, function() {
-                me.fireEvent(name, me);
-            });
-        }
-        Ext.device.Device.mixins.observable.doAddListener.apply(Ext.device.Device.mixins.observable, arguments);
-    }
-});
-
-/**
- * @private
- */
-Ext.define('Ext.device.device.Sencha', {
-    extend: Ext.device.device.Abstract,
-    constructor: function() {
-        this.callSuper(arguments);
-        this.name = device.name;
-        this.uuid = device.uuid;
-        this.platform = device.platformName || Ext.os.name;
-        this.scheme = Ext.device.Communicator.send({
-            command: 'OpenURL#getScheme',
-            sync: true
-        }) || false;
-        Ext.device.Communicator.send({
-            command: 'OpenURL#watch',
-            callbacks: {
-                callback: function(scheme) {
-                    this.scheme = scheme || false;
-                    this.fireEvent('schemeupdate', this, this.scheme);
-                }
-            },
-            scope: this
-        });
-    },
-    openURL: function(url) {
-        Ext.device.Communicator.send({
-            command: 'OpenURL#open',
-            url: url
-        });
-    }
-});
-
-/**
- * @private
- */
-Ext.define('Ext.device.device.Simulator', {
-    extend: Ext.device.device.Abstract
-});
-
-/**
- * Provides a cross device way to get information about the device your application is running on. There are 3 different implementations:
- *
- * - Sencha Packager
- * - [Cordova](http://cordova.apache.org/docs/en/2.5.0/cordova_device_device.md.html#Device)
- * - Simulator
- *
- * ## Examples
- *
- * #### Device Information
- *
- * Getting the device information:
- *
- *     Ext.application({
- *         name: 'Sencha',
- *
- *         // Remember that the Ext.device.Device class *must* be required
- *         requires: ['Ext.device.Device'],
- *
- *         launch: function() {
- *             alert([
- *                 'Device name: ' + Ext.device.Device.name,
- *                 'Device platform: ' + Ext.device.Device.platform,
- *                 'Device UUID: ' + Ext.device.Device.uuid
- *             ].join('\n'));
- *         }
- *     });
- *
- * ### Custom Scheme URL
- *
- * Using custom scheme URL to application your application from other applications:
- *
- *     Ext.application({
- *         name: 'Sencha',
- *         requires: ['Ext.device.Device'],
- *         launch: function() {
- *             if (Ext.device.Device.scheme) {
- *                 // the application was opened via another application. Do something:
- *                 alert('Applicaton penned via another application: ' + Ext.device.Device.scheme.url);
- *             }
- *
- *             // Listen for future changes
- *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
- *                 // the application was launched, closed, and then launched another from another application
- *                 // this means onReady wont be called again ('cause the application is already running in the 
- *                 // background) - but this event will be fired
- *                 alert('Applicated reopened via another application: ' + scheme.url);
- *             }, this);
- *         }
- *     });
- *
- * Of course, you must add the custom scheme URL you would like to use when packaging your application.
- * You can do this by setting the `URLScheme` property inside your `package.json` file (Sencha Native Packager configuration file):
- *
- *     {
- *         ...
- *         "URLScheme": "sencha",
- *         ...
- *     }
- *
- * You can change the available URL scheme.
- *
- * You can then test it by packaging and installing the application onto a device/iOS Simulator, opening Safari and typing: `sencha:testing`.
- * The application will launch and it will `alert` the URL you specified.
- *
- * **PLEASE NOTE: This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
- * PhoneGap or simply in the browser, it will not function.**
- *
- * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
- *
- * @mixins Ext.device.device.Abstract
- */
-Ext.define('Ext.device.Device', {
-    singleton: true,
-    constructor: function() {
-        var browserEnv = Ext.browser.is;
-        if (browserEnv.WebView) {
-            if (browserEnv.Cordova) {
-                return Ext.create('Ext.device.device.Cordova');
-            } else if (browserEnv.Sencha) {
-                return Ext.create('Ext.device.device.Sencha');
-            }
-        }
-        return Ext.create('Ext.device.device.Simulator');
-    }
-});
-
 // Using @mixins to include all members of Ext.event.Touch
 // into here to keep documentation simpler
 /**
@@ -58581,6 +58605,2462 @@ Ext.define('Ext.field.Checkbox', {
     reset: function() {
         this.setChecked(this.originalState);
         return this;
+    }
+});
+
+/**
+ * @private
+ *
+ * A general {@link Ext.picker.Picker} slot class.  Slots are used to organize multiple scrollable slots into
+ * a single {@link Ext.picker.Picker}.
+ *
+ *     {
+ *         name : 'limit_speed',
+ *         title: 'Speed Limit',
+ *         data : [
+ *             {text: '50 KB/s', value: 50},
+ *             {text: '100 KB/s', value: 100},
+ *             {text: '200 KB/s', value: 200},
+ *             {text: '300 KB/s', value: 300}
+ *         ]
+ *     }
+ *
+ * See the {@link Ext.picker.Picker} documentation on how to use slots.
+ */
+Ext.define('Ext.picker.Slot', {
+    extend: Ext.dataview.DataView,
+    xtype: 'pickerslot',
+    alternateClassName: 'Ext.Picker.Slot',
+    /**
+     * @event slotpick
+     * Fires whenever an slot is picked
+     * @param {Ext.picker.Slot} this
+     * @param {Mixed} value The value of the pick
+     * @param {HTMLElement} node The node element of the pick
+     */
+    isSlot: true,
+    config: {
+        /**
+         * @cfg {String} title The title to use for this slot, or `null` for no title.
+         * @accessor
+         */
+        title: null,
+        /**
+         * @private
+         * @cfg {Boolean} showTitle
+         * @accessor
+         */
+        showTitle: true,
+        /**
+         * @private
+         * @cfg {String} cls The main component class
+         * @accessor
+         */
+        cls: Ext.baseCSSPrefix + 'picker-slot',
+        /**
+         * @cfg {String} name (required) The name of this slot.
+         * @accessor
+         */
+        name: null,
+        /**
+         * @cfg {Number} value The value of this slot
+         * @accessor
+         */
+        value: null,
+        /**
+         * @cfg {Number} flex
+         * @accessor
+         * @private
+         */
+        flex: 1,
+        /**
+         * @cfg {String} align The horizontal alignment of the slot's contents.
+         *
+         * Valid values are: "left", "center", and "right".
+         * @accessor
+         */
+        align: 'left',
+        /**
+         * @cfg {String} displayField The display field in the store.
+         * @accessor
+         */
+        displayField: 'text',
+        /**
+         * @cfg {String} valueField The value field in the store.
+         * @accessor
+         */
+        valueField: 'value',
+        /**
+         * @cfg {String} itemTpl The template to be used in this slot.
+         * If you set this, {@link #displayField} will be ignored.
+         */
+        itemTpl: null,
+        /**
+         * @cfg {Object} scrollable
+         * @accessor
+         * @hide
+         */
+        scrollable: {
+            direction: 'vertical',
+            indicators: false,
+            momentumEasing: {
+                minVelocity: 2
+            },
+            slotSnapEasing: {
+                duration: 100
+            }
+        },
+        /**
+         * @cfg {Boolean} verticallyCenterItems
+         * @private
+         */
+        verticallyCenterItems: true
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ],
+            title: 'choose an item'
+        }
+    ],
+    // verticallyCenterItems: false
+    constructor: function() {
+        /**
+         * @property selectedIndex
+         * @type Number
+         * The current `selectedIndex` of the picker slot.
+         * @private
+         */
+        this.selectedIndex = 0;
+        /**
+         * @property picker
+         * @type Ext.picker.Picker
+         * A reference to the owner Picker.
+         * @private
+         */
+        this.callParent(arguments);
+    },
+    /**
+     * Sets the title for this dataview by creating element.
+     * @param {String} title
+     * @return {String}
+     */
+    applyTitle: function(title) {
+        //check if the title isnt defined
+        if (title) {
+            //create a new title element
+            title = Ext.create('Ext.Component', {
+                cls: Ext.baseCSSPrefix + 'picker-slot-title',
+                docked: 'top',
+                html: title
+            });
+        }
+        return title;
+    },
+    updateTitle: function(newTitle, oldTitle) {
+        if (newTitle) {
+            this.add(newTitle);
+            this.setupBar();
+        }
+        if (oldTitle) {
+            this.remove(oldTitle);
+        }
+    },
+    updateShowTitle: function(showTitle) {
+        var title = this.getTitle(),
+            mode = showTitle ? 'show' : 'hide';
+        if (title) {
+            title.on(mode, this.setupBar, this, {
+                single: true,
+                delay: 50
+            });
+            title[showTitle ? 'show' : 'hide']();
+        }
+    },
+    updateDisplayField: function(newDisplayField) {
+        if (!this.config.itemTpl) {
+            this.setItemTpl('<div class="' + Ext.baseCSSPrefix + 'picker-item {cls} <tpl if="extra">' + Ext.baseCSSPrefix + 'picker-invalid</tpl>">{' + newDisplayField + '}</div>');
+        }
+    },
+    /**
+     * Updates the {@link #align} configuration
+     */
+    updateAlign: function(newAlign, oldAlign) {
+        var element = this.element;
+        element.addCls(Ext.baseCSSPrefix + 'picker-' + newAlign);
+        element.removeCls(Ext.baseCSSPrefix + 'picker-' + oldAlign);
+    },
+    /**
+     * Looks at the {@link #data} configuration and turns it into {@link #store}.
+     * @param {Object} data
+     * @return {Object}
+     */
+    applyData: function(data) {
+        var parsedData = [],
+            ln = data && data.length,
+            i, item, obj;
+        if (data && Ext.isArray(data) && ln) {
+            for (i = 0; i < ln; i++) {
+                item = data[i];
+                obj = {};
+                if (Ext.isArray(item)) {
+                    obj[this.valueField] = item[0];
+                    obj[this.displayField] = item[1];
+                } else if (Ext.isString(item)) {
+                    obj[this.valueField] = item;
+                    obj[this.displayField] = item;
+                } else if (Ext.isObject(item)) {
+                    obj = item;
+                }
+                parsedData.push(obj);
+            }
+        }
+        return data;
+    },
+    // @private
+    initialize: function() {
+        this.callParent();
+        var scroller = this.getScrollable().getScroller();
+        this.on({
+            scope: this,
+            painted: 'onPainted',
+            itemtap: 'doItemTap'
+        });
+        this.element.on({
+            scope: this,
+            touchstart: 'onTouchStart',
+            touchend: 'onTouchEnd'
+        });
+        scroller.on({
+            scope: this,
+            scrollend: 'onScrollEnd'
+        });
+    },
+    // @private
+    onPainted: function() {
+        this.setupBar();
+    },
+    /**
+     * Returns an instance of the owner picker.
+     * @return {Object}
+     * @private
+     */
+    getPicker: function() {
+        if (!this.picker) {
+            this.picker = this.getParent();
+        }
+        return this.picker;
+    },
+    // @private
+    setupBar: function() {
+        if (!this.rendered) {
+            //if the component isnt rendered yet, there is no point in calculating the padding just eyt
+            return;
+        }
+        var element = this.element,
+            innerElement = this.innerElement,
+            picker = this.getPicker(),
+            bar = picker.bar,
+            value = this.getValue(),
+            showTitle = this.getShowTitle(),
+            title = this.getTitle(),
+            scrollable = this.getScrollable(),
+            scroller = scrollable.getScroller(),
+            titleHeight = 0,
+            barHeight, padding;
+        barHeight = bar.dom.getBoundingClientRect().height;
+        if (showTitle && title) {
+            titleHeight = title.element.getHeight();
+        }
+        padding = Math.ceil((element.getHeight() - titleHeight - barHeight) / 2);
+        if (this.getVerticallyCenterItems()) {
+            innerElement.setStyle({
+                padding: padding + 'px 0 ' + padding + 'px'
+            });
+        }
+        scroller.refresh();
+        scroller.setSlotSnapSize(barHeight);
+        this.setValue(value);
+    },
+    // @private
+    doItemTap: function(list, index, item, e) {
+        var me = this;
+        me.selectedIndex = index;
+        me.selectedNode = item;
+        me.scrollToItem(item, true);
+    },
+    // @private
+    scrollToItem: function(item, animated) {
+        var y = item.getY(),
+            parentEl = item.parent(),
+            parentY = parentEl.getY(),
+            scrollView = this.getScrollable(),
+            scroller = scrollView.getScroller(),
+            difference;
+        difference = y - parentY;
+        scroller.scrollTo(0, difference, animated);
+    },
+    // @private
+    onTouchStart: function() {
+        this.element.addCls(Ext.baseCSSPrefix + 'scrolling');
+    },
+    // @private
+    onTouchEnd: function() {
+        this.element.removeCls(Ext.baseCSSPrefix + 'scrolling');
+    },
+    // @private
+    onScrollEnd: function(scroller, x, y) {
+        var me = this,
+            index = Math.round(y / me.picker.bar.dom.getBoundingClientRect().height),
+            viewItems = me.getViewItems(),
+            item = viewItems[index];
+        if (item) {
+            me.selectedIndex = index;
+            me.selectedNode = item;
+            me.fireEvent('slotpick', me, me.getValue(), me.selectedNode);
+        }
+    },
+    /**
+     * Returns the value of this slot
+     * @private
+     */
+    getValue: function(useDom) {
+        var store = this.getStore(),
+            record, value;
+        if (!store) {
+            return;
+        }
+        if (!this.rendered || !useDom) {
+            return this._value;
+        }
+        //if the value is ever false, that means we do not want to return anything
+        if (this._value === false) {
+            return null;
+        }
+        record = store.getAt(this.selectedIndex);
+        value = record ? record.get(this.getValueField()) : null;
+        return value;
+    },
+    /**
+     * Sets the value of this slot
+     * @private
+     */
+    setValue: function(value) {
+        return this.doSetValue(value);
+    },
+    /**
+     * Sets the value of this slot
+     * @private
+     */
+    setValueAnimated: function(value) {
+        return this.doSetValue(value, true);
+    },
+    doSetValue: function(value, animated) {
+        if (!this.rendered) {
+            //we don't want to call this until the slot has been rendered
+            this._value = value;
+            return;
+        }
+        var store = this.getStore(),
+            viewItems = this.getViewItems(),
+            valueField = this.getValueField(),
+            index, item;
+        index = store.findExact(valueField, value);
+        if (index == -1) {
+            index = 0;
+        }
+        item = Ext.get(viewItems[index]);
+        this.selectedIndex = index;
+        if (item) {
+            this.scrollToItem(item, (animated) ? {
+                duration: 100
+            } : false);
+            this.select(this.selectedIndex);
+        }
+        this._value = value;
+    }
+});
+
+/**
+ * A general picker class. {@link Ext.picker.Slot}s are used to organize multiple scrollable slots into a single picker. {@link #slots} is
+ * the only necessary configuration.
+ *
+ * The {@link #slots} configuration with a few key values:
+ *
+ * - `name`: The name of the slot (will be the key when using {@link #getValues} in this {@link Ext.picker.Picker}).
+ * - `title`: The title of this slot (if {@link #useTitles} is set to `true`).
+ * - `data`/`store`: The data or store to use for this slot.
+ *
+ * Remember, {@link Ext.picker.Slot} class extends from {@link Ext.dataview.DataView}.
+ *
+ * ## Examples
+ *
+ *     @example miniphone preview
+ *     var picker = Ext.create('Ext.Picker', {
+ *         slots: [
+ *             {
+ *                 name : 'limit_speed',
+ *                 title: 'Speed',
+ *                 data : [
+ *                     {text: '50 KB/s', value: 50},
+ *                     {text: '100 KB/s', value: 100},
+ *                     {text: '200 KB/s', value: 200},
+ *                     {text: '300 KB/s', value: 300}
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *     Ext.Viewport.add(picker);
+ *     picker.show();
+ *
+ * You can also customize the top toolbar on the {@link Ext.picker.Picker} by changing the {@link #doneButton} and {@link #cancelButton} configurations:
+ *
+ *     @example miniphone preview
+ *     var picker = Ext.create('Ext.Picker', {
+ *         doneButton: 'I\'m done!',
+ *         cancelButton: false,
+ *         slots: [
+ *             {
+ *                 name : 'limit_speed',
+ *                 title: 'Speed',
+ *                 data : [
+ *                     {text: '50 KB/s', value: 50},
+ *                     {text: '100 KB/s', value: 100},
+ *                     {text: '200 KB/s', value: 200},
+ *                     {text: '300 KB/s', value: 300}
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *     Ext.Viewport.add(picker);
+ *     picker.show();
+ *
+ * Or by passing a custom {@link #toolbar} configuration:
+ *
+ *     @example miniphone preview
+ *     var picker = Ext.create('Ext.Picker', {
+ *         doneButton: false,
+ *         cancelButton: false,
+ *         toolbar: {
+ *             ui: 'light',
+ *             title: 'My Picker!'
+ *         },
+ *         slots: [
+ *             {
+ *                 name : 'limit_speed',
+ *                 title: 'Speed',
+ *                 data : [
+ *                     {text: '50 KB/s', value: 50},
+ *                     {text: '100 KB/s', value: 100},
+ *                     {text: '200 KB/s', value: 200},
+ *                     {text: '300 KB/s', value: 300}
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *     Ext.Viewport.add(picker);
+ *     picker.show();
+ */
+Ext.define('Ext.picker.Picker', {
+    extend: Ext.Sheet,
+    alias: 'widget.picker',
+    alternateClassName: 'Ext.Picker',
+    isPicker: true,
+    /**
+     * @event pick
+     * Fired when a slot has been picked
+     * @param {Ext.Picker} this This Picker.
+     * @param {Object} The values of this picker's slots, in `{name:'value'}` format.
+     * @param {Ext.Picker.Slot} slot An instance of Ext.Picker.Slot that has been picked.
+     */
+    /**
+     * @event change
+     * Fired when the value of this picker has changed the Done button has been pressed.
+     * @param {Ext.picker.Picker} this This Picker.
+     * @param {Object} value The values of this picker's slots, in `{name:'value'}` format.
+     */
+    /**
+     * @event cancel
+     * Fired when the cancel button is tapped and the values are reverted back to
+     * what they were.
+     * @param {Ext.Picker} this This Picker.
+     */
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: Ext.baseCSSPrefix + 'picker',
+        /**
+         * @cfg {String/Mixed} doneButton
+         * Can be either:
+         *
+         * - A {String} text to be used on the Done button.
+         * - An {Object} as config for {@link Ext.Button}.
+         * - `false` or `null` to hide it.
+         * @accessor
+         */
+        doneButton: true,
+        /**
+         * @cfg {String/Mixed} cancelButton
+         * Can be either:
+         *
+         * - A {String} text to be used on the Cancel button.
+         * - An {Object} as config for {@link Ext.Button}.
+         * - `false` or `null` to hide it.
+         * @accessor
+         */
+        cancelButton: true,
+        /**
+         * @cfg {Boolean} useTitles
+         * Generate a title header for each individual slot and use
+         * the title configuration of the slot.
+         * @accessor
+         */
+        useTitles: false,
+        /**
+         * @cfg {Array} slots
+         * An array of slot configurations.
+         *
+         * - `name` {String} - Name of the slot
+         * - `data` {Array} - An array of text/value pairs in the format `{text: 'myKey', value: 'myValue'}`
+         * - `title` {String} - Title of the slot. This is used in conjunction with `useTitles: true`.
+         *
+         * @accessor
+         */
+        slots: null,
+        /**
+         * @cfg {String/Number} value The value to initialize the picker with.
+         * @accessor
+         */
+        value: null,
+        /**
+         * @cfg {Number} height
+         * The height of the picker.
+         * @accessor
+         */
+        height: 220,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
+        /**
+         * @cfg
+         * @hide
+         */
+        centered: false,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        left: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        right: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        bottom: 0,
+        // @private
+        defaultType: 'pickerslot',
+        toolbarPosition: 'top',
+        /**
+         * @cfg {Ext.TitleBar/Ext.Toolbar/Object} toolbar
+         * The toolbar which contains the {@link #doneButton} and {@link #cancelButton} buttons.
+         * You can override this if you wish, and add your own configurations. Just ensure that you take into account
+         * the {@link #doneButton} and {@link #cancelButton} configurations.
+         *
+         * The default xtype is a {@link Ext.TitleBar}:
+         *
+         *     toolbar: {
+         *         items: [
+         *             {
+         *                 xtype: 'button',
+         *                 text: 'Left',
+         *                 align: 'left'
+         *             },
+         *             {
+         *                 xtype: 'button',
+         *                 text: 'Right',
+         *                 align: 'left'
+         *             }
+         *         ]
+         *     }
+         *
+         * Or to use a {@link Ext.Toolbar instead}:
+         *
+         *     toolbar: {
+         *         xtype: 'toolbar',
+         *         items: [
+         *             {
+         *                 xtype: 'button',
+         *                 text: 'Left'
+         *             },
+         *             {
+         *                 xtype: 'button',
+         *                 text: 'Left Two'
+         *             }
+         *         ]
+         *     }
+         *
+         * @accessor
+         */
+        toolbar: {
+            xtype: 'titlebar'
+        }
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ],
+            height: '100%',
+            toolbarPosition: 'bottom',
+            toolbar: {
+                xtype: 'toolbar',
+                layout: {
+                    type: 'hbox',
+                    pack: 'center'
+                }
+            },
+            doneButton: {
+                iconCls: 'check2',
+                ui: 'round',
+                text: ''
+            },
+            cancelButton: {
+                iconCls: 'delete',
+                ui: 'round',
+                text: ''
+            }
+        },
+        {
+            theme: [
+                'CupertinoClassic'
+            ],
+            toolbar: {
+                ui: 'black'
+            }
+        },
+        {
+            theme: [
+                'MountainView'
+            ],
+            toolbarPosition: 'bottom',
+            toolbar: {
+                defaults: {
+                    flex: 1
+                }
+            }
+        }
+    ],
+    initialize: function() {
+        var me = this,
+            clsPrefix = Ext.baseCSSPrefix,
+            innerElement = this.innerElement;
+        //insert the mask, and the picker bar
+        this.mask = innerElement.createChild({
+            cls: clsPrefix + 'picker-mask'
+        });
+        this.bar = this.mask.createChild({
+            cls: clsPrefix + 'picker-bar'
+        });
+        me.on({
+            scope: this,
+            delegate: 'pickerslot',
+            slotpick: 'onSlotPick'
+        });
+    },
+    /**
+     * @private
+     */
+    applyToolbar: function(config) {
+        if (config === true) {
+            config = {};
+        }
+        Ext.applyIf(config, {
+            docked: this.getToolbarPosition()
+        });
+        return Ext.factory(config, 'Ext.TitleBar', this.getToolbar());
+    },
+    /**
+     * @private
+     */
+    updateToolbar: function(newToolbar, oldToolbar) {
+        if (newToolbar) {
+            this.add(newToolbar);
+        }
+        if (oldToolbar) {
+            this.remove(oldToolbar);
+        }
+    },
+    /**
+     * Updates the {@link #doneButton} configuration. Will change it into a button when appropriate, or just update the text if needed.
+     * @param {Object} config
+     * @return {Object}
+     */
+    applyDoneButton: function(config) {
+        if (config) {
+            if (Ext.isBoolean(config)) {
+                config = {};
+            }
+            if (typeof config == "string") {
+                config = {
+                    text: config
+                };
+            }
+            Ext.applyIf(config, {
+                ui: 'action',
+                align: 'right',
+                text: 'Done'
+            });
+        }
+        return Ext.factory(config, 'Ext.Button', this.getDoneButton());
+    },
+    updateDoneButton: function(newDoneButton, oldDoneButton) {
+        var toolbar = this.getToolbar();
+        if (newDoneButton) {
+            toolbar.add(newDoneButton);
+            newDoneButton.on('tap', this.onDoneButtonTap, this);
+        } else if (oldDoneButton) {
+            toolbar.remove(oldDoneButton);
+        }
+    },
+    /**
+     * Updates the {@link #cancelButton} configuration. Will change it into a button when appropriate, or just update the text if needed.
+     * @param {Object} config
+     * @return {Object}
+     */
+    applyCancelButton: function(config) {
+        if (config) {
+            if (Ext.isBoolean(config)) {
+                config = {};
+            }
+            if (typeof config == "string") {
+                config = {
+                    text: config
+                };
+            }
+            Ext.applyIf(config, {
+                align: 'left',
+                text: 'Cancel'
+            });
+        }
+        return Ext.factory(config, 'Ext.Button', this.getCancelButton());
+    },
+    updateCancelButton: function(newCancelButton, oldCancelButton) {
+        var toolbar = this.getToolbar();
+        if (newCancelButton) {
+            toolbar.add(newCancelButton);
+            newCancelButton.on('tap', this.onCancelButtonTap, this);
+        } else if (oldCancelButton) {
+            toolbar.remove(oldCancelButton);
+        }
+    },
+    /**
+     * @private
+     */
+    updateUseTitles: function(useTitles) {
+        var innerItems = this.getInnerItems(),
+            ln = innerItems.length,
+            cls = Ext.baseCSSPrefix + 'use-titles',
+            i, innerItem;
+        //add a cls onto the picker
+        if (useTitles) {
+            this.addCls(cls);
+        } else {
+            this.removeCls(cls);
+        }
+        //show the time on each of the slots
+        for (i = 0; i < ln; i++) {
+            innerItem = innerItems[i];
+            if (innerItem.isSlot) {
+                innerItem.setShowTitle(useTitles);
+            }
+        }
+    },
+    applySlots: function(slots) {
+        //loop through each of the slots and add a reference to this picker
+        if (slots) {
+            var ln = slots.length,
+                i;
+            for (i = 0; i < ln; i++) {
+                slots[i].picker = this;
+            }
+        }
+        return slots;
+    },
+    /**
+     * Adds any new {@link #slots} to this picker, and removes existing {@link #slots}
+     * @private
+     */
+    updateSlots: function(newSlots) {
+        var bcss = Ext.baseCSSPrefix,
+            innerItems;
+        this.removeAll();
+        if (newSlots) {
+            this.add(newSlots);
+        }
+        innerItems = this.getInnerItems();
+        if (innerItems.length > 0) {
+            innerItems[0].addCls(bcss + 'first');
+            innerItems[innerItems.length - 1].addCls(bcss + 'last');
+        }
+        this.updateUseTitles(this.getUseTitles());
+    },
+    /**
+     * @private
+     * Called when the done button has been tapped.
+     */
+    onDoneButtonTap: function() {
+        var oldValue = this._value,
+            newValue = this.getValue(true);
+        if (newValue != oldValue) {
+            this.fireEvent('change', this, newValue);
+        }
+        this.hide();
+        Ext.util.InputBlocker.unblockInputs();
+    },
+    /**
+     * @private
+     * Called when the cancel button has been tapped.
+     */
+    onCancelButtonTap: function() {
+        this.fireEvent('cancel', this);
+        this.hide();
+        Ext.util.InputBlocker.unblockInputs();
+    },
+    /**
+     * @private
+     * Called when a slot has been picked.
+     */
+    onSlotPick: function(slot) {
+        this.fireEvent('pick', this, this.getValue(true), slot);
+    },
+    show: function() {
+        if (this.getParent() === undefined) {
+            Ext.Viewport.add(this);
+        }
+        this.callParent(arguments);
+        if (!this.isHidden()) {
+            this.setValue(this._value);
+        }
+        Ext.util.InputBlocker.blockInputs();
+    },
+    /**
+     * Sets the values of the pickers slots.
+     * @param {Object} values The values in a {name:'value'} format.
+     * @param {Boolean} animated `true` to animate setting the values.
+     * @return {Ext.Picker} this This picker.
+     */
+    setValue: function(values, animated) {
+        var me = this,
+            slots = me.getInnerItems(),
+            ln = slots.length,
+            key, slot, loopSlot, i, value;
+        if (!values) {
+            values = {};
+            for (i = 0; i < ln; i++) {
+                //set the value to false so the slot will return null when getValue is called
+                values[slots[i].config.name] = null;
+            }
+        }
+        for (key in values) {
+            slot = null;
+            value = values[key];
+            for (i = 0; i < slots.length; i++) {
+                loopSlot = slots[i];
+                if (loopSlot.config.name == key) {
+                    slot = loopSlot;
+                    break;
+                }
+            }
+            if (slot) {
+                if (animated) {
+                    slot.setValueAnimated(value);
+                } else {
+                    slot.setValue(value);
+                }
+            }
+        }
+        me._values = me._value = values;
+        return me;
+    },
+    setValueAnimated: function(values) {
+        this.setValue(values, true);
+    },
+    /**
+     * Returns the values of each of the pickers slots
+     * @return {Object} The values of the pickers slots
+     */
+    getValue: function(useDom) {
+        var values = {},
+            items = this.getItems().items,
+            ln = items.length,
+            item, i;
+        if (useDom) {
+            for (i = 0; i < ln; i++) {
+                item = items[i];
+                if (item && item.isSlot) {
+                    values[item.getName()] = item.getValue(useDom);
+                }
+            }
+            this._values = values;
+        }
+        return this._values;
+    },
+    /**
+     * Returns the values of each of the pickers slots.
+     * @return {Object} The values of the pickers slots.
+     */
+    getValues: function() {
+        return this.getValue();
+    },
+    destroy: function() {
+        this.callParent();
+        Ext.destroy(this.mask, this.bar);
+    }
+}, function() {});
+
+/**
+ * Simple Select field wrapper. Example usage:
+ *
+ *     @example
+ *     Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'fieldset',
+ *                 title: 'Select',
+ *                 items: [
+ *                     {
+ *                         xtype: 'selectfield',
+ *                         label: 'Choose one',
+ *                         options: [
+ *                             {text: 'First Option',  value: 'first'},
+ *                             {text: 'Second Option', value: 'second'},
+ *                             {text: 'Third Option',  value: 'third'}
+ *                         ]
+ *                     }
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
+ */
+Ext.define('Ext.field.Select', {
+    extend: Ext.field.Text,
+    xtype: 'selectfield',
+    alternateClassName: 'Ext.form.Select',
+    /**
+     * @event change
+     * Fires when an option selection has changed
+     * @param {Ext.field.Select} this
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The old value
+     */
+    /**
+     * @event focus
+     * Fires when this field receives input focus. This happens both when you tap on the field and when you focus on the field by using
+     * 'next' or 'tab' on a keyboard.
+     *
+     * Please note that this event is not very reliable on Android. For example, if your Select field is second in your form panel,
+     * you cannot use the Next button to get to this select field. This functionality works as expected on iOS.
+     * @param {Ext.field.Select} this This field
+     * @param {Ext.event.Event} e
+     */
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        ui: 'select',
+        /**
+         * @cfg {Boolean} useClearIcon
+         * @hide
+         */
+        /**
+         * @cfg {String/Number} valueField The underlying {@link Ext.data.Field#name data value name} (or numeric Array index) to bind to this
+         * Select control.
+         * @accessor
+         */
+        valueField: 'value',
+        /**
+         * @cfg {String/Number} displayField The underlying {@link Ext.data.Field#name data value name} (or numeric Array index) to bind to this
+         * Select control. This resolved value is the visibly rendered value of the available selection options.
+         * @accessor
+         */
+        displayField: 'text',
+        /**
+         * @cfg {Ext.data.Store/Object/String} store The store to provide selection options data.
+         * Either a Store instance, configuration object or store ID.
+         * @accessor
+         */
+        store: null,
+        /**
+         * @cfg {Array} options An array of select options.
+         *
+         *     [
+         *         {text: 'First Option',  value: 'first'},
+         *         {text: 'Second Option', value: 'second'},
+         *         {text: 'Third Option',  value: 'third'}
+         *     ]
+         *
+         * __Note:__ Option object member names should correspond with defined {@link #valueField valueField} and {@link #displayField displayField} values.
+         * This config will be ignored if a {@link #store store} instance is provided.
+         * @accessor
+         */
+        options: null,
+        /**
+         * @cfg {String} hiddenName Specify a `hiddenName` if you're using the {@link Ext.form.Panel#standardSubmit standardSubmit} option.
+         * This name will be used to post the underlying value of the select to the server.
+         * @accessor
+         */
+        hiddenName: null,
+        /**
+         * @cfg {Object} component
+         * @accessor
+         * @hide
+         */
+        component: {
+            useMask: true
+        },
+        /**
+         * @cfg {Boolean} clearIcon
+         * @hide
+         * @accessor
+         */
+        clearIcon: false,
+        /**
+         * @cfg {String/Boolean} usePicker
+         * `true` if you want this component to always use a {@link Ext.picker.Picker}.
+         * `false` if you want it to use a popup overlay {@link Ext.List}.
+         * `auto` if you want to show a {@link Ext.picker.Picker} only on phones.
+         */
+        usePicker: 'auto',
+        /**
+         * @cfg {Boolean} autoSelect
+         * `true` to auto select the first value in the {@link #store} or {@link #options} when they are changed. Only happens when
+         * the {@link #value} is set to `null`.
+         */
+        autoSelect: true,
+        /**
+         * @cfg {Object} defaultPhonePickerConfig
+         * The default configuration for the picker component when you are on a phone.
+         */
+        defaultPhonePickerConfig: null,
+        /**
+         * @cfg {Object} defaultTabletPickerConfig
+         * The default configuration for the picker component when you are on a tablet.
+         */
+        defaultTabletPickerConfig: null,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        name: 'picker',
+        /**
+         * @cfg {String} pickerSlotAlign
+         * The alignment of text in the picker created by this Select
+         * @private
+         */
+        pickerSlotAlign: 'center'
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ],
+            pickerSlotAlign: 'left'
+        },
+        {
+            theme: [
+                'Tizen'
+            ],
+            usePicker: false
+        }
+    ],
+    // @private
+    initialize: function() {
+        var me = this,
+            component = me.getComponent();
+        me.callParent();
+        component.on({
+            scope: me,
+            masktap: 'onMaskTap'
+        });
+        component.doMaskTap = Ext.emptyFn;
+        if (Ext.browser.is.AndroidStock2) {
+            component.input.dom.disabled = true;
+        }
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
+            this.label.on({
+                scope: me,
+                tap: "onFocus"
+            });
+        }
+    },
+    getElementConfig: function() {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
+            var prefix = Ext.baseCSSPrefix;
+            return {
+                reference: 'element',
+                className: 'x-container',
+                children: [
+                    {
+                        reference: 'innerElement',
+                        cls: prefix + 'component-outer',
+                        children: [
+                            {
+                                reference: 'label',
+                                cls: prefix + 'form-label',
+                                children: [
+                                    {
+                                        reference: 'labelspan',
+                                        tag: 'span'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+        } else {
+            return this.callParent(arguments);
+        }
+    },
+    /**
+     * @private
+     */
+    updateDefaultPhonePickerConfig: function(newConfig) {
+        var picker = this.picker;
+        if (picker) {
+            picker.setConfig(newConfig);
+        }
+    },
+    /**
+     * @private
+     */
+    updateDefaultTabletPickerConfig: function(newConfig) {
+        var listPanel = this.listPanel;
+        if (listPanel) {
+            listPanel.setConfig(newConfig);
+        }
+    },
+    /**
+     * @private
+     * Checks if the value is `auto`. If it is, it only uses the picker if the current device type
+     * is a phone.
+     */
+    applyUsePicker: function(usePicker) {
+        if (usePicker == "auto") {
+            usePicker = (Ext.os.deviceType == 'Phone');
+        }
+        return Boolean(usePicker);
+    },
+    syncEmptyCls: Ext.emptyFn,
+    /**
+     * @private
+     */
+    applyValue: function(value) {
+        var record = value,
+            index, store;
+        //we call this so that the options configruation gets intiailized, so that a store exists, and we can
+        //find the correct value
+        this.getOptions();
+        store = this.getStore();
+        if ((value != undefined && !value.isModel) && store) {
+            index = store.find(this.getValueField(), value, null, null, null, true);
+            if (index == -1) {
+                index = store.find(this.getDisplayField(), value, null, null, null, true);
+            }
+            record = store.getAt(index);
+        }
+        return record;
+    },
+    updateValue: function(newValue, oldValue) {
+        this.record = newValue;
+        this.callParent([
+            (newValue && newValue.isModel) ? newValue.get(this.getDisplayField()) : ''
+        ]);
+    },
+    getValue: function() {
+        var record = this.record;
+        return (record && record.isModel) ? record.get(this.getValueField()) : null;
+    },
+    /**
+     * Returns the current selected {@link Ext.data.Model record} instance selected in this field.
+     * @return {Ext.data.Model} the record.
+     */
+    getRecord: function() {
+        return this.record;
+    },
+    // @private
+    getPhonePicker: function() {
+        var config = this.getDefaultPhonePickerConfig();
+        if (!this.picker) {
+            this.picker = Ext.create('Ext.picker.Picker', Ext.apply({
+                slots: [
+                    {
+                        align: this.getPickerSlotAlign(),
+                        name: this.getName(),
+                        valueField: this.getValueField(),
+                        displayField: this.getDisplayField(),
+                        value: this.getValue(),
+                        store: this.getStore()
+                    }
+                ],
+                listeners: {
+                    change: this.onPickerChange,
+                    scope: this
+                }
+            }, config));
+        }
+        return this.picker;
+    },
+    // @private
+    getTabletPicker: function() {
+        var config = this.getDefaultTabletPickerConfig();
+        if (!this.listPanel) {
+            this.listPanel = Ext.create('Ext.Panel', Ext.apply({
+                left: 0,
+                top: 0,
+                modal: true,
+                cls: Ext.baseCSSPrefix + 'select-overlay',
+                layout: 'fit',
+                hideOnMaskTap: true,
+                width: Ext.os.is.Phone ? '14em' : '18em',
+                height: (Ext.os.is.BlackBerry && Ext.os.version.getMajor() === 10) ? '12em' : (Ext.os.is.Phone ? '12.5em' : '22em'),
+                items: {
+                    xtype: 'list',
+                    store: this.getStore(),
+                    itemTpl: '<span class="x-list-label">{' + this.getDisplayField() + ':htmlEncode}</span>',
+                    listeners: {
+                        select: this.onListSelect,
+                        itemtap: this.onListTap,
+                        scope: this
+                    }
+                }
+            }, config));
+        }
+        return this.listPanel;
+    },
+    // @private
+    onMaskTap: function() {
+        this.onFocus();
+        return false;
+    },
+    /**
+     * Shows the picker for the select field, whether that is a {@link Ext.picker.Picker} or a simple
+     * {@link Ext.List list}.
+     */
+    showPicker: function() {
+        var me = this,
+            store = me.getStore(),
+            value = me.getValue();
+        //check if the store is empty, if it is, return
+        if (!store || store.getCount() === 0) {
+            return;
+        }
+        if (me.getReadOnly()) {
+            return;
+        }
+        me.isFocused = true;
+        if (me.getUsePicker()) {
+            var picker = me.getPhonePicker(),
+                name = me.getName(),
+                pickerValue = {};
+            pickerValue[name] = value;
+            picker.setValue(pickerValue);
+            if (!picker.getParent()) {
+                Ext.Viewport.add(picker);
+            }
+            picker.show();
+        } else {
+            var listPanel = me.getTabletPicker(),
+                list = listPanel.down('list'),
+                index, record;
+            if (!listPanel.getParent()) {
+                Ext.Viewport.add(listPanel);
+            }
+            listPanel.showBy(me.getComponent(), null);
+            if (value || me.getAutoSelect()) {
+                store = list.getStore();
+                index = store.find(me.getValueField(), value, null, null, null, true);
+                record = store.getAt(index);
+                if (record) {
+                    list.select(record, null, true);
+                }
+            }
+        }
+    },
+    // @private
+    onListSelect: function(item, record) {
+        var me = this;
+        if (record) {
+            me.setValue(record);
+        }
+    },
+    onListTap: function() {
+        this.listPanel.hide({
+            type: 'fade',
+            out: true,
+            scope: this
+        });
+    },
+    // @private
+    onPickerChange: function(picker, value) {
+        var me = this,
+            newValue = value[me.getName()],
+            store = me.getStore(),
+            index = store.find(me.getValueField(), newValue, null, null, null, true),
+            record = store.getAt(index);
+        me.setValue(record);
+    },
+    onChange: function(component, newValue, oldValue) {
+        var me = this,
+            store = me.getStore(),
+            index = (store) ? store.find(me.getDisplayField(), oldValue, null, null, null, true) : -1,
+            valueField = me.getValueField(),
+            record = (store) ? store.getAt(index) : null;
+        oldValue = (record) ? record.get(valueField) : null;
+        me.fireEvent('change', me, me.getValue(), oldValue);
+    },
+    /**
+     * Updates the underlying `<options>` list with new values.
+     *
+     * @param {Array} newOptions An array of options configurations to insert or append.
+     *
+     *     selectBox.setOptions([
+     *         {text: 'First Option',  value: 'first'},
+     *         {text: 'Second Option', value: 'second'},
+     *         {text: 'Third Option',  value: 'third'}
+     *     ]).setValue('third');
+     *
+     * __Note:__ option object member names should correspond with defined {@link #valueField valueField} and
+     * {@link #displayField displayField} values.
+     *
+     * @return {Ext.field.Select} this
+     */
+    updateOptions: function(newOptions) {
+        var store = this.getStore();
+        if (!store) {
+            this.setStore(true);
+            store = this._store;
+        }
+        if (!newOptions) {
+            store.clearData();
+        } else {
+            store.setData(newOptions);
+            this.onStoreDataChanged(store);
+        }
+        return this;
+    },
+    applyStore: function(store) {
+        if (store === true) {
+            store = Ext.create('Ext.data.Store', {
+                fields: [
+                    this.getValueField(),
+                    this.getDisplayField()
+                ],
+                autoDestroy: true
+            });
+        }
+        if (store) {
+            store = Ext.data.StoreManager.lookup(store);
+            store.on({
+                scope: this,
+                addrecords: 'onStoreDataChanged',
+                removerecords: 'onStoreDataChanged',
+                updaterecord: 'onStoreDataChanged',
+                refresh: 'onStoreDataChanged'
+            });
+        }
+        return store;
+    },
+    updateStore: function(newStore) {
+        if (newStore) {
+            this.onStoreDataChanged(newStore);
+        }
+        if (this.getUsePicker() && this.picker) {
+            this.picker.down('pickerslot').setStore(newStore);
+        } else if (this.listPanel) {
+            this.listPanel.down('dataview').setStore(newStore);
+        }
+    },
+    /**
+     * Called when the internal {@link #store}'s data has changed.
+     */
+    onStoreDataChanged: function(store) {
+        var initialConfig = this.getInitialConfig(),
+            value = this.getValue();
+        if (value || value == 0) {
+            this.updateValue(this.applyValue(value));
+        }
+        if (this.getValue() === null) {
+            if (initialConfig.hasOwnProperty('value')) {
+                this.setValue(initialConfig.value);
+            }
+            if (this.getValue() === null && this.getAutoSelect()) {
+                if (store.getCount() > 0) {
+                    this.setValue(store.getAt(0));
+                }
+            }
+        }
+    },
+    /**
+     * @private
+     */
+    doSetDisabled: function(disabled) {
+        var component = this.getComponent();
+        if (component) {
+            component.setDisabled(disabled);
+        }
+        Ext.Component.prototype.doSetDisabled.apply(this, arguments);
+    },
+    /**
+     * @private
+     */
+    setDisabled: function() {
+        Ext.Component.prototype.setDisabled.apply(this, arguments);
+    },
+    // @private
+    updateLabelWidth: function() {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
+            return;
+        } else {
+            this.callParent(arguments);
+        }
+    },
+    // @private
+    updateLabelAlign: function() {
+        if (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103) {
+            return;
+        } else {
+            this.callParent(arguments);
+        }
+    },
+    /**
+     * Resets the Select field to the value of the first record in the store.
+     * @return {Ext.field.Select} this
+     * @chainable
+     */
+    reset: function() {
+        var me = this,
+            record;
+        if (me.getAutoSelect()) {
+            var store = me.getStore();
+            record = (me.originalValue) ? me.originalValue : store.getAt(0);
+        } else {
+            var usePicker = me.getUsePicker(),
+                picker = usePicker ? me.picker : me.listPanel;
+            if (picker) {
+                picker = picker.child(usePicker ? 'pickerslot' : 'dataview');
+                picker.deselectAll();
+            }
+            record = null;
+        }
+        me.setValue(record);
+        return me;
+    },
+    onFocus: function(e) {
+        if (this.getDisabled()) {
+            return false;
+        }
+        var component = this.getComponent();
+        this.fireEvent('focus', this, e);
+        if (Ext.os.is.Android4) {
+            component.input.dom.focus();
+        }
+        component.input.dom.blur();
+        this.isFocused = true;
+        this.showPicker();
+    },
+    destroy: function() {
+        this.callParent(arguments);
+        var store = this.getStore();
+        if (store && store.getAutoDestroy()) {
+            Ext.destroy(store);
+        }
+        Ext.destroy(this.listPanel, this.picker);
+    }
+});
+
+/**
+ * A date picker component which shows a Date Picker on the screen. This class extends from {@link Ext.picker.Picker}
+ * and {@link Ext.Sheet} so it is a popup.
+ *
+ * This component has no required configurations.
+ *
+ * ## Examples
+ *
+ *     @example miniphone preview
+ *     var datePicker = Ext.create('Ext.picker.Date');
+ *     Ext.Viewport.add(datePicker);
+ *     datePicker.show();
+ *
+ * You may want to adjust the {@link #yearFrom} and {@link #yearTo} properties:
+ *
+ *     @example miniphone preview
+ *     var datePicker = Ext.create('Ext.picker.Date', {
+ *         yearFrom: 2000,
+ *         yearTo  : 2015
+ *     });
+ *     Ext.Viewport.add(datePicker);
+ *     datePicker.show();
+ *
+ * You can set the value of the {@link Ext.picker.Date} to the current date using `new Date()`:
+ *
+ *     @example miniphone preview
+ *     var datePicker = Ext.create('Ext.picker.Date', {
+ *         value: new Date()
+ *     });
+ *     Ext.Viewport.add(datePicker);
+ *     datePicker.show();
+ *
+ * And you can hide the titles from each of the slots by using the {@link #useTitles} configuration:
+ *
+ *     @example miniphone preview
+ *     var datePicker = Ext.create('Ext.picker.Date', {
+ *         useTitles: false
+ *     });
+ *     Ext.Viewport.add(datePicker);
+ *     datePicker.show();
+ */
+Ext.define('Ext.picker.Date', {
+    extend: Ext.picker.Picker,
+    xtype: 'datepicker',
+    alternateClassName: 'Ext.DatePicker',
+    /**
+     * @event change
+     * Fired when the value of this picker has changed and the done button is pressed.
+     * @param {Ext.picker.Date} this This Picker
+     * @param {Date} value The date value
+     */
+    config: {
+        /**
+         * @cfg {Number} yearFrom
+         * The start year for the date picker. If {@link #yearFrom} is greater than
+         * {@link #yearTo} then the order of years will be reversed.
+         * @accessor
+         */
+        yearFrom: 1980,
+        /**
+         * @cfg {Number} [yearTo=new Date().getFullYear()]
+         * The last year for the date picker. If {@link #yearFrom} is greater than
+         * {@link #yearTo} then the order of years will be reversed.
+         * @accessor
+         */
+        yearTo: new Date().getFullYear(),
+        /**
+         * @cfg {String} monthText
+         * The label to show for the month column.
+         * @accessor
+         */
+        monthText: 'Month',
+        /**
+         * @cfg {String} dayText
+         * The label to show for the day column.
+         * @accessor
+         */
+        dayText: 'Day',
+        /**
+         * @cfg {String} yearText
+         * The label to show for the year column.
+         * @accessor
+         */
+        yearText: 'Year',
+        /**
+         * @cfg {Array} slotOrder
+         * An array of strings that specifies the order of the slots.
+         * @accessor
+         */
+        slotOrder: [
+            'month',
+            'day',
+            'year'
+        ],
+        /**
+         * @cfg {Object/Date} value
+         * Default value for the field and the internal {@link Ext.picker.Date} component. Accepts an object of 'year',
+         * 'month' and 'day' values, all of which should be numbers, or a {@link Date}.
+         *
+         * Examples:
+         *
+         * - `{year: 1989, day: 1, month: 5}` = 1st May 1989
+         * - `new Date()` = current date
+         * @accessor
+         */
+        /**
+         * @cfg {Array} slots
+         * @hide
+         * @accessor
+         */
+        /**
+         * @cfg {String/Mixed} doneButton
+         * Can be either:
+         *
+         * - A {String} text to be used on the Done button.
+         * - An {Object} as config for {@link Ext.Button}.
+         * - `false` or `null` to hide it.
+         * @accessor
+         */
+        doneButton: true
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ],
+            doneButton: {
+                iconCls: 'check2',
+                ui: 'round',
+                text: ''
+            }
+        }
+    ],
+    initialize: function() {
+        this.callParent();
+        this.on({
+            scope: this,
+            delegate: '> slot',
+            slotpick: this.onSlotPick
+        });
+        this.on({
+            scope: this,
+            show: this.onSlotPick
+        });
+    },
+    setValue: function(value, animated) {
+        if (Ext.isDate(value)) {
+            value = {
+                day: value.getDate(),
+                month: value.getMonth() + 1,
+                year: value.getFullYear()
+            };
+        }
+        this.callParent([
+            value,
+            animated
+        ]);
+        this.onSlotPick();
+    },
+    getValue: function(useDom) {
+        var values = {},
+            items = this.getItems().items,
+            ln = items.length,
+            daysInMonth, day, month, year, item, i;
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            if (item instanceof Ext.picker.Slot) {
+                values[item.getName()] = item.getValue(useDom);
+            }
+        }
+        //if all the slots return null, we should not return a date
+        if (values.year === null && values.month === null && values.day === null) {
+            return null;
+        }
+        year = Ext.isNumber(values.year) ? values.year : 1;
+        month = Ext.isNumber(values.month) ? values.month : 1;
+        day = Ext.isNumber(values.day) ? values.day : 1;
+        if (month && year && month && day) {
+            daysInMonth = this.getDaysInMonth(month, year);
+        }
+        day = (daysInMonth) ? Math.min(day, daysInMonth) : day;
+        return new Date(year, month - 1, day);
+    },
+    /**
+     * Updates the yearFrom configuration
+     */
+    updateYearFrom: function() {
+        if (this.initialized) {
+            this.createSlots();
+        }
+    },
+    /**
+     * Updates the yearTo configuration
+     */
+    updateYearTo: function() {
+        if (this.initialized) {
+            this.createSlots();
+        }
+    },
+    /**
+     * Updates the monthText configuration
+     */
+    updateMonthText: function(newMonthText, oldMonthText) {
+        var innerItems = this.getInnerItems,
+            ln = innerItems.length,
+            item, i;
+        //loop through each of the current items and set the title on the correct slice
+        if (this.initialized) {
+            for (i = 0; i < ln; i++) {
+                item = innerItems[i];
+                if ((typeof item.title == "string" && item.title == oldMonthText) || (item.title.html == oldMonthText)) {
+                    item.setTitle(newMonthText);
+                }
+            }
+        }
+    },
+    /**
+     * Updates the {@link #dayText} configuration.
+     */
+    updateDayText: function(newDayText, oldDayText) {
+        var innerItems = this.getInnerItems,
+            ln = innerItems.length,
+            item, i;
+        //loop through each of the current items and set the title on the correct slice
+        if (this.initialized) {
+            for (i = 0; i < ln; i++) {
+                item = innerItems[i];
+                if ((typeof item.title == "string" && item.title == oldDayText) || (item.title.html == oldDayText)) {
+                    item.setTitle(newDayText);
+                }
+            }
+        }
+    },
+    /**
+     * Updates the yearText configuration
+     */
+    updateYearText: function(yearText) {
+        var innerItems = this.getInnerItems,
+            ln = innerItems.length,
+            item, i;
+        //loop through each of the current items and set the title on the correct slice
+        if (this.initialized) {
+            for (i = 0; i < ln; i++) {
+                item = innerItems[i];
+                if (item.title == this.yearText) {
+                    item.setTitle(yearText);
+                }
+            }
+        }
+    },
+    // @private
+    constructor: function() {
+        this.callParent(arguments);
+        this.createSlots();
+    },
+    /**
+     * Generates all slots for all years specified by this component, and then sets them on the component
+     * @private
+     */
+    createSlots: function() {
+        var me = this,
+            slotOrder = me.getSlotOrder(),
+            yearsFrom = me.getYearFrom(),
+            yearsTo = me.getYearTo(),
+            years = [],
+            days = [],
+            months = [],
+            reverse = yearsFrom > yearsTo,
+            ln, i, daysInMonth;
+        while (yearsFrom) {
+            years.push({
+                text: yearsFrom,
+                value: yearsFrom
+            });
+            if (yearsFrom === yearsTo) {
+                break;
+            }
+            if (reverse) {
+                yearsFrom--;
+            } else {
+                yearsFrom++;
+            }
+        }
+        daysInMonth = me.getDaysInMonth(1, new Date().getFullYear());
+        for (i = 0; i < daysInMonth; i++) {
+            days.push({
+                text: i + 1,
+                value: i + 1
+            });
+        }
+        for (i = 0 , ln = Ext.Date.monthNames.length; i < ln; i++) {
+            months.push({
+                text: Ext.Date.monthNames[i],
+                value: i + 1
+            });
+        }
+        var slots = [];
+        slotOrder.forEach(function(item) {
+            slots.push(me.createSlot(item, days, months, years));
+        });
+        me.setSlots(slots);
+    },
+    /**
+     * Returns a slot config for a specified date.
+     * @private
+     */
+    createSlot: function(name, days, months, years) {
+        switch (name) {
+            case 'year':
+                return {
+                    name: 'year',
+                    align: 'center',
+                    data: years,
+                    title: this.getYearText(),
+                    flex: 3
+                };
+            case 'month':
+                return {
+                    name: name,
+                    align: 'right',
+                    data: months,
+                    title: this.getMonthText(),
+                    flex: 4
+                };
+            case 'day':
+                return {
+                    name: 'day',
+                    align: 'center',
+                    data: days,
+                    title: this.getDayText(),
+                    flex: 2
+                };
+        }
+    },
+    onSlotPick: function() {
+        var value = this.getValue(true),
+            slot = this.getDaySlot(),
+            year = value.getFullYear(),
+            month = value.getMonth(),
+            days = [],
+            daysInMonth, i;
+        if (!value || !Ext.isDate(value) || !slot) {
+            return;
+        }
+        this.callParent(arguments);
+        //get the new days of the month for this new date
+        daysInMonth = this.getDaysInMonth(month + 1, year);
+        for (i = 0; i < daysInMonth; i++) {
+            days.push({
+                text: i + 1,
+                value: i + 1
+            });
+        }
+        // We don't need to update the slot days unless it has changed
+        if (slot.getStore().getCount() == days.length) {
+            return;
+        }
+        slot.getStore().setData(days);
+        // Now we have the correct amount of days for the day slot, lets update it
+        var store = slot.getStore(),
+            viewItems = slot.getViewItems(),
+            valueField = slot.getValueField(),
+            index, item;
+        index = store.find(valueField, value.getDate());
+        if (index == -1) {
+            return;
+        }
+        item = Ext.get(viewItems[index]);
+        slot.selectedIndex = index;
+        slot.scrollToItem(item);
+        slot.setValue(slot.getValue(true));
+    },
+    getDaySlot: function() {
+        var innerItems = this.getInnerItems(),
+            ln = innerItems.length,
+            i, slot;
+        if (this.daySlot) {
+            return this.daySlot;
+        }
+        for (i = 0; i < ln; i++) {
+            slot = innerItems[i];
+            if (slot.isSlot && slot.getName() == "day") {
+                this.daySlot = slot;
+                return slot;
+            }
+        }
+        return null;
+    },
+    // @private
+    getDaysInMonth: function(month, year) {
+        var daysInMonth = [
+                31,
+                28,
+                31,
+                30,
+                31,
+                30,
+                31,
+                31,
+                30,
+                31,
+                30,
+                31
+            ];
+        return month == 2 && this.isLeapYear(year) ? 29 : daysInMonth[month - 1];
+    },
+    // @private
+    isLeapYear: function(year) {
+        return !!((year & 3) === 0 && (year % 100 || (year % 400 === 0 && year)));
+    },
+    onDoneButtonTap: function() {
+        var oldValue = this._value,
+            newValue = this.getValue(true),
+            testValue = newValue;
+        if (Ext.isDate(newValue)) {
+            testValue = newValue.toDateString();
+        }
+        if (Ext.isDate(oldValue)) {
+            oldValue = oldValue.toDateString();
+        }
+        if (testValue != oldValue) {
+            this.fireEvent('change', this, newValue);
+        }
+        this.hide();
+        Ext.util.InputBlocker.unblockInputs();
+    }
+});
+
+/**
+ * This is a specialized field which shows a {@link Ext.picker.Date} when tapped. If it has a predefined value,
+ * or a value is selected in the {@link Ext.picker.Date}, it will be displayed like a normal {@link Ext.field.Text}
+ * (but not selectable/changable).
+ *
+ *     Ext.create('Ext.field.DatePicker', {
+ *         label: 'Birthday',
+ *         value: new Date()
+ *     });
+ *
+ * {@link Ext.field.DatePicker} fields are very simple to implement, and have no required configurations.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
+ * 
+ * ## Examples
+ *
+ * It can be very useful to set a default {@link #value} configuration on {@link Ext.field.DatePicker} fields. In
+ * this example, we set the {@link #value} to be the current date. You can also use the {@link #setValue} method to
+ * update the value at any time.
+ *
+ *     @example miniphone preview
+ *     Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'fieldset',
+ *                 items: [
+ *                     {
+ *                         xtype: 'datepickerfield',
+ *                         label: 'Birthday',
+ *                         name: 'birthday',
+ *                         value: new Date()
+ *                     }
+ *                 ]
+ *             },
+ *             {
+ *                 xtype: 'toolbar',
+ *                 docked: 'bottom',
+ *                 items: [
+ *                     { xtype: 'spacer' },
+ *                     {
+ *                         text: 'setValue',
+ *                         handler: function() {
+ *                             var datePickerField = Ext.ComponentQuery.query('datepickerfield')[0];
+ *
+ *                             var randomNumber = function(from, to) {
+ *                                 return Math.floor(Math.random() * (to - from + 1) + from);
+ *                             };
+ *
+ *                             datePickerField.setValue({
+ *                                 month: randomNumber(0, 11),
+ *                                 day  : randomNumber(0, 28),
+ *                                 year : randomNumber(1980, 2011)
+ *                             });
+ *                         }
+ *                     },
+ *                     { xtype: 'spacer' }
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *
+ * When you need to retrieve the date from the {@link Ext.field.DatePicker}, you can either use the {@link #getValue} or
+ * {@link #getFormattedValue} methods:
+ *
+ *     @example preview
+ *     Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'fieldset',
+ *                 items: [
+ *                     {
+ *                         xtype: 'datepickerfield',
+ *                         label: 'Birthday',
+ *                         name: 'birthday',
+ *                         value: new Date()
+ *                     }
+ *                 ]
+ *             },
+ *             {
+ *                 xtype: 'toolbar',
+ *                 docked: 'bottom',
+ *                 items: [
+ *                     {
+ *                         text: 'getValue',
+ *                         handler: function() {
+ *                             var datePickerField = Ext.ComponentQuery.query('datepickerfield')[0];
+ *                             Ext.Msg.alert(null, datePickerField.getValue());
+ *                         }
+ *                     },
+ *                     { xtype: 'spacer' },
+ *                     {
+ *                         text: 'getFormattedValue',
+ *                         handler: function() {
+ *                             var datePickerField = Ext.ComponentQuery.query('datepickerfield')[0];
+ *                             Ext.Msg.alert(null, datePickerField.getFormattedValue());
+ *                         }
+ *                     }
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *
+ *
+ */
+Ext.define('Ext.field.DatePicker', {
+    extend: Ext.field.Select,
+    alternateClassName: 'Ext.form.DatePicker',
+    xtype: 'datepickerfield',
+    /**
+     * @event change
+     * Fires when a date is selected
+     * @param {Ext.field.DatePicker} this
+     * @param {Date} newDate The new date
+     * @param {Date} oldDate The old date
+     */
+    config: {
+        ui: 'select',
+        /**
+         * @cfg {Object/Ext.picker.Date} picker
+         * An object that is used when creating the internal {@link Ext.picker.Date} component or a direct instance of {@link Ext.picker.Date}.
+         * @accessor
+         */
+        picker: true,
+        /**
+         * @cfg {Boolean}
+         * @hide
+         * @accessor
+         */
+        clearIcon: false,
+        /**
+         * @cfg {Object/Date} value
+         * Default value for the field and the internal {@link Ext.picker.Date} component. Accepts an object of 'year',
+         * 'month' and 'day' values, all of which should be numbers, or a {@link Date}.
+         *
+         * Example: {year: 1989, day: 1, month: 5} = 1st May 1989 or new Date()
+         * @accessor
+         */
+        /**
+         * @cfg {Boolean} destroyPickerOnHide
+         * Whether or not to destroy the picker widget on hide. This save memory if it's not used frequently,
+         * but increase delay time on the next show due to re-instantiation.
+         * @accessor
+         */
+        destroyPickerOnHide: false,
+        /**
+         * @cfg {String} [dateFormat=Ext.util.Format.defaultDateFormat] The format to be used when displaying the date in this field.
+         * Accepts any valid date format. You can view formats over in the {@link Ext.Date} documentation.
+         */
+        dateFormat: null,
+        /**
+         * @cfg {Object}
+         * @hide
+         */
+        component: {
+            useMask: true
+        }
+    },
+    initialize: function() {
+        var me = this,
+            component = me.getComponent();
+        me.callParent();
+        component.on({
+            scope: me,
+            masktap: 'onMaskTap'
+        });
+        component.doMaskTap = Ext.emptyFn;
+        if (Ext.browser.is.AndroidStock2) {
+            component.input.dom.disabled = true;
+        }
+    },
+    syncEmptyCls: Ext.emptyFn,
+    applyValue: function(value) {
+        if (!Ext.isDate(value) && !Ext.isObject(value)) {
+            return null;
+        }
+        if (Ext.isObject(value)) {
+            return new Date(value.year, value.month - 1, value.day);
+        }
+        return value;
+    },
+    updateValue: function(newValue, oldValue) {
+        var me = this,
+            picker = me._picker;
+        if (picker && picker.isPicker) {
+            picker.setValue(newValue);
+        }
+        // Ext.Date.format expects a Date
+        if (newValue !== null) {
+            me.getComponent().setValue(Ext.Date.format(newValue, me.getDateFormat() || Ext.util.Format.defaultDateFormat));
+        } else {
+            me.getComponent().setValue('');
+        }
+        if (newValue !== oldValue) {
+            me.fireEvent('change', me, newValue, oldValue);
+        }
+    },
+    /**
+     * Updates the date format in the field.
+     * @private
+     */
+    updateDateFormat: function(newDateFormat, oldDateFormat) {
+        var value = this.getValue();
+        if (newDateFormat != oldDateFormat && Ext.isDate(value)) {
+            this.getComponent().setValue(Ext.Date.format(value, newDateFormat || Ext.util.Format.defaultDateFormat));
+        }
+    },
+    /**
+     * Returns the {@link Date} value of this field.
+     * If you wanted a formatted date use the {@link #getFormattedValue} method.
+     * @return {Date} The date selected
+     */
+    getValue: function() {
+        if (this._picker && this._picker instanceof Ext.picker.Date) {
+            return this._picker.getValue();
+        }
+        return this._value;
+    },
+    /**
+     * Returns the value of the field formatted using the specified format. If it is not specified, it will default to
+     * {@link #dateFormat} and then {@link Ext.util.Format#defaultDateFormat}.
+     * @param {String} format The format to be returned.
+     * @return {String} The formatted date.
+     */
+    getFormattedValue: function(format) {
+        var value = this.getValue();
+        return (Ext.isDate(value)) ? Ext.Date.format(value, format || this.getDateFormat() || Ext.util.Format.defaultDateFormat) : value;
+    },
+    applyPicker: function(picker, pickerInstance) {
+        if (pickerInstance && pickerInstance.isPicker) {
+            picker = pickerInstance.setConfig(picker);
+        }
+        return picker;
+    },
+    getPicker: function() {
+        var picker = this._picker,
+            value = this.getValue();
+        if (picker && !picker.isPicker) {
+            picker = Ext.factory(picker, Ext.picker.Date);
+            if (value != null) {
+                picker.setValue(value);
+            }
+        }
+        picker.on({
+            scope: this,
+            change: 'onPickerChange',
+            hide: 'onPickerHide'
+        });
+        this._picker = picker;
+        return picker;
+    },
+    /**
+     * @private
+     * Listener to the tap event of the mask element. Shows the internal DatePicker component when the button has been tapped.
+     */
+    onMaskTap: function() {
+        if (this.getDisabled()) {
+            return false;
+        }
+        this.onFocus();
+        return false;
+    },
+    /**
+     * Called when the picker changes its value.
+     * @param {Ext.picker.Date} picker The date picker.
+     * @param {Object} value The new value from the date picker.
+     * @private
+     */
+    onPickerChange: function(picker, value) {
+        var me = this,
+            oldValue = me.getValue();
+        me.setValue(value);
+        me.fireEvent('select', me, value);
+        me.onChange(me, value, oldValue);
+    },
+    /**
+     * Override this or change event will be fired twice. change event is fired in updateValue
+     * for this field. TOUCH-2861
+     */
+    onChange: Ext.emptyFn,
+    /**
+     * Destroys the picker when it is hidden, if
+     * {@link Ext.field.DatePicker#destroyPickerOnHide destroyPickerOnHide} is set to `true`.
+     * @private
+     */
+    onPickerHide: function() {
+        var me = this,
+            picker = me.getPicker();
+        if (me.getDestroyPickerOnHide() && picker) {
+            picker.destroy();
+            me._picker = me.getInitialConfig().picker || true;
+        }
+    },
+    reset: function() {
+        this.setValue(this.originalValue);
+    },
+    onFocus: function(e) {
+        var component = this.getComponent();
+        this.fireEvent('focus', this, e);
+        if (Ext.os.is.Android4) {
+            component.input.dom.focus();
+        }
+        component.input.dom.blur();
+        if (this.getReadOnly()) {
+            return false;
+        }
+        this.isFocused = true;
+        this.getPicker().show();
+    },
+    // @private
+    destroy: function() {
+        var picker = this._picker;
+        if (picker && picker.isPicker) {
+            picker.destroy();
+        }
+        this.callParent(arguments);
+    }
+});
+
+/**
+ * @private
+ */
+Ext.define('Ext.field.FileInput', {
+    extend: Ext.field.Input,
+    xtype: 'fileinput',
+    /**
+     * @event change
+     * Fires just before the field blurs if the field value has changed
+     * @param {Ext.field.Text} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
+    config: {
+        type: "file",
+        accept: null,
+        capture: null,
+        name: null,
+        multiple: false
+    },
+    /**
+     * @property {Object} Lookup of capture devices to accept types
+     * @private
+     */
+    captureLookup: {
+        video: "camcorder",
+        image: "camera",
+        audio: "microphone"
+    },
+    // @private
+    initialize: function() {
+        var me = this;
+        me.callParent();
+        me.input.on({
+            scope: me,
+            change: 'onInputChange'
+        });
+    },
+    /**
+     * Returns the field data value.
+     * @return {String} value The field value.
+     */
+    getValue: function() {
+        var input = this.input;
+        if (input) {
+            this._value = input.dom.value;
+        }
+        return this._value;
+    },
+    /**
+     * Sets the internal value. Security restrictions prevent setting file values on the input element
+     * @cfg newValue {string} New Value
+     * @returns {String}
+     */
+    setValue: function(newValue) {
+        var oldValue = this._value;
+        this._value = newValue;
+        if (String(this._value) != String(oldValue) && this.initialized) {
+            this.onChange(this, this._value, oldValue);
+        }
+        return this;
+    },
+    /**
+     * Returns the field files.
+     * @return {FileList} List of the files selected.
+     */
+    getFiles: function() {
+        var input = this.input;
+        if (input) {
+            this.$files = input.dom.files;
+        }
+        return this.$files;
+    },
+    // @private
+    onInputChange: function(e) {
+        this.setValue(e.target.value);
+    },
+    /**
+     * Called when the value changes on this input item
+     * @cfg me {Ext.field.FileInput}
+     * @cfg value {String} new Value
+     * @cfg startValue {String} Original Value
+     */
+    onChange: function(me, value, startValue) {
+        this.fireEvent('change', me, value, startValue);
+    },
+    /**
+     * Called when the name being changed
+     * @cfg value   new value
+     * @returns {*}
+     */
+    applyName: function(value) {
+        if (this.getMultiple() && value.substr(-2, 2) !== "[]") {
+            value += "[]";
+        } else if ((!this.getMultiple()) && value.substr(-2, 2) === "[]") {
+            value = value.substr(0, value.length - 2);
+        }
+        return value;
+    },
+    /**
+     * Applies the multiple attribute to the input
+     * @cfg value {boolean}
+     * @returns {boolean}
+     */
+    applyMultiple: function(value) {
+        this.updateFieldAttribute('multiple', value ? '' : null);
+        return value;
+    },
+    /**
+     * Called when the multiple property is updated. The name will automatically be toggled to an array if needed.
+     */
+    updateMultiple: function() {
+        var name = this.getName();
+        if (!Ext.isEmpty(name)) {
+            this.setName(name);
+        }
+    },
+    /*
+     * Updates the accept attribute with the {@link #accept} configuration.
+     * 
+     */
+    applyAccept: function(value) {
+        switch (value) {
+            case "video":
+            case "audio":
+            case "image":
+                value = value + "/*";
+                break;
+        }
+        this.updateFieldAttribute('accept', value);
+    },
+    /**
+     * Updated the capture attribute with the {@ink capture} configuration
+     */
+    applyCapture: function(value) {
+        this.updateFieldAttribute('capture', value);
+        return value;
+    }
+});
+
+/**
+ * Creates an HTML file input field on the page. This is usually used to upload files to remote server. File fields are usually
+ * created inside a form like this:
+ *
+ *     @example
+ *     Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'fieldset',
+ *                 title: 'My Uploader',
+ *                 items: [
+ *                     {
+ *                         xtype: 'filefield',
+ *                         label: "MyPhoto:",
+ *                         name: 'photo',
+ *                         accept: 'image'
+ *                     }
+ *                 ]
+ *             }
+ *         ]
+ *     });
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
+ */
+Ext.define('Ext.field.File', {
+    extend: Ext.field.Field,
+    xtype: 'filefield',
+    /**
+     * @event change
+     * Fires when a file has been selected
+     * @param {Ext.field.File} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
+    config: {
+        component: {
+            xtype: 'fileinput',
+            fastFocus: false
+        }
+    },
+    proxyConfig: {
+        name: null,
+        value: null,
+        files: null,
+        /**
+         * @cfg {Boolean} multiple Allow selection of multiple files
+         *
+         * @accessor
+         */
+        multiple: false,
+        /**
+         * @cfg {String} accept File input accept attribute documented here (http://www.w3schools.com/tags/att_input_accept.asp)
+         * Also can be simple strings -- e.g. audio, video, image
+         *
+         * @accessor
+         */
+        accept: null,
+        /**
+         * @cfg {String} capture File input capture attribute. Accepts values such as "camera", "camcorder", "microphone"
+         *
+         * @accessor
+         */
+        capture: null
+    },
+    // @private
+    isFile: true,
+    // @private
+    initialize: function() {
+        var me = this;
+        me.callParent();
+        me.getComponent().on({
+            scope: this,
+            change: 'onChange'
+        });
+    },
+    onChange: function(me, value, startValue) {
+        me.fireEvent('change', this, value, startValue);
     }
 });
 
@@ -62667,6 +65147,7 @@ Ext.define('Ext.viewport.Viewport', {
 Ext.define('Contact.model.Contact', {
     extend: Ext.data.Model,
     config: {
+        useCache: false,
         fields: [
             {
                 name: 'businessName',
@@ -62702,10 +65183,16 @@ Ext.define('Contact.model.Contact', {
             },
             {
                 defaultValue: 'resources/img/defaultContactPic.png',
-                name: 'picture'
+                name: 'pictureURL'
             },
             {
                 name: 'customerId'
+            },
+            {
+                name: 'website'
+            },
+            {
+                name: 'websiteDisplayName'
             }
         ]
     }
@@ -62727,7 +65214,9 @@ Ext.define('Contact.model.Contact', {
  */
 Ext.define('Contact.model.Deal', {
     extend: Ext.data.Model,
+    alias: 'model.deal',
     config: {
+        useCache: false,
         fields: [
             {
                 name: 'customerId'
@@ -62739,20 +65228,45 @@ Ext.define('Contact.model.Deal', {
                 name: 'dealStatus'
             },
             {
-                name: 'dealStartDate'
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                dateFormat: 'n/j/Y',
+                name: 'dealStartDate',
+                type: 'date'
             },
             {
-                name: 'dealEndDate'
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                dateFormat: 'n/j/Y',
+                name: 'dealEndDate',
+                type: 'date'
             },
             {
                 name: 'dealPictureURL'
+            },
+            {
+                name: 'itemName'
+            },
+            {
+                name: 'businessName'
+            },
+            {
+                convert: function(v, rec) {
+                    var date = new Date();
+                    var test = Ext.Date.add(date, Ext.Date.DAY, 3);
+                    return Ext.Date.format(test, 'n/j/Y');
+                },
+                name: 'todayplusthreedays',
+                type: 'date'
             }
         ]
     }
 });
 
 /*
- * File: app/model/UserPreferences.js
+ * File: app/model/UserDetails.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -62765,26 +65279,37 @@ Ext.define('Contact.model.Deal', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.model.UserPreferences', {
+Ext.define('Contact.model.UserDetails', {
     extend: Ext.data.Model,
     config: {
-        idProperty: '',
         fields: [
             {
-                name: 'customerId',
-                type: 'auto'
+                name: 'customerId'
             },
             {
-                defaultValue: false,
-                name: 'isFavorite',
-                type: 'boolean'
+                name: 'businessName'
+            },
+            {
+                name: 'email'
+            },
+            {
+                name: 'FBLoginName'
+            },
+            {
+                name: 'gender'
+            },
+            {
+                name: 'FBUserId'
+            },
+            {
+                name: 'access_token'
             }
         ]
     }
 });
 
 /*
- * File: app/store/ContactStore.js
+ * File: app/model/AnalyticsData.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -62797,88 +65322,20 @@ Ext.define('Contact.model.UserPreferences', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.store.ContactStore', {
-    extend: Ext.data.Store,
+Ext.define('Contact.model.AnalyticsData', {
+    extend: Ext.data.Model,
     config: {
-        autoLoad: true,
-        autoSync: true,
-        data: [
+        fields: [
             {
-                businessName: 'iste',
-                category: 'illo',
-                phoneNumber: '(599) 543-9099',
-                emailAddress: '198 Hovde Trail',
-                address: '304 Monica Crossing',
-                city: 'Officia',
-                state: 'AS',
-                zipcode: 'atque',
-                picture: 'ea',
-                isFavorite: false
+                name: 'dealName'
             },
             {
-                businessName: 'fugit',
-                category: 'et',
-                phoneNumber: '(515) 687-0416',
-                emailAddress: '28 Banding Drive',
-                address: '263 West Point',
-                city: 'Veritatis',
-                state: 'FL',
-                zipcode: 'repellendus',
-                picture: 'recusandae',
-                isFavorite: false
+                name: 'numberOfHits'
             },
             {
-                businessName: 'nisi',
-                category: 'dolorem',
-                phoneNumber: '(883) 506-3306',
-                emailAddress: '47 Elmside Place',
-                address: '263 West Point',
-                city: 'Laboriosam',
-                state: 'WY',
-                zipcode: 'optio',
-                picture: 'et',
-                isFavorite: false
-            },
-            {
-                businessName: 'est',
-                category: 'nulla',
-                phoneNumber: '(827) 412-2582',
-                emailAddress: '70664 Twin Pines Street',
-                address: '296 Reindahl Center',
-                city: 'Aspernatur',
-                state: 'IA',
-                zipcode: 'soluta',
-                picture: 'ullam',
-                isFavorite: true
-            },
-            {
-                businessName: 'provident',
-                category: 'veritatis',
-                phoneNumber: '(673) 355-2351',
-                emailAddress: '47 Elmside Place',
-                address: '28 Banding Drive',
-                city: 'Voluptate',
-                state: 'AR',
-                zipcode: 'eius',
-                picture: 'rerum',
-                isFavorite: true
+                name: 'zipcode'
             }
-        ],
-        groupDir: 'ASC',
-        groupField: 'category',
-        model: 'Contact.model.Contact',
-        storeId: 'ContactStore',
-        proxy: {
-            type: 'localstorage'
-        },
-        grouper: {
-            groupFn: function(record) {
-                return record.get('businessName')[0];
-            }
-        },
-        sorters: {
-            property: 'businessName'
-        }
+        ]
     }
 });
 
@@ -62900,6 +65357,7 @@ Ext.define('Contact.store.MyJsonPStore', {
     extend: Ext.data.Store,
     config: {
         autoLoad: true,
+        autoSync: true,
         groupField: 'category',
         model: 'Contact.model.Contact',
         storeId: 'MyJsonPStore',
@@ -62914,11 +65372,24 @@ Ext.define('Contact.store.MyJsonPStore', {
         },
         proxy: {
             type: 'jsonp',
-            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
+            url: 'http://services.appsonmobile.com/stores',
             reader: {
                 type: 'json'
+            },
+            writer: {
+                type: 'json',
+                encode: true
             }
-        }
+        },
+        listeners: [
+            {
+                fn: 'onJsonpstoreUpdaterecord',
+                event: 'updaterecord'
+            }
+        ]
+    },
+    onJsonpstoreUpdaterecord: function(store, record, newIndex, oldIndex, modifiedFieldNames, modifiedValues, eOpts) {
+        return record;
     }
 });
 
@@ -62944,17 +65415,36 @@ Ext.define('Contact.store.MyDealsStore', {
         storeId: 'MyDealsStore',
         proxy: {
             type: 'jsonp',
-            extraParams: '{customerId}',
-            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/deals',
+            url: 'http://services.appsonmobile.com/deals',
             reader: {
                 type: 'json'
+            },
+            writer: {
+                type: 'json',
+                encode: true
             }
-        }
+        },
+        listeners: [
+            {
+                fn: 'onJsonstoreAddrecords',
+                event: 'addrecords'
+            },
+            {
+                fn: 'onJsonstoreRemoverecords',
+                event: 'removerecords'
+            }
+        ]
+    },
+    onJsonstoreAddrecords: function(store, records, eOpts) {
+        store.load();
+    },
+    onJsonstoreRemoverecords: function(store, records, indices, eOpts) {
+        store.load();
     }
 });
 
 /*
- * File: app/store/UserPreferences.js
+ * File: app/store/UserDetails.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -62967,64 +65457,22 @@ Ext.define('Contact.store.MyDealsStore', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.store.UserPreferences', {
-    extend: Ext.data.Store,
-    config: {
-        autoSync: true,
-        clearOnPageLoad: false,
-        model: 'Contact.model.UserPreferences',
-        remoteFilter: true,
-        storeId: 'UserPreferences',
-        proxy: {
-            type: 'localstorage',
-            batchActions: false,
-            id: ''
-        }
-    }
-});
-
-/*
- * File: app/store/MyJsonPStore1.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-Ext.define('Contact.store.MyJsonPStore1', {
+Ext.define('Contact.store.UserDetails', {
     extend: Ext.data.Store,
     config: {
         autoLoad: true,
-        groupField: 'category',
-        model: 'Contact.model.Contact',
-        storeId: 'MyJsonPStore1',
-        grouper: {
-            groupFn: function(item) {
-                return record.get('category');
-            },
-            sortProperty: ''
-        },
-        sorters: {
-            sorterFn: function(first, second) {}
-        },
+        autoSync: true,
+        model: 'Contact.model.UserDetails',
+        remoteFilter: true,
+        storeId: 'UserDetails',
         proxy: {
-            type: 'jsonp',
-            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
-            reader: {
-                type: 'json'
-            }
+            type: 'sessionstorage'
         }
     }
 });
 
 /*
- * File: app/view/List.js
+ * File: app/store/LocalStore.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -63037,25 +65485,16 @@ Ext.define('Contact.store.MyJsonPStore1', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.view.List', {
-    extend: Ext.dataview.List,
-    alias: 'widget.contactlist',
+Ext.define('Contact.store.LocalStore', {
+    extend: Ext.data.Store,
     config: {
-        disableSelection: true,
-        emptyText: 'No Contacts',
-        store: 'MyJsonPStore',
-        grouped: true,
-        itemTpl: [
-            '<div>{businessName}</div>'
-        ],
-        indexBar: {
-            itemId: 'myindexbar'
-        }
+        model: 'Contact.model.Deal',
+        storeId: 'LocalStore'
     }
 });
 
 /*
- * File: app/view/FavoriteView.js
+ * File: app/store/AnalyticsStore.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -63068,63 +65507,11 @@ Ext.define('Contact.view.List', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.view.FavoriteView', {
-    extend: Ext.dataview.DataView,
-    alias: 'widget.favoriteview',
+Ext.define('Contact.store.AnalyticsStore', {
+    extend: Ext.data.Store,
     config: {
-        height: 415,
-        itemId: 'favoriteview',
-        emptyText: 'No Favorites',
-        inline: true,
-        store: 'MyJsonPStore1',
-        itemTpl: [
-            '<div class="favorite"><img src="{picture:empty("resources/img/defaultContactPic.png")}" width="160" />,',
-            '                <div>{businessName}</div>',
-            '            </div>'
-        ]
-    }
-});
-
-/*
- * File: app/view/Main.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-Ext.define('Contact.view.Main', {
-    extend: Ext.tab.Panel,
-    config: {
-        items: [
-            {
-                xtype: 'container',
-                title: 'Home',
-                items: [
-                    {
-                        xtype: 'contactlist',
-                        height: 403
-                    }
-                ]
-            },
-            {
-                xtype: 'container',
-                title: 'My Favorites',
-                itemId: 'mycontainer1',
-                items: [
-                    {
-                        xtype: 'favoriteview',
-                        itemId: 'favoriteview1'
-                    }
-                ]
-            }
-        ]
+        model: 'Contact.model.AnalyticsData',
+        storeId: 'AnalyticsStore'
     }
 });
 
@@ -63147,17 +65534,162 @@ Ext.define('Contact.view.Picture', {
     alias: 'widget.contactpic',
     config: {
         overflow: 'hidden',
-        height: 120,
-        minHeight: 100,
-        padding: '5 5 5 5',
-        style: 'overflow: hidden',
+        id: 'contactpic',
+        itemId: 'contactpic1',
+        margin: '5 5 5 5',
+        padding: '',
+        style: 'overflow: hidden;border:1px groove #000;background:none',
         ui: '',
+        scrollable: false,
         tpl: [
-            '<img src="{picture}" width="160" />'
+            '',
+            '\t<img src="{pictureURL}" style="width:100%;height:30%"/>',
+            '\t'
         ],
         layout: {
             type: 'vbox',
-            align: 'center'
+            align: 'stretchmax'
+        }
+    }
+});
+
+/*
+ * File: app/view/contactinfo.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+Ext.define('Contact.view.contactinfo', {
+    extend: Ext.form.Panel,
+    alias: 'widget.contactinfo',
+    config: {
+        border: 5,
+        height: '100%',
+        itemId: 'info',
+        minHeight: '100%',
+        style: 'background;#fff',
+        styleHtmlContent: true,
+        modal: true,
+        scrollable: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'toolbar',
+                cls: 'toolbarCls',
+                docked: 'top',
+                ui: 'plain',
+                items: [
+                    {
+                        xtype: 'button',
+                        docked: 'right',
+                        height: 48,
+                        itemId: 'editButton',
+                        style: 'color:#00529D',
+                        ui: 'plain',
+                        width: '20%',
+                        iconCls: 'compose'
+                    },
+                    {
+                        xtype: 'spacer',
+                        height: 11,
+                        width: 18
+                    },
+                    {
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        html: '<b>First Name</b>',
+                        id: 'nameTxt',
+                        itemId: 'nameTxt'
+                    }
+                ]
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-phone',
+                disabled: false,
+                height: '',
+                itemId: 'phoneNumber',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'phoneNumber',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-email',
+                disabled: false,
+                height: '',
+                itemId: 'email',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                label: '',
+                name: 'emailAddress',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-globe',
+                disabled: false,
+                height: '',
+                itemId: 'websiteDisplayName',
+                padding: '10 10 10 10',
+                style: 'font-size:2px !important',
+                clearIcon: false,
+                name: 'websiteDisplayName',
+                readOnly: true
+            },
+            {
+                xtype: 'textareafield',
+                baseCls: '',
+                cls: [
+                    'icon-location',
+                    'customfield1'
+                ],
+                disabled: false,
+                height: '12vh',
+                html: '',
+                itemId: 'address',
+                maxHeight: '',
+                minHeight: '',
+                padding: '10 10 10 10',
+                style: '\'font-size:3.5vw;font-family: arial\'',
+                clearIcon: false,
+                name: 'address',
+                readOnly: true,
+                maxRows: 2
+            },
+            {
+                xtype: 'contactpic',
+                cls: 'x-panel-body',
+                docked: 'top',
+                height: '30%',
+                itemId: 'contactpic',
+                width: ''
+            }
+        ]
+    },
+    setRecord: function(record) {
+        this.callParent(arguments);
+        if (record) {
+            var name = record.get('businessName');
+            var customerId = record.get('customerId');
+            this.down('#nameTxt').setHtml(name);
+            this.down('contactpic').setData(record.data);
         }
     }
 });
@@ -63180,22 +65712,38 @@ Ext.define('Contact.view.ListOfDeals', {
     extend: Ext.dataview.List,
     alias: 'widget.listofdeals',
     config: {
-        height: 247,
+        cls: 'customlist',
+        height: '100%',
         id: 'ListOfDeals',
-        style: 'font-size: 10px',
+        itemId: 'ListOfDeals',
+        style: '',
+        autoDestroy: false,
+        deselectOnContainerClick: false,
+        mode: 'MULTI',
+        deferEmptyText: false,
+        emptyText: 'Create Buzz!',
+        itemCls: 'list-item',
         store: 'MyDealsStore',
         onItemDisclosure: false,
-        striped: true,
+        pinHeaders: false,
+        preventSelectionOnDisclose: false,
+        refreshHeightOnUpdate: false,
         useSimpleItems: false,
         itemTpl: [
-            '<div>{dealName}</div>',
-            '<div style="color:#0000FF;font-size:14px;font-style:italics" >{dealStartDate} - {dealEndDate}</div>'
+            '',
+            '',
+            '<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" class="delete_button" style="float:right">#</div>',
+            '<tpl if="dealEndDate &lt; todayplusthreedays ">',
+            '<div class= expiringDate >Valid {dealStartDate} to {dealEndDate}</div>',
+            '<tpl else>\t',
+            '<div class= dateValidity >Valid {dealStartDate} to {dealEndDate}</div></tpl>',
+            ''
         ]
     }
 });
 
 /*
- * File: app/view/Info.js
+ * File: app/view/DealsPanel.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -63208,231 +65756,109 @@ Ext.define('Contact.view.ListOfDeals', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.view.Info', {
+Ext.define('Contact.view.DealsPanel', {
     extend: Ext.form.Panel,
-    alias: 'widget.contactinfo',
+    alias: 'widget.DealsPanel',
     config: {
-        border: 5,
-        height: 463,
-        enableSubmissionForm: false,
+        baseCls: 'x-list',
+        id: 'dealsPanel',
+        itemId: 'dealsPanel',
+        minHeight: '80%',
+        padding: '5 5 5 5',
+        style: 'border:1px inset;',
+        styleHtmlContent: true,
+        url: '',
         items: [
             {
-                xtype: 'toolbar',
+                xtype: 'listofdeals',
                 docked: 'top',
-                style: 'font-size:6vw',
-                ui: 'light',
-                items: [
-                    {
-                        xtype: 'button',
-                        itemId: 'infoBackBtn',
-                        style: '',
-                        ui: 'back',
-                        text: 'Back'
-                    },
-                    {
-                        xtype: 'button',
-                        handler: function(button, e) {
-                            button.addCls('x-button-pressed');
-                        },
-                        cls: 'empty-star',
-                        docked: 'right',
-                        itemId: 'favbutton',
-                        style: ''
-                    },
-                    {
-                        xtype: 'spacer',
-                        height: 11,
-                        width: 18
-                    },
-                    {
-                        xtype: 'component',
-                        cls: 'contact-name',
-                        disabled: true,
-                        html: '<b>First Name</b>',
-                        itemId: 'nameTxt',
-                        style: ''
-                    }
-                ]
+                height: '90%',
+                itemId: 'listofdeals',
+                width: '100%'
             },
             {
-                xtype: 'panel',
-                border: '',
-                height: '',
-                maxHeight: '100%',
-                minHeight: '100%',
-                minWidth: '',
-                padding: '5 5 5 5',
-                style: 'border:1px inset',
-                layout: {
-                    type: 'vbox',
-                    align: 'end'
-                },
-                items: [
-                    {
-                        xtype: 'contactpic',
-                        border: '',
-                        docked: 'left',
-                        height: 137,
-                        maxHeight: '100%',
-                        minHeight: '50%',
-                        minWidth: '30%',
-                        style: '',
-                        ui: 'light',
-                        width: 97,
-                        scrollable: false,
-                        flex: 0.5,
-                        layout: {
-                            type: 'hbox',
-                            align: 'start',
-                            pack: 'center'
-                        }
-                    },
-                    {
-                        xtype: 'panel',
-                        height: '',
-                        maxHeight: '100%',
-                        minHeight: '100%',
-                        width: '100%',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                cls: [
-                                    'icon-phone',
-                                    'customfield'
-                                ],
-                                height: '',
-                                itemId: 'phoneNumber',
-                                maxHeight: '30%',
-                                maxWidth: '100%',
-                                minHeight: '',
-                                minWidth: '100%',
-                                width: '100%',
-                                clearIcon: false,
-                                inputCls: 'customfield',
-                                name: 'phoneNumber',
-                                readOnly: true
-                            },
-                            {
-                                xtype: 'spacer',
-                                height: '10px'
-                            },
-                            {
-                                xtype: 'textareafield',
-                                cls: [
-                                    'icon-location',
-                                    'customfield'
-                                ],
-                                height: '100%',
-                                itemId: 'address',
-                                maxHeight: '100%',
-                                maxWidth: '100%',
-                                minHeight: '100%',
-                                minWidth: '100%',
-                                style: 'border:1 px inset',
-                                width: '100%',
-                                clearIcon: false,
-                                inputCls: 'customfield',
-                                name: 'address',
-                                readOnly: true,
-                                maxRows: 3
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                xtype: 'panel',
-                padding: '5 5 5 5',
-                style: 'border:1px inset',
-                items: [
-                    {
-                        xtype: 'listofdeals',
-                        border: '',
-                        cls: 'list-item',
-                        style: '',
-                        itemCls: 'list-item'
-                    }
-                ]
+                xtype: 'button',
+                docked: 'bottom',
+                height: '7%',
+                id: 'UploadDeal',
+                itemId: 'UploadDeal',
+                margin: '5 5 5 5',
+                style: 'font-size:5vw',
+                ui: 'confirm',
+                width: '',
+                text: 'Create Buzz'
             }
         ],
         listeners: [
             {
-                fn: 'onFavbuttonTap',
-                event: 'tap',
-                delegate: '#favbutton'
+                fn: 'onDealsPanelActivate',
+                event: 'activate'
             }
         ]
     },
-    onFavbuttonTap: function(button, e, eOpts) {
-        var store = Ext.getStore('UserPreferences');
-        //store.clearFilter();
-        var pressingCls = 'x-button-pressed';
-        button.element.toggleCls(pressingCls);
-        var isPressed = button.element.hasCls(pressingCls);
-        var record = this.getRecord();
-        var customerId = record.get('customerId');
-        store.add({
-            'customerId': customerId,
-            'isFavorite': isPressed
+    onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        console.log('Deals Panel Activated');
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        var date = new Date();
+        var today = Ext.Date.format(date, 'n/j/Y');
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
         });
-        if (isPressed === true) {
-            button.setCls('fill-star');
-        } else // localStorage.setItem('customerId',record.get('customerId'));
-        // localStorage.setItem('isFavorite', isPressed);
-        // store.add({'customerId':customerId,'isFavorite':isPressed});
-        //  store.sync();
-        {
-            button.setCls('empty-star');
-            // localStorage.removeItem('customerId');
-            // localStorage.removeItem('isFavorite
-            store.findRecord('customerId', customerId).destroy();
-            store.sync();
-        }
-        //console.log(customerId + isPressed);
-        record.set('isFavorite', isPressed);
-        store.sync();
-    },
-    setRecord: function(record) {
-        this.callParent(arguments);
-        if (record) {
-            var name = record.get('businessName');
-            var isFavorite = record.get('isFavorite');
-            var customerId = record.get('customerId');
-            var store = Ext.getStore('UserPreferences');
-            if (store.getAllCount() !== 0) {
-                store.each(function(rec) {
-                    if (rec.get('customerId') == customerId) {
-                        isFavorite = rec.get('isFavorite');
-                    }
+        console.log(customerId);
+        var store = Ext.getStore('MyDealsStore');
+        store.clearFilter();
+        store.filter('customerId', customerId);
+        var records = [];
+        store.each(function(rec) {
+            //console.log('Deal End Date: ' + rec.get('dealEndDate'));
+            //console.log('Tdays date is : ' + today);
+            /*if(rec.get('dealEndDate') >= today) {
+
+		                           records.push(rec.get('itemName'));
+								   //console.log('Active deal ' + rec.get('dealName'));
+
+
+		                       }
+		                       else {
+		                           Ext.Array.remove(records,rec.get('itemName'));
+								   //console.log('Expired deal ' + rec.get('dealName'));
+								   var req = Ext.Ajax.request({
+
+						method:'POST',
+
+
+						url  : 'http://services.appsonmobile.com/deals/'+ rec.get('itemName')
+
+			});
+
+
+		                       }*/
+            if (rec.get('dealEndDate') < today) {
+                Ext.Ajax.request({
+                    method: 'POST',
+                    url: 'http://services.appsonmobile.com/deals/' + rec.get('itemName')
                 });
             }
-            //console.log(customerId + isFavorite );
-            this.down('#nameTxt').setHtml(name);
-            // console.log(store.getData());
-            if (isFavorite === true) {
-                this.down('#favbutton').setCls('fill-star');
-            } else //store.setData({'isFavorite':isFavorite});
-            {
-                this.down('#favbutton').setCls('empty-star');
-            }
-            // this.down('#favoriteview')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
-            this.down('#favbutton')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
-            this.down('contactpic').setData(record.data);
-            var ds = Ext.StoreManager.lookup('MyDealsStore');
-            ds.clearFilter();
-            ds.filter('customerId', customerId);
-            this.down('listofdeals').setData(ds.getData());
-        }
+        });
+        store.load();
     }
 });
-/*dealsData  = ds.getData().getAt(0);
-            var dealName = 'No Deals';
-            if(dealsData) {
-                 dealName = dealsData.get('dealName');
-            }*/
+/* store.clearFilter();
+
+		      console.log(records.length);
+
+		        store.filterBy(function(record){
+		            return Ext.Array.indexOf(records, record.get('itemName')) !== -1;
+
+		        }, this);*/
 
 /*
- * File: app/view/DealPicture.js
+ * File: app/view/BuzzOMeter.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -63445,44 +65871,346 @@ Ext.define('Contact.view.Info', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.view.DealPicture', {
-    extend: Ext.Container,
-    alias: 'widget.dealpicture',
-    alternateClassName: [
-        'dealPicture'
-    ],
+Ext.define('Contact.view.BuzzOMeter', {
+    extend: Ext.Panel,
+    alias: 'widget.buzzometer',
     config: {
-        fullscreen: true,
-        itemId: 'dealPicture',
-        style: 'font-size:6vw',
-        layout: 'fit',
-        scrollable: true,
-        tpl: [
-            '<img src="{dealPictureURL}" />'
-        ],
-        items: [
+        listeners: [
             {
-                xtype: 'toolbar',
-                docked: 'top',
-                ui: 'light',
-                items: [
-                    {
-                        xtype: 'button',
-                        itemId: 'dealBackBtn',
-                        style: '',
-                        ui: 'back',
-                        text: 'Back'
-                    }
-                ]
+                fn: 'onPanelActivate',
+                event: 'activate'
             }
         ]
     },
-    setRecord: function(record) {
-        //console.log(record.getData()) ;
-        this.setData(record.getData());
+    onPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var dealData;
+        var dataTable = Ext.getStore('AnalyticsStore');
+        var dealName;
+        var zipcode;
+        var numberOfHits;
+        $.getJSON("http://services.appsonmobile.com/analytics/v3/04", function(json) {
+            for (var i = 0; i < json.totalResults; i++) {
+                dealData = (json.rows[i]).toString();
+                var tmp = dealData.split(",");
+                console.log(tmp.length);
+                dealName = tmp[0];
+                zipcode = tmp[1];
+                numberOfHits = tmp[2];
+                dataTable.add({
+                    dealName: dealName,
+                    zipcode: zipcode,
+                    numberOfHits: numberOfHits
+                });
+                console.log(dataTable.getAllCount());
+            }
+        });
     }
 });
-//this.setTpl('<img src="'+record.get('dealPictureURL') +'"/>') ;
+
+/*
+ * File: app/view/contactform.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+Ext.define('Contact.view.contactform', {
+    extend: Ext.form.Panel,
+    alias: 'widget.contactform',
+    config: {
+        html: '',
+        id: 'formpanel',
+        itemId: 'formpanel',
+        style: 'background:white',
+        styleHtmlContent: true,
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: false,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'toolbar',
+                cls: 'toolbarCls',
+                docked: 'top',
+                style: 'border-top:none',
+                ui: 'plain',
+                autoDestroy: false,
+                items: [
+                    {
+                        xtype: 'button',
+                        itemId: 'cancelButton',
+                        margin: '0 0 0 10',
+                        styleHtmlContent: true,
+                        ui: 'decline',
+                        width: '30%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'spacer'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('contactform');
+                            var store = Ext.getStore('MyJsonPStore');
+                            var record = form.getRecord();
+                            var customerId = form.getRecord().get('customerId');
+                            record.beginEdit(true, record.getChanges());
+                            form.updateRecord(record);
+                            record.endEdit(true, record.getChanges());
+                            record.commit();
+                            store.sync();
+                            store.load();
+                            //form.fireEvent('updateRecord',this);
+                            form.submit({
+                                url: 'http://services.appsonmobile.com/updateStoreInfo/' + customerId,
+                                success: function(form, action) {
+                                    /*record.beginEdit(true, record.getChanges());
+									form.updateRecord(record);
+									record.endEdit(true, record.getChanges());
+									record.commit();
+									store.sync();
+									store.load();*/
+                                    Ext.Viewport.getComponent('panel').destroy();
+                                    var view = Ext.create("Ext.tab.Panel", {
+                                            fullscreen: true,
+                                            tabBarPosition: 'bottom',
+                                            itemId: 'panel',
+                                            cls: 'toolbarCls',
+                                            ui: 'plain',
+                                            style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
+                                            items: [
+                                                {
+                                                    xtype: 'contactinfo',
+                                                    title: 'Home',
+                                                    itemId: 'home',
+                                                    iconCls: 'icon-home'
+                                                },
+                                                {
+                                                    xtype: 'DealsPanel',
+                                                    title: 'Buzz',
+                                                    iconCls: 'icon-bubbles'
+                                                },
+                                                {
+                                                    xtype: 'buzzometer',
+                                                    title: 'BuzzOMeter',
+                                                    iconCls: 'info'
+                                                }
+                                            ]
+                                        });
+                                    //Ext.getCmp('changePicButton').hide();
+                                    Ext.Viewport.setActiveItem(view);
+                                    view.getComponent('home').setRecord(record);
+                                    Ext.Msg.alert('Success', action.msg);
+                                    form.destroy();
+                                },
+                                failure: function(form, action) {
+                                    store.load();
+                                    Ext.Msg.alert('Failure', action.msg);
+                                    form.destroy();
+                                }
+                            });
+                        },
+                        /*var record = form.getRecord();
+
+							view =Ext.Viewport.add({xtype: 'contactinfo'});
+							view.setRecord(record);
+
+
+							Ext.Viewport.setActiveItem(view);*/
+                        cls: 'button',
+                        itemId: 'saveContactButton',
+                        margin: '0 10 0 0',
+                        styleHtmlContent: true,
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Save'
+                    }
+                ]
+            },
+            {
+                xtype: 'contactpic',
+                cls: 'x-panel-body',
+                docked: 'top',
+                height: '30%',
+                itemId: 'picture',
+                width: ''
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.load();
+                    var customerId;
+                    var businessName;
+                    storeUserDetails.each(function(record) {
+                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        customerId = record.get('customerId');
+                        businessName = record.get('businessName');
+                    });
+                    var view = Ext.Viewport.add({
+                            xtype: 'ChangeContactPicForm'
+                        });
+                    var record = Ext.getStore('MyJsonPStore').findRecord('customerId', customerId, 0, true, false, false);
+                    view.setRecord(record);
+                    view.showBy(button);
+                },
+                flex: 1,
+                docked: 'top',
+                id: 'changePicButton',
+                left: '0px',
+                margin: '5 5 5 5',
+                style: 'opacity:0.5;position:absolute',
+                top: '-10px',
+                ui: 'plain',
+                width: '20%',
+                iconCls: 'add'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                id: 'businessName',
+                itemId: 'businessName',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-phone',
+                    'customfield'
+                ],
+                id: 'phoneNumber',
+                itemId: 'phoneNumber',
+                margin: '0 15 2 15',
+                styleHtmlContent: true,
+                name: 'phoneNumber'
+            },
+            {
+                xtype: 'textareafield',
+                cls: [
+                    'customfield',
+                    'icon-location'
+                ],
+                height: '20%',
+                id: 'address',
+                itemId: 'address',
+                margin: '0 15 0 15',
+                styleHtmlContent: true,
+                name: 'address',
+                required: true
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                itemId: '',
+                name: 'category'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'emailAddress'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'city'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'state'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'zipcode'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'pictureURL'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '20%',
+                hidden: true,
+                html: '',
+                id: 'website',
+                itemId: 'website',
+                style: 'font-size:4vw',
+                label: '',
+                labelAlign: 'top',
+                labelWidth: '',
+                labelWrap: true,
+                name: 'website',
+                required: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '20%',
+                hidden: true,
+                html: '',
+                id: 'websiteDisplayName',
+                itemId: 'websiteDisplayName',
+                style: 'font-size:4vw',
+                label: '',
+                labelAlign: 'top',
+                labelWidth: '',
+                labelWrap: true,
+                name: 'websiteDisplayName',
+                required: true
+            }
+        ]
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    },
+    setRecord: function(record) {
+        this.callParent(arguments);
+        if (record) {
+            this.down('#businessName').setValue(record.data.businessName);
+            this.down('#phoneNumber').setValue(record.data.phoneNumber);
+            this.down('#address').setValue(record.data.address);
+            this.child('contactpic').setData(record.data);
+        }
+    }
+});
 
 /*
  * File: app/controller/Contacts.js
@@ -63504,8 +66232,8 @@ Ext.define('Contact.controller.Contacts', {
         stores: [
             'MyJsonPStore',
             'MyDealsStore',
-            'MyJsonPStore1',
-            'UserPreferences'
+            'UserDetails',
+            'LocalStore'
         ],
         refs: {
             contactinfo: {
@@ -63530,73 +66258,69 @@ Ext.define('Contact.controller.Contacts', {
             },
             phoneNumber: 'textfield#phoneNumber',
             address: 'textfield#address',
-            mycontainer1: {
-                selector: 'container#mycontainer1',
-                xtype: 'favoriteview'
+            editButton: 'button#editButton',
+            dealsPanel: 'panel#dealsPanel',
+            contactform: {
+                autoCreate: true,
+                selector: 'contactform',
+                xtype: 'contactform'
             },
-            favoriteview: 'dataview#favoriteview'
+            formCancelButton: 'button#formCancelButton',
+            saveContactButton: 'button#saveContactButton',
+            backFromDealsPanelButton: 'button#backFromDealsPanelButton',
+            uploadDealBtn: 'button#uploadDealBtn',
+            share: 'button#share',
+            changePicture: 'button#changePicture',
+            manageDeals: 'button#manageDeals',
+            panel: 'panel#panel',
+            dealBackBtn: 'button#dealBackBtn',
+            share: 'button#share',
+            buzzometer: 'formpanel#buzzometer'
         },
         control: {
-            "dataview": {
-                itemtap: 'onContactItemTap'
-            },
-            "button#infoBackBtn": {
-                tap: 'onInfoBackBtnTapHome'
-            },
             "contactpic": {
                 change: 'onContactPickerChange'
             },
             "list": {
                 activate: 'onListActivate'
             },
-            "listofdeals": {
-                itemtap: 'onListOfDealsItemTap'
-            },
             "button#dealBackBtn": {
                 tap: 'onDealBackBtnTap'
             },
-            "textfield#phoneNumber": {
-                focus: 'onPhoneNumberFocus'
+            "listofdeals": {
+                itemtap: 'onListOfDealsItemTap'
             },
-            "textfield#address": {
-                focus: 'onAddressFocus'
+            "button#editButton": {
+                tap: 'onEditButtonTap'
             },
-            "container#mycontainer1": {
-                activate: 'onMycontainer1Activate'
+            "button#saveContactButton": {
+                tap: 'onSaveContactButtonTap'
+            },
+            "button#cancelButton": {
+                tap: 'onCancelButtonTap'
+            },
+            "button#BackFromDealsPanel": {
+                tap: 'onBackFromDealsPanelTap'
+            },
+            "button#UploadDeal": {
+                tap: 'onUploadDealTap'
+            },
+            "button#share": {
+                tap: 'onShareTap'
+            },
+            "button#manageDeals": {
+                tap: 'onManageDealsTap'
+            },
+            "formpanel#buzzometer": {
+                activate: 'onBuzzometerActivate'
             }
         }
-    },
-    onContactItemTap: function(dataview, index, target, record, e, eOpts) {
-        var info = this.getContactinfo();
-        info.setRecord(record);
-        Ext.Viewport.setActiveItem(info);
-    },
-    //console.log(info);
-    onInfoBackBtnTapHome: function(button, e, eOpts) {
-        /*var ds = Ext.StoreManager.lookup('MyJsonPStore');
-        ds.clearFilter() ;*/
-        Ext.Viewport.setActiveItem(0);
-        var store = Ext.getStore('UserPreferences');
-        var records = [];
-        var ds = Ext.getStore('MyJsonPStore1');
-        ds.clearFilter();
-        //store.clearFilter();
-        store.each(function(rec) {
-            if (rec.get('isFavorite') === true) {
-                records.push(rec.get('customerId'));
-            } else {
-                Ext.Array.remove(records, rec.get('customerId'));
-            }
-        });
-        ds.filterBy(function(record) {
-            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
-        }, this);
     },
     onContactPickerChange: function(picker, value, eOpts) {
         var currentForm = Ext.Viewport.getActiveItem();
         var record = currentForm.getRecord();
         if (record) {
-            record.set('picture', value);
+            record.set('pictureURL', value);
             record.commit();
             currentForm.setRecord(record);
         }
@@ -63605,40 +66329,138 @@ Ext.define('Contact.controller.Contacts', {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
         ds.clearFilter();
     },
+    onDealBackBtnTap: function(button, e, eOpts) {
+        Ext.getStore('LocalStore').removeAt(0);
+        Ext.Viewport.getActiveItem().destroy();
+    },
     onListOfDealsItemTap: function(dataview, index, target, record, e, eOpts) {
-        var pic = this.getDealpicture();
-        /*console.log("Data View is: ") ;
-        console.log(dataview) ;
-        console.log("Index is: " + index) ;
-        console.log("Target is: ") ;
-        console.log(target) ;
-        console.log("Event is: ") ;
-        console.log(e) ;
-        console.log("Event Options is: ") ;
-        console.log(eOpts) ;*/
-        pic.setRecord(record);
-        Ext.Viewport.setActiveItem(pic);
-        //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
-        analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
-        var showPosition;
-        if (navigator.geolocation) {
-            //if you have the geolocation, run the showPosition function
-            navigator.geolocation.getCurrentPosition(function showPosition(position) {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                console.log(latitude + "," + longitude);
-                // api call for postal code and track event
-                $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
-                    analytics.trackEvent('set', 'dimension5', json.postalCodes[0].postalCode);
-                    analytics.trackEvent(record.get('dealName'), 'DealClick', json.postalCodes[0].postalCode);
-                });
-            });
+        var recordsToDelete = [];
+        var itemNames = [];
+        var i = 0;
+        if (e.target.type === 'button') {
+            var store = Ext.getStore('MyDealsStore');
+            var record = store.getAt(index);
+            var dealName = record.get('dealName');
+            Ext.Msg.confirm('Delete ' + dealName + '?', null, function(btnText) {
+                if (btnText === 'yes') {
+                    var itemName = record.get('itemName');
+                    var req = Ext.Ajax.request({
+                            method: 'POST',
+                            url: 'http://services.appsonmobile.com/deals/' + itemName,
+                            success: function(form, action) {
+                                Ext.Msg.alert('Success', action.msg);
+                                //console.log(action.msg);
+                                var dealsStore = Ext.getStore('MyDealsStore');
+                                dealsStore.load();
+                            },
+                            failure: function(form, action) {
+                                Ext.Msg.alert('Failure', action.msg);
+                            }
+                        });
+                }
+            }, //console.log(action.msg);
+            this);
         } else {
-            //geolocation not happening
-            analytics.trackEvent('DealClick', 'geolocation', 'Location Not Set');
+            Ext.Viewport.add({
+                xtype: 'DealsPanel'
+            });
+            var store = Ext.getStore('MyDealsStore');
+            var record = store.getAt(index);
+            Ext.getStore('LocalStore').add(record);
+            var view = Ext.Viewport.add({
+                    xtype: 'dealPicture'
+                });
+            view.setRecord(record);
+            Ext.Viewport.setActiveItem(view);
         }
     },
-    onDealBackBtnTap: function(button, e, eOpts) {
+    onEditButtonTap: function(button, e, eOpts) {
+        var referrer = Ext.Viewport.getActiveItem();
+        var form = this.getContactform();
+        var info = this.getContactinfo().getRecord();
+        form.referrer = referrer;
+        Ext.Viewport.setActiveItem(form);
+        form.setRecord(info);
+    },
+    onSaveContactButtonTap: function(button, e, eOpts) {},
+    //var btn = Ext.get('changePicButton');
+    //btn.hide();
+    /*var form = this.getContactform();
+		var errors = form.getValidationErrors();
+		console.log('On Save Button Tap');
+
+
+
+		if (errors.length) {
+			Ext.Msg.alert('Error', errors.join('<br/>'));
+		} else {
+			var values = form.getValues();
+			var record = form.getRecord();
+			//console.log('Record is :' + record.getData());
+
+
+			//var valueContactPic = form.getAt(2).getValue();
+			var valueBusinessName = form.getAt(3).getValue();
+			var valuePhoneNumber = form.getAt(4).getValue();
+			var valueAddress = form.getAt(5).getValue();
+			var valueCategory = form.getAt(7).getValue();
+			var valueCustomerId = form.getAt(6).getValue();
+			var valueEmailAddress = form.getAt(8).getValue();
+			var valueCity = form.getAt(9).getValue();
+			var valuePicture = form.getAt(12).getValue();
+			var valueState = form.getAt(10).getValue();
+			var valueZipcode = form.getAt(11).getValue();
+
+
+
+
+			if (record) {
+
+
+
+				record.setData(values);
+				record.set('businessName',valueBusinessName);
+				record.set('phoneNumber',valuePhoneNumber);
+		        record.set('address',valueAddress);
+
+
+				record.set('category',valueCategory);
+				record.set('customerId',valueCustomerId);
+		        record.set('emailAddress',valueEmailAddress);
+
+				record.set('picture',valuePicture);
+				record.set('city',valueCity);
+				record.set('state',valueState);
+		        record.set('zipcode',valueZipcode);
+
+
+
+
+				record.commit();
+
+				if (form.referrer.setRecord) {
+
+
+					form.referrer.setRecord(record);
+				}
+			} else {
+				//Ext.StoreManager.lookup('MyJsonPStore').add(values);
+			}
+			Ext.Viewport.setActiveItem(form.referrer);
+			delete form.referrer;
+		}
+
+
+		*/
+    onCancelButtonTap: function(button, e, eOpts) {
+        var form = this.getContactform();
+        form.destroy();
+        //var btn = Ext.get('changePicButton');
+        //btn.hide();
+        Ext.Viewport.setActiveItem(form.referrer);
+        delete form.referrer;
+    },
+    onBackFromDealsPanelTap: function(button, e, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
         ds.clearFilter();
         var dealRecord = this.getContactinfo().getRecord();
@@ -63653,47 +66475,71 @@ Ext.define('Contact.controller.Contacts', {
         var info = this.getContactinfo();
         info.setRecord(customerData);
         ds.clearFilter();
+        var view = Ext.Viewport.getActiveItem().destroy();
         Ext.Viewport.setActiveItem(info);
     },
-    //Ext.Viewport.setActiveItem('contactinfo') ;
-    onPhoneNumberFocus: function(textfield, e, eOpts) {
-        console.log(e);
-        numberToDial = textfield.getValue();
-        textfield.blur();
-        e.destroy();
-        e.stopEvent();
-        window.location = 'tel:' + numberToDial;
+    onUploadDealTap: function(button, e, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        //Ext.Viewport.getActiveItem().destroy();
+        var view = Ext.Viewport.add({
+                xtype: 'UploadDealForm'
+            });
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
+            view.setRecord(record);
+        });
+        //view.showBy(button);
+        var frame = document.createElement('iframe');
+        Ext.Viewport.setActiveItem(view);
     },
-    onAddressFocus: function(textfield, e, eOpts) {
-        console.log(textfield.getValue());
-        var queryString = encodeURIComponent(textfield.getValue());
-        var url = 'geo:0,0?q=' + queryString;
-        textfield.blur();
-        e.stopEvent();
-        e.destroy();
-        Ext.device.Device.openURL(url);
+    onShareTap: function(button, e, eOpts) {
+        var record = Ext.getStore('LocalStore').getAt(0);
+        //var record = Ext.getStore('MyDealsStore').findRecord('itemName',itemName,0,0,true,false,false);
+        //var record = Ext.getStore('MyDealsStore').findRecord('customerId',customerId,0,true,false,false);
+        window.plugins.socialsharing.share(null, null, record.get('dealPictureURL'), null);
     },
-    onMycontainer1Activate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        var store = Ext.getStore('UserPreferences');
-        var records = [];
-        var ds = Ext.getStore('MyJsonPStore1');
-        ds.clearFilter();
-        //store.clearFilter();
-        store.each(function(rec) {
-            if (rec.get('isFavorite') === true) {
-                records.push(rec.get('customerId'));
-            } else {
-                Ext.Array.remove(records, rec.get('customerId'));
+    onManageDealsTap: function(button, e, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+        });
+        var store = Ext.getStore('MyDealsStore');
+        store.load();
+        store.clearFilter();
+        //console.log('Fitering for customerId: ' + customerId);
+        store.filter('customerId', customerId);
+        var view;
+        view = Ext.Viewport.add({
+            xtype: 'DealsPanel'
+        });
+        Ext.Viewport.setActiveItem(view);
+    },
+    onBuzzometerActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        document.getElementById('buzzometer').submit({
+            url: 'http://services.appsonmobile.com/analytics/04',
+            method: 'GET',
+            waitMsg: 'Please Wait...',
+            timeout: 5000,
+            success: function(form, action) {
+                console.log('Success');
+            },
+            failure: function(form, action) {
+                console.log('Failure');
             }
         });
-        ds.filterBy(function(record) {
-            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
-        }, this);
     }
 });
 
 /*
- * File: app/view/Main1.js
+ * File: app/view/DealPicture.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -63706,29 +66552,628 @@ Ext.define('Contact.controller.Contacts', {
  *
  * Do NOT hand edit this file.
  */
-Ext.define('Contact.view.Main1', {
+Ext.define('Contact.view.DealPicture', {
     extend: Ext.Panel,
+    alias: 'widget.dealPicture',
     config: {
-        cls: 'home',
-        html: '',
-        style: '',
+        fullscreen: true,
+        height: '100%',
+        itemId: 'dealPicture',
+        left: 'dealPicture',
+        style: 'overflow: hidden;background:#fff',
+        styleHtmlContent: true,
+        width: '100%',
+        autoDestroy: false,
+        scrollable: false,
+        tpl: [
+            '<img src="{dealPictureURL}" style="margin:5px 5px 5px 5px;height:100%;width:100%;border:1px groove #C0C0C0;"/>'
+        ],
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
         items: [
             {
                 xtype: 'toolbar',
-                cls: 'customToolbar',
+                cls: 'toolbarCls',
                 docked: 'top',
-                html: '<center><img src="localbuzz.png"/></center>',
-                padding: '10 0 0 0',
-                style: 'font-size:5vw',
-                ui: 'light'
-            },
-            {
-                xtype: 'contactlist',
-                height: 379,
-                style: 'font-size:7vw',
-                itemCls: 'list-items'
+                ui: 'plain',
+                width: '100%',
+                scrollable: false,
+                layout: {
+                    type: 'hbox',
+                    align: 'stretchmax'
+                },
+                items: [
+                    {
+                        xtype: 'button',
+                        cls: 'icon-back-button',
+                        itemId: 'dealBackBtn',
+                        style: 'font-size:8vw',
+                        ui: 'plain'
+                    },
+                    {
+                        xtype: 'button',
+                        cls: 'icon-share',
+                        docked: 'right',
+                        itemId: 'share',
+                        minHeight: '100%',
+                        style: 'border:none;font-size:7vw',
+                        ui: 'plain',
+                        iconAlign: 'center',
+                        text: ''
+                    }
+                ]
             }
         ]
+    }
+});
+
+/*
+ * File: app/view/Login.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+Ext.define('Contact.view.Login', {
+    extend: Ext.Container,
+    config: {
+        html: '<h3><b>Welcome to Local Buzz!</b></h3> <p>With this app you can stay in touch with your customers.In order to use Local Buzz, you must sign in with your Facebook account.</p>',
+        maxHeight: '',
+        style: '',
+        styleHtmlContent: true,
+        layout: {
+            type: 'card',
+            animation: 'pop'
+        },
+        items: [
+            {
+                xtype: 'button',
+                centered: true,
+                html: '<img src="resources/images/login.png"/>',
+                id: 'Login',
+                itemId: 'Login',
+                maxHeight: '',
+                minHeight: '',
+                style: 'border:none;',
+                styleHtmlCls: '',
+                ui: 'plain',
+                iconAlign: 'top'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onLoginTap',
+                event: 'tap',
+                delegate: '#Login'
+            }
+        ]
+    },
+    onLoginTap: function(button, e, eOpts) {
+        // Settings.
+        FacebookInAppBrowser.settings.appId = '900651756709444';
+        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+        FacebookInAppBrowser.settings.permissions = 'email';
+        // Optional
+        FacebookInAppBrowser.settings.timeoutDuration = 7500;
+        // Login(accessToken will be stored trough localStorage in 'accessToken');
+        FacebookInAppBrowser.login({
+            send: function() {
+                console.log('login opened');
+            },
+            success: function(access_token) {
+                console.log('done, access token: ' + access_token);
+            },
+            denied: function() {
+                console.log('user denied');
+            },
+            timeout: function() {
+                console.log('a timeout has occurred, probably a bad internet connection');
+            },
+            complete: function(access_token) {
+                console.log('window closed');
+                if (access_token) {
+                    console.log(access_token);
+                } else {
+                    console.log('no access token');
+                }
+            },
+            userInfo: function(userInfo) {
+                if (userInfo) {
+                    var userInf = JSON.stringify(userInfo);
+                    console.log(userInf);
+                    var info = userInf.split("\",\"");
+                    var tmp = info[0].split("\":\"");
+                    var email = tmp[1];
+                    //console.log(email);
+                    tmp = info[1].split("\":\"");
+                    var loginName = tmp[1];
+                    tmp = info[2].split("\":\"");
+                    var gender = tmp[1];
+                    tmp = info[3].split("\":\"");
+                    var userId = tmp[1];
+                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'studionafisa@yahoo.com', 0, true, false, false);
+                    //console.log(store.getData());
+                    //store.loadRecord();
+                    //var view = Ext.create('Contact.view.Info');
+                    //view.setRecord(record.getRecord());
+                    //console.log(view.getData());
+                    //Ext.Viewport.setActiveItem(view);
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.removeAll();
+                    storeUserDetails.add({
+                        'customerId': record.get('customerId'),
+                        'email': email,
+                        'businessName': record.get('businessName')
+                    });
+                    //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
+                    var store = Ext.getStore('MyJsonPStore');
+                    var view = Ext.create("Ext.tab.Panel", {
+                            itemId: 'panel',
+                            fullscreen: true,
+                            tabBarPosition: 'bottom',
+                            items: [
+                                {
+                                    xtype: 'contactinfo',
+                                    title: 'Home',
+                                    itemId: 'home',
+                                    iconCls: 'home'
+                                },
+                                {
+                                    xtype: 'DealsPanel',
+                                    title: 'Buzz',
+                                    iconCls: 'info'
+                                }
+                            ]
+                        });
+                    view.getComponent('home').setRecord(record);
+                    Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(view);
+                } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
+                //console.log(view.getComponent('home').getItemId());
+                //view.setData(record.getData());
+                ////view.setRecord(record);
+                // Ext.Viewport.setActiveItem(view);
+                //view.setData(record.getData());
+                {
+                    console.log('no user info');
+                }
+            }
+        });
+    }
+});
+
+/*
+ * File: app/view/UploadDealForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+Ext.define('Contact.view.UploadDealForm', {
+    extend: Ext.form.Panel,
+    alias: 'widget.UploadDealForm',
+    config: {
+        cls: 'customfield',
+        height: '100%',
+        minHeight: '',
+        style: 'background:white',
+        enctype: 'multipart/form-data',
+        url: 'http://services.appsonmobile.com/uploadS3',
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Name',
+                labelWidth: '35%',
+                name: 'DealName'
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                itemId: 'dealStatus',
+                margin: '5 5 5 5 ',
+                maxHeight: '',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealStartDate',
+                itemId: 'DealStartDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                usePicker: true,
+                dateFormat: 'm/d/Y',
+                picker: {
+                    itemId: 'mydatepicker3',
+                    styleHtmlContent: true,
+                    stretchX: false,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                itemId: 'DealEndDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                usePicker: true,
+                picker: {
+                    styleHtmlContent: true,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'filefield',
+                cls: 'customfield',
+                id: 'myfilefield',
+                itemId: 'myfilefield',
+                margin: '5 5 5 5 ',
+                style: 'color:white',
+                styleHtmlContent: true,
+                clearIcon: false,
+                label: 'Image',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'fileUpload',
+                capture: 'camera'
+            },
+            {
+                xtype: 'spacer',
+                maxHeight: ''
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'customerId'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '10 10 10 10 10',
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                        },
+                        height: '20%',
+                        style: 'font-size:5vw!important',
+                        styleHtmlContent: true,
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var uForm = this.up('UploadDealForm');
+                            var file = uForm.getAt(4).getValue();
+                            //var dealStartDate = uForm.getAt(2).getValue().toDateString();
+                            //var dealEndDate = uForm.getAt(3).getValue();
+                            Ext.Date.format(uForm.getAt(2).getValue(), 'n/j/Y');
+                            Ext.Date.format(uForm.getAt(3).getValue(), 'n/j/Y');
+                            /*var startDate = uForm.getAt(2).getValue();
+
+							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
+							console.log(date);
+
+							uForm.getAt(2).setValue(date);
+
+
+							var startDate = uForm.getAt(3).getValue();
+
+							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
+							console.log(date);
+
+
+							uForm.getAt(3).setValue(date);
+
+
+							console.log(date);*/
+                            /*var startDate = dealStartDate.getDate();
+							var startMonth = dealStartDate.getMonth()+1;
+							var startYear = dealStartDate.getFullYear();
+
+							var dealStart = startDate + "/" + startMonth + "/" + startYear ;
+
+							console.log(dealStart);
+
+							uForm.getAt(2).setValue(dealStart);
+
+							var endDate = dealEndDate.getDate();
+							var endMonth = dealEndDate.getMonth()+1;
+							var endYear = dealEndDate.getFullYear();
+
+							var dealEnd = endDate + "/" + endMonth + "/" + endYear ;
+
+							uForm.getAt(3).setValue(dealEnd);
+							console.log(dealEnd);*/
+                            if (file) {
+                                uForm.submit({
+                                    url: 'http://services.appsonmobile.com/uploadS3',
+                                    xhr2: true,
+                                    waitMsg: 'Please Wait...',
+                                    timeout: 5000,
+                                    scope: this,
+                                    success: function(form, action) {
+                                        Ext.getStore('MyDealsStore').load();
+                                        Ext.Msg.alert('Success', action.msg);
+                                        //console.log("Action Msg is : " +action.success);
+                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
+                                        uForm.destroy();
+                                    },
+                                    failure: function(form, action) {
+                                        Ext.getStore('MyDealsStore').load();
+                                        Ext.Msg.alert('Failure', action.msg);
+                                        console.log("Action Msg is : " + action.msg);
+                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
+                                        uForm.destroy();
+                                    }
+                                });
+                            } else {
+                                Ext.Msg.alert('Failure', 'No Image to Upload');
+                                uForm.destroy();
+                            }
+                        },
+                        docked: 'right',
+                        height: '20%',
+                        itemId: 'submit',
+                        style: 'font:size:4vw',
+                        styleHtmlContent: true,
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ]
+    }
+});
+
+/*
+ * File: app/view/ChangeContactPicForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+Ext.define('Contact.view.ChangeContactPicForm', {
+    extend: Ext.form.Panel,
+    alias: 'widget.ChangeContactPicForm',
+    config: {
+        centered: true,
+        height: '40%',
+        id: 'ChangeContactPicForm',
+        itemId: 'ChangeContactPicForm',
+        style: 'background;#fff;border:3px groove #1985d0',
+        styleHtmlContent: true,
+        width: '80%',
+        hideOnMaskTap: true,
+        modal: true,
+        scrollable: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax',
+            pack: 'end'
+        },
+        items: [
+            {
+                xtype: 'filefield',
+                baseCls: 'customfield1',
+                itemId: 'myfilefield1',
+                margin: '5 5 5 5',
+                style: 'border:none',
+                styleHtmlContent: true,
+                width: 214,
+                clearIcon: false,
+                label: '',
+                labelWrap: true,
+                name: 'fileUpload',
+                capture: 'camera'
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var form = this.up('ChangeContactPicForm');
+                    var record = form.getRecord();
+                    var customerId = form.getRecord().get('customerId');
+                    var store = Ext.getStore('MyJsonPStore');
+                    form.submit({
+                        url: 'http://services.appsonmobile.com/stores/' + customerId,
+                        xhr2: true,
+                        cache: false,
+                        success: function(form, action) {
+                            var view = Ext.Viewport.getActiveItem();
+                            record.beginEdit(true, record.getChanges());
+                            form.updateRecord(record);
+                            record.endEdit(true, record.getChanges());
+                            record.commit();
+                            store.sync();
+                            store.load();
+                            Ext.Msg.alert('Success', action.msg);
+                            view.setRecord(record);
+                            form.destroy();
+                        },
+                        failure: function(form, action) {
+                            store.load();
+                            Ext.Msg.alert('Failure', action.msg);
+                            form.destroy();
+                        }
+                    });
+                },
+                bottom: 30,
+                centered: false,
+                cls: 'button',
+                height: '23%',
+                left: '25%',
+                margin: '',
+                style: 'font-size:5vw!important',
+                styleHtmlContent: true,
+                ui: 'action',
+                width: 128,
+                iconAlign: 'center',
+                text: 'Submit'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'customerId'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'category'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'phoneNumber'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'address'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'emailAddress'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'zipcode'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'state'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'city'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'pictureURL'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'website'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'websiteDisplayName'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onChangeContactPicFormHiddenChange',
+                event: 'hiddenchange'
+            }
+        ]
+    },
+    onChangeContactPicFormHiddenChange: function(component, value, oldValue, eOpts) {
+        if (component.isHidden() === true && oldValue !== null) {
+            component.destroy();
+        }
     }
 });
 
@@ -63752,24 +67197,27 @@ Ext.application({
     models: [
         'Contact',
         'Deal',
-        'UserPreferences'
+        'UserDetails',
+        'AnalyticsData'
     ],
     stores: [
-        'ContactStore',
         'MyJsonPStore',
         'MyDealsStore',
-        'UserPreferences',
-        'MyJsonPStore1'
+        'UserDetails',
+        'LocalStore',
+        'AnalyticsStore'
     ],
     views: [
-        'Main1',
-        'Info',
+        'contactform',
         'Picture',
-        'List',
         'DealPicture',
         'ListOfDeals',
-        'Main',
-        'FavoriteView'
+        'DealsPanel',
+        'Login',
+        'UploadDealForm',
+        'ChangeContactPicForm',
+        'contactinfo',
+        'BuzzOMeter'
     ],
     controllers: [
         'Contacts'
@@ -63784,18 +67232,6 @@ Ext.application({
         Ext.util.Format.undef = function(value, defaultValue) {
             return Ext.isDefined(value) ? value : defaultValue;
         };
-        var view = Ext.create('Contact.view.Main', {});
-        Ext.create('Contact.store.MyJsonPStore', {
-            autoLoad: true,
-            listeners: {
-                load: function(self, records) {
-                    view.setData(records);
-                }
-            }
-        });
-        Ext.create('Contact.store.MyDealsStore', {
-            autoLoad: true
-        });
         if (Ext.os.is('Android')) {
             document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);
             // add back button listener
@@ -63809,12 +67245,113 @@ Ext.application({
             }
         }
         //do nothing
-        Ext.create('Contact.view.Main', {
-            fullscreen: true
+        //FB login
+        // Settings.
+        FacebookInAppBrowser.settings.appId = '900651756709444';
+        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+        FacebookInAppBrowser.settings.permissions = 'email';
+        // Optional
+        FacebookInAppBrowser.settings.timeoutDuration = 7500;
+        // Login(accessToken will be stored trough localStorage in 'accessToken');
+        FacebookInAppBrowser.login({
+            send: function() {
+                console.log('login opened');
+            },
+            success: function(access_token) {
+                console.log('done, access token: ' + access_token);
+            },
+            denied: function() {
+                console.log('user denied');
+            },
+            timeout: function() {
+                console.log('a timeout has occurred, probably a bad internet connection');
+                Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
+            },
+            complete: function(access_token) {
+                console.log('window closed');
+                if (access_token) {
+                    console.log(access_token);
+                } else {
+                    console.log('no access token');
+                }
+            },
+            userInfo: function(userInfo) {
+                if (userInfo) {
+                    var userInf = JSON.stringify(userInfo);
+                    console.log(userInf);
+                    var info = userInf.split("\",\"");
+                    var tmp = info[0].split("\":\"");
+                    var email = tmp[1];
+                    //console.log(email);
+                    tmp = info[1].split("\":\"");
+                    var loginName = tmp[1];
+                    tmp = info[2].split("\":\"");
+                    var gender = tmp[1];
+                    tmp = info[3].split("\":\"");
+                    var userId = tmp[1];
+                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'sterling@sterling.com', 0, true, false, false);
+                    //console.log(store.getData());
+                    //store.loadRecord();
+                    //var view = Ext.create('Contact.view.Info');
+                    //view.setRecord(record.getRecord());
+                    //console.log(view.getData());
+                    //Ext.Viewport.setActiveItem(view);
+                    if (record) {
+                        var storeUserDetails = Ext.getStore('UserDetails');
+                        storeUserDetails.removeAll();
+                        storeUserDetails.add({
+                            'customerId': record.get('customerId'),
+                            'email': email,
+                            'businessName': record.get('businessName')
+                        });
+                        //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
+                        var store = Ext.getStore('MyJsonPStore');
+                        var view = Ext.create("Ext.tab.Panel", {
+                                itemId: 'panel',
+                                fullscreen: true,
+                                tabBarPosition: 'bottom',
+                                cls: 'toolbarCls',
+                                ui: 'plain',
+                                style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
+                                items: [
+                                    {
+                                        xtype: 'contactinfo',
+                                        title: 'Home',
+                                        itemId: 'home',
+                                        iconCls: 'icon-home'
+                                    },
+                                    {
+                                        xtype: 'DealsPanel',
+                                        title: 'Buzz',
+                                        iconCls: 'icon-bubbles'
+                                    },
+                                    {
+                                        xtype: 'buzzometer',
+                                        title: 'BuzzOMeter',
+                                        iconCls: 'info'
+                                    }
+                                ]
+                            });
+                        view.getComponent('home').setRecord(record);
+                        //Ext.Viewport.getActiveItem().destroy();
+                        Ext.Viewport.setActiveItem(view);
+                    } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
+                    //console.log(view.getComponent('home').getItemId());
+                    //view.setData(record.getData());
+                    ////view.setRecord(record);
+                    // Ext.Viewport.setActiveItem(view);
+                    {
+                        Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
+                    }
+                } else //view.setData(record.getData());
+                {
+                    console.log('no user info');
+                }
+            }
         });
     }
 });
 
 // @tag full-page
-// @require H:\Apps\LocalBuzzMobileApp\app.js
+// @require H:\Apps\Sencha Architect Apps\LocalBuzzBusinessApp\app.js
 

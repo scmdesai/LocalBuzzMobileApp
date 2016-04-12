@@ -1,0 +1,409 @@
+$base-color: rgb(25,133, 208);
+$font-family: Arial, Helvetica, sans-serif;
+$page-bg-color: rgb(255,255,255);
+$list-active-gradient: flat;
+$list-bg-color: rgb(255,255,255);
+$form-field-border-bottom-color: #c0c0c0;
+$form-field-border-bottom-width: 2px;
+$form-field-height: 3em;
+$form-field-label-bg-color: #FFF;
+$form-field-label-border-top-color: #eee;
+$form-field-label-color: #00529D;
+$form-field-label-text-shadow: false;
+$form-textarea-height: 3em;
+$form-bg-color: rgb(255,255,255);
+$form-light: rgb(255,255,255);
+$tabs-dark: #FFF;
+$toolbar-gradient: flat;
+$toolbar-input-bg: rgb(255,255,255);
+
+@import 'sencha-touch/default';
+@import 'sencha-touch/default/all';
+
+
+$toolbar-icon-size: 1em;
+$base-color: #1985d0;
+$confirm-color: #659D32;
+$font-family: Arial;
+$page-bg-color: #1985d0;
+$list-active-color: $base-color;
+$list-bg-color: $base-color;
+$list-color: #fff;
+$list-header-bg-color: $base-color;
+
+/* Adding custom icon-fonts */
+
+
+
+@include icon-font('MyIcons',
+    inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+
+
+@include icon-font('MyIcons1',
+    inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+
+@include icon-font('icomoon2',
+    inline-font-files('icomoon2.woff', woff, 'icomoon2.ttf', truetype,'icomoon2.svg', svg));
+
+@include icon-font('Social-Media-Icons',
+    inline-font-files('Social-Media-Icons.woff', woff, 'Social-Media-Icons.ttf', truetype,'Social-Media-Icons.svg', svg));
+
+@include icon-font('fontawesome-webfont',
+    inline-font-files('fontawesome-webfont.woff', woff, 'fontawesome-webfont.ttf', truetype,'fontawesome-webfont.svg', svg));
+@include icon-font('map-icons',
+    inline-font-files('map-icons.woff', woff, 'map-icons.ttf', truetype,'map-icons.svg', svg));
+
+@include icon("icon-phone","!", "MyIcons");
+@include icon("icon-star-empty","#", "MyIcons");
+@include icon("icon-share","$", "MyIcons");
+@include icon("icon-location","\"", "MyIcons");
+@include icon("icon-buzz","\"", "MyIcons");
+@include icon("icon-star-full","%", "MyIcons1");
+@include icon("icon-star-favorite","%", "MyIcons1");
+
+@include icon("icon-bullhorn","\e905", "Social-Media-Icons");
+@include icon("icon-bubbles","\e907", "Social-Media-Icons");
+
+@include icon("icon-car","\f1b9","fontawesome-webfont");
+@include icon("icon-search","\e900","icomoon2");
+@include icon("icon-home","\f015","fontawesome-webfont");
+
+
+
+
+
+@include font-face('pictos',
+    inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+
+
+
+
+@include icon('G');
+@include icon('M');
+@include icon('s');
+@include icon('e');
+
+
+
+
+/* Adding icon fonts in the Info Page */
+
+
+
+.icon-email:before {
+    font-family: "pictos";
+    content: "M";
+    padding-left: 10px;
+    padding-top:20px;
+	padding-right: 10px;
+    display:inline-block;
+
+    font-size:7vw;
+    border: none;
+    color:#000;
+    background-color:#fff;
+}
+
+.icon-back-button:before {
+    font-family: "fontawesome-webfont";
+    content: "\f053"'\ Back';
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+
+.icon-search:before {
+    font-family: "icomoon2";
+    content: "\e900";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-home:before {
+    font-family: "fontawesome-webfont";
+    content: "\f015";
+    display:inline-block;
+    font-size:6vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-globe:before {
+    font-family: "pictos";
+    content: "G";
+    padding-left: 10px;
+	padding-right: 10px;
+    padding-top:20px;
+    display:inline-block;
+    padding-top: 20px;
+    font-size:7vw;
+    border: none;
+    color:blue;
+    background-color:#fff;
+
+}
+
+a:link {
+    color: green;
+    background-color: transparent;
+    text-decoration: none; }
+
+.icon-phone:before {
+    font-family: "MyIcons";
+    content: "!";
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top:20px;
+    display:inline-block;
+
+    font-size:6vw;
+    border: none;
+    color:#006600;
+    background-color:#fff;
+    vertical-align:middle !important;
+    position:asolute;
+}
+
+.icon-car:before {
+    font-family: "fontawesome-webfont";
+    content: "\f1b9";
+    padding-left: 10px;
+    padding-top:20px;
+    display:inline-block;
+    padding-top: 20px;
+    font-size:6vw;
+    border: none;
+    color:#006600;
+    background-color:#fff;
+}
+
+
+.icon-location:before {
+    font-family: "MyIcons";
+    content: "\"";
+    padding-left: 10px;
+	padding-right: 10px;
+    display:inline-block;
+    padding-top: 20px;
+    font-size:6vw;
+    border: none;
+    color:#ff0000;
+    background-color:#fff;
+}
+
+
+.icon-bubbles:before {
+    font-family: "Social-Media-Icons";
+    content: "\e907";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-share:before {
+    font-family: "fontawesome-webfont";
+    content: "\f064";
+    padding-top: 10px;
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+
+.icon-buzz:before {
+    font-family: "MyIcons";
+    content: "\"";
+    font-weight:'normal';
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+
+}
+
+/*.x-field-select::after {
+	 content:'\f078';
+	color:#C0C0C0;
+	padding-top:20px;
+	width:2em;
+	display:inline-block;
+	font-family:'fontawesome-webfont';
+}*/
+
+.list-item{
+    background:#fff;
+    font-size:5vw;
+
+
+}
+
+.customlist{
+    border:2px inset #eee;
+}
+
+.customcontainer{
+    background-color:#1985d0;
+    color:white;
+}
+/* Adding icon fonts in the ListOfDeals itemtpl */
+.empty-star:before{
+    font-family: "MyIcons";
+    content: "#";
+    font-size: 1.5em;
+    color:#C0C0C0;
+}
+.fill-star:before{
+    font-family: "MyIcons1";
+    content: "%";
+    font-size: 1.5em;
+    color:#ffa500;
+
+}
+
+
+
+.share:before {
+    font-family: "MyIcons";
+    content: "$";
+    display:inline-block;
+    padding-bottom: 20px;
+    font-size: 1.5em;
+    color:#D3D3D3;
+}
+
+.delete_button{
+    font-family: "pictos";
+    content: "#";
+    color:#737373;
+    font-size: 1.2em;
+    border: none;
+    background:none;
+
+}
+
+.icon-star-favorite{
+    font-family: "MyIcons1";
+    content: "#";
+    color:#00529D;
+
+}
+
+.checkbox_hidden {
+    display:none;
+}
+
+.checkbox_visible {
+    display:normal;
+}
+
+.x-msgbox-dark
+{
+    background-color: #fff !important;
+}
+
+// To change messagebox text properties
+
+.x-msgbox-dark .x-msgbox-text {
+    background-color: #fff !important;
+    color: $base-color !important;
+    font-family:'Arial';
+
+
+}
+
+// To change messagebox title
+
+.x-msgbox-dark .x-title {
+    background-color: #fff !important;
+    color:$base-color !important;
+    font-family:'Arial';
+
+}
+
+.x-msgbox-dark .x-field {
+    background-color: #fff !important;
+    color:$base-color !important;
+    border:1px solid #C0C0C0 !important;
+    font-family:'Arial';
+}
+
+.map-icon-label .map-icon {
+	font-size: 24px;
+	color: #FFFFFF;
+	line-height: 48px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.styleLabel{background-color:#ffffff;font-weight:bold;border:2px #006699 solid;}
+
+
+.labels {
+   /* border: 2px solid black;
+    color: red;
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    padding: 3px;
+    white-space: nowrap;
+    position: relative;*/
+    margin-top:-3px;
+     padding: 5px;
+     position: absolute;
+    visibility: visible;
+    z-index: 1030;
+}
+.labels.active {
+    background: grey;
+}
+.labels.hover {
+    background-color: yellow;
+}
+.labels .arrow{
+    border-top-color: #000000;
+    border-right-color: rgba(0,0,0,0);
+    border-bottom-color: rgba(0,0,0,0);
+    border-left-color: rgba(0,0,0,0);
+    border-width: 5px 5px 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -5px;
+    border-style: solid;
+    height: 0;
+    position: absolute;
+    width: 0;
+}
+.labels .inner{
+    background-color: #000000;
+    border-radius: 4px;
+    color: #FFFFFF;
+    max-width: 200px;
+    padding: 3px 8px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.x-list-header
+{
+   height:25px;
+   color: #00529D !important;
+   font-size: 4vw !important;
+    font-style:'normal' !important;
+    font-family:'Arial';
+    border:none !important;
+
+}

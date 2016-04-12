@@ -1,0 +1,49 @@
+$toolbar-icon-size: 1em;
+$base-color: rgba(0,0,0,0.5);
+$confirm-color: #659D32;
+$font-family: Helvetica, sans-serif;
+$page-bg-color: rgba(0,0,0,0.9);
+$list-active-color: $base-color;
+$list-bg-color: $base-color;
+$list-color: #fff;
+$list-header-bg-color: $base-color;
+$form-bg-color: rgba(0,0,0,0.5);
+$form-dark: rgba(0,0,0,0.5);
+$picker-active-border-color: rgba(0,0,0,0.5);
+
+
+.favorite {
+    border: 1px solid #aaa; 
+    padding: 5px; 
+    margin: 5px;
+    text-align: center;
+}
+
+.square {
+    border-radius: 0px;
+}
+
+.contact-name{
+    color:black;
+    padding-left: 4px;
+}
+
+.x-panel-body{
+	
+	background: #fff;
+}
+
+.checkbox_hidden {
+	display:none;
+}
+
+.checkbox_visible {
+	display:normal;
+}
+
+
+
+.confirm_button .x-button{
+	
+	background-color:#ff00ff;
+}

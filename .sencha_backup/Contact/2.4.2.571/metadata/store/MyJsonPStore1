@@ -1,0 +1,108 @@
+{
+    "type": "jsonpstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": true,
+        "designer|userClassName": "MyJsonPStore1",
+        "groupField": "category",
+        "model": "Contact",
+        "storeId": "MyJsonPStore1"
+    },
+    "name": "MyJsonPStore1",
+    "designerId": "2e634d98-69ff-40e6-902c-0c7da7e0e5ed",
+    "cn": [
+        {
+            "type": "Ext.util.Grouper",
+            "reference": {
+                "name": "grouper",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "sortProperty": ""
+            },
+            "name": "MyGrouper1",
+            "designerId": "8cb39bb8-73fa-4213-b178-15e407ea2d32",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "item"
+                        ],
+                        "fn": "groupFn",
+                        "implHandler": [
+                            "return record.get('category');"
+                        ]
+                    },
+                    "name": "groupFn",
+                    "designerId": "2a4a38e3-a135-400e-8288-7c35df3706fc"
+                }
+            ]
+        },
+        {
+            "type": "Ext.util.Sorter",
+            "reference": {
+                "name": "sorters",
+                "type": "object"
+            },
+            "codeClass": null,
+            "name": "MySorter1",
+            "designerId": "d3daf97b-f675-403f-9618-6ec351c61ca5",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "first",
+                            "second"
+                        ],
+                        "fn": "sorterFn",
+                        "implHandler": null
+                    },
+                    "name": "sorterFn",
+                    "designerId": "1ede2587-3541-4de2-8222-b2916cb1e9c7"
+                }
+            ]
+        },
+        {
+            "type": "Ext.data.proxy.JsonP",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://services.appsonmobile.com/stores"
+            },
+            "name": "MyJsonPProxy1",
+            "designerId": "07e5568c-9352-46f4-bdd9-6885879c8b5a",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "name": "MyJsonReader",
+                    "designerId": "613061c1-1b05-490e-b733-8697fae76207"
+                }
+            ]
+        }
+    ]
+}

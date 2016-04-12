@@ -1,0 +1,30 @@
+{
+    "type": "Ext.data.Store",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": true,
+        "autoSync": true,
+        "designer|userClassName": "UserDetails",
+        "model": "UserDetails",
+        "remoteFilter": true,
+        "storeId": "UserDetails"
+    },
+    "name": "MyStore",
+    "designerId": "f4a70b68-8bb8-44a1-9ba0-c572ca0aeb79",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.SessionStorage",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "name": "MySessionStorageProxy",
+            "designerId": "f67383f1-9aeb-40e4-a9e1-6fa64d39dde4"
+        }
+    ]
+}

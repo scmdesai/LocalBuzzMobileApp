@@ -44,7 +44,7 @@
             "desktop"
          ],
          "theme": "Default",
-         "path": "resources/css/sencha-touch-bcdd5b97-dbf8-4dc3-9a52-df399e98c450.css"
+         "path": "resources/css/sencha-touch-7a7e94c9-893d-4b38-b73b-2b335ebd90b1.css"
       }
    ],
    "appCache": {
@@ -67,5 +67,5 @@
    ],
    "archivePath": "archive",
    "requires": [],
-   "id": "bfd9c2ff-6347-4718-8919-f7a4bd0f7cde"
+   "id": "2fc112e8-5c1f-4d5f-bc97-21b3b2550c36"
 }

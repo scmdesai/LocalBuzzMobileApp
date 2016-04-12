@@ -1,0 +1,100 @@
+/*
+Error: File to import not found or unreadable: blueprint/typography.
+       Load paths:
+         Compass::SpriteImporter
+         H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/resources/sass
+         H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.1.0.alpha.3/stylesheets
+         H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/vendor/compass-recipes/stylesheets
+         H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets
+        on line 6 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_base.scss
+        from line 15 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_cupertino.scss
+        from line 4 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/resources/sass/cupertino.scss
+
+1: // The following two lines import the default Sencha Touch theme. If you are building
+2: // a new theme, remove them and the add your own CSS on top of the base CSS (which
+3: // is already included in your app.json file).
+4: @import 'sencha-touch/cupertino';
+5: @import 'sencha-touch/cupertino/all';
+6: @import '..\touch\resources\themes\stylesheets\sencha-touch\cupertino';
+7: 
+8: // Custom code goes here..
+9: 
+10: // Examples of using the icon mixin:
+11: // @include icon('user');
+
+Backtrace:
+H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_base.scss:6
+H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_cupertino.scss:15
+H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/resources/sass/cupertino.scss:4
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:67:in `rescue in import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:45:in `import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:28:in `imported_file'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:37:in `css_import?'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `block in with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `block (2 levels) in visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `map'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `block in visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:88:in `block in with_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:88:in `with_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:323:in `visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `block in with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `block (2 levels) in visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `map'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:326:in `block in visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:88:in `block in with_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:88:in `with_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:323:in `visit_import'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `block in with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:115:in `with_frame'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/stack.rb:79:in `with_base'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:158:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `map'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/base.rb:36:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:157:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/visitors/perform.rb:8:in `visit'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/root_node.rb:36:in `css_tree'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/tree/root_node.rb:20:in `render'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/engine.rb:278:in `render'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `each'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:293:in `watch'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/sass_compiler.rb:46:in `watch!'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/commands/watch_project.rb:41:in `perform'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/commands/base.rb:18:in `execute'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/commands/project_base.rb:19:in `execute'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/bin/compass:30:in `block in <top (required)>'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/bin/compass:44:in `call'
+H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-1.1.0.alpha.3/bin/compass:44:in `<top (required)>'
+H:/Tools/Ruby22-x64/bin/compass:23:in `load'
+H:/Tools/Ruby22-x64/bin/compass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: blueprint/typography.\A        Load paths:\A          Compass::SpriteImporter\A          H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/resources/sass\A          H:/Tools/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.1.0.alpha.3/stylesheets\A          H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/vendor/compass-recipes/stylesheets\A          H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets\A         on line 6 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_base.scss\A         from line 15 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/touch/resources/themes/stylesheets/sencha-touch/_cupertino.scss\A         from line 4 of H:/Apps/Sencha Architect Apps/LocalBuzzBusinessApp/resources/sass/cupertino.scss\A \A 1: // The following two lines import the default Sencha Touch theme. If you are building\A 2: // a new theme, remove them and the add your own CSS on top of the base CSS (which\A 3: // is already included in your app.json file).\A 4: @import 'sencha-touch/cupertino';\A 5: @import 'sencha-touch/cupertino/all';\A 6: @import '..\touch\resources\themes\stylesheets\sencha-touch\cupertino';\A 7: \A 8: // Custom code goes here..\A 9: \A 10: // Examples of using the icon mixin:\A 11: // @include icon('user');"; }

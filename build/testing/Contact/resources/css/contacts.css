@@ -1,7 +1,17 @@
-.846c9566251303b60148ef6a639b498ea224a30b{display:block;}.favorite {
-    border: 1px solid #aaa; 
-    padding: 5px; 
-    margin: 5px;
+$toolbar-icon-size: 1em;
+$base-color: #1985d0;
+$confirm-color: #659D32;
+$font-family: Arial;
+$page-bg-color: #1985d0;
+$list-active-color: $base-color;
+$list-bg-color: $base-color;
+$list-color: #fff;
+$list-header-bg-color: $base-color;
+
+.favorite {
+    border: 2px outset #C0C0C0; 
+    padding: 5px 5px 5px 5px; 
+    margin: 5px 5px 5px 5px;
     text-align: center;
 }
 
@@ -10,6 +20,150 @@
 }
 
 .contact-name{
-    color:white;
+    color:#00529D;
     padding-left: 4px;
+    word-wrap: normal;
+	font-size:5.2vw;
 }
+
+.toolbarCls {
+    background:white !important;
+    border-bottom:1px solid #C0C0C0 !important;
+}
+
+.emptyText {
+    
+    color: #C0C0C0 !important;
+    position: absolute !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    top: 50px !important;
+    left:20px !important;
+    font-family:Arial !important;
+    font-size:4vw !important;
+}
+
+.dateValidity {
+    color:grey;
+    font-size:2.5vw;
+    font-style:italics;
+    font-weight:normal;
+    font-family:'Arial';
+
+}
+.expiringDate {
+    color:#ff0000;
+    font-size:2.5vw;
+    font-style:italics;
+    font-weight:normal;
+    font-family:'Arial';
+    
+
+}
+
+
+.customfield {
+    border:1px groove #C0C0C0!important;
+    height:12vh;
+    font-weight:normal !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    font-family:Arial !important;
+    font-size:4vw !important;
+	padding-right:5px!important;
+	overflow: visible;
+
+
+
+
+
+
+
+}
+
+
+
+.tabBarCls {
+    padding: 5px,5px,5px,5px;
+}
+
+
+
+.x-field {
+    border-bottom:1px groove #C0C0C0!important;
+    height:12vh;
+    font-weight:normal !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    font-family:Arial !important;
+    font-size:4vw !important;
+	padding-right:5px!important;
+
+
+
+
+
+
+
+}
+
+.x-form-label {
+	
+    font-weight:normal !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+	padding-top:15px !important;
+    font-family:Arial !important;
+    font-size:4.5vw;
+	border-top-left-radius:0 em;
+	background:#FFF !important;
+	border-right:1px solid #eee!important;
+	
+}
+
+
+
+.customfield1 {
+    height:12vh;
+    font-weight:normal !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+    font-family:Arial !important;
+    font-size:4vw;
+	
+
+
+
+
+
+
+
+}
+
+
+
+.searchfield {
+    border-bottom:2px groove #C0C0C0;
+    margin:5px 5px 5px 5px;
+    font-size:5vw;
+    height:12vh;
+    font-weight:normal;
+    text-align:center;
+    vertical-align:middle;
+    font-family:Arial;
+    border-radius:7px;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

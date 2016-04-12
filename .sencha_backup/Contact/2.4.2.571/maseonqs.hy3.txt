@@ -1,0 +1,36 @@
+Changed analytics category to customerID
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# Explicit paths specified without -i or -o; assuming --only paths...
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   .architect
+#	modified:   app/controller/Contacts.js
+#	modified:   build/testing/Contact/app.js
+#	new file:   build/testing/Contact/archive/app.js/59f1c3d4406c037719eb564d253ec4facb6631ff
+#	new file:   build/testing/Contact/archive/app.js/8d2af427c8fb96df6562deaa26efcbb27542e5a1
+#	new file:   build/testing/Contact/archive/app.js/d0b54a0f1ea5aad292e2aa679f6014072c330f2a
+#	new file:   build/testing/Contact/archive/app.js/e9de89a52ecb48e4b150b283d4b262ed545877b1
+#	modified:   build/testing/Contact/cache.appcache
+#	modified:   build/testing/Contact/deltas/app.js/441f1ff56b89ab6b395a10fdaec956b828107642.json
+#	modified:   build/testing/Contact/deltas/app.js/4591331ebca9fb3a29870781b79d62ddf1bbadfb.json
+#	new file:   build/testing/Contact/deltas/app.js/59f1c3d4406c037719eb564d253ec4facb6631ff.json
+#	new file:   build/testing/Contact/deltas/app.js/7ed719f9400571db8ae5a214587677dcc122c8eb.json
+#	new file:   build/testing/Contact/deltas/app.js/8d2af427c8fb96df6562deaa26efcbb27542e5a1.json
+#	modified:   build/testing/Contact/deltas/app.js/a4e99501a18a8a3537408e925a51b64c76233dcb.json
+#	modified:   build/testing/Contact/deltas/app.js/a9ce3fac90fc32b49b4b653684ebfb8c2cd5b94e.json
+#	modified:   build/testing/Contact/deltas/app.js/d8af7ce19f5f0d2bba4e4be4510a1b7e6474bb94.json
+#	new file:   build/testing/Contact/deltas/app.js/e9de89a52ecb48e4b150b283d4b262ed545877b1.json
+#	modified:   build/testing/Contact/index.html
+#	modified:   metadata/controller/Contacts
+#	modified:   phonegap/platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties.lock
+#	modified:   phonegap/platforms/android/.gradle/2.2.1/taskArtifacts/fileHashes.bin
+#	modified:   phonegap/platforms/android/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin
+#	modified:   phonegap/platforms/android/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin
+#	modified:   phonegap/platforms/android/assets/www/app.js
+#	modified:   phonegap/www/app.js
+#
+

@@ -1,0 +1,205 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "contactform",
+        "designer|userClassName": "Form",
+        "itemId": "myformpanel"
+    },
+    "name": "MyFormPanel",
+    "designerId": "b25bfe28-5f37-425f-9892-927d81a81d1f",
+    "cn": [
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|createAlias": "toolbar",
+                "designer|uiInterfaceName": "light",
+                "docked": "top",
+                "ui": "light"
+            },
+            "name": "MyToolbar2",
+            "designerId": "cf253f26-5133-4a9c-8be1-9694b5d2375d",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "decline",
+                        "itemId": "cancelButton",
+                        "text": "Cancel",
+                        "ui": "decline"
+                    },
+                    "name": "MyButton2",
+                    "designerId": "e9541ecb-f2f1-4407-a3a6-2873f2220140"
+                },
+                {
+                    "type": "Ext.Spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "name": "MySpacer2",
+                    "designerId": "38fd7ccb-d33c-4446-b35c-3f620937c186"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "confirm",
+                        "itemId": "saveContactButton",
+                        "text": "Save",
+                        "ui": "confirm"
+                    },
+                    "name": "MyButton4",
+                    "designerId": "4bf94876-641f-4404-8d2b-18049dd60c01"
+                }
+            ]
+        },
+        {
+            "type": "linkedinstance",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "name": "picture",
+            "designerId": "8f1ec2c2-893c-494d-b76b-9d35e88b5be1",
+            "masterInstanceId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|createAlias": null,
+                "designer|displayName": null,
+                "itemId": "businessName",
+                "label": "Business Name",
+                "labelAlign": "top",
+                "labelWrap": true,
+                "margin": "10px 0 0 0",
+                "required": true
+            },
+            "name": "MyTextField1",
+            "designerId": "52212773-6e02-4b94-bd69-8628af09a9eb"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|createAlias": null,
+                "designer|displayName": null,
+                "itemId": "phoneNo",
+                "label": "Phone Number",
+                "labelAlign": "top",
+                "labelWrap": true,
+                "margin": "10px 0 0 0",
+                "required": true
+            },
+            "name": "MyTextField3",
+            "designerId": "c9442ab6-c467-4c78-a36f-576e73e2f516"
+        },
+        {
+            "type": "Ext.field.TextArea",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "label": "Address",
+                "labelAlign": "top",
+                "required": true
+            },
+            "name": "MyTextArea1",
+            "designerId": "b663c637-0afa-4f11-be97-fca204bbf3d3"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getValidationErrors",
+                "implHandler": [
+                    "var errors = [];",
+                    "        var reqFields = this.query('field[required=true]');",
+                    "        var i = 0, ln = reqFields.length, field;",
+                    "        for (; i < ln; i++) {",
+                    "            field = reqFields[i];",
+                    "            if (!field.getValue()) {",
+                    "                errors.push(field.getLabel() + ' must be completed.');",
+                    "            }",
+                    "        }",
+                    "        console.dir(errors);",
+                    "        return errors;"
+                ]
+            },
+            "name": "getValidationErrors",
+            "designerId": "bb5d3eac-c0c0-4cfd-9e0b-5acf5ac84ff7"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "record"
+                ],
+                "fn": "setRecord",
+                "implHandler": [
+                    "",
+                    " this.callParent(arguments);",
+                    "",
+                    "",
+                    "        if (record) {",
+                    "            var value = record.data;",
+                    "            this.child('contactpic').setData(record.data);",
+                    "            this.getActiveItem().getParent().getAt(2).setValue(value.businessName);",
+                    "            this.getActiveItem().getParent().getAt(3).setValue(value.phoneNumber);",
+                    "            this.getActiveItem().getParent().getAt(4).setValue(value.address);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "        }",
+                    ""
+                ]
+            },
+            "name": "setRecord",
+            "designerId": "74606281-5be5-4458-ae57-faf5b914c6c1"
+        }
+    ]
+}

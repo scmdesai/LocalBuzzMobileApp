@@ -21,81 +21,208 @@ Ext.Loader.setConfig({
 
 Ext.application({
 
-    requires: [
-        'Ext.MessageBox',
-        'Ext.device.Camera'
-    ],
-    models: [
-        'Contact',
-        'Deal',
-        'UserPreferences'
-    ],
-    stores: [
-        'ContactStore',
-        'MyJsonPStore',
-        'MyDealsStore',
-        'UserPreferences',
-        'MyJsonPStore1'
-    ],
-    views: [
-        'Main1',
-        'Info',
-        'Picture',
-        'List',
-        'DealPicture',
-        'ListOfDeals',
-        'Main',
-        'FavoriteView'
-    ],
-    controllers: [
-        'Contacts'
-    ],
-    icon: 'icon.png',
-    name: 'Contact',
-    startupImage: 'icon.png',
+	requires: [
+		'Ext.MessageBox',
+		'Ext.device.Camera'
+	],
+	models: [
+		'Contact',
+		'Deal',
+		'UserDetails',
+		'AnalyticsData'
+	],
+	stores: [
+		'MyJsonPStore',
+		'MyDealsStore',
+		'UserDetails',
+		'LocalStore',
+		'AnalyticsStore'
+	],
+	views: [
+		'contactform',
+		'Picture',
+		'DealPicture',
+		'ListOfDeals',
+		'DealsPanel',
+		'Login',
+		'UploadDealForm',
+		'ChangeContactPicForm',
+		'contactinfo',
+		'BuzzOMeter',
+		'MyPieChart'
+	],
+	controllers: [
+		'Contacts'
+	],
+	icon: 'icon.png',
+	name: 'Contact',
+	startupImage: 'icon.png',
 
-    launch: function() {
+	launch: function() {
 
-        Ext.util.Format.empty = function(value, defaultValue) {
-            return !Ext.isEmpty(value) ? value : defaultValue;
-        };
-        Ext.util.Format.undef = function(value, defaultValue) {
-            return Ext.isDefined(value) ? value : defaultValue;
-        };
-
-
-
-        var view = Ext.create('Contact.view.Main',{}) ;
-        Ext.create('Contact.store.MyJsonPStore', {
-            autoLoad: true,
-            listeners: {
-                load: function (self, records) {
-                    view.setData(records);
-                }
-            }
-        });
-
-        Ext.create('Contact.store.MyDealsStore', {
-            autoLoad: true
-
-        });
-        if (Ext.os.is('Android')) {
-            document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
-
-            function onBackKeyDown(eve) {
-                eve.preventDefault();
-                Ext.Msg.confirm("Exit", "",  function ( answer ) {
-                    if ( answer == 'yes') {
-                        navigator.app.exitApp();
-                    } else {
-                        //do nothing
-                    }
-                });
-            }
-        }
+		Ext.util.Format.empty = function(value, defaultValue) {
+			return !Ext.isEmpty(value) ? value : defaultValue;
+		};
+		Ext.util.Format.undef = function(value, defaultValue) {
+			return Ext.isDefined(value) ? value : defaultValue;
+		};
 
 
-        Ext.create('Contact.view.Main', {fullscreen: true});
-    }
+		if (Ext.os.is('Android')) {
+			document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
+
+			function onBackKeyDown(eve) {
+				eve.preventDefault();
+				Ext.Msg.confirm("Exit", "",  function ( answer ) {
+					if ( answer == 'yes') {
+						navigator.app.exitApp();
+					} else {
+						//do nothing
+					}
+				});
+			}
+		}
+
+		//FB login
+		// Settings.
+		FacebookInAppBrowser.settings.appId = '900651756709444';
+		FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+		FacebookInAppBrowser.settings.permissions = 'email';
+
+		// Optional
+		FacebookInAppBrowser.settings.timeoutDuration = 7500;
+
+		// Login(accessToken will be stored trough localStorage in 'accessToken');
+		FacebookInAppBrowser.login({
+			send: function() {
+				console.log('login opened');
+			},
+			success: function(access_token) {
+				console.log('done, access token: ' + access_token);
+
+			},
+			denied: function() {
+				console.log('user denied');
+			},
+			timeout: function(){
+				console.log('a timeout has occurred, probably a bad internet connection');
+				Ext.msg.alert('Timeout Has Occured','Close Applications running in background and Try Again',null,null);
+			},
+			complete: function(access_token) {
+				console.log('window closed');
+				if(access_token) {
+					console.log(access_token);
+				} else {
+					console.log('no access token');
+				}
+			},
+			userInfo: function(userInfo) {
+				if(userInfo) {
+					var userInf = JSON.stringify(userInfo);
+					console.log(userInf);
+
+					var info = userInf.split("\",\"");
+
+					var tmp = info[0].split("\":\"");
+					var email = tmp[1];
+					//console.log(email);
+					tmp = info[1].split("\":\"");
+					var loginName = tmp[1];
+
+					tmp = info[2].split("\":\"");
+					var gender = tmp[1];
+
+					tmp = info[3].split("\":\"");
+					var userId = tmp[1];
+
+					var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress','sterling@sterling.com',0,true,false,false);
+					//console.log(store.getData());
+					//store.loadRecord();
+					//var view = Ext.create('Contact.view.Info');
+					//view.setRecord(record.getRecord());
+					//console.log(view.getData());
+					//Ext.Viewport.setActiveItem(view);
+		           if(record){
+
+					var storeUserDetails = Ext.getStore('UserDetails');
+					storeUserDetails.removeAll();
+
+					storeUserDetails.add({'customerId' : record.get('customerId'),
+										  'email': email,
+										  'businessName': record.get('businessName')
+										  });
+
+
+
+					//console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
+
+					var store = Ext.getStore('MyJsonPStore');
+					var view = Ext.create("Ext.tab.Panel", {
+						itemId: 'panel' ,
+						fullscreen: true,
+						tabBarPosition: 'bottom',
+						cls: 'toolbarCls',
+						ui:'plain',
+						style:"font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
+
+
+
+
+
+						items: [
+							{
+								xtype: 'contactinfo',
+								title:'Home',
+								itemId:'home',
+								iconCls:'icon-home',
+
+
+							},
+							{
+								xtype: 'DealsPanel',
+								title:'Buzz',
+								iconCls:'icon-bubbles'
+							},
+							{
+								xtype:'buzzometer',
+								title:'BuzzOMeter',
+								iconCls:'info'
+							}
+						]
+					});
+
+
+
+					view.getComponent('home').setRecord(record);
+					//Ext.Viewport.getActiveItem().destroy();
+					Ext.Viewport.setActiveItem(view);
+
+					//Ext.Viewport.setActiveItem({xtype:'Panel'});
+					//console.log(view.getComponent('home').getItemId());
+					//view.setData(record.getData());
+					////view.setRecord(record);
+					// Ext.Viewport.setActiveItem(view);
+				   }
+					else{
+						Ext.msg.alert('Timeout Has Occured','Close Applications running in background and Try Again',null,null);
+					}
+
+
+
+
+
+
+
+					//view.setData(record.getData());
+
+				} else {
+					console.log('no user info');
+				}
+			}
+		});
+
+
+
+	}
 
 });

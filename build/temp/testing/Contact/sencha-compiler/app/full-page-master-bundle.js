@@ -1,2 +1,2 @@
 // @tag full-page
-// @require H:\Apps\LocalBuzzMobileApp\app.js
+// @require H:\Apps\Sencha Architect Apps\LocalBuzzBusinessApp\app.js
