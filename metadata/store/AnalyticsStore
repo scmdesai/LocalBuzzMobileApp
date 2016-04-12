@@ -6,10 +6,31 @@
     },
     "codeClass": null,
     "userConfig": {
+        "autoLoad": true,
         "designer|userClassName": "AnalyticsStore",
         "model": "AnalyticsData",
         "storeId": "AnalyticsStore"
     },
     "name": "MyStore",
-    "designerId": "81281601-b447-47ce-b33a-60b9803f501c"
+    "designerId": "81281601-b447-47ce-b33a-60b9803f501c",
+    "cn": [
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onStoreAddrecords",
+                "implHandler": [
+                    "store.load();",
+                    "console.log('store added');"
+                ],
+                "name": "addrecords"
+            },
+            "name": "onStoreAddrecords",
+            "designerId": "f7b29b6a-2d09-4522-a6d5-2565cbdb67eb"
+        }
+    ]
 }

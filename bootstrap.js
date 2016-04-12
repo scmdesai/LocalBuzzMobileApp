@@ -56,7 +56,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Contact.view.Info": [],
   "Contact.view.ListOfDeals": [],
   "Contact.view.Login": [],
-  "Contact.view.MyPieChart": [],
   "Contact.view.Picture": [],
   "Contact.view.UploadDealForm": [],
   "Contact.view.contactform": [],
@@ -819,9 +818,6 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.listofdeals"
   ],
   "Contact.view.Login": [],
-  "Contact.view.MyPieChart": [
-    "widget.pieChart"
-  ],
   "Contact.view.Picture": [
     "widget.contactpic"
   ],

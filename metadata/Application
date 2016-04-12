@@ -43,8 +43,7 @@
             "UploadDealForm",
             "ChangeContactPicForm",
             "contactinfo",
-            "BuzzOMeter",
-            "MyPieChart"
+            "BuzzOMeter"
         ]
     },
     "name": "Application",

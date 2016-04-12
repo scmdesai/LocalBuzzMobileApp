@@ -32,22 +32,39 @@ Ext.define('Contact.view.BuzzOMeter', {
 		var dealName;
 		var zipcode;
 		var numberOfHits;
-		$.getJSON("http://services.appsonmobile.com/analytics/v3/04",function(json){
-			for(var i = 0;i<json.totalResults;i++){
+		$.getJSON('http://services.appsonmobile.com/analytics/v3/04',function(json){
+			for(var i = 0;i< json.totalResults;i++){
 
 				dealData = (json.rows[i]).toString();
 				var tmp = dealData.split(",");
+
+
 
 				dealName = tmp[0];
 				zipcode = tmp[1];
 				numberOfHits = tmp[2];
 
-				dataTable.add({dealName:dealName,zipcode:zipcode,numberOfHits:numberOfHits});
+				/*console.log(dealName);
+				console.log(zipcode);
+				console.log(numberOfHits);*/
+				dataTable.add({'dealName':dealName,
+							   'zipcode':zipcode,
+							   'numberOfHits':numberOfHits});
 
-			}
 
+
+
+		}
+			console.log(dataTable.getAllCount());
 		});
-		Ext.Viewport.setActiveItem({xtype:'pieChart'});
+
+
+
+
+
+
+
+
 
 
 

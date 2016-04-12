@@ -48,8 +48,7 @@ Ext.application({
 		'UploadDealForm',
 		'ChangeContactPicForm',
 		'contactinfo',
-		'BuzzOMeter',
-		'MyPieChart'
+		'BuzzOMeter'
 	],
 	controllers: [
 		'Contacts'
