@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"id":"3664f5de-94d6-4501-8e04-4acafa0cf797","js":[{"path":"app.js","update":"delta"}],"css":[{"path":"resources/css/contacts.css"},{"path":"resources/css/sencha-touch-bcdd5b97-dbf8-4dc3-9a52-df399e98c450.css","update":"delta","theme":"Default","platform":["phone","tablet","desktop"]}]}
+=======
+{"id":"bfd9c2ff-6347-4718-8919-f7a4bd0f7cde","js":[{"path":"app.js","update":"delta"}],"css":[{"path":"resources/css/contacts.css"},{"path":"resources/css/sencha-touch-bcdd5b97-dbf8-4dc3-9a52-df399e98c450.css","update":"delta","theme":"Default","platform":["phone","tablet","desktop"]}]}
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b

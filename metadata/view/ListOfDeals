@@ -6,6 +6,7 @@
     },
     "codeClass": null,
     "userConfig": {
+<<<<<<< HEAD
         "allowDeselect": true,
         "autoDestroy": false,
         "cls": [
@@ -31,6 +32,21 @@
         "ui": null,
         "useSimpleItems": false,
         "width": null
+=======
+        "cls": [
+            "customlist"
+        ],
+        "designer|userAlias": "listofdeals",
+        "designer|userClassName": "ListOfDeals",
+        "height": "100%",
+        "id": null,
+        "minHeight": null,
+        "onItemDisclosure": false,
+        "preventSelectionOnDisclose": null,
+        "store": "MyDealsStore",
+        "style": "font-size: 10px",
+        "useSimpleItems": false
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
     },
     "name": "MyList1",
     "designerId": "f8e0fb41-f63c-434c-a4fb-6d0dfbc805af",
@@ -45,6 +61,7 @@
             "userConfig": {
                 "designer|displayName": "itemTpl",
                 "implHandler": [
+<<<<<<< HEAD
                     "",
                     "",
                     "<div style=\"font-size:5vw;color:black;font-weight:normal;font-family:Arial\">{dealName}<button type=\"button\" id=\"delete\" class=\"delete_button\" style=\"float:right;padding:0px 15px 0px 15px;\">#<button type=\"button\" id=\"edit\" class=\"delete_button\" style=\"float:right\">p</div>",
@@ -53,6 +70,10 @@
                     "<tpl else>\t",
                     "<div class= dateValidity >Valid {dealStartDate} to {dealEndDate}</div></tpl>",
                     ""
+=======
+                    "<div style=\"font-size:6.3vw;color:black;font-weight:normal\">{dealName}</div>",
+                    "<div style=\"color:#1985d0;font-size:3.3vw;font-style:italics;font-weight:normal\">Valid {dealStartDate} to {dealEndDate}</div>"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 ]
             },
             "name": "itemTpl",

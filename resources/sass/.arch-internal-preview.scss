@@ -1,4 +1,5 @@
 /* _arch-vars-start */
+<<<<<<< HEAD
 $base-color: rgb(25,133, 208);
 $font-family: Arial, Helvetica, sans-serif;
 $page-bg-color: rgb(255,255,255);
@@ -18,12 +19,20 @@ $form-light: rgb(255,255,255);
 $tabs-dark: #FFF;
 $tabs-dark-active-color: #00529D;
 $toolbar-input-bg: rgb(255,255,255);
+=======
+$list-bg-color: #fff;
+$base-color: #1985d0;
+$list-header-bg-color: $base-color;
+$list-pressed-color: #fff;
+$form-bg-color: #fff;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 @import 'sencha-touch/default';
 @import 'sencha-touch/default/all';
 
 
 /* _arch-other-start */
+<<<<<<< HEAD
 $toolbar-icon-size: 1em;
 $base-color: #1985d0;
 $confirm-color: #659D32;
@@ -33,17 +42,19 @@ $list-active-color: $base-color;
 $list-bg-color: $base-color;
 $list-color: #fff;
 $list-header-bg-color: $base-color;
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 /* Adding custom icon-fonts */
 
 
 
 @include icon-font('MyIcons',
-    inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
+	inline-font-files('MyIcons.woff', woff, 'MyIcons.ttf', truetype,'MyIcons.svg', svg));
 
 
 @include icon-font('MyIcons1',
-    inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
+	inline-font-files('MyIcons1.woff', woff, 'MyIcons1.ttf', truetype,'MyIcons1.svg', svg));
 
 @include icon-font('icomoon2',
     inline-font-files('icomoon2.woff', woff, 'icomoon2.ttf', truetype,'icomoon2.svg', svg));
@@ -83,10 +94,15 @@ $list-header-bg-color: $base-color;
 
 @include icon("icon-localbuzzicon_latest","\e900", "icomoon_localbuzzicon");
 
+<<<<<<< HEAD
 
 
 @include font-face('pictos',
     inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+=======
+@include icon-font('pictos',
+	inline-font-files('pictos-web.woff', woff, 'pictos-web.ttf', truetype,'pictos-web.svg', svg));
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 
 
@@ -96,6 +112,8 @@ $list-header-bg-color: $base-color;
 @include icon('s');
 @include icon('e');
 @include icon('K');
+
+
 
 
 
@@ -276,6 +294,7 @@ a:link {
     text-decoration: none; }
 
 .icon-phone:before {
+<<<<<<< HEAD
     font-family: "MyIcons";
     content: "!";
     padding-left: 10px;
@@ -320,10 +339,29 @@ a:link {
     border: none;
     color:#006600;
     background-color:#fff;
+=======
+	font-family: "MyIcons";
+	content: "!";
+	padding-left: 10px;
+	padding-top:20px;
+	display:inline-block;
+	padding-top: 20px;
+	font-size:6vw;
+	border: none;
+	color:#009900;
+}
+
+.icon-info:before {
+	font-family: "pictos";
+	display:inline-block;
+	font-size: 1.2em;
+	border: none;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 }
 
 
 .icon-location:before {
+<<<<<<< HEAD
     font-family: "MyIcons";
     content: "\"";
     padding-left: 10px;
@@ -348,6 +386,16 @@ a:link {
     color:#ff0000;
     background-color:#fff;
 	vertical-align:middle!important;
+=======
+	font-family: "MyIcons";
+	content: "\"";
+	padding-left: 10px;
+	display:inline-block;
+	padding-top: 20px;
+	font-size:6vw;
+	border: none;
+	color:#ff0000;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 }
 
 
@@ -403,13 +451,20 @@ a:link {
 }*/
 
 .list-item{
+<<<<<<< HEAD
     background:#fff;
     font-size:5vw;
+=======
+	background:#fff;
+	font-size:5vw;
+
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 
 }
 
 .customlist{
+<<<<<<< HEAD
     border:2px inset #eee;
 }
 
@@ -429,22 +484,45 @@ a:link {
     content: "%";
     font-size: 1.5em;
     color:#ffa500;
+=======
+	border:2px inset #eee;
+}
+
+.customcontainer{
+	background-color:#1985d0;
+	color:white;
+}
+/* Adding icon fonts in the ListOfDeals itemtpl */
+.empty-star:before{
+	font-family: "MyIcons";
+	content: "#";
+
+	font-size: 1.5em;
+	color:#D3D3D3;
+}
+.fill-star:before{
+	font-family: "MyIcons1";
+	content: "%";
+	font-size: 1.5em;
+	color:#FFFF00;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 }
 
 
 
 .share:before {
-    font-family: "MyIcons";
-    content: "$";
-    display:inline-block;
-    padding-bottom: 20px;
-    font-size: 1.5em;
-    color:#D3D3D3;
+	font-family: "MyIcons";
+	content: "$";
+	display:inline-block;
+	padding-bottom: 20px;
+	font-size: 1.5em;
+	color:#D3D3D3;
 }
 
 .delete_button{
     font-family: "pictos";
+<<<<<<< HEAD
     content: "#";
     color:#737373;
     font-size: 1.2em;
@@ -452,7 +530,15 @@ a:link {
     background:none;
 
 }
+=======
+	content: "#";
+	color:#737373;
+	font-size: 1.2em;
+	border: none;
+	background:none;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
+}
 
 .edit_button{
     font-family: "pictos";
@@ -462,6 +548,7 @@ a:link {
     border: none;
     background:none;
 
+<<<<<<< HEAD
 }
 
 .icon-star-favorite{
@@ -473,6 +560,36 @@ a:link {
 
 .checkbox_hidden {
     display:none;
+=======
+
+.checkbox_hidden {
+	display:none;
+}
+
+.checkbox_visible {
+	display:normal;
+}
+
+.x-msgbox-dark
+ {
+    background-color: #fff !important;
+ }
+
+// To change messagebox text properties
+
+ .x-msgbox-dark .x-msgbox-text {
+	background-color: #fff !important;
+    color: $base-color !important;
+
+}
+
+// To change messagebox title
+
+.x-msgbox-dark .x-title {
+	background-color: #fff !important;
+    color:$base-color !important;
+
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 }
 
 .checkbox_visible {
@@ -542,6 +659,7 @@ a:link {
     max-width: 200px;
     padding: 3px 8px;
 
+<<<<<<< HEAD
 }
 .labels {
    /* border: 2px solid black;
@@ -679,3 +797,11 @@ cursor: pointer;
 
 
 }
+=======
+.label {
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+}
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b

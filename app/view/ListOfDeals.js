@@ -21,6 +21,7 @@ Ext.define('LocalBuzzMerchantDemo.view.ListOfDeals', {
 		'Ext.XTemplate'
 	],
 
+<<<<<<< HEAD
 	config: {
 		cls: 'customlist',
 		height: '100%',
@@ -49,5 +50,19 @@ Ext.define('LocalBuzzMerchantDemo.view.ListOfDeals', {
 			''
 		]
 	}
+=======
+    config: {
+        cls: 'customlist',
+        height: '100%',
+        style: 'font-size: 10px',
+        store: 'MyDealsStore',
+        onItemDisclosure: false,
+        useSimpleItems: false,
+        itemTpl: [
+            '<div style="font-size:6.3vw;color:black;font-weight:normal">{dealName}</div>',
+            '<div style="color:#1985d0;font-size:3.3vw;font-style:italics;font-weight:normal">Valid {dealStartDate} to {dealEndDate}</div>'
+        ]
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 });

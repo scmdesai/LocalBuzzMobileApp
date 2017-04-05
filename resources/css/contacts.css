@@ -1,7 +1,11 @@
 $toolbar-icon-size: 1em;
 $base-color: #1985d0;
 $confirm-color: #659D32;
+<<<<<<< HEAD
 $font-family: Arial;
+=======
+$font-family: Helvetica, sans-serif;
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 $page-bg-color: #1985d0;
 $list-active-color: $base-color;
 $list-bg-color: $base-color;
@@ -176,6 +180,7 @@ $list-header-bg-color: $base-color;
 
 }
 
+<<<<<<< HEAD
 .searchfield {
 	border-bottom:2px groove #C0C0C0;
 	margin:5px 5px 5px 5px;
@@ -188,11 +193,30 @@ $list-header-bg-color: $base-color;
 	border-radius:7px;
 
 
+=======
+
+ 
+.customfield {
+	border:2px inset #eee;
+	margin:5px 5px 5px 5px;
+	font-size:4.5vw;
+	font-weight:normal;
+	text-align:center;
+	vertical-align:middle;
+	border-radius: 7px;
+	
+	
+   
+
+
+}
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 
 
 
 
+<<<<<<< HEAD
 }
 
 
@@ -201,3 +225,8 @@ $list-header-bg-color: $base-color;
 	background:red !important;
 }
 
+=======
+
+
+
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b

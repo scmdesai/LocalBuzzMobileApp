@@ -60,7 +60,10 @@
             },
             "codeClass": null,
             "userConfig": {
+<<<<<<< HEAD
                 "dateFormat": "n/j/Y",
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 "name": "dealStartDate",
                 "type": "date"
             },
@@ -81,11 +84,19 @@
                         ],
                         "fn": "convert",
                         "implHandler": [
+<<<<<<< HEAD
                             "return Ext.Date.format(new Date(v), 'n/j/Y');"
                         ]
                     },
                     "name": "convert",
                     "designerId": "ff47b96c-a04b-437d-8068-5e72133ee1dd"
+=======
+                            " return Ext.Date.format(new Date(v), 'n/j/Y');"
+                        ]
+                    },
+                    "name": "convert",
+                    "designerId": "637b520c-d1c3-4ce3-8301-9401fea07b1c"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 }
             ]
         },
@@ -97,7 +108,10 @@
             },
             "codeClass": null,
             "userConfig": {
+<<<<<<< HEAD
                 "dateFormat": "n/j/Y",
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 "name": "dealEndDate",
                 "type": "date"
             },
@@ -118,11 +132,19 @@
                         ],
                         "fn": "convert",
                         "implHandler": [
+<<<<<<< HEAD
                             "return Ext.Date.format(new Date(v), 'n/j/Y');"
                         ]
                     },
                     "name": "convert",
                     "designerId": "eb8f9ed1-7b7c-4b03-914d-834229b27415"
+=======
+                            " return Ext.Date.format(new Date(v), 'n/j/Y');"
+                        ]
+                    },
+                    "name": "convert",
+                    "designerId": "91630240-f94f-4294-bf25-256cd6aacbb1"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 }
             ]
         },

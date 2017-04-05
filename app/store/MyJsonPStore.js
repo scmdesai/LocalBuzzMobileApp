@@ -38,6 +38,7 @@ Ext.define('LocalBuzzMerchantDemo.store.MyJsonPStore', {
 		sorters: {
 			sorterFn: function(first, second) {
 
+<<<<<<< HEAD
 			}
 		},
 		grouper: {
@@ -47,4 +48,16 @@ Ext.define('LocalBuzzMerchantDemo.store.MyJsonPStore', {
 			sortProperty: ''
 		}
 	}
+=======
+            }
+        },
+        proxy: {
+            type: 'jsonp',
+            url: 'http://awseb-e-t-awsebloa-6jvxjux3fp3k-1527799463.us-west-2.elb.amazonaws.com/stores',
+            reader: {
+                type: 'json'
+            }
+        }
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 });

@@ -13,6 +13,7 @@
  * Do NOT hand edit this file.
  */
 
+<<<<<<< HEAD
 Ext.define('LocalBuzzMerchantDemo.store.MyDealsStore', {
 	extend: 'Ext.data.Store',
 
@@ -60,4 +61,28 @@ Ext.define('LocalBuzzMerchantDemo.store.MyDealsStore', {
 
 	}
 
+=======
+Ext.define('Contact.store.MyDealsStore', {
+    extend: 'Ext.data.Store',
+
+    requires: [
+        'Contact.model.Deal',
+        'Ext.data.proxy.JsonP',
+        'Ext.data.reader.Json'
+    ],
+
+    config: {
+        autoLoad: true,
+        model: 'Contact.model.Deal',
+        storeId: 'MyDealsStore',
+        proxy: {
+            type: 'jsonp',
+            extraParams: '{customerId}',
+            url: 'http://awseb-e-t-awsebloa-6jvxjux3fp3k-1527799463.us-west-2.elb.amazonaws.com/deals',
+            reader: {
+                type: 'json'
+            }
+        }
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 });

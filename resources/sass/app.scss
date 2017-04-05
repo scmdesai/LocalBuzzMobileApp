@@ -1,9 +1,14 @@
 // The following two lines import the default Sencha Touch theme. If you are building
 // a new theme, remove them and the add your own CSS on top of the base CSS (which
 // is already included in your app.json file).
+<<<<<<< HEAD
 @import 'sencha-touch/default';
 @import 'sencha-touch/default/all';
 @import '..\touch\resources\themes\stylesheets\sencha-touch\default';
+=======
+@import 'sencha-touch/cupertino';
+@import 'sencha-touch/cupertino/all';
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 // Custom code goes here..
 

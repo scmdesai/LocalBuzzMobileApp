@@ -21,6 +21,7 @@ Ext.define('LocalBuzzMerchantDemo.model.Deal', {
 		'Ext.data.Field'
 	],
 
+<<<<<<< HEAD
 	config: {
 		useCache: false,
 		fields: [
@@ -79,4 +80,36 @@ Ext.define('LocalBuzzMerchantDemo.model.Deal', {
 			}
 		]
 	}
+=======
+    config: {
+        fields: [
+            {
+                name: 'customerId'
+            },
+            {
+                name: 'dealName'
+            },
+            {
+                name: 'dealStatus'
+            },
+            {
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                name: 'dealStartDate',
+                type: 'date'
+            },
+            {
+                convert: function(v, rec) {
+                    return Ext.Date.format(new Date(v), 'n/j/Y');
+                },
+                name: 'dealEndDate',
+                type: 'date'
+            },
+            {
+                name: 'dealPictureURL'
+            }
+        ]
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 });

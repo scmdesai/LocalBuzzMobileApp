@@ -1,0 +1,51 @@
+{
+    "type": "Ext.Container",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "container|align": "center",
+        "designer|userAlias": "contactpic",
+        "designer|userClassName": "Picture",
+        "height": null,
+        "html": null,
+        "id": null,
+        "layout": "vbox",
+        "masked": null,
+        "minHeight": null,
+        "modal": null,
+        "overflow": "hidden",
+        "padding": "5 5 5 5",
+        "scrollable": null,
+        "style": "overflow: hidden;background:#fff",
+        "ui": ""
+    },
+    "designerId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "overflow",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "tpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "tpl",
+                "implHandler": [
+                    "<img src=\"{picture}\" width=\"160\" />"
+                ]
+            },
+            "name": "tpl2",
+            "designerId": "5e626d68-4190-4e23-8849-e5b9efe59bbd"
+        }
+    ]
+}

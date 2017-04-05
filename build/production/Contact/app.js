@@ -4,7 +4,10 @@ if (!Contact.model) Contact.model = {};
 if (!Contact.store) Contact.store = {};
 if (!Contact.view) Contact.view = {};
 var Ext = Ext || {};
+<<<<<<< HEAD
 if (!Ext.Picker) Ext.Picker = {};
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 if (!Ext.app) Ext.app = {};
 if (!Ext.behavior) Ext.behavior = {};
 if (!Ext.data) Ext.data = {};
@@ -19,6 +22,10 @@ if (!Ext.dataview.element) Ext.dataview.element = {};
 if (!Ext.device) Ext.device = {};
 if (!Ext.device.camera) Ext.device.camera = {};
 if (!Ext.device.communicator) Ext.device.communicator = {};
+<<<<<<< HEAD
+=======
+if (!Ext.device.device) Ext.device.device = {};
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 if (!Ext.direct) Ext.direct = {};
 if (!Ext.dom) Ext.dom = {};
 if (!Ext.env) Ext.env = {};
@@ -37,7 +44,10 @@ if (!Ext.layout) Ext.layout = {};
 if (!Ext.layout.wrapper) Ext.layout.wrapper = {};
 if (!Ext.lib) Ext.lib = {};
 if (!Ext.mixin) Ext.mixin = {};
+<<<<<<< HEAD
 if (!Ext.picker) Ext.picker = {};
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 if (!Ext.proxy) Ext.proxy = {};
 if (!Ext.scroll) Ext.scroll = {};
 if (!Ext.scroll.indicator) Ext.scroll.indicator = {};
@@ -47,6 +57,10 @@ if (!Ext.util.paintmonitor) Ext.util.paintmonitor = {};
 if (!Ext.util.sizemonitor) Ext.util.sizemonitor = {};
 if (!Ext.util.translatable) Ext.util.translatable = {};
 if (!Ext.viewport) Ext.viewport = {};
+<<<<<<< HEAD
+=======
+var dealPicture = dealPicture || {};
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 /* 
  * Helper code for compiler optimization
  */
@@ -30580,6 +30594,7 @@ this);
 ], 0));
 
 /**
+<<<<<<< HEAD
  * {@link Ext.ActionSheet ActionSheets} are used to display a list of {@link Ext.Button buttons} in a popup dialog.
  *
  * The key difference between ActionSheet and {@link Ext.Sheet} is that ActionSheets are docked at the bottom of the
@@ -30677,6 +30692,8 @@ this);
 ], 0));
 
 /**
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  * The Connection class encapsulates a connection to the page's originating domain, allowing requests to be made either
  * to a configured URL, or to a URL specified at request time.
  *
@@ -32555,6 +32572,7 @@ this);
 ], function() {}));
 
 /**
+<<<<<<< HEAD
  * {@link Ext.Menu}'s are used with {@link Ext.Viewport#setMenu}. A menu can be linked with any side of the screen (top, left, bottom or right)
  *  and will simply describe the contents of your menu. To use this menu you will call various menu related functions on the {@link Ext.Viewport}
  * such as {@link Ext.Viewport#showMenu}, {@link Ext.Viewport#hideMenu}, {@link Ext.Viewport#toggleMenu}, {@link Ext.Viewport#hideOtherMenus},
@@ -32724,6 +32742,8 @@ this);
 ], 0));
 
 /**
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  * {@link Ext.Title} is used for the {@link Ext.Toolbar#title} configuration in the {@link Ext.Toolbar} component.
  * @private
  */
@@ -35530,6 +35550,7 @@ function() {}));
 }));
 
 /**
+<<<<<<< HEAD
  * {@link Ext.TitleBar}'s are most commonly used as a docked item within an {@link Ext.Container}.
  *
  * The main difference between a {@link Ext.TitleBar} and an {@link Ext.Toolbar} is that
@@ -35871,6 +35892,8 @@ function() {}));
 ], 0));
 
 /**
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  * @author Ed Spencer
  * @private
  *
@@ -51009,6 +51032,7 @@ Ext.define('Ext.direct.Manager', {
 /**
  * @author Ed Spencer
  *
+<<<<<<< HEAD
  * Proxy which uses HTML5 session storage as its data storage/retrieval mechanism. If this proxy is used in a browser
  * where session storage is not supported, the constructor will throw an error. A session storage proxy requires a
  * unique ID which is used as a key in which all record data are stored in the session storage object.
@@ -51034,11 +51058,71 @@ Ext.define('Ext.direct.Manager', {
  * Note that session storage is different to local storage (see {@link Ext.data.proxy.LocalStorage}) - if a browser
  * session is ended (e.g. by closing the browser) then all data in a SessionStorageProxy are lost. Browser restarts
  * don't affect the {@link Ext.data.proxy.LocalStorage} - the data are preserved.
+=======
+ * The LocalStorageProxy uses the new HTML5 localStorage API to save {@link Ext.data.Model Model} data locally on the
+ * client browser. HTML5 localStorage is a key-value store (e.g. cannot save complex objects like JSON), so
+ * LocalStorageProxy automatically serializes and deserializes data when saving and retrieving it.
+ *
+ * localStorage is extremely useful for saving user-specific information without needing to build server-side
+ * infrastructure to support it. Let's imagine we're writing a Twitter search application and want to save the user's
+ * searches locally so they can easily perform a saved search again later. We'd start by creating a Search model:
+ *
+ *     Ext.define('Search', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: ['id', 'query'],
+ *             proxy: {
+ *                 type: 'localstorage',
+ *                 id  : 'twitter-Searches'
+ *             }
+ *         }
+ *     });
+ *
+ * Our Search model contains just two fields - id and query - plus a Proxy definition. The only configuration we need to
+ * pass to the LocalStorage proxy is an {@link #id}. This is important as it separates the Model data in this Proxy from
+ * all others. The localStorage API puts all data into a single shared namespace, so by setting an id we enable
+ * LocalStorageProxy to manage the saved Search data.
+ *
+ * Saving our data into localStorage is easy and would usually be done with a {@link Ext.data.Store Store}:
+ *
+ *     //our Store automatically picks up the LocalStorageProxy defined on the Search model
+ *     var store = Ext.create('Ext.data.Store', {
+ *         model: "Search"
+ *     });
+ *
+ *     //loads any existing Search data from localStorage
+ *     store.load();
+ *
+ *     //now add some Searches
+ *     store.add({query: 'Sencha Touch'});
+ *     store.add({query: 'Ext JS'});
+ *
+ *     //finally, save our Search data to localStorage
+ *     store.sync();
+ *
+ * The LocalStorageProxy automatically gives our new Searches an id when we call store.sync(). It encodes the Model data
+ * and places it into localStorage. We can also save directly to localStorage, bypassing the Store altogether:
+ *
+ *     var search = Ext.create('Search', {query: 'Sencha Animator'});
+ *
+ *     //uses the configured LocalStorageProxy to save the new Search to localStorage
+ *     search.save();
+ *
+ * # Limitations
+ *
+ * If this proxy is used in a browser where local storage is not supported, the constructor will throw an error. A local
+ * storage proxy requires a unique ID which is used as a key in which all record data are stored in the local storage
+ * object.
+ *
+ * It's important to supply this unique ID as it cannot be reliably determined otherwise. If no id is provided but the
+ * attached store has a storeId, the storeId will be used. If neither option is presented the proxy will throw an error.
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * ###Further Reading
  * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
  * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
  * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+<<<<<<< HEAD
  * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
  */
 (Ext.cmd.derive('Ext.data.proxy.SessionStorage', Ext.data.proxy.WebStorage, {
@@ -51054,6 +51138,23 @@ Ext.define('Ext.direct.Manager', {
     'SessionStorage',
     Ext.data,
     'SessionStorageProxy'
+=======
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html) 
+ */
+(Ext.cmd.derive('Ext.data.proxy.LocalStorage', Ext.data.proxy.WebStorage, {
+    alternateClassName: 'Ext.data.LocalStorageProxy',
+    //inherit docs
+    getStorageObject: function() {
+        return window.localStorage;
+    }
+}, 0, 0, 0, 0, [
+    "proxy.localstorage"
+], 0, [
+    Ext.data.proxy,
+    'LocalStorage',
+    Ext.data,
+    'LocalStorageProxy'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 ], 0));
 
 /**
@@ -56080,6 +56181,376 @@ Ext.define('Ext.direct.Manager', {
     'Camera'
 ], 0));
 
+<<<<<<< HEAD
+=======
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Abstract', Ext.Base, {
+    /**
+     * @event schemeupdate
+     * Event which is fired when your Sencha Native packaged application is opened from another application using a custom URL scheme.
+     * 
+     * This event will only fire if the application was already open (in other words; `onReady` was already fired). This means you should check
+     * if {@link Ext.device.Device#scheme} is set in your Application `launch`/`onReady` method, and perform any needed changes for that URL (if defined).
+     * Then listen to this event for future changed.
+     *
+     * ## Example
+     *
+     *     Ext.application({
+     *         name: 'Sencha',
+     *         requires: ['Ext.device.Device'],
+     *         launch: function() {
+     *             if (Ext.device.Device.scheme) {
+     *                 // the application was opened via another application. Do something:
+     *                 console.log('Applicaton opened via another application: ' + Ext.device.Device.scheme.url);
+     *             }
+     *
+     *             // Listen for future changes
+     *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
+     *                 // the application was launched, closed, and then launched another from another application
+     *                 // this means onReady wont be called again ('cause the application is already running in the 
+     *                 // background) - but this event will be fired
+     *                 console.log('Applicated reopened via another application: ' + scheme.url);
+     *             }, this);
+     *         }
+     *     });
+     *
+     * __Note:__ This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
+     * PhoneGap or simply in the browser, it will never fire.**
+     * 
+     * @param {Ext.device.Device} this The instance of Ext.device.Device
+     * @param {Object/Boolean} scheme The scheme information, if opened via another application
+     * @param {String} scheme.url The URL that was opened, if this application was opened via another application. Example: `sencha:`
+     * @param {String} scheme.sourceApplication The source application that opened this application. Example: `com.apple.safari`.
+     */
+    /**
+     * @property {String} name
+     * Returns the name of the current device. If the current device does not have a name (for example, in a browser), it will
+     * default to `not available`.
+     *
+     *     alert('Device name: ' + Ext.device.Device.name);
+     */
+    name: 'not available',
+    /**
+     * @property {String} uuid
+     * Returns a unique identifier for the current device. If the current device does not have a unique identifier (for example,
+     * in a browser), it will default to `anonymous`.
+     *
+     *     alert('Device UUID: ' + Ext.device.Device.uuid);
+     */
+    uuid: 'anonymous',
+    /**
+     * @property {String} platform
+     * The current platform the device is running on.
+     *
+     *     alert('Device platform: ' + Ext.device.Device.platform);
+     */
+    platform: Ext.os.name,
+    /**
+     * @property {Object/Boolean} scheme
+     * 
+     */
+    scheme: false,
+    /**
+     * Opens a specified URL. The URL can contain a custom URL Scheme for another app or service:
+     *
+     *     // Safari
+     *     Ext.device.Device.openURL('http://sencha.com');
+     *
+     *     // Telephone
+     *     Ext.device.Device.openURL('tel:6501231234');
+     *
+     *     // SMS with a default number
+     *     Ext.device.Device.openURL('sms:+12345678901');
+     *
+     *     // Email client
+     *     Ext.device.Device.openURL('mailto:rob@sencha.com');
+     *
+     * You can find a full list of available URL schemes here: [http://wiki.akosma.com/IPhone_URL_Schemes](http://wiki.akosma.com/IPhone_URL_Schemes).
+     *
+     * __Note:__ This currently only works with the Sencha Native Packager. Attempting to use this on PhoneGap, iOS Simulator
+     * or the browser will simply result in the current window location changing.**
+     *
+     * If successful, this will close the application (as another one opens).
+     * 
+     * @param {String} url The URL to open
+     */
+    openURL: function(url) {
+        window.location = url;
+    }
+}, 0, 0, 0, 0, 0, [
+    [
+        Ext.mixin.Observable.prototype.mixinId || Ext.mixin.Observable.$className,
+        Ext.mixin.Observable
+    ]
+], [
+    Ext.device.device,
+    'Abstract'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Cordova', Ext.device.device.Abstract, {
+    alternateClassName: 'Ext.device.device.PhoneGap',
+    availableListeners: [
+        'pause',
+        'resume',
+        'backbutton',
+        'batterycritical',
+        'batterylow',
+        'batterystatus',
+        'menubutton',
+        'searchbutton',
+        'startcallbutton',
+        'endcallbutton',
+        'volumeupbutton',
+        'volumedownbutton'
+    ],
+    constructor: function() {
+        // We can't get the device details until the device is ready, so lets wait.
+        if (Ext.isReady) {
+            this.onReady();
+        } else {
+            Ext.onReady(this.onReady, this, {
+                single: true
+            });
+        }
+    },
+    /**
+     * @property {String} cordova
+     * Returns the version of Cordova running on the device.
+     *
+     *     alert('Device cordova: ' + Ext.device.Device.cordova);
+     */
+    /**
+     * @property {String} version
+     * Returns the operating system version.
+     *
+     *     alert('Device Version: ' + Ext.device.Device.version);
+     */
+    /**
+     * @property {String} model
+     * Returns the device's model name.
+     *
+     *     alert('Device Model: ' + Ext.device.Device.model);
+     */
+    /**
+     * @event pause
+     * Fires when the application goes into the background
+     */
+    /**
+     * @event resume
+     * Fires when the application goes into the foreground
+     */
+    /**
+     * @event batterycritical
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has reached the critical battery threshold.
+     */
+    /**
+     * @event batterylow
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has reached the low battery threshold.
+     */
+    /**
+     * @event batterystatus
+     * This event that fires when a Cordova application detects the percentage of battery 
+     * has changed by at least 1 percent.
+     */
+    /**
+     * @event backbutton
+     * This is an event that fires when the user presses the back button.
+     */
+    /**
+     * @event menubutton
+     * This is an event that fires when the user presses the menu button.
+     */
+    /**
+     * @event searchbutton
+     * This is an event that fires when the user presses the search button.
+     */
+    /**
+     * @event startcallbutton
+     * This is an event that fires when the user presses the start call button.
+     */
+    /**
+     * @event endcallbutton
+     * This is an event that fires when the user presses the end call button.
+     */
+    /**
+     * @event volumeupbutton
+     * This is an event that fires when the user presses the volume up button.
+     */
+    /**
+     * @event volumedownbutton
+     * This is an event that fires when the user presses the volume down button.
+     */
+    onReady: function() {
+        var me = this,
+            device = window.device;
+        me.name = device.name || device.model;
+        me.cordova = device.cordova;
+        me.platform = device.platform || Ext.os.name;
+        me.uuid = device.uuid;
+        me.version = device.version;
+        me.model = device.model;
+    },
+    doAddListener: function(name) {
+        if (!this.addedListeners) {
+            this.addedListeners = [];
+        }
+        if (this.availableListeners.indexOf(name) != -1 && this.addedListeners.indexOf(name) == -1) {
+            // Add the listeners
+            this.addedListeners.push(name);
+            document.addEventListener(name, function() {
+                me.fireEvent(name, me);
+            });
+        }
+        Ext.device.Device.mixins.observable.doAddListener.apply(Ext.device.Device.mixins.observable, arguments);
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Cordova',
+    Ext.device.device,
+    'PhoneGap'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Sencha', Ext.device.device.Abstract, {
+    constructor: function() {
+        Ext.device.device.Abstract.prototype.constructor.apply(this, arguments);
+        this.name = device.name;
+        this.uuid = device.uuid;
+        this.platform = device.platformName || Ext.os.name;
+        this.scheme = Ext.device.Communicator.send({
+            command: 'OpenURL#getScheme',
+            sync: true
+        }) || false;
+        Ext.device.Communicator.send({
+            command: 'OpenURL#watch',
+            callbacks: {
+                callback: function(scheme) {
+                    this.scheme = scheme || false;
+                    this.fireEvent('schemeupdate', this, this.scheme);
+                }
+            },
+            scope: this
+        });
+    },
+    openURL: function(url) {
+        Ext.device.Communicator.send({
+            command: 'OpenURL#open',
+            url: url
+        });
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Sencha'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.device.device.Simulator', Ext.device.device.Abstract, {}, 0, 0, 0, 0, 0, 0, [
+    Ext.device.device,
+    'Simulator'
+], 0));
+
+/**
+ * Provides a cross device way to get information about the device your application is running on. There are 3 different implementations:
+ *
+ * - Sencha Packager
+ * - [Cordova](http://cordova.apache.org/docs/en/2.5.0/cordova_device_device.md.html#Device)
+ * - Simulator
+ *
+ * ## Examples
+ *
+ * #### Device Information
+ *
+ * Getting the device information:
+ *
+ *     Ext.application({
+ *         name: 'Sencha',
+ *
+ *         // Remember that the Ext.device.Device class *must* be required
+ *         requires: ['Ext.device.Device'],
+ *
+ *         launch: function() {
+ *             alert([
+ *                 'Device name: ' + Ext.device.Device.name,
+ *                 'Device platform: ' + Ext.device.Device.platform,
+ *                 'Device UUID: ' + Ext.device.Device.uuid
+ *             ].join('\n'));
+ *         }
+ *     });
+ *
+ * ### Custom Scheme URL
+ *
+ * Using custom scheme URL to application your application from other applications:
+ *
+ *     Ext.application({
+ *         name: 'Sencha',
+ *         requires: ['Ext.device.Device'],
+ *         launch: function() {
+ *             if (Ext.device.Device.scheme) {
+ *                 // the application was opened via another application. Do something:
+ *                 alert('Applicaton penned via another application: ' + Ext.device.Device.scheme.url);
+ *             }
+ *
+ *             // Listen for future changes
+ *             Ext.device.Device.on('schemeupdate', function(device, scheme) {
+ *                 // the application was launched, closed, and then launched another from another application
+ *                 // this means onReady wont be called again ('cause the application is already running in the 
+ *                 // background) - but this event will be fired
+ *                 alert('Applicated reopened via another application: ' + scheme.url);
+ *             }, this);
+ *         }
+ *     });
+ *
+ * Of course, you must add the custom scheme URL you would like to use when packaging your application.
+ * You can do this by setting the `URLScheme` property inside your `package.json` file (Sencha Native Packager configuration file):
+ *
+ *     {
+ *         ...
+ *         "URLScheme": "sencha",
+ *         ...
+ *     }
+ *
+ * You can change the available URL scheme.
+ *
+ * You can then test it by packaging and installing the application onto a device/iOS Simulator, opening Safari and typing: `sencha:testing`.
+ * The application will launch and it will `alert` the URL you specified.
+ *
+ * **PLEASE NOTE: This currently only works with the Sencha Native Packager. If you attempt to listen to this event when packaged with
+ * PhoneGap or simply in the browser, it will not function.**
+ *
+ * For more information regarding Native APIs, please review our [Native APIs guide](../../../packaging/native_apis.html).
+ *
+ * @mixins Ext.device.device.Abstract
+ */
+(Ext.cmd.derive('Ext.device.Device', Ext.Base, {
+    singleton: true,
+    constructor: function() {
+        var browserEnv = Ext.browser.is;
+        if (browserEnv.WebView) {
+            if (browserEnv.Cordova) {
+                return Ext.create('Ext.device.device.Cordova');
+            } else if (browserEnv.Sencha) {
+                return Ext.create('Ext.device.device.Sencha');
+            }
+        }
+        return Ext.create('Ext.device.device.Simulator');
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.device,
+    'Device'
+], 0));
+
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 // Using @mixins to include all members of Ext.event.Touch
 // into here to keep documentation simpler
 /**
@@ -59478,6 +59949,7 @@ Ext.define('Ext.direct.Manager', {
 ], 0));
 
 /**
+<<<<<<< HEAD
  * @private
  *
  * A general {@link Ext.picker.Picker} slot class.  Slots are used to organize multiple scrollable slots into
@@ -62111,6 +62583,106 @@ Ext.define('Ext.picker.Picker', {
  *                 xtype: 'passwordfield',
  *                 name: 'password',
  *                 label: 'Password'
+=======
+ * The Form panel presents a set of form fields and provides convenient ways to load and save data. Usually a form
+ * panel just contains the set of fields you want to display, ordered inside the items configuration like this:
+ *
+ *     @example
+ *     var form = Ext.create('Ext.form.Panel', {
+ *         fullscreen: true,
+ *         items: [
+ *             {
+ *                 xtype: 'textfield',
+ *                 name: 'name',
+ *                 label: 'Name'
+ *             },
+ *             {
+ *                 xtype: 'emailfield',
+ *                 name: 'email',
+ *                 label: 'Email'
+ *             },
+ *             {
+ *                 xtype: 'passwordfield',
+ *                 name: 'password',
+ *                 label: 'Password'
+ *             }
+ *         ]
+ *     });
+ *
+ * Here we just created a simple form panel which could be used as a registration form to sign up to your service. We
+ * added a plain {@link Ext.field.Text text field} for the user's Name, an {@link Ext.field.Email email field} and
+ * finally a {@link Ext.field.Password password field}. In each case we provided a {@link Ext.field.Field#name name}
+ * config on the field so that we can identify it later on when we load and save data on the form.
+ *
+ * ##Loading data
+ *
+ * Using the form we created above, we can load data into it in a few different ways, the easiest is to use
+ * {@link #setValues}:
+ *
+ *     form.setValues({
+ *         name: 'Ed',
+ *         email: 'ed@sencha.com',
+ *         password: 'secret'
+ *     });
+ *
+ * It's also easy to load {@link Ext.data.Model Model} instances into a form - let's say we have a User model and want
+ * to load a particular instance into our form:
+ *
+ *     Ext.define('MyApp.model.User', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: ['name', 'email', 'password']
+ *         }
+ *     });
+ *
+ *     var ed = Ext.create('MyApp.model.User', {
+ *         name: 'Ed',
+ *         email: 'ed@sencha.com',
+ *         password: 'secret'
+ *     });
+ *
+ *     form.setRecord(ed);
+ *
+ * ##Retrieving form data
+ *
+ * Getting data out of the form panel is simple and is usually achieve via the {@link #getValues} method:
+ *
+ *     var values = form.getValues();
+ *
+ *     //values now looks like this:
+ *     {
+ *         name: 'Ed',
+ *         email: 'ed@sencha.com',
+ *         password: 'secret'
+ *     }
+ *
+ * It's also possible to listen to the change events on individual fields to get more timely notification of changes
+ * that the user is making. Here we expand on the example above with the User model, updating the model as soon as
+ * any of the fields are changed:
+ *
+ *     var form = Ext.create('Ext.form.Panel', {
+ *         listeners: {
+ *             '> field': {
+ *                 change: function(field, newValue, oldValue) {
+ *                     ed.set(field.getName(), newValue);
+ *                 }
+ *             }
+ *         },
+ *         items: [
+ *             {
+ *                 xtype: 'textfield',
+ *                 name: 'name',
+ *                 label: 'Name'
+ *             },
+ *             {
+ *                 xtype: 'emailfield',
+ *                 name: 'email',
+ *                 label: 'Email'
+ *             },
+ *             {
+ *                 xtype: 'passwordfield',
+ *                 name: 'password',
+ *                 label: 'Password'
  *             }
  *         ]
  *     });
@@ -64021,6 +64593,3117 @@ Ext.define('Ext.picker.Picker', {
     /**
      * @private
      */
+    applyActiveTab: function(newActiveTab, oldActiveTab) {
+        if (!newActiveTab && newActiveTab !== 0) {
+            return;
+        }
+        var newTabInstance = this.parseActiveTab(newActiveTab);
+        if (!newTabInstance) {
+            return;
+        }
+        return newTabInstance;
+    },
+    /**
+     * @private
+     * Default pack to center when docked to the bottom, otherwise default pack to left
+     */
+    doSetDocked: function(newDocked) {
+        var layout = this.getLayout(),
+            initialConfig = this.getInitialConfig(),
+            pack;
+        if (!initialConfig.layout || !initialConfig.layout.pack) {
+            pack = (newDocked == 'bottom') ? 'center' : 'left';
+            //layout isn't guaranteed to be instantiated so must test
+            if (layout.isLayout) {
+                layout.setPack(pack);
+            } else {
+                layout.pack = (layout && layout.pack) ? layout.pack : pack;
+            }
+        }
+        Ext.Toolbar.prototype.doSetDocked.apply(this, arguments);
+    },
+    /**
+     * @private
+     * Sets the active tab
+     */
+    doSetActiveTab: function(newTab, oldTab) {
+        if (newTab) {
+            newTab.setActive(true);
+        }
+        //Check if the parent is present, if not it is destroyed
+        if (oldTab && oldTab.parent) {
+            oldTab.setActive(false);
+        }
+    },
+    /**
+     * @private
+     * Parses the active tab, which can be a number or string
+     */
+    parseActiveTab: function(tab) {
+        //we need to call getItems to initialize the items, otherwise they will not exist yet.
+        if (typeof tab == 'number') {
+            return this.getItems().items[tab];
+        } else if (typeof tab == 'string') {
+            tab = Ext.getCmp(tab);
+        }
+        return tab;
+    }
+}, 0, [
+    "tabbar"
+], [
+    "component",
+    "container",
+    "toolbar",
+    "tabbar"
+], {
+    "component": true,
+    "container": true,
+    "toolbar": true,
+    "tabbar": true
+}, [
+    "widget.tabbar"
+], 0, [
+    Ext.tab,
+    'Bar',
+    Ext,
+    'TabBar'
+], 0));
+
+/**
+ * Tab Panels are a great way to allow the user to switch between several pages that are all full screen. Each
+ * Component in the Tab Panel gets its own Tab, which shows the Component when tapped on. Tabs can be positioned at
+ * the top or the bottom of the Tab Panel, and can optionally accept title and icon configurations.
+ *
+ * Here's how we can set up a simple Tab Panel with tabs at the bottom. Use the controls at the top left of the example
+ * to toggle between code mode and live preview mode (you can also edit the code and see your changes in the live
+ * preview):
+ *
+ *     @example miniphone preview
+ *     Ext.create('Ext.TabPanel', {
+ *         fullscreen: true,
+ *         tabBarPosition: 'bottom',
+ *
+ *         defaults: {
+ *             styleHtmlContent: true
+ *         },
+ *
+ *         items: [
+ *             {
+ *                 title: 'Home',
+ *                 iconCls: 'home',
+ *                 html: 'Home Screen'
+ *             },
+ *             {
+ *                 title: 'Contact',
+ *                 iconCls: 'user',
+ *                 html: 'Contact Screen'
+ *             }
+ *         ]
+ *     });
+ * One tab was created for each of the {@link Ext.Panel panels} defined in the items array. Each tab automatically uses
+ * the title and icon defined on the item configuration, and switches to that item when tapped on. We can also position
+ * the tab bar at the top, which makes our Tab Panel look like this:
+ *
+ *     @example miniphone preview
+ *     Ext.create('Ext.TabPanel', {
+ *         fullscreen: true,
+ *
+ *         defaults: {
+ *             styleHtmlContent: true
+ *         },
+ *
+ *         items: [
+ *             {
+ *                 title: 'Home',
+ *                 html: 'Home Screen'
+ *             },
+ *             {
+ *                 title: 'Contact',
+ *                 html: 'Contact Screen'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
+ *             }
+ *         ]
+ *     });
+ *
+<<<<<<< HEAD
+ * The above used a new capability of Sencha Touch 2.0, which enables you to specify listeners on child components of any
+ * container. In this case, we attached a listener to the {@link Ext.field.Text#change change} event of each form
+ * field that is a direct child of the form panel. Our listener gets the name of the field that fired the change event,
+ * and updates our {@link Ext.data.Model Model} instance with the new value. For example, changing the email field
+ * in the form will update the Model's email field.
+ *
+ * ##Submitting forms
+ *
+ * There are a few ways to submit form data. In our example above we have a Model instance that we have updated, giving
+ * us the option to use the Model's {@link Ext.data.Model#save save} method to persist the changes back to our server,
+ * without using a traditional form submission. Alternatively, we can send a normal browser form submit using the
+ * {@link #method} method:
+ *
+ *     form.submit({
+ *         url: 'url/to/submit/to',
+ *         method: 'POST',
+ *         success: function() {
+ *             alert('form submitted successfully!');
+ *         }
+ *     });
+ *
+ * In this case we provided the `url` to submit the form to inside the submit call - alternatively you can just set the
+ * {@link #url} configuration when you create the form. We can specify other parameters (see {@link #method} for a
+ * full list), including callback functions for success and failure, which are called depending on whether or not the
+ * form submission was successful. These functions are usually used to take some action in your app after your data
+ * has been saved to the server side.
+ *
+ * For more information regarding forms and fields, please review [Using Forms in Sencha Touch Guide](../../../components/forms.html)
+ */
+(Ext.cmd.derive('Ext.form.Panel', Ext.Panel, {
+    alternateClassName: 'Ext.form.FormPanel',
+    /**
+     * @event submit
+     * @preventable doSubmit
+     * Fires upon successful (Ajax-based) form submission.
+     * @param {Ext.form.Panel} this This FormPanel.
+     * @param {Object} result The result object as returned by the server.
+     * @param {Ext.EventObject} e The event object.
+     */
+    /**
+     * @event beforesubmit
+     * @preventable doBeforeSubmit
+     * Fires immediately preceding any Form submit action.
+     * Implementations may adjust submitted form values or options prior to execution.
+     * A return value of `false` from this listener will abort the submission
+     * attempt (regardless of `standardSubmit` configuration).
+     * @param {Ext.form.Panel} this This FormPanel.
+     * @param {Object} values A hash collection of the qualified form values about to be submitted.
+     * @param {Object} options Submission options hash (only available when `standardSubmit` is `false`).
+     * @param {Ext.EventObject} e The event object if the form was submitted via a HTML5 form submit event.
+     */
+    /**
+     * @event exception
+     * Fires when either the Ajax HTTP request reports a failure OR the server returns a `success:false`
+     * response in the result payload.
+     * @param {Ext.form.Panel} this This FormPanel.
+     * @param {Object} result Either a failed Ext.data.Connection request object or a failed (logical) server.
+     * response payload.
+     */
+    config: {
+        /**
+         * @cfg {String} baseCls
+         * @inheritdoc
+         */
+        baseCls: 'x-form',
+        /**
+         * @cfg {Boolean} standardSubmit
+         * Whether or not we want to perform a standard form submit.
+         * @accessor
+         */
+        standardSubmit: false,
+        /**
+         * @cfg {String} url
+         * The default url for submit actions.
+         * @accessor
+         */
+        url: null,
+        /**
+         * @cfg (String} enctype
+         * The enctype attribute for the form, specifies how the form should be encoded when submitting
+         */
+        enctype: null,
+        /**
+         * @cfg {Object} baseParams
+         * Optional hash of params to be sent (when `standardSubmit` configuration is `false`) on every submit.
+         * @accessor
+         */
+        baseParams: null,
+        /**
+         * @cfg {Object} submitOnAction
+         * When this is set to `true`, the form will automatically submit itself whenever the `action`
+         * event fires on a field in this form. The action event usually fires whenever you press
+         * go or enter inside a textfield.
+         * @accessor
+         */
+        submitOnAction: false,
+        /**
+         * @cfg {Ext.data.Model} record The model instance of this form. Can by dynamically set at any time.
+         * @accessor
+         */
+        record: null,
+        /**
+         * @cfg {String} method
+         * The method which this form will be submitted. `post` or `get`.
+         */
+        method: 'post',
+        /**
+         * @cfg {Object} scrollable
+         * Possible values are true, false, and null. The true value indicates that
+         * users can scroll the panel. The false value disables scrolling, but developers
+         * can enable it in the app. The null value indicates that the object cannot be
+         * scrolled and that scrolling cannot be enabled for this object.
+         *
+         * Example:
+         *      title: 'Sliders',
+         *      xtype: 'formpanel',
+         *      iconCls: Ext.filterPlatform('blackberry') ? 'list' : null,
+         *      scrollable: true,
+         *      items: [ ...
+         * @inheritdoc
+         */
+        scrollable: {
+            translatable: {
+                translationMethod: 'scrollposition'
+            }
+        },
+        /**
+         * @cfg {Boolean} trackResetOnLoad
+         * If set to true, {@link #reset}() resets to the last loaded or {@link #setValues}() data instead of
+         * when the form was first created.
+         */
+        trackResetOnLoad: false,
+        /**
+         * @cfg {Object} api
+         * If specified, load and submit actions will be loaded and submitted via Ext.Direct.  Methods which have been imported by
+         * {@link Ext.direct.Manager} can be specified here to load and submit forms. API methods may also be
+         * specified as strings and will be parsed into the actual functions when the first submit or load has occurred. Such as the following:
+         *
+         *     api: {
+         *         load: App.ss.MyProfile.load,
+         *         submit: App.ss.MyProfile.submit
+         *     }
+         *
+         *     api: {
+         *         load: 'App.ss.MyProfile.load',
+         *         submit: 'App.ss.MyProfile.submit'
+         *     }
+         *
+         * Load actions can use {@link #paramOrder} or {@link #paramsAsHash} to customize how the load method
+         * is invoked.  Submit actions will always use a standard form submit. The `formHandler` configuration
+         * (see Ext.direct.RemotingProvider#action) must be set on the associated server-side method which has
+         * been imported by {@link Ext.direct.Manager}.
+         */
+        api: null,
+        /**
+         * @cfg {String/String[]} paramOrder
+         * A list of params to be executed server side. Only used for the {@link #api} `load`
+         * configuration.
+         *
+         * Specify the params in the order in which they must be executed on the
+         * server-side as either (1) an Array of String values, or (2) a String of params
+         * delimited by either whitespace, comma, or pipe. For example,
+         * any of the following would be acceptable:
+         *
+         *     paramOrder: ['param1','param2','param3']
+         *     paramOrder: 'param1 param2 param3'
+         *     paramOrder: 'param1,param2,param3'
+         *     paramOrder: 'param1|param2|param'
+         */
+        paramOrder: null,
+        /**
+         * @cfg {Boolean} paramsAsHash
+         * Only used for the {@link #api} `load` configuration. If true, parameters will be sent as a
+         * single hash collection of named arguments. Providing a {@link #paramOrder} nullifies this
+         * configuration.
+         */
+        paramsAsHash: null,
+        /**
+         * @cfg {Number} timeout
+         * Timeout for form actions in seconds.
+         */
+        timeout: 30,
+        /**
+         * @cfg {Boolean} multipartDetection
+         * If this is enabled the form will automatically detect the need to use 'multipart/form-data' during submission.
+         */
+        multipartDetection: true,
+        /**
+         * @cfg {Boolean} enableSubmissionForm
+         * The submission form is generated but never added to the dom. It is a submittable version of your form panel, allowing for fields
+         * that are not simple textfields to be properly submitted to servers. It will also send values that are easier to parse
+         * with server side code.
+         *
+         * If this is false we will attempt to subject the raw form inside the form panel.
+         */
+        enableSubmissionForm: true
+    },
+    getElementConfig: function() {
+        var config = Ext.Panel.prototype.getElementConfig.call(this);
+        config.tag = "form";
+        // Added a submit input for standard form submission. This cannot have "display: none;" or it will not work
+        config.children.push({
+            tag: 'input',
+            type: 'submit',
+            style: 'visibility: hidden; width: 0; height: 0; position: absolute; right: 0; bottom: 0;'
+        });
+        return config;
+    },
+    // @private
+    initialize: function() {
+        var me = this;
+        Ext.Panel.prototype.initialize.call(this);
+        me.element.on({
+            submit: 'onSubmit',
+            scope: me
+        });
+    },
+    applyEnctype: function(newValue) {
+        var form = this.element.dom || null;
+        if (form) {
+            if (newValue) {
+                form.setAttribute("enctype", newValue);
+            } else {
+                form.setAttribute("enctype");
+            }
+        }
+    },
+    updateRecord: function(newRecord) {
+        var fields, values, name;
+        if (newRecord && (fields = newRecord.fields)) {
+            values = this.getValues();
+            for (name in values) {
+                if (values.hasOwnProperty(name) && fields.containsKey(name)) {
+                    newRecord.set(name, values[name]);
+                }
+            }
+        }
+        return this;
+    },
+    /**
+     * Loads matching fields from a model instance into this form.
+     * @param {Ext.data.Model} record The model instance.
+     * @return {Ext.form.Panel} This form.
+     */
+    setRecord: function(record) {
+        var me = this;
+        if (record && record.data) {
+            me.setValues(record.data);
+        }
+        me._record = record;
+        return this;
+    },
+    // @private
+    onSubmit: function(e) {
+        var me = this;
+        if (e && !me.getStandardSubmit()) {
+            e.stopEvent();
+        } else {
+            // Stop the submit event on the original for if we are swapping a form in
+            if (me.getEnableSubmissionForm()) {
+                e.stopEvent();
+            }
+            this.submit(null, e);
+        }
+    },
+    updateSubmitOnAction: function(newSubmitOnAction) {
+        if (newSubmitOnAction) {
+            this.on({
+                action: 'onFieldAction',
+                scope: this
+            });
+        } else {
+            this.un({
+                action: 'onFieldAction',
+                scope: this
+            });
+        }
+    },
+    // @private
+    onFieldAction: function(field) {
+        if (this.getSubmitOnAction()) {
+            field.blur();
+            this.submit();
+        }
+    },
+    /**
+     * Performs a Ajax-based submission of form values (if {@link #standardSubmit} is false) or otherwise
+     * executes a standard HTML Form submit action.
+     *
+     * **Notes**
+     *
+     *  1. Only the first parameter is implemented. Put all other parameters inside the first
+     *  parameter:
+     *
+     *     submit({params: "" ,headers: "" etc.})
+     *
+     *  2. Submit example:
+     *
+     *     myForm.submit({
+     *       url: 'PostMyData/To',
+     *       method: 'Post',
+     *       success: function() { Ext.Msg.alert("success"); },
+     *       failure: function() { Ext.Msg.alert("error"); }
+     *     });
+     *
+     *  3. Parameters and values only submit for a POST and not for a GET.
+     *
+     * @param {Object} options
+     * The configuration when submitting this form.
+     *
+     * The following are the configurations when submitting via Ajax only:
+     *
+     * @param {String} options.url
+     * The url for the action (defaults to the form's {@link #url}).
+     *
+     * @param {String} options.method
+     * The form method to use (defaults to the form's {@link #method}, or POST if not defined).
+     *
+     * @param {Object} options.headers
+     * Request headers to set for the action.
+     *
+     * @param {Boolean} [options.autoAbort=false]
+     * `true` to abort any pending Ajax request prior to submission.
+     * __Note:__ Has no effect when `{@link #standardSubmit}` is enabled.
+     *
+     * @param {Number} options.timeout
+     * The number is seconds the loading will timeout in.
+     *
+     * The following are the configurations when loading via Ajax or Direct:
+     *
+     * @param {String/Object} options.params
+     * The params to pass when submitting this form (defaults to this forms {@link #baseParams}).
+     * Parameters are encoded as standard HTTP parameters using {@link Ext#urlEncode}.
+     *
+     * @param {Boolean} [options.submitDisabled=false]
+     * `true` to submit all fields regardless of disabled state.
+     * __Note:__ Has no effect when `{@link #standardSubmit}` is enabled.
+     *
+     * @param {String/Object} [options.waitMsg]
+     * If specified, the value which is passed to the loading {@link #masked mask}. See {@link #masked} for
+     * more information.
+     *
+     * @param {Function} options.success
+     * The callback that will be invoked after a successful response. A response is successful if
+     * a response is received from the server and is a JSON object where the `success` property is set
+     * to `true`, `{"success": true}`.
+     *
+     * The function is passed the following parameters and can be used for submitting via Ajax or Direct:
+     *
+     * @param {Ext.form.Panel} options.success.form
+     * The {@link Ext.form.Panel} that requested the action.
+     *
+     * @param {Object/Ext.direct.Event} options.success.result
+     * The result object returned by the server as a result of the submit request. If the submit is sent using Ext.Direct,
+     * this will return the {@link Ext.direct.Event} instance, otherwise will return an Object.
+     *
+     * @param {Object} options.success.data
+     * The parsed data returned by the server.
+     *
+     * @param {Function} options.failure
+     * The callback that will be invoked after a failed transaction attempt.
+     *
+     * The function is passed the following parameters and can be used for submitting via Ajax or Direct:
+     *
+     * @param {Ext.form.Panel} options.failure.form
+     * The {@link Ext.form.Panel} that requested the submit.
+     *
+     * @param {Ext.form.Panel} options.failure.result
+     * The failed response or result object returned by the server which performed the operation.
+     *
+     * @param {Object} options.success.data
+     * The parsed data returned by the server.
+     *
+     * @param {Object} options.scope
+     * The scope in which to call the callback functions (The `this` reference for the callback functions).
+     *
+     * @return {Ext.data.Connection} The request object if the {@link #standardSubmit} config is false.
+     * If the standardSubmit config is true, then the return value is undefined.
+     */
+    submit: function(options, e) {
+        options = options || {};
+        var me = this,
+            formValues = me.getValues(me.getStandardSubmit() || !options.submitDisabled),
+            form = me.element.dom || {};
+        if (this.getEnableSubmissionForm()) {
+            form = this.createSubmissionForm(form, formValues);
+        }
+        options = Ext.apply({
+            url: me.getUrl() || form.action,
+            submit: false,
+            form: form,
+            method: me.getMethod() || form.method || 'post',
+            autoAbort: false,
+            params: null,
+            waitMsg: null,
+            headers: null,
+            success: null,
+            failure: null
+        }, options || {});
+        return me.fireAction('beforesubmit', [
+            me,
+            formValues,
+            options,
+            e
+        ], 'doBeforeSubmit');
+    },
+    createSubmissionForm: function(form, values) {
+        var fields = this.getFields(),
+            name, input, field, fileinputElement, inputComponent;
+        if (form.nodeType === 1) {
+            form = form.cloneNode(false);
+            for (name in values) {
+                input = document.createElement("input");
+                input.setAttribute("type", "text");
+                input.setAttribute("name", name);
+                input.setAttribute("value", values[name]);
+                form.appendChild(input);
+            }
+        }
+        for (name in fields) {
+            if (fields.hasOwnProperty(name)) {
+                field = fields[name];
+                if (field.isFile) {
+                    if (!form.$fileswap) {
+                        form.$fileswap = [];
+                    }
+                    inputComponent = field.getComponent().input;
+                    fileinputElement = inputComponent.dom;
+                    input = fileinputElement.cloneNode(true);
+                    fileinputElement.parentNode.insertBefore(input, fileinputElement.nextSibling);
+                    form.appendChild(fileinputElement);
+                    form.$fileswap.push({
+                        original: fileinputElement,
+                        placeholder: input
+                    });
+                } else if (field.isPassword) {
+                    if (field.getComponent().getType !== "password") {
+                        field.setRevealed(false);
+                    }
+                }
+            }
+        }
+        return form;
+    },
+    doBeforeSubmit: function(me, formValues, options) {
+        var form = options.form || {},
+            multipartDetected = false;
+        if (this.getMultipartDetection() === true) {
+            this.getFieldsAsArray().forEach(function(field) {
+                if (field.isFile === true) {
+                    multipartDetected = true;
+                    return false;
+                }
+            });
+            if (multipartDetected) {
+                form.setAttribute("enctype", "multipart/form-data");
+            }
+        }
+        if (options.enctype) {
+            form.setAttribute("enctype", options.enctype);
+        }
+        if (me.getStandardSubmit()) {
+            if (options.url && Ext.isEmpty(form.action)) {
+                form.action = options.url;
+            }
+            // Spinner fields must have their components enabled *before* submitting or else the value
+            // will not be posted.
+            var fields = this.query('spinnerfield'),
+                ln = fields.length,
+                i, field;
+            for (i = 0; i < ln; i++) {
+                field = fields[i];
+                if (!field.getDisabled()) {
+                    field.getComponent().setDisabled(false);
+                }
+            }
+            form.method = (options.method || form.method).toLowerCase();
+            form.submit();
+        } else {
+            var api = me.getApi(),
+                url = options.url || me.getUrl(),
+                scope = options.scope || me,
+                waitMsg = options.waitMsg,
+                failureFn = function(response, responseText) {
+                    if (Ext.isFunction(options.failure)) {
+                        options.failure.call(scope, me, response, responseText);
+                    }
+                    me.fireEvent('exception', me, response);
+                },
+                successFn = function(response, responseText) {
+                    if (Ext.isFunction(options.success)) {
+                        options.success.call(options.scope || me, me, response, responseText);
+                    }
+                    me.fireEvent('submit', me, response);
+                },
+                submit;
+            if (options.waitMsg) {
+                if (typeof waitMsg === 'string') {
+                    waitMsg = {
+                        xtype: 'loadmask',
+                        message: waitMsg
+                    };
+                }
+                me.setMasked(waitMsg);
+            }
+            if (api) {
+                submit = api.submit;
+                if (typeof submit === 'string') {
+                    submit = Ext.direct.Manager.parseMethod(submit);
+                    if (submit) {
+                        api.submit = submit;
+                    }
+                }
+                if (submit) {
+                    return submit(this.element, function(data, response, success) {
+                        me.setMasked(false);
+                        if (success) {
+                            if (data.success) {
+                                successFn(response, data);
+                            } else {
+                                failureFn(response, data);
+                            }
+                        } else {
+                            failureFn(response, data);
+                        }
+                    }, this);
+                }
+            } else {
+                var request = Ext.merge({}, {
+                        url: url,
+                        timeout: this.getTimeout() * 1000,
+                        form: form,
+                        scope: me
+                    }, options);
+                delete request.success;
+                delete request.failure;
+                request.params = Ext.merge(me.getBaseParams() || {}, options.params);
+                request.header = Ext.apply({
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }, options.headers || {});
+                request.callback = function(callbackOptions, success, response) {
+                    var responseText = response.responseText,
+                        responseXML = response.responseXML,
+                        statusResult = Ext.Ajax.parseStatus(response.status, response);
+                    if (form.$fileswap) {
+                        var original, placeholder;
+                        Ext.each(form.$fileswap, function(item) {
+                            original = item.original;
+                            placeholder = item.placeholder;
+                            placeholder.parentNode.insertBefore(original, placeholder.nextSibling);
+                            placeholder.parentNode.removeChild(placeholder);
+                        });
+                        form.$fileswap = null;
+                        delete form.$fileswap;
+                    }
+                    me.setMasked(false);
+                    if (response.success === false) {
+                        success = false;
+                    }
+                    if (success) {
+                        if (statusResult && responseText && responseText.length == 0) {
+                            success = true;
+                        } else {
+                            if (!Ext.isEmpty(response.responseBytes)) {
+                                success = statusResult.success;
+                            } else {
+                                if (Ext.isString(responseText) && response.request.options.responseType === "text") {
+                                    response.success = true;
+                                } else if (Ext.isString(responseText)) {
+                                    try {
+                                        response = Ext.decode(responseText);
+                                    } catch (e) {
+                                        response.success = false;
+                                        response.error = e;
+                                        response.message = e.message;
+                                    }
+                                } else if (Ext.isSimpleObject(responseText)) {
+                                    response = responseText;
+                                    Ext.applyIf(response, {
+                                        success: true
+                                    });
+                                }
+                                if (!Ext.isEmpty(responseXML)) {
+                                    response.success = true;
+                                }
+                                success = !!response.success;
+                            }
+                        }
+                        if (success) {
+                            successFn(response, responseText);
+                        } else {
+                            failureFn(response, responseText);
+                        }
+                    } else {
+                        failureFn(response, responseText);
+                    }
+                };
+                if (Ext.feature.has.XHR2 && request.xhr2) {
+                    delete request.form;
+                    var formData = new FormData(form);
+                    if (request.params) {
+                        Ext.iterate(request.params, function(name, value) {
+                            if (Ext.isArray(value)) {
+                                Ext.each(value, function(v) {
+                                    formData.append(name, v);
+                                });
+                            } else {
+                                formData.append(name, value);
+                            }
+                        });
+                        delete request.params;
+                    }
+                    request.data = formData;
+                }
+                return Ext.Ajax.request(request);
+            }
+        }
+    },
+    /**
+     * Performs an Ajax or Ext.Direct call to load values for this form.
+     *
+     * @param {Object} options
+     * The configuration when loading this form.
+     *
+     * The following are the configurations when loading via Ajax only:
+     *
+     * @param {String} options.url
+     * The url for the action (defaults to the form's {@link #url}).
+     *
+     * @param {String} options.method
+     * The form method to use (defaults to the form's {@link #method}, or GET if not defined).
+     *
+     * @param {Object} options.headers
+     * Request headers to set for the action.
+     *
+     * @param {Number} options.timeout
+     * The number is seconds the loading will timeout in.
+     *
+     * The following are the configurations when loading via Ajax or Direct:
+     *
+     * @param {Boolean} [options.autoAbort=false]
+     * `true` to abort any pending Ajax request prior to loading.
+     *
+     * @param {String/Object} options.params
+     * The params to pass when submitting this form (defaults to this forms {@link #baseParams}).
+     * Parameters are encoded as standard HTTP parameters using {@link Ext#urlEncode}.
+     *
+     * @param {String/Object} [options.waitMsg]
+     * If specified, the value which is passed to the loading {@link #masked mask}. See {@link #masked} for
+     * more information.
+     *
+     * @param {Function} options.success
+     * The callback that will be invoked after a successful response. A response is successful if
+     * a response is received from the server and is a JSON object where the `success` property is set
+     * to `true`, `{"success": true}`.
+     *
+     * The function is passed the following parameters and can be used for loading via Ajax or Direct:
+     *
+     * @param {Ext.form.Panel} options.success.form
+     * The {@link Ext.form.Panel} that requested the load.
+     *
+     * @param {Object/Ext.direct.Event} options.success.result
+     * The result object returned by the server as a result of the load request. If the loading was done via Ext.Direct,
+     * will return the {@link Ext.direct.Event} instance, otherwise will return an Object.
+     *
+     * @param {Object} options.success.data
+     * The parsed data returned by the server.
+     *
+     * @param {Function} options.failure
+     * The callback that will be invoked after a failed transaction attempt.
+     *
+     * The function is passed the following parameters and can be used for loading via Ajax or Direct:
+     *
+     * @param {Ext.form.Panel} options.failure.form
+     * The {@link Ext.form.Panel} that requested the load.
+     *
+     * @param {Ext.form.Panel} options.failure.result
+     * The failed response or result object returned by the server which performed the operation.
+     *
+     * @param {Object} options.success.data
+     * The parsed data returned by the server.
+     *
+     * @param {Object} options.scope
+     * The scope in which to call the callback functions (The `this` reference for the callback functions).
+     *
+     * @return {Ext.data.Connection} The request object.
+     */
+    load: function(options) {
+        options = options || {};
+        var me = this,
+            api = me.getApi(),
+            url = me.getUrl() || options.url,
+            waitMsg = options.waitMsg,
+            successFn = function(response, data) {
+                me.setValues(data.data);
+                if (Ext.isFunction(options.success)) {
+                    options.success.call(options.scope || me, me, response, data);
+                }
+                me.fireEvent('load', me, response);
+            },
+            failureFn = function(response, data) {
+                if (Ext.isFunction(options.failure)) {
+                    options.failure.call(scope, me, response, data);
+                }
+                me.fireEvent('exception', me, response);
+            },
+            load, method, args;
+        if (options.waitMsg) {
+            if (typeof waitMsg === 'string') {
+                waitMsg = {
+                    xtype: 'loadmask',
+                    message: waitMsg
+                };
+            }
+            me.setMasked(waitMsg);
+        }
+        if (api) {
+            load = api.load;
+            if (typeof load === 'string') {
+                load = Ext.direct.Manager.parseMethod(load);
+                if (load) {
+                    api.load = load;
+                }
+            }
+            if (load) {
+                method = load.directCfg.method;
+                args = method.getArgs(me.getParams(options.params), me.getParamOrder(), me.getParamsAsHash());
+                args.push(function(data, response, success) {
+                    me.setMasked(false);
+                    if (success) {
+                        successFn(response, data);
+                    } else {
+                        failureFn(response, data);
+                    }
+                }, me);
+                return load.apply(window, args);
+            }
+        } else if (url) {
+            return Ext.Ajax.request({
+                url: url,
+                timeout: (options.timeout || this.getTimeout()) * 1000,
+                method: options.method || 'GET',
+                autoAbort: options.autoAbort,
+                headers: Ext.apply({
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }, options.headers || {}),
+                callback: function(callbackOptions, success, response) {
+                    var responseText = response.responseText,
+                        statusResult = Ext.Ajax.parseStatus(response.status, response);
+                    me.setMasked(false);
+                    if (success) {
+                        if (statusResult && responseText.length == 0) {
+                            success = true;
+                        } else {
+                            response = Ext.decode(responseText);
+                            success = !!response.success;
+                        }
+                        if (success) {
+                            successFn(response, responseText);
+                        } else {
+                            failureFn(response, responseText);
+                        }
+                    } else {
+                        failureFn(response, responseText);
+                    }
+                }
+            });
+        }
+    },
+    //@private
+    getParams: function(params) {
+        return Ext.apply({}, params, this.getBaseParams());
+    },
+    /**
+     * Sets the values of form fields in bulk. Example usage:
+     *
+     *     myForm.setValues({
+     *         name: 'Ed',
+     *         crazy: true,
+     *         username: 'edspencer'
+     *     });
+     *
+     * If there groups of checkbox fields with the same name, pass their values in an array. For example:
+     *
+     *     myForm.setValues({
+     *         name: 'Jacky',
+     *         crazy: false,
+     *         hobbies: [
+     *             'reading',
+     *             'cooking',
+     *             'gaming'
+     *         ]
+     *     });
+     *
+     * @param {Object} values field name => value mapping object.
+     * @return {Ext.form.Panel} This form.
+     */
+    setValues: function(values) {
+        var fields = this.getFields(),
+            me = this,
+            name, field, value, ln, i, f;
+        values = values || {};
+        for (name in values) {
+            if (values.hasOwnProperty(name)) {
+                field = fields[name];
+                value = values[name];
+                if (field) {
+                    // If there are multiple fields with the same name. Checkboxes, radio fields and maybe event just normal fields..
+                    if (Ext.isArray(field)) {
+                        ln = field.length;
+                        // Loop through each of the fields
+                        for (i = 0; i < ln; i++) {
+                            f = field[i];
+                            if (f.isRadio) {
+                                // If it is a radio field just use setGroupValue which will handle all of the radio fields
+                                f.setGroupValue(value);
+                                break;
+                            } else if (f.isCheckbox) {
+                                if (Ext.isArray(value)) {
+                                    f.setChecked((value.indexOf(f._value) != -1));
+                                } else {
+                                    f.setChecked((value == f._value));
+                                }
+                            } else {
+                                // If it is a bunch of fields with the same name, check if the value is also an array, so we can map it
+                                // to each field
+                                if (Ext.isArray(value)) {
+                                    f.setValue(value[i]);
+                                }
+                            }
+                        }
+                    } else {
+                        if (field.isRadio || field.isCheckbox) {
+                            // If the field is a radio or a checkbox
+                            field.setChecked(value);
+                        } else {
+                            // If just a normal field
+                            field.setValue(value);
+                        }
+                    }
+                    if (me.getTrackResetOnLoad()) {
+                        field.resetOriginalValue();
+                    }
+                }
+            }
+        }
+        return this;
+    },
+    /**
+     * Returns an object containing the value of each field in the form, keyed to the field's name.
+     * For groups of checkbox fields with the same name, it will be arrays of values. For example:
+     *
+     *     {
+     *         name: "Jacky Nguyen", // From a TextField
+     *         favorites: [
+     *             'pizza',
+     *             'noodle',
+     *             'cake'
+     *         ]
+     *     }
+     *
+     * @param {Boolean} [enabled] `true` to return only enabled fields.
+     * @param {Boolean} [all] `true` to return all fields even if they don't have a
+     * {@link Ext.field.Field#name name} configured.
+     * @return {Object} Object mapping field name to its value.
+     */
+    getValues: function(enabled, all) {
+        var fields = this.getFields(),
+            values = {},
+            isArray = Ext.isArray,
+            field, value, addValue, bucket, name, ln, i;
+        // Function which you give a field and a name, and it will add it into the values
+        // object accordingly
+        addValue = function(field, name) {
+            if (!all && (!name || name === 'null') || field.isFile) {
+                return;
+            }
+            if (field.isCheckbox) {
+                value = field.getSubmitValue();
+            } else {
+                value = field.getValue();
+            }
+            if (!(enabled && field.getDisabled())) {
+                // RadioField is a special case where the value returned is the fields valUE
+                // ONLY if it is checked
+                if (field.isRadio) {
+                    if (field.isChecked()) {
+                        values[name] = value;
+                    }
+                } else {
+                    // Check if the value already exists
+                    bucket = values[name];
+                    if (!Ext.isEmpty(bucket)) {
+                        // if it does and it isn't an array, we need to make it into an array
+                        // so we can push more
+                        if (!isArray(bucket)) {
+                            bucket = values[name] = [
+                                bucket
+                            ];
+                        }
+                        // Check if it is an array
+                        if (isArray(value)) {
+                            // Concat it into the other values
+                            bucket = values[name] = bucket.concat(value);
+                        } else {
+                            // If it isn't an array, just pushed more values
+                            bucket.push(value);
+                        }
+                    } else {
+                        values[name] = value;
+                    }
+                }
+            }
+        };
+        // Loop through each of the fields, and add the values for those fields.
+        for (name in fields) {
+            if (fields.hasOwnProperty(name)) {
+                field = fields[name];
+                if (isArray(field)) {
+                    ln = field.length;
+                    for (i = 0; i < ln; i++) {
+                        addValue(field[i], name);
+                    }
+                } else {
+                    addValue(field, name);
+                }
+            }
+        }
+        return values;
+    },
+    /**
+     * Resets all fields in the form back to their original values.
+     * @return {Ext.form.Panel} This form.
+     */
+    reset: function() {
+        this.getFieldsAsArray().forEach(function(field) {
+            field.reset();
+        });
+        return this;
+    },
+    /**
+     * A convenient method to disable all fields in this form.
+     * @return {Ext.form.Panel} This form.
+     */
+    doSetDisabled: function(newDisabled) {
+        this.getFieldsAsArray().forEach(function(field) {
+            field.setDisabled(newDisabled);
+        });
+        return this;
+    },
+    /**
+     * @private
+     */
+    getFieldsAsArray: function() {
+        var fields = [],
+            getFieldsFrom = function(item) {
+                if (item.isField) {
+                    fields.push(item);
+                }
+                if (item.isContainer) {
+                    item.getItems().each(getFieldsFrom);
+                }
+            };
+        this.getItems().each(getFieldsFrom);
+        return fields;
+    },
+    /**
+     * Returns all {@link Ext.field.Field field} instances inside this form.
+     * @param {Boolean} byName return only fields that match the given name, otherwise return all fields.
+     * @return {Object/Array} All field instances, mapped by field name; or an array if `byName` is passed.
+     */
+    getFields: function(byName) {
+        var fields = {},
+            itemName;
+        var getFieldsFrom = function(item) {
+                if (item.isField) {
+                    itemName = item.getName();
+                    if ((byName && itemName == byName) || typeof byName == 'undefined') {
+                        if (fields.hasOwnProperty(itemName)) {
+                            if (!Ext.isArray(fields[itemName])) {
+                                fields[itemName] = [
+                                    fields[itemName]
+                                ];
+                            }
+                            fields[itemName].push(item);
+                        } else {
+                            fields[itemName] = item;
+                        }
+                    }
+                }
+                if (item.isContainer) {
+                    item.items.each(getFieldsFrom);
+                }
+            };
+        this.getItems().each(getFieldsFrom);
+        return (byName) ? (fields[byName] || []) : fields;
+    },
+    /**
+     * Returns an array of fields in this formpanel.
+     * @return {Ext.field.Field[]} An array of fields in this form panel.
+     * @private
+     */
+    getFieldsArray: function() {
+        var fields = [];
+        var getFieldsFrom = function(item) {
+                if (item.isField) {
+                    fields.push(item);
+                }
+                if (item.isContainer) {
+                    item.items.each(getFieldsFrom);
+                }
+            };
+        this.items.each(getFieldsFrom);
+        return fields;
+    },
+    getFieldsFromItem: Ext.emptyFn,
+    /**
+     * Shows a generic/custom mask over a designated Element.
+     * @param {String/Object} cfg Either a string message or a configuration object supporting
+     * the following options:
+     *
+     *     {
+     *         message : 'Please Wait',
+     *         cls : 'form-mask'
+     *     }
+     *
+     * @param {Object} target
+     * @return {Ext.form.Panel} This form
+     * @deprecated 2.0.0 Please use {@link #setMasked} instead.
+     */
+    showMask: function(cfg, target) {
+        cfg = Ext.isObject(cfg) ? cfg.message : cfg;
+        if (cfg) {
+            this.setMasked({
+                xtype: 'loadmask',
+                message: cfg
+            });
+        } else {
+            this.setMasked(true);
+        }
+        return this;
+    },
+    /**
+     * Hides a previously shown wait mask (See {@link #showMask}).
+     * @return {Ext.form.Panel} this
+     * @deprecated 2.0.0 Please use {@link #unmask} or {@link #setMasked} instead.
+     */
+    hideMask: function() {
+        this.setMasked(false);
+        return this;
+    },
+    /**
+     * Returns the currently focused field
+     * @return {Ext.field.Field} The currently focused field, if one is focused or `null`.
+     * @private
+     */
+    getFocusedField: function() {
+        var fields = this.getFieldsArray(),
+            ln = fields.length,
+            field, i;
+        for (i = 0; i < ln; i++) {
+            field = fields[i];
+            if (field.isFocused) {
+                return field;
+            }
+        }
+        return null;
+    },
+    /**
+     * @return {Boolean/Ext.field.Field} The next field if one exists, or `false`.
+     * @private
+     */
+    getNextField: function() {
+        var fields = this.getFieldsArray(),
+            focusedField = this.getFocusedField(),
+            index;
+        if (focusedField) {
+            index = fields.indexOf(focusedField);
+            if (index !== fields.length - 1) {
+                index++;
+                return fields[index];
+            }
+        }
+        return false;
+    },
+    /**
+     * Tries to focus the next field in the form, if there is currently a focused field.
+     * @return {Boolean/Ext.field.Field} The next field that was focused, or `false`.
+     * @private
+     */
+    focusNextField: function() {
+        var field = this.getNextField();
+        if (field) {
+            field.focus();
+            return field;
+        }
+        return false;
+    },
+    /**
+     * @private
+     * @return {Boolean/Ext.field.Field} The next field if one exists, or `false`.
+     */
+    getPreviousField: function() {
+        var fields = this.getFieldsArray(),
+            focusedField = this.getFocusedField(),
+            index;
+        if (focusedField) {
+            index = fields.indexOf(focusedField);
+            if (index !== 0) {
+                index--;
+                return fields[index];
+            }
+        }
+        return false;
+    },
+    /**
+     * Tries to focus the previous field in the form, if there is currently a focused field.
+     * @return {Boolean/Ext.field.Field} The previous field that was focused, or `false`.
+     * @private
+     */
+    focusPreviousField: function() {
+        var field = this.getPreviousField();
+        if (field) {
+            field.focus();
+            return field;
+        }
+        return false;
+    }
+}, 0, [
+    "formpanel"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true
+}, [
+    "widget.formpanel"
+], 0, [
+    Ext.form,
+    'Panel',
+    Ext.form,
+    'FormPanel'
+], function() {}));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.fx.runner.Css', Ext.Evented, {
+    prefixedProperties: {
+        'transform': true,
+        'transform-origin': true,
+        'perspective': true,
+        'transform-style': true,
+        'transition': true,
+        'transition-property': true,
+        'transition-duration': true,
+        'transition-timing-function': true,
+        'transition-delay': true,
+        'animation': true,
+        'animation-name': true,
+        'animation-duration': true,
+        'animation-iteration-count': true,
+        'animation-direction': true,
+        'animation-timing-function': true,
+        'animation-delay': true
+    },
+    lengthProperties: {
+        'top': true,
+        'right': true,
+        'bottom': true,
+        'left': true,
+        'width': true,
+        'height': true,
+        'max-height': true,
+        'max-width': true,
+        'min-height': true,
+        'min-width': true,
+        'margin-bottom': true,
+        'margin-left': true,
+        'margin-right': true,
+        'margin-top': true,
+        'padding-bottom': true,
+        'padding-left': true,
+        'padding-right': true,
+        'padding-top': true,
+        'border-bottom-width': true,
+        'border-left-width': true,
+        'border-right-width': true,
+        'border-spacing': true,
+        'border-top-width': true,
+        'border-width': true,
+        'outline-width': true,
+        'letter-spacing': true,
+        'line-height': true,
+        'text-indent': true,
+        'word-spacing': true,
+        'font-size': true,
+        'translate': true,
+        'translateX': true,
+        'translateY': true,
+        'translateZ': true,
+        'translate3d': true
+    },
+    durationProperties: {
+        'transition-duration': true,
+        'transition-delay': true,
+        'animation-duration': true,
+        'animation-delay': true
+    },
+    angleProperties: {
+        rotate: true,
+        rotateX: true,
+        rotateY: true,
+        rotateZ: true,
+        skew: true,
+        skewX: true,
+        skewY: true
+    },
+    lengthUnitRegex: /([a-z%]*)$/,
+    DEFAULT_UNIT_LENGTH: 'px',
+    DEFAULT_UNIT_ANGLE: 'deg',
+    DEFAULT_UNIT_DURATION: 'ms',
+    formattedNameCache: {},
+    constructor: function() {
+        var supports3dTransform = Ext.feature.has.Css3dTransforms;
+        if (supports3dTransform) {
+            this.transformMethods = [
+                'translateX',
+                'translateY',
+                'translateZ',
+                'rotate',
+                'rotateX',
+                'rotateY',
+                'rotateZ',
+                'skewX',
+                'skewY',
+                'scaleX',
+                'scaleY',
+                'scaleZ'
+            ];
+        } else {
+            this.transformMethods = [
+                'translateX',
+                'translateY',
+                'rotate',
+                'skewX',
+                'skewY',
+                'scaleX',
+                'scaleY'
+            ];
+        }
+        this.vendorPrefix = Ext.browser.getStyleDashPrefix();
+        this.ruleStylesCache = {};
+        return this;
+    },
+    getStyleSheet: function() {
+        var styleSheet = this.styleSheet,
+            styleElement, styleSheets;
+        if (!styleSheet) {
+            styleElement = document.createElement('style');
+            styleElement.type = 'text/css';
+            (document.head || document.getElementsByTagName('head')[0]).appendChild(styleElement);
+            styleSheets = document.styleSheets;
+            this.styleSheet = styleSheet = styleSheets[styleSheets.length - 1];
+        }
+        return styleSheet;
+    },
+    applyRules: function(selectors) {
+        var styleSheet = this.getStyleSheet(),
+            ruleStylesCache = this.ruleStylesCache,
+            rules = styleSheet.cssRules,
+            selector, properties, ruleStyle, ruleStyleCache, rulesLength, name, value;
+        for (selector in selectors) {
+            properties = selectors[selector];
+            ruleStyle = ruleStylesCache[selector];
+            if (ruleStyle === undefined) {
+                rulesLength = rules.length;
+                styleSheet.insertRule(selector + '{}', rulesLength);
+                ruleStyle = ruleStylesCache[selector] = rules.item(rulesLength).style;
+            }
+            ruleStyleCache = ruleStyle.$cache;
+            if (!ruleStyleCache) {
+                ruleStyleCache = ruleStyle.$cache = {};
+            }
+            for (name in properties) {
+                value = this.formatValue(properties[name], name);
+                name = this.formatName(name);
+                if (ruleStyleCache[name] !== value) {
+                    ruleStyleCache[name] = value;
+                    if (value === null) {
+                        ruleStyle.removeProperty(name);
+                    } else {
+                        ruleStyle.setProperty(name, value, 'important');
+                    }
+                }
+            }
+        }
+        return this;
+    },
+    applyStyles: function(styles) {
+        var id, element, elementStyle, properties, name, value;
+        for (id in styles) {
+            if (styles.hasOwnProperty(id)) {
+                element = document.getElementById(id);
+                if (!element) {
+                    return this;
+                }
+                elementStyle = element.style;
+                properties = styles[id];
+                for (name in properties) {
+                    if (properties.hasOwnProperty(name)) {
+                        value = this.formatValue(properties[name], name);
+                        name = this.formatName(name);
+                        if (value === null) {
+                            elementStyle.removeProperty(name);
+                        } else {
+                            elementStyle.setProperty(name, value, 'important');
+                        }
+                    }
+                }
+            }
+        }
+        return this;
+    },
+    formatName: function(name) {
+        var cache = this.formattedNameCache,
+            formattedName = cache[name];
+        if (!formattedName) {
+            if ((Ext.os.is.Tizen || !Ext.feature.has.CssTransformNoPrefix) && this.prefixedProperties[name]) {
+                formattedName = this.vendorPrefix + name;
+            } else {
+                formattedName = name;
+            }
+            cache[name] = formattedName;
+        }
+        return formattedName;
+    },
+    formatValue: function(value, name) {
+        var type = typeof value,
+            lengthUnit = this.DEFAULT_UNIT_LENGTH,
+            transformMethods, method, i, ln, transformValues, values, unit;
+        if (value === null) {
+            return '';
+        }
+        if (type == 'string') {
+            if (this.lengthProperties[name]) {
+                unit = value.match(this.lengthUnitRegex)[1];
+                if (unit.length > 0) {} else {
+                    return value + lengthUnit;
+                }
+            }
+            return value;
+        } else if (type == 'number') {
+            if (value == 0) {
+                return '0';
+            }
+            if (this.lengthProperties[name]) {
+                return value + lengthUnit;
+            }
+            if (this.angleProperties[name]) {
+                return value + this.DEFAULT_UNIT_ANGLE;
+            }
+            if (this.durationProperties[name]) {
+                return value + this.DEFAULT_UNIT_DURATION;
+            }
+        } else if (name === 'transform') {
+            transformMethods = this.transformMethods;
+            transformValues = [];
+            for (i = 0 , ln = transformMethods.length; i < ln; i++) {
+                method = transformMethods[i];
+                transformValues.push(method + '(' + this.formatValue(value[method], method) + ')');
+            }
+            return transformValues.join(' ');
+        } else if (Ext.isArray(value)) {
+            values = [];
+            for (i = 0 , ln = value.length; i < ln; i++) {
+                values.push(this.formatValue(value[i], name));
+            }
+            return (values.length > 0) ? values.join(', ') : 'none';
+        }
+        return value;
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.fx.runner,
+    'Css'
+], 0));
+
+/**
+ * @author Jacky Nguyen <jacky@sencha.com>
+ * @private
+ */
+(Ext.cmd.derive('Ext.fx.runner.CssTransition', Ext.fx.runner.Css, {
+    listenersAttached: false,
+    constructor: function() {
+        this.runningAnimationsData = {};
+        return Ext.fx.runner.Css.prototype.constructor.apply(this, arguments);
+    },
+    attachListeners: function() {
+        this.listenersAttached = true;
+        this.getEventDispatcher().addListener('element', '*', 'transitionend', 'onTransitionEnd', this);
+    },
+    onTransitionEnd: function(e) {
+        var target = e.target,
+            id = target.id;
+        if (id && this.runningAnimationsData.hasOwnProperty(id)) {
+            this.refreshRunningAnimationsData(Ext.get(target), [
+                e.browserEvent.propertyName
+            ]);
+        }
+    },
+    onAnimationEnd: function(element, data, animation, isInterrupted, isReplaced) {
+        var id = element.getId(),
+            runningData = this.runningAnimationsData[id],
+            endRules = {},
+            endData = {},
+            runningNameMap, toPropertyNames, i, ln, name;
+        animation.un('stop', 'onAnimationStop', this);
+        if (runningData) {
+            runningNameMap = runningData.nameMap;
+        }
+        endRules[id] = endData;
+        if (data.onBeforeEnd) {
+            data.onBeforeEnd.call(data.scope || this, element, isInterrupted);
+        }
+        animation.fireEvent('animationbeforeend', animation, element, isInterrupted);
+        this.fireEvent('animationbeforeend', this, animation, element, isInterrupted);
+        if (isReplaced || (!isInterrupted && !data.preserveEndState)) {
+            toPropertyNames = data.toPropertyNames;
+            for (i = 0 , ln = toPropertyNames.length; i < ln; i++) {
+                name = toPropertyNames[i];
+                if (runningNameMap && !runningNameMap.hasOwnProperty(name)) {
+                    endData[name] = null;
+                }
+            }
+        }
+        if (data.after) {
+            Ext.merge(endData, data.after);
+        }
+        this.applyStyles(endRules);
+        if (data.onEnd) {
+            data.onEnd.call(data.scope || this, element, isInterrupted);
+        }
+        animation.fireEvent('animationend', animation, element, isInterrupted);
+        this.fireEvent('animationend', this, animation, element, isInterrupted);
+        Ext.AnimationQueue.stop(Ext.emptyFn, animation);
+    },
+    onAllAnimationsEnd: function(element) {
+        var id = element.getId(),
+            endRules = {};
+        delete this.runningAnimationsData[id];
+        endRules[id] = {
+            'transition-property': null,
+            'transition-duration': null,
+            'transition-timing-function': null,
+            'transition-delay': null
+        };
+        this.applyStyles(endRules);
+        this.fireEvent('animationallend', this, element);
+    },
+    hasRunningAnimations: function(element) {
+        var id = element.getId(),
+            runningAnimationsData = this.runningAnimationsData;
+        return runningAnimationsData.hasOwnProperty(id) && runningAnimationsData[id].sessions.length > 0;
+    },
+    refreshRunningAnimationsData: function(element, propertyNames, interrupt, replace) {
+        var id = element.getId(),
+            runningAnimationsData = this.runningAnimationsData,
+            runningData = runningAnimationsData[id];
+        if (!runningData) {
+            return;
+        }
+        var nameMap = runningData.nameMap,
+            nameList = runningData.nameList,
+            sessions = runningData.sessions,
+            ln, j, subLn, name, i, session, map, list,
+            hasCompletedSession = false;
+        interrupt = Boolean(interrupt);
+        replace = Boolean(replace);
+        if (!sessions) {
+            return this;
+        }
+        ln = sessions.length;
+        if (ln === 0) {
+            return this;
+        }
+        if (replace) {
+            runningData.nameMap = {};
+            nameList.length = 0;
+            for (i = 0; i < ln; i++) {
+                session = sessions[i];
+                this.onAnimationEnd(element, session.data, session.animation, interrupt, replace);
+            }
+            sessions.length = 0;
+        } else {
+            for (i = 0; i < ln; i++) {
+                session = sessions[i];
+                map = session.map;
+                list = session.list;
+                for (j = 0 , subLn = propertyNames.length; j < subLn; j++) {
+                    name = propertyNames[j];
+                    if (map[name]) {
+                        delete map[name];
+                        Ext.Array.remove(list, name);
+                        session.length--;
+                        if (--nameMap[name] == 0) {
+                            delete nameMap[name];
+                            Ext.Array.remove(nameList, name);
+                        }
+                    }
+                }
+                if (session.length == 0) {
+                    sessions.splice(i, 1);
+                    i--;
+                    ln--;
+                    hasCompletedSession = true;
+                    this.onAnimationEnd(element, session.data, session.animation, interrupt);
+                }
+            }
+        }
+        if (!replace && !interrupt && sessions.length == 0 && hasCompletedSession) {
+            this.onAllAnimationsEnd(element);
+        }
+    },
+    getRunningData: function(id) {
+        var runningAnimationsData = this.runningAnimationsData;
+        if (!runningAnimationsData.hasOwnProperty(id)) {
+            runningAnimationsData[id] = {
+                nameMap: {},
+                nameList: [],
+                sessions: []
+            };
+        }
+        return runningAnimationsData[id];
+    },
+    getTestElement: function() {
+        var testElement = this.testElement,
+            iframe, iframeDocument, iframeStyle;
+        if (!testElement) {
+            iframe = document.createElement('iframe');
+            iframeStyle = iframe.style;
+            iframeStyle.setProperty('visibility', 'hidden', 'important');
+            iframeStyle.setProperty('width', '0px', 'important');
+            iframeStyle.setProperty('height', '0px', 'important');
+            iframeStyle.setProperty('position', 'absolute', 'important');
+            iframeStyle.setProperty('border', '0px', 'important');
+            iframeStyle.setProperty('zIndex', '-1000', 'important');
+            document.body.appendChild(iframe);
+            iframeDocument = iframe.contentDocument;
+            iframeDocument.open();
+            iframeDocument.writeln('</body>');
+            iframeDocument.close();
+            this.testElement = testElement = iframeDocument.createElement('div');
+            testElement.style.setProperty('position', 'absolute', 'important');
+            iframeDocument.body.appendChild(testElement);
+            this.testElementComputedStyle = window.getComputedStyle(testElement);
+        }
+        return testElement;
+    },
+    getCssStyleValue: function(name, value) {
+        var testElement = this.getTestElement(),
+            computedStyle = this.testElementComputedStyle,
+            style = testElement.style;
+        style.setProperty(name, value);
+        if (Ext.browser.is.Firefox) {
+            // We force a repaint of the element in Firefox to make sure the computedStyle to be updated
+            testElement.offsetHeight;
+        }
+        value = computedStyle.getPropertyValue(name);
+        style.removeProperty(name);
+        return value;
+    },
+    run: function(animations) {
+        var me = this,
+            isLengthPropertyMap = this.lengthProperties,
+            fromData = {},
+            toData = {},
+            data = {},
+            element, elementId, from, to, before, fromPropertyNames, toPropertyNames, doApplyTo, message, runningData, elementData, i, j, ln, animation, propertiesLength, sessionNameMap, computedStyle, formattedName, name, toFormattedValue, computedValue, fromFormattedValue, isLengthProperty, runningNameMap, runningNameList, runningSessions, runningSession;
+        if (!this.listenersAttached) {
+            this.attachListeners();
+        }
+        animations = Ext.Array.from(animations);
+        for (i = 0 , ln = animations.length; i < ln; i++) {
+            animation = animations[i];
+            animation = Ext.factory(animation, Ext.fx.Animation);
+            element = animation.getElement();
+            // Empty function to prevent idleTasks from running while we animate.
+            Ext.AnimationQueue.start(Ext.emptyFn, animation);
+            computedStyle = window.getComputedStyle(element.dom);
+            elementId = element.getId();
+            data = Ext.merge({}, animation.getData());
+            if (animation.onBeforeStart) {
+                animation.onBeforeStart.call(animation.scope || this, element);
+            }
+            animation.fireEvent('animationstart', animation);
+            this.fireEvent('animationstart', this, animation);
+            data[elementId] = data;
+            before = data.before;
+            from = data.from;
+            to = data.to;
+            data.fromPropertyNames = fromPropertyNames = [];
+            data.toPropertyNames = toPropertyNames = [];
+            for (name in to) {
+                if (to.hasOwnProperty(name)) {
+                    to[name] = toFormattedValue = this.formatValue(to[name], name);
+                    formattedName = this.formatName(name);
+                    isLengthProperty = isLengthPropertyMap.hasOwnProperty(name);
+                    if (!isLengthProperty) {
+                        toFormattedValue = this.getCssStyleValue(formattedName, toFormattedValue);
+                    }
+                    if (from.hasOwnProperty(name)) {
+                        from[name] = fromFormattedValue = this.formatValue(from[name], name);
+                        if (!isLengthProperty) {
+                            fromFormattedValue = this.getCssStyleValue(formattedName, fromFormattedValue);
+                        }
+                        if (toFormattedValue !== fromFormattedValue) {
+                            fromPropertyNames.push(formattedName);
+                            toPropertyNames.push(formattedName);
+                        }
+                    } else {
+                        computedValue = computedStyle.getPropertyValue(formattedName);
+                        if (toFormattedValue !== computedValue) {
+                            toPropertyNames.push(formattedName);
+                        }
+                    }
+                }
+            }
+            propertiesLength = toPropertyNames.length;
+            if (propertiesLength === 0) {
+                this.onAnimationEnd(element, data, animation);
+                
+                continue;
+            }
+            runningData = this.getRunningData(elementId);
+            runningSessions = runningData.sessions;
+            if (runningSessions.length > 0) {
+                this.refreshRunningAnimationsData(element, Ext.Array.merge(fromPropertyNames, toPropertyNames), true, data.replacePrevious);
+            }
+            runningNameMap = runningData.nameMap;
+            runningNameList = runningData.nameList;
+            sessionNameMap = {};
+            for (j = 0; j < propertiesLength; j++) {
+                name = toPropertyNames[j];
+                sessionNameMap[name] = true;
+                if (!runningNameMap.hasOwnProperty(name)) {
+                    runningNameMap[name] = 1;
+                    runningNameList.push(name);
+                } else {
+                    runningNameMap[name]++;
+                }
+            }
+            runningSession = {
+                element: element,
+                map: sessionNameMap,
+                list: toPropertyNames.slice(),
+                length: propertiesLength,
+                data: data,
+                animation: animation
+            };
+            runningSessions.push(runningSession);
+            animation.on('stop', 'onAnimationStop', this);
+            elementData = Ext.apply({}, before);
+            Ext.apply(elementData, from);
+            if (runningNameList.length > 0) {
+                fromPropertyNames = Ext.Array.difference(runningNameList, fromPropertyNames);
+                toPropertyNames = Ext.Array.merge(fromPropertyNames, toPropertyNames);
+                elementData['transition-property'] = fromPropertyNames;
+            }
+            fromData[elementId] = elementData;
+            toData[elementId] = Ext.apply({}, to);
+            toData[elementId]['transition-property'] = toPropertyNames;
+            toData[elementId]['transition-duration'] = data.duration;
+            toData[elementId]['transition-timing-function'] = data.easing;
+            toData[elementId]['transition-delay'] = data.delay;
+            animation.startTime = Date.now();
+        }
+        message = this.$className;
+        this.applyStyles(fromData);
+        doApplyTo = function(e) {
+            if (e.data === message && e.source === window) {
+                window.removeEventListener('message', doApplyTo, false);
+                me.applyStyles(toData);
+            }
+        };
+        if (Ext.browser.is.IE) {
+            window.requestAnimationFrame(function() {
+                window.addEventListener('message', doApplyTo, false);
+                window.postMessage(message, '*');
+            });
+        } else {
+            window.addEventListener('message', doApplyTo, false);
+            window.postMessage(message, '*');
+        }
+    },
+    onAnimationStop: function(animation) {
+        var runningAnimationsData = this.runningAnimationsData,
+            id, runningData, sessions, i, ln, session;
+        for (id in runningAnimationsData) {
+            if (runningAnimationsData.hasOwnProperty(id)) {
+                runningData = runningAnimationsData[id];
+                sessions = runningData.sessions;
+                for (i = 0 , ln = sessions.length; i < ln; i++) {
+                    session = sessions[i];
+                    if (session.animation === animation) {
+                        this.refreshRunningAnimationsData(session.element, session.list.slice(), false);
+                    }
+                }
+            }
+        }
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.fx.runner,
+    'CssTransition'
+], 0));
+
+/**
+ * @class Ext.fx.Runner
+ * @private
+ */
+(Ext.cmd.derive('Ext.fx.Runner', Ext.Base, {
+    //        'Ext.fx.runner.CssAnimation'
+    constructor: function() {
+        return new Ext.fx.runner.CssTransition();
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.fx,
+    'Runner'
+], 0));
+
+/**
+ * Used in the {@link Ext.tab.Bar} component. This shouldn't be used directly, instead use
+ * {@link Ext.tab.Bar} or {@link Ext.tab.Panel}.
+ * @private
+ */
+(Ext.cmd.derive('Ext.tab.Tab', Ext.Button, {
+    alternateClassName: 'Ext.Tab',
+    // @private
+    isTab: true,
+    config: {
+        /**
+         * @cfg baseCls
+         * @inheritdoc
+         */
+        baseCls: 'x-tab',
+        /**
+         * @cfg {String} pressedCls
+         * The CSS class to be applied to a Tab when it is pressed.
+         * Providing your own CSS for this class enables you to customize the pressed state.
+         * @accessor
+         */
+        pressedCls: 'x-tab-pressed',
+        /**
+         * @cfg {String} activeCls
+         * The CSS class to be applied to a Tab when it is active.
+         * Providing your own CSS for this class enables you to customize the active state.
+         * @accessor
+         */
+        activeCls: 'x-tab-active',
+        /**
+         * @cfg {Boolean} active
+         * Set this to `true` to have the tab be active by default.
+         * @accessor
+         */
+        active: false,
+        /**
+         * @cfg {String} title
+         * The title of the card that this tab is bound to.
+         * @accessor
+         */
+        title: '&nbsp;'
+    },
+    updateIconCls: function(newCls, oldCls) {
+        Ext.Button.prototype.updateIconCls.call(this, newCls, oldCls);
+        if (oldCls) {
+            this.removeCls('x-tab-icon');
+        }
+        if (newCls) {
+            this.addCls('x-tab-icon');
+        }
+    },
+    /**
+     * @event activate
+     * Fires when a tab is activated
+     * @param {Ext.tab.Tab} this
+     */
+    /**
+     * @event deactivate
+     * Fires when a tab is deactivated
+     * @param {Ext.tab.Tab} this
+     */
+    updateTitle: function(title) {
+        this.setText(title);
+    },
+    updateActive: function(active, oldActive) {
+        var activeCls = this.getActiveCls();
+        if (active && !oldActive) {
+            this.element.addCls(activeCls);
+            this.fireEvent('activate', this);
+        } else if (oldActive) {
+            this.element.removeCls(activeCls);
+            this.fireEvent('deactivate', this);
+        }
+    }
+}, 0, [
+    "tab"
+], [
+    "component",
+    "button",
+    "tab"
+], {
+    "component": true,
+    "button": true,
+    "tab": true
+}, [
+    "widget.tab"
+], 0, [
+    Ext.tab,
+    'Tab',
+    Ext,
+    'Tab'
+], function() {
+    this.override({
+        activate: function() {
+            this.setActive(true);
+        },
+        deactivate: function() {
+            this.setActive(false);
+        }
+    });
+}));
+
+/**
+ * Ext.tab.Bar is used internally by {@link Ext.tab.Panel} to create the bar of tabs that appears at the top of the tab
+ * panel. It's unusual to use it directly, instead see the {@link Ext.tab.Panel tab panel docs} for usage instructions.
+ *
+ * Used in the {@link Ext.tab.Panel} component to display {@link Ext.tab.Tab} components.
+ *
+ * @private
+ */
+(Ext.cmd.derive('Ext.tab.Bar', Ext.Toolbar, {
+    alternateClassName: 'Ext.TabBar',
+    config: {
+        /**
+         * @cfg baseCls
+         * @inheritdoc
+         */
+        baseCls: 'x-tabbar',
+        // @private
+        defaultType: 'tab',
+        // @private
+        layout: {
+            type: 'hbox',
+            align: 'middle'
+        }
+    },
+    eventedConfig: {
+        /**
+         * @cfg {Number/String/Ext.Component} activeTab
+         * The initially activated tab. Can be specified as numeric index,
+         * component ID or as the component instance itself.
+         * @accessor
+         * @evented
+         */
+        activeTab: null
+    },
+    /**
+     * @event tabchange
+     * Fired when active tab changes.
+     * @param {Ext.tab.Bar} this
+     * @param {Ext.tab.Tab} newTab The new Tab
+     * @param {Ext.tab.Tab} oldTab The old Tab
+     */
+    platformConfig: [
+        {
+            theme: [
+                'Blackberry',
+                'Blackberry103',
+                'CupertinoClassic',
+                'MountainView'
+            ],
+            defaults: {
+                flex: 1
+            }
+        }
+    ],
+    initialize: function() {
+        var me = this;
+        Ext.Toolbar.prototype.initialize.call(this);
+        me.on({
+            tap: 'onTabTap',
+            delegate: '> tab',
+            scope: me
+        });
+    },
+    // @private
+    onTabTap: function(tab) {
+        this.setActiveTab(tab);
+=======
+ * For more information, see our [Tab Panel Guide](../../../components/tabpanel.html).
+ */
+(Ext.cmd.derive('Ext.tab.Panel', Ext.Container, {
+    alternateClassName: 'Ext.TabPanel',
+    config: {
+        /**
+         * @cfg {String} ui
+         * Sets the UI of this component.
+         * Available values are: `light` and `dark`.
+         * @accessor
+         */
+        ui: 'dark',
+        /**
+         * @cfg {Object} tabBar
+         * An Ext.tab.Bar configuration.
+         * @accessor
+         */
+        tabBar: true,
+        /**
+         * @cfg {String} tabBarPosition
+         * The docked position for the {@link #tabBar} instance.
+         * Possible values are 'top' and 'bottom'.
+         * @accessor
+         */
+        tabBarPosition: 'top',
+        /**
+         * @cfg layout
+         * @inheritdoc
+         */
+        layout: {
+            type: 'card',
+            animation: {
+                type: 'slide',
+                direction: 'left'
+            }
+        },
+        /**
+         * @cfg cls
+         * @inheritdoc
+         */
+        cls: 'x-tabpanel'
+    },
+    /**
+         * @cfg {Boolean/String/Object} scrollable
+         * @accessor
+         * @hide
+         */
+    /**
+         * @cfg {Boolean/String/Object} scroll
+         * @hide
+         */
+    initialize: function() {
+        Ext.Container.prototype.initialize.call(this);
+        this.on({
+            order: 'before',
+            activetabchange: 'doTabChange',
+            delegate: '> tabbar',
+            scope: this
+        });
+        this.on({
+            disabledchange: 'onItemDisabledChange',
+            delegate: '> component',
+            scope: this
+        });
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Blackberry',
+                'Blackberry103'
+            ],
+            tabBarPosition: 'bottom'
+        }
+    ],
+    /**
+     * Tab panels should not be scrollable. Instead, you should add scrollable to any item that
+     * you want to scroll.
+     * @private
+     */
+    applyScrollable: function() {
+        return false;
+    },
+    /**
+     * Updates the Ui for this component and the {@link #tabBar}.
+     */
+    updateUi: function(newUi, oldUi) {
+        Ext.Container.prototype.updateUi.apply(this, arguments);
+        if (this.initialized) {
+            this.getTabBar().setUi(newUi);
+        }
+    },
+    /**
+     * @private
+     */
+    doSetActiveItem: function(newActiveItem, oldActiveItem) {
+        if (newActiveItem) {
+            var items = this.getInnerItems(),
+                oldIndex = items.indexOf(oldActiveItem),
+                newIndex = items.indexOf(newActiveItem),
+                reverse = oldIndex > newIndex,
+                animation = this.getLayout().getAnimation(),
+                tabBar = this.getTabBar(),
+                oldTab = tabBar.parseActiveTab(oldIndex),
+                newTab = tabBar.parseActiveTab(newIndex);
+            if (animation && animation.setReverse) {
+                animation.setReverse(reverse);
+            }
+            Ext.Container.prototype.doSetActiveItem.apply(this, arguments);
+            if (newIndex != -1) {
+                this.forcedChange = true;
+                tabBar.setActiveTab(newIndex);
+                this.forcedChange = false;
+                if (oldTab) {
+                    oldTab.setActive(false);
+                }
+                if (newTab) {
+                    newTab.setActive(true);
+                }
+            }
+        }
+    },
+    /**
+     * Updates this container with the new active item.
+     * @param {Object} tabBar
+     * @param {Object} newTab
+     * @return {Boolean}
+     */
+    doTabChange: function(tabBar, newTab) {
+        var oldActiveItem = this.getActiveItem(),
+            newActiveItem;
+        this.setActiveItem(tabBar.indexOf(newTab));
+        newActiveItem = this.getActiveItem();
+        return this.forcedChange || oldActiveItem !== newActiveItem;
+    },
+    /**
+     * Creates a new {@link Ext.tab.Bar} instance using {@link Ext#factory}.
+     * @param {Object} config
+     * @return {Object}
+     * @private
+     */
+    applyTabBar: function(config) {
+        if (config === true) {
+            config = {};
+        }
+        if (config) {
+            Ext.applyIf(config, {
+                ui: this.getUi(),
+                docked: this.getTabBarPosition()
+            });
+        }
+        return Ext.factory(config, Ext.tab.Bar, this.getTabBar());
+    },
+    /**
+     * Adds the new {@link Ext.tab.Bar} instance into this container.
+     * @private
+     */
+    updateTabBar: function(newTabBar) {
+        if (newTabBar) {
+            this.add(newTabBar);
+            this.setTabBarPosition(newTabBar.getDocked());
+        }
+    },
+    /**
+     * Updates the docked position of the {@link #tabBar}.
+     * @private
+     */
+    updateTabBarPosition: function(position) {
+        var tabBar = this.getTabBar();
+        if (tabBar) {
+            tabBar.setDocked(position);
+        }
+    },
+    onItemAdd: function(card) {
+        var me = this;
+        if (!card.isInnerItem()) {
+            return Ext.Container.prototype.onItemAdd.apply(this, arguments);
+        }
+        var tabBar = me.getTabBar(),
+            initialConfig = card.getInitialConfig(),
+            tabConfig = initialConfig.tab || {},
+            tabTitle = (card.getTitle) ? card.getTitle() : initialConfig.title,
+            tabIconCls = (card.getIconCls) ? card.getIconCls() : initialConfig.iconCls,
+            tabHidden = (card.getHidden) ? card.getHidden() : initialConfig.hidden,
+            tabDisabled = (card.getDisabled) ? card.getDisabled() : initialConfig.disabled,
+            tabBadgeText = (card.getBadgeText) ? card.getBadgeText() : initialConfig.badgeText,
+            innerItems = me.getInnerItems(),
+            index = innerItems.indexOf(card),
+            tabs = tabBar.getItems(),
+            activeTab = tabBar.getActiveTab(),
+            currentTabInstance = (tabs.length >= innerItems.length) && tabs.getAt(index),
+            tabInstance;
+        if (tabTitle && !tabConfig.title) {
+            tabConfig.title = tabTitle;
+        }
+        if (tabIconCls && !tabConfig.iconCls) {
+            tabConfig.iconCls = tabIconCls;
+        }
+        if (tabHidden && !tabConfig.hidden) {
+            tabConfig.hidden = tabHidden;
+        }
+        if (tabDisabled && !tabConfig.disabled) {
+            tabConfig.disabled = tabDisabled;
+        }
+        if (tabBadgeText && !tabConfig.badgeText) {
+            tabConfig.badgeText = tabBadgeText;
+        }
+        tabInstance = Ext.factory(tabConfig, Ext.tab.Tab, currentTabInstance);
+        if (!currentTabInstance) {
+            tabBar.insert(index, tabInstance);
+        }
+        card.tab = tabInstance;
+        Ext.Container.prototype.onItemAdd.apply(this, arguments);
+        if (!activeTab && activeTab !== 0) {
+            tabBar.setActiveTab(tabBar.getActiveItem());
+        }
+    },
+    /**
+     * If an item gets enabled/disabled and it has an tab, we should also enable/disable that tab
+     * @private
+     */
+    onItemDisabledChange: function(item, newDisabled) {
+        if (item && item.tab) {
+            item.tab.setDisabled(newDisabled);
+        }
+    },
+    // @private
+    onItemRemove: function(item, index) {
+        this.getTabBar().remove(item.tab, this.getAutoDestroy());
+        Ext.Container.prototype.onItemRemove.apply(this, arguments);
+    }
+}, 0, [
+    "tabpanel"
+], [
+    "component",
+    "container",
+    "tabpanel"
+], {
+    "component": true,
+    "container": true,
+    "tabpanel": true
+}, [
+    "widget.tabpanel"
+], 0, [
+    Ext.tab,
+    'Panel',
+    Ext,
+    'TabPanel'
+], function() {}));
+
+/**
+ * @private
+ * Base class for iOS and Android viewports.
+ */
+(Ext.cmd.derive('Ext.viewport.Default', Ext.Container, {
+    PORTRAIT: 'portrait',
+    LANDSCAPE: 'landscape',
+    /**
+     * @event ready
+     * Fires when the Viewport is in the DOM and ready.
+     * @param {Ext.Viewport} this
+     */
+    /**
+     * @event maximize
+     * Fires when the Viewport is maximized.
+     * @param {Ext.Viewport} this
+     */
+    /**
+     * @event orientationchange
+     * Fires when the Viewport orientation has changed.
+     * @param {Ext.Viewport} this
+     * @param {String} newOrientation The new orientation.
+     * @param {Number} width The width of the Viewport.
+     * @param {Number} height The height of the Viewport.
+     */
+    config: {
+        /**
+         * @private
+         */
+        autoMaximize: false,
+        /**
+         * @private
+         */
+        autoBlurInput: true,
+        /**
+         * @cfg {Boolean} preventPanning
+         * Whether or not to always prevent default panning behavior of the
+         * browser's viewport.
+         * @accessor
+         */
+        preventPanning: true,
+        /**
+         * @cfg {Boolean} preventZooming
+         * `true` to attempt to stop zooming when you double tap on the screen on mobile devices,
+         * typically HTC devices with HTC Sense UI.
+         * @accessor
+         */
+        preventZooming: false,
+        /**
+         * @cfg
+         * @private
+         */
+        autoRender: true,
+        /**
+         * @cfg {Object/String} layout Configuration for this Container's layout. Example:
+         *
+         *     Ext.create('Ext.Container', {
+         *         layout: {
+         *             type: 'hbox',
+         *             align: 'middle'
+         *         },
+         *         items: [
+         *             {
+         *                 xtype: 'panel',
+         *                 flex: 1,
+         *                 style: 'background-color: red;'
+         *             },
+         *             {
+         *                 xtype: 'panel',
+         *                 flex: 2,
+         *                 style: 'background-color: green'
+         *             }
+         *         ]
+         *     });
+         *
+         * See the [layouts guide](../../../core_concepts/layouts.html) for more information.
+         *
+         * @accessor
+         */
+        layout: 'card',
+        /**
+         * @cfg
+         * @private
+         */
+        width: '100%',
+        /**
+         * @cfg
+         * @private
+         */
+        height: '100%',
+        useBodyElement: true,
+        /**
+         * An object of all the menus on this viewport.
+         * @private
+         */
+        menus: {},
+        /**
+         * @private
+         */
+        orientation: null
+    },
+    getElementConfig: function() {
+        var cfg = Ext.Container.prototype.getElementConfig.apply(this, arguments);
+        // Used in legacy browser that do not support matchMedia. Hidden element is used for checking of orientation
+        if (!Ext.feature.has.MatchMedia) {
+            cfg.children.unshift({
+                reference: 'orientationElement',
+                className: 'x-orientation-inspector'
+            });
+        }
+        return cfg;
+    },
+    /**
+     * @property {Boolean} isReady
+     * `true` if the DOM is ready.
+     */
+    isReady: false,
+    isViewport: true,
+    isMaximizing: false,
+    id: 'ext-viewport',
+    isInputRegex: /^(input|textarea|select|a)$/i,
+    isInteractiveWebComponentRegEx: /^(audio|video)$/i,
+    focusedElement: null,
+    /**
+     * @private
+     */
+    fullscreenItemCls: 'x-fullscreen',
+    constructor: function(config) {
+        var bind = Ext.Function.bind;
+        this.doPreventPanning = bind(this.doPreventPanning, this);
+        this.doPreventZooming = bind(this.doPreventZooming, this);
+        this.doBlurInput = bind(this.doBlurInput, this);
+        this.maximizeOnEvents = [
+            'ready',
+            'orientationchange'
+        ];
+        // set default devicePixelRatio if it is not explicitly defined
+        window.devicePixelRatio = window.devicePixelRatio || 1;
+        Ext.Container.prototype.constructor.call(this, config);
+        this.windowWidth = this.getWindowWidth();
+        this.windowHeight = this.getWindowHeight();
+        this.windowOuterHeight = this.getWindowOuterHeight();
+        if (!this.stretchHeights) {
+            this.stretchHeights = {};
+        }
+        if (Ext.feature.has.OrientationChange) {
+            this.addWindowListener('orientationchange', bind(this.onOrientationChange, this));
+        } else {
+            this.addWindowListener('resize', bind(this.onResize, this));
+        }
+        document.addEventListener('focus', bind(this.onElementFocus, this), true);
+        document.addEventListener('blur', bind(this.onElementBlur, this), true);
+        Ext.onDocumentReady(this.onDomReady, this);
+        this.on('ready', this.onReady, this, {
+            single: true
+        });
+        this.getEventDispatcher().addListener('component', '*', 'fullscreen', 'onItemFullscreenChange', this);
+        return this;
+    },
+    onDomReady: function() {
+        this.isReady = true;
+        this.updateSize();
+        this.fireEvent('ready', this);
+    },
+    onReady: function() {
+        if (this.getAutoRender()) {
+            this.render();
+        }
+        if (Ext.browser.name == 'ChromeiOS') {
+            this.setHeight('-webkit-calc(100% - ' + ((window.outerHeight - window.innerHeight) / 2) + 'px)');
+        }
+    },
+    onElementFocus: function(e) {
+        this.focusedElement = e.target;
+    },
+    onElementBlur: function() {
+        this.focusedElement = null;
+    },
+    render: function() {
+        if (!this.rendered) {
+            var body = Ext.getBody(),
+                clsPrefix = 'x-',
+                classList = [],
+                osEnv = Ext.os,
+                osName = osEnv.name.toLowerCase(),
+                browserName = Ext.browser.name.toLowerCase(),
+                osMajorVersion = osEnv.version.getMajor();
+            this.renderTo(body);
+            classList.push(clsPrefix + osEnv.deviceType.toLowerCase());
+            if (osEnv.is.iPad) {
+                classList.push(clsPrefix + 'ipad');
+            }
+            classList.push(clsPrefix + osName);
+            classList.push(clsPrefix + browserName);
+            if (osMajorVersion) {
+                classList.push(clsPrefix + osName + '-' + osMajorVersion);
+            }
+            if (osEnv.is.BlackBerry) {
+                classList.push(clsPrefix + 'bb');
+                if (Ext.browser.userAgent.match(/Kbd/gi)) {
+                    classList.push(clsPrefix + 'bb-keyboard');
+                }
+            }
+            if (Ext.browser.is.WebKit) {
+                classList.push(clsPrefix + 'webkit');
+            }
+            if (Ext.browser.is.Standalone) {
+                classList.push(clsPrefix + 'standalone');
+            }
+            if (Ext.browser.is.AndroidStock) {
+                classList.push(clsPrefix + 'android-stock');
+            }
+            if (Ext.browser.is.GoogleGlass) {
+                classList.push(clsPrefix + 'google-glass');
+            }
+            this.setOrientation(this.determineOrientation());
+            classList.push(clsPrefix + this.getOrientation());
+            body.addCls(classList);
+        }
+    },
+    applyAutoBlurInput: function(autoBlurInput) {
+        var touchstart = (Ext.feature.has.Touch) ? 'touchstart' : 'mousedown';
+        if (autoBlurInput) {
+            this.addWindowListener(touchstart, this.doBlurInput, false);
+        } else {
+            this.removeWindowListener(touchstart, this.doBlurInput, false);
+        }
+        return autoBlurInput;
+    },
+    applyAutoMaximize: function(autoMaximize) {
+        if (Ext.browser.is.WebView) {
+            autoMaximize = false;
+        }
+        if (autoMaximize) {
+            this.on('ready', 'doAutoMaximizeOnReady', this, {
+                single: true
+            });
+            this.on('orientationchange', 'doAutoMaximizeOnOrientationChange', this);
+        } else {
+            this.un('ready', 'doAutoMaximizeOnReady', this);
+            this.un('orientationchange', 'doAutoMaximizeOnOrientationChange', this);
+        }
+        return autoMaximize;
+    },
+    applyPreventPanning: function(preventPanning) {
+        if (preventPanning) {
+            this.addWindowListener('touchmove', this.doPreventPanning, false);
+        } else {
+            this.removeWindowListener('touchmove', this.doPreventPanning, false);
+        }
+        return preventPanning;
+    },
+    applyPreventZooming: function(preventZooming) {
+        var touchstart = (Ext.feature.has.Touch) ? 'touchstart' : 'mousedown';
+        if (preventZooming) {
+            this.addWindowListener(touchstart, this.doPreventZooming, false);
+        } else {
+            this.removeWindowListener(touchstart, this.doPreventZooming, false);
+        }
+        return preventZooming;
+    },
+    doAutoMaximizeOnReady: function() {
+        var controller = arguments[arguments.length - 1];
+        controller.pause();
+        this.isMaximizing = true;
+        this.on('maximize', function() {
+            this.isMaximizing = false;
+            this.updateSize();
+            controller.resume();
+            this.fireEvent('ready', this);
+        }, this, {
+            single: true
+        });
+        this.maximize();
+    },
+    doAutoMaximizeOnOrientationChange: function() {
+        var controller = arguments[arguments.length - 1],
+            firingArguments = controller.firingArguments;
+        controller.pause();
+        this.isMaximizing = true;
+        this.on('maximize', function() {
+            this.isMaximizing = false;
+            this.updateSize();
+            firingArguments[2] = this.windowWidth;
+            firingArguments[3] = this.windowHeight;
+            controller.resume();
+        }, this, {
+            single: true
+        });
+        this.maximize();
+    },
+    doBlurInput: function(e) {
+        var target = e.target,
+            focusedElement = this.focusedElement;
+        //In IE9/10 browser window loses focus and becomes inactive if focused element is <body>. So we shouldn't call blur for <body>
+        if (focusedElement && focusedElement.nodeName.toUpperCase() != 'BODY' && !this.isInputRegex.test(target.tagName)) {
+            delete this.focusedElement;
+            focusedElement.blur();
+        }
+    },
+    doPreventPanning: function(e) {
+        var target = e.target,
+            touch;
+        // If we have an interaction on a WebComponent we need to check the actual shadow dom element selected
+        // to determine if it is an input before preventing default behavior
+        // Side effect to this is if the shadow input does not do anything with 'touchmove' the user could pan
+        // the screen.
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
+        if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
+            e.preventDefault();
+        }
+    },
+    doPreventZooming: function(e) {
+        // Don't prevent right mouse event
+        if ('button' in e && e.button !== 0) {
+            return;
+        }
+        var target = e.target,
+            touch;
+        if (this.isInteractiveWebComponentRegEx.test(target.tagName) && e.touches && e.touches.length > 0) {
+            touch = e.touches[0];
+            if (touch && touch.target && this.isInputRegex.test(touch.target.tagName)) {
+                return;
+            }
+        }
+        if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName)) {
+            e.preventDefault();
+        }
+    },
+    addWindowListener: function(eventName, fn, capturing) {
+        window.addEventListener(eventName, fn, Boolean(capturing));
+    },
+    removeWindowListener: function(eventName, fn, capturing) {
+        window.removeEventListener(eventName, fn, Boolean(capturing));
+    },
+    doAddListener: function(eventName, fn, scope, options) {
+        if (eventName === 'ready' && this.isReady && !this.isMaximizing) {
+            fn.call(scope);
+            return this;
+        }
+        return Ext.Container.prototype.doAddListener.apply(this, arguments);
+    },
+    determineOrientation: function() {
+        // First attempt will be to use Native Orientation information
+        if (Ext.feature.has.Orientation) {
+            var nativeOrientation = this.getWindowOrientation();
+            // 90 || -90 || 270 is landscape
+            if (Math.abs(nativeOrientation) === 90 || nativeOrientation === 270) {
+                return this.LANDSCAPE;
+            } else {
+                return this.PORTRAIT;
+            }
+        }
+        // Second attempt will be to use MatchMedia and a media query
+        else if (Ext.feature.has.MatchMedia) {
+            return window.matchMedia('(orientation : landscape)').matches ? this.LANDSCAPE : this.PORTRAIT;
+        }
+        // Fall back on hidden element with media query attached to it (media query in Base Theme)
+        else if (this.orientationElement) {
+            return this.orientationElement.getStyle('content');
+        }
+    },
+    updateOrientation: function(newValue, oldValue) {
+        if (oldValue) {
+            this.fireOrientationChangeEvent(newValue, oldValue);
+        }
+    },
+    /**
+     * Listener for Orientation Change in environments that support orientationchange events
+     * @private
+     */
+    onOrientationChange: function() {
+        this.setOrientation(this.determineOrientation());
+    },
+    /**
+     * Listener for Orientation Change in environments that do no support orientationchange events
+     * @private
+     */
+    onResize: function() {
+        this.updateSize();
+        this.setOrientation(this.determineOrientation());
+    },
+    fireOrientationChangeEvent: function(newOrientation, oldOrientation) {
+        var clsPrefix = 'x-';
+        Ext.getBody().replaceCls(clsPrefix + oldOrientation, clsPrefix + newOrientation);
+        this.updateSize();
+        this.fireEvent('orientationchange', this, newOrientation, this.windowWidth, this.windowHeight);
+    },
+    updateSize: function(width, height) {
+        this.windowWidth = width !== undefined ? width : this.getWindowWidth();
+        this.windowHeight = height !== undefined ? height : this.getWindowHeight();
+        return this;
+    },
+    maximize: function() {
+        this.fireMaximizeEvent();
+    },
+    fireMaximizeEvent: function() {
+        this.updateSize();
+        this.fireEvent('maximize', this);
+    },
+    doSetHeight: function(height) {
+        Ext.getBody().setHeight(height);
+        Ext.Container.prototype.doSetHeight.apply(this, arguments);
+    },
+    doSetWidth: function(width) {
+        Ext.getBody().setWidth(width);
+        Ext.Container.prototype.doSetWidth.apply(this, arguments);
+    },
+    scrollToTop: function() {
+        window.scrollTo(0, -1);
+    },
+    /**
+     * Retrieves the document width.
+     * @return {Number} width in pixels.
+     */
+    getWindowWidth: function() {
+        return window.innerWidth;
+    },
+    /**
+     * Retrieves the document height.
+     * @return {Number} height in pixels.
+     */
+    getWindowHeight: function() {
+        return window.innerHeight;
+    },
+    getWindowOuterHeight: function() {
+        return window.outerHeight;
+    },
+    getWindowOrientation: function() {
+        return window.orientation;
+    },
+    getSize: function() {
+        return {
+            width: this.windowWidth,
+            height: this.windowHeight
+        };
+    },
+    onItemFullscreenChange: function(item) {
+        item.addCls(this.fullscreenItemCls);
+        this.add(item);
+    },
+    waitUntil: function(condition, onSatisfied, onTimeout, delay, timeoutDuration) {
+        if (!delay) {
+            delay = 50;
+        }
+        if (!timeoutDuration) {
+            timeoutDuration = 2000;
+        }
+        var scope = this,
+            elapse = 0;
+        setTimeout(function repeat() {
+            elapse += delay;
+            if (condition.call(scope) === true) {
+                if (onSatisfied) {
+                    onSatisfied.call(scope);
+                }
+            } else {
+                if (elapse >= timeoutDuration) {
+                    if (onTimeout) {
+                        onTimeout.call(scope);
+                    }
+                } else {
+                    setTimeout(repeat, delay);
+                }
+            }
+        }, delay);
+    },
+    /**
+     * Sets a menu for a given side of the Viewport.
+     *
+     * Adds functionality to show the menu by swiping from the side of the screen from the given side.
+     *
+     * If a menu is already set for a given side, it will be removed.
+     *
+     * Available sides are: `left`, `right`, `top`, and `bottom`.
+     *
+     * @param {Ext.Menu} menu The menu to assign to the viewport
+     * @param {Object} config The configuration for the menu.
+     * @param {String} config.side The side to put the menu on.
+     * @param {Boolean} config.cover True to cover the viewport content. Defaults to `true`.
+     */
+    setMenu: function(menu, config) {
+        var me = this;
+        config = config || {};
+        // Temporary workaround for body shifting issue
+        if (Ext.os.is.iOS && !this.hasiOSOrientationFix) {
+            this.hasiOSOrientationFix = true;
+            this.on('orientationchange', function() {
+                window.scrollTo(0, 0);
+            }, this);
+        }
+        if (!menu) {
+            return;
+        }
+        if (!config.side) {
+            return;
+        }
+        if ([
+            'left',
+            'right',
+            'top',
+            'bottom'
+        ].indexOf(config.side) == -1) {
+            return;
+        }
+        var menus = me.getMenus();
+        if (!menus) {
+            menus = {};
+        }
+        // Add a listener to show this menu on swipe
+        if (!me.addedSwipeListener) {
+            me.addedSwipeListener = true;
+            me.element.on({
+                tap: me.onTap,
+                swipestart: me.onSwipeStart,
+                edgeswipestart: me.onEdgeSwipeStart,
+                edgeswipe: me.onEdgeSwipe,
+                edgeswipeend: me.onEdgeSwipeEnd,
+                scope: me
+            });
+            // Add BB10 webworks API for swipe down.
+            if (window.blackberry) {
+                var toggleMenu = function() {
+                        var menus = me.getMenus(),
+                            menu = menus['top'];
+                        if (!menu) {
+                            return;
+                        }
+                        if (menu.isHidden()) {
+                            me.showMenu('top');
+                        } else {
+                            me.hideMenu('top');
+                        }
+                    };
+                if (blackberry.app && blackberry.app.event && blackberry.app.event.onSwipeDown) {
+                    blackberry.app.event.onSwipeDown(toggleMenu);
+                }
+                // PlayBook
+                else if (blackberry.event && blackberry.event.addEventListener) {
+                    blackberry.event.addEventListener("swipedown", toggleMenu);
+                }
+            }
+        }
+        // BB10
+        menus[config.side] = menu;
+        menu.$reveal = Boolean(config.reveal);
+        menu.$cover = config.cover !== false && !menu.$reveal;
+        menu.$side = config.side;
+        me.fixMenuSize(menu, config.side);
+        if (config.side == 'left') {
+            menu.setLeft(0);
+            menu.setRight(null);
+            menu.setTop(0);
+            menu.setBottom(0);
+        } else if (config.side == 'right') {
+            menu.setLeft(null);
+            menu.setRight(0);
+            menu.setTop(0);
+            menu.setBottom(0);
+        } else if (config.side == 'top') {
+            menu.setLeft(0);
+            menu.setRight(0);
+            menu.setTop(0);
+            menu.setBottom(null);
+        } else if (config.side == 'bottom') {
+            menu.setLeft(0);
+            menu.setRight(0);
+            menu.setTop(null);
+            menu.setBottom(0);
+        }
+        me.setMenus(menus);
+    },
+    /**
+     * Removes a menu from a specified side.
+     * @param {String} side The side to remove the menu from
+     */
+    removeMenu: function(side) {
+        var menus = this.getMenus() || {},
+            menu = menus[side];
+        if (menu) {
+            this.hideMenu(side);
+        }
+        delete menus[side];
+        this.setMenus(menus);
+    },
+    /**
+     * @private
+     * Changes the sizing of the specified menu so that it displays correctly when shown.
+     */
+    fixMenuSize: function(menu, side) {
+        if (side == 'top' || side == 'bottom') {
+            menu.setWidth('100%');
+        } else if (side == 'left' || side == 'right') {
+            menu.setHeight('100%');
+        }
+    },
+    /**
+     * Shows a menu specified by the menu's side.
+     * @param {String} side The side which the menu is placed.
+     */
+    showMenu: function(side) {
+        var menus = this.getMenus(),
+            menu = menus[side],
+            before, after, viewportBefore, viewportAfter;
+        if (!menu || menu.isAnimating) {
+            return;
+        }
+        this.hideOtherMenus(side);
+        before = {
+            translateX: 0,
+            translateY: 0
+        };
+        after = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportBefore = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportAfter = {
+            translateX: 0,
+            translateY: 0
+        };
+        if (menu.$reveal) {
+            Ext.getBody().insertFirst(menu.element);
+        } else {
+            Ext.Viewport.add(menu);
+        }
+        menu.show();
+        menu.addCls('x-' + side);
+        var size = (side == 'left' || side == 'right') ? menu.element.getWidth() : menu.element.getHeight();
+        if (side == 'left') {
+            before.translateX = -size;
+            viewportAfter.translateX = size;
+        } else if (side == 'right') {
+            before.translateX = size;
+            viewportAfter.translateX = -size;
+        } else if (side == 'top') {
+            before.translateY = -size;
+            viewportAfter.translateY = size;
+        } else if (side == 'bottom') {
+            before.translateY = size;
+            viewportAfter.translateY = -size;
+        }
+        if (menu.$reveal) {
+            if (Ext.browser.getPreferredTranslationMethod() != 'scrollposition') {
+                menu.translate(0, 0);
+            }
+        } else {
+            menu.translate(before.translateX, before.translateY);
+        }
+        if (menu.$cover) {
+            menu.getTranslatable().on('animationend', function() {
+                menu.isAnimating = false;
+            }, this, {
+                single: true
+            });
+            menu.translate(after.translateX, after.translateY, {
+                preserveEndState: true,
+                duration: 200
+            });
+        } else {
+            this.translate(viewportBefore.translateX, viewportBefore.translateY);
+            this.getTranslatable().on('animationend', function() {
+                menu.isAnimating = false;
+            }, this, {
+                single: true
+            });
+            this.translate(viewportAfter.translateX, viewportAfter.translateY, {
+                preserveEndState: true,
+                duration: 200
+            });
+        }
+        // Make the menu as animating
+        menu.isAnimating = true;
+    },
+    /**
+     * Hides a menu specified by the menu's side.
+     * @param {String} side The side which the menu is placed.
+     */
+    hideMenu: function(side, animate) {
+        var menus = this.getMenus(),
+            menu = menus[side],
+            after, viewportAfter, size;
+        animate = (animate === false) ? false : true;
+        if (!menu || (menu.isHidden() || menu.isAnimating)) {
+            return;
+        }
+        after = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportAfter = {
+            translateX: 0,
+            translateY: 0
+        };
+        size = (side == 'left' || side == 'right') ? menu.element.getWidth() : menu.element.getHeight();
+        if (side == 'left') {
+            after.translateX = -size;
+        } else if (side == 'right') {
+            after.translateX = size;
+        } else if (side == 'top') {
+            after.translateY = -size;
+        } else if (side == 'bottom') {
+            after.translateY = size;
+        }
+        if (menu.$cover) {
+            if (animate) {
+                menu.getTranslatable().on('animationend', function() {
+                    menu.isAnimating = false;
+                    menu.hide();
+                }, this, {
+                    single: true
+                });
+                menu.translate(after.translateX, after.translateY, {
+                    preserveEndState: true,
+                    duration: 200
+                });
+            } else {
+                menu.translate(after.translateX, after.translateY);
+                menu.hide();
+            }
+        } else {
+            if (animate) {
+                this.getTranslatable().on('animationend', function() {
+                    menu.isAnimating = false;
+                    menu.hide();
+                }, this, {
+                    single: true
+                });
+                this.translate(viewportAfter.translateX, viewportAfter.translateY, {
+                    preserveEndState: true,
+                    duration: 200
+                });
+            } else {
+                this.translate(viewportAfter.translateX, viewportAfter.translateY);
+                menu.hide();
+            }
+        }
+    },
+    /**
+     * Hides all visible menus.
+     */
+    hideAllMenus: function(animation) {
+        var menus = this.getMenus();
+        for (var side in menus) {
+            this.hideMenu(side, animation);
+        }
+    },
+    /**
+     * Hides all menus except for the side specified
+     * @param {String} side         Side(s) not to hide
+     * @param {String} animation    Animation to hide with
+     */
+    hideOtherMenus: function(side, animation) {
+        var menus = this.getMenus();
+        for (var menu in menus) {
+            if (side != menu) {
+                this.hideMenu(menu, animation);
+            }
+        }
+    },
+    /**
+     * Toggles the menu specified by side
+     * @param {String} side The side which the menu is placed.
+     */
+    toggleMenu: function(side) {
+        var menus = this.getMenus(),
+            menu;
+        if (menus[side]) {
+            menu = menus[side];
+            if (menu.isHidden()) {
+                this.showMenu(side);
+            } else {
+                this.hideMenu(side);
+            }
+        }
+    },
+    /**
+     * @private
+     */
+    sideForDirection: function(direction) {
+        if (direction == 'left') {
+            return 'right';
+        } else if (direction == 'right') {
+            return 'left';
+        } else if (direction == 'up') {
+            return 'bottom';
+        } else if (direction == 'down') {
+            return 'top';
+        }
+    },
+    /**
+     * @private
+     */
+    sideForSwipeDirection: function(direction) {
+        if (direction == "up") {
+            return "top";
+        } else if (direction == "down") {
+            return "bottom";
+        }
+        return direction;
+    },
+    /**
+     * @private
+     */
+    onTap: function(e) {},
+    // this.hideAllMenus();
+    /**
+     * @private
+     */
+    onSwipeStart: function(e) {
+        var side = this.sideForSwipeDirection(e.direction);
+        this.hideMenu(side);
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
+    },
+    /**
+     * @private
+     */
+<<<<<<< HEAD
     applyActiveTab: function(newActiveTab, oldActiveTab) {
         if (!newActiveTab && newActiveTab !== 0) {
             return;
@@ -67506,6 +71189,716 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/DealPicture.js
+=======
+    onEdgeSwipeStart: function(e) {
+        var side = this.sideForDirection(e.direction),
+            menus = this.getMenus(),
+            menu = menus[side],
+            menuSide, checkMenu;
+        if (!menu || !menu.isHidden()) {
+            return;
+        }
+        for (menuSide in menus) {
+            checkMenu = menus[menuSide];
+            if (checkMenu.isHidden() !== false) {
+                return;
+            }
+        }
+        this.$swiping = true;
+        this.hideAllMenus(false);
+        // show the menu first so we can calculate the size
+        if (menu.$reveal) {
+            Ext.getBody().insertFirst(menu.element);
+        } else {
+            Ext.Viewport.add(menu);
+        }
+        menu.show();
+        var size = (side == 'left' || side == 'right') ? menu.element.getWidth() : menu.element.getHeight(),
+            after, viewportAfter;
+        after = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportAfter = {
+            translateX: 0,
+            translateY: 0
+        };
+        if (side == 'left') {
+            after.translateX = -size;
+        } else if (side == 'right') {
+            after.translateX = size;
+        } else if (side == 'top') {
+            after.translateY = -size;
+        } else if (side == 'bottom') {
+            after.translateY = size;
+        }
+        var transformStyleName = 'webkitTransform' in document.createElement('div').style ? 'webkitTransform' : 'transform',
+            setTransform = menu.element.dom.style[transformStyleName];
+        if (setTransform) {
+            menu.element.dom.style[transformStyleName] = '';
+        }
+        if (menu.$reveal) {
+            if (Ext.browser.getPreferredTranslationMethod() != 'scrollposition') {
+                menu.translate(0, 0);
+            }
+        } else {
+            menu.translate(after.translateX, after.translateY);
+        }
+        if (!menu.$cover) {
+            if (setTransform) {
+                this.innerElement.dom.style[transformStyleName] = '';
+            }
+            this.translate(viewportAfter.translateX, viewportAfter.translateY);
+        }
+    },
+    /**
+     * @private
+     */
+    onEdgeSwipe: function(e) {
+        var side = this.sideForDirection(e.direction),
+            menu = this.getMenus()[side];
+        if (!menu || !this.$swiping) {
+            return;
+        }
+        var size = (side == 'left' || side == 'right') ? menu.element.getWidth() : menu.element.getHeight(),
+            after, viewportAfter,
+            movement = Math.min(e.distance - size, 0),
+            viewportMovement = Math.min(e.distance, size);
+        after = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportAfter = {
+            translateX: 0,
+            translateY: 0
+        };
+        if (side == 'left') {
+            after.translateX = movement;
+            viewportAfter.translateX = viewportMovement;
+        } else if (side == 'right') {
+            after.translateX = -movement;
+            viewportAfter.translateX = -viewportMovement;
+        } else if (side == 'top') {
+            after.translateY = movement;
+            viewportAfter.translateY = viewportMovement;
+        } else if (side == 'bottom') {
+            after.translateY = -movement;
+            viewportAfter.translateY = -viewportMovement;
+        }
+        if (menu.$cover) {
+            menu.translate(after.translateX, after.translateY);
+        } else {
+            this.translate(viewportAfter.translateX, viewportAfter.translateY);
+        }
+    },
+    /**
+     * @private
+     */
+    onEdgeSwipeEnd: function(e) {
+        var side = this.sideForDirection(e.direction),
+            menu = this.getMenus()[side],
+            shouldRevert = false;
+        if (!menu) {
+            return;
+        }
+        var size = (side == 'left' || side == 'right') ? menu.element.getWidth() : menu.element.getHeight(),
+            velocity = (e.flick) ? e.flick.velocity : 0;
+        // check if continuing in the right direction
+        if (side == 'right') {
+            if (velocity.x > 0) {
+                shouldRevert = true;
+            }
+        } else if (side == 'left') {
+            if (velocity.x < 0) {
+                shouldRevert = true;
+            }
+        } else if (side == 'top') {
+            if (velocity.y < 0) {
+                shouldRevert = true;
+            }
+        } else if (side == 'bottom') {
+            if (velocity.y > 0) {
+                shouldRevert = true;
+            }
+        }
+        var movement = (shouldRevert) ? size : 0,
+            viewportMovement = (shouldRevert) ? 0 : -size,
+            after, viewportAfter;
+        after = {
+            translateX: 0,
+            translateY: 0
+        };
+        viewportAfter = {
+            translateX: 0,
+            translateY: 0
+        };
+        if (side == 'left') {
+            after.translateX = -movement;
+            viewportAfter.translateX = -viewportMovement;
+        } else if (side == 'right') {
+            after.translateX = movement;
+            viewportAfter.translateX = viewportMovement;
+        } else if (side == 'top') {
+            after.translateY = -movement;
+            viewportAfter.translateY = -viewportMovement;
+        } else if (side == 'bottom') {
+            after.translateY = movement;
+            viewportAfter.translateY = viewportMovement;
+        }
+        // Move the viewport if cover is not enabled
+        if (menu.$cover) {
+            menu.getTranslatable().on('animationend', function() {
+                if (shouldRevert) {
+                    menu.hide();
+                }
+            }, this, {
+                single: true
+            });
+            menu.translate(after.translateX, after.translateY, {
+                preserveEndState: true,
+                duration: 200
+            });
+        } else {
+            this.getTranslatable().on('animationend', function() {
+                if (shouldRevert) {
+                    menu.hide();
+                }
+            }, this, {
+                single: true
+            });
+            this.translate(viewportAfter.translateX, viewportAfter.translateY, {
+                preserveEndState: true,
+                duration: 200
+            });
+        }
+        this.$swiping = false;
+    }
+}, 1, [
+    "viewport"
+], [
+    "component",
+    "container",
+    "viewport"
+], {
+    "component": true,
+    "container": true,
+    "viewport": true
+}, [
+    "widget.viewport"
+], 0, [
+    Ext.viewport,
+    'Default'
+], 0));
+
+/**
+ * @private
+ * Android version of viewport.
+ */
+(Ext.cmd.derive('Ext.viewport.AndroidStock', Ext.viewport.Default, {
+    alternateClassName: [
+        'Ext.viewport.Android'
+    ],
+    config: {
+        translatable: {
+            translationMethod: 'csstransform'
+        }
+    },
+    constructor: function() {
+        this.on('orientationchange', 'hideKeyboardIfNeeded', this, {
+            prepend: true
+        });
+        Ext.viewport.Default.prototype.constructor.apply(this, arguments);
+    },
+    getWindowWidth: function() {
+        return this.element.getWidth();
+    },
+    getWindowHeight: function() {
+        return this.element.getHeight();
+    },
+    getDummyInput: function() {
+        var input = this.dummyInput,
+            focusedElement = this.focusedElement,
+            box = Ext.fly(focusedElement).getPageBox();
+        if (!input) {
+            this.dummyInput = input = document.createElement('input');
+            input.style.position = 'absolute';
+            input.style.opacity = '0';
+            input.style.pointerEvents = 'none';
+            document.body.appendChild(input);
+        }
+        input.style.left = box.left + 'px';
+        input.style.top = box.top + 'px';
+        input.style.display = '';
+        return input;
+    },
+    doBlurInput: function(e) {
+        var target = e.target,
+            focusedElement = this.focusedElement,
+            dummy;
+        if (focusedElement && !this.isInputRegex.test(target.tagName)) {
+            dummy = this.getDummyInput();
+            delete this.focusedElement;
+            dummy.focus();
+            setTimeout(function() {
+                dummy.style.display = 'none';
+            }, 100);
+        }
+    },
+    hideKeyboardIfNeeded: function() {
+        var eventController = arguments[arguments.length - 1],
+            focusedElement = this.focusedElement;
+        if (focusedElement) {
+            delete this.focusedElement;
+            eventController.pause();
+            if (Ext.os.version.lt('4')) {
+                focusedElement.style.display = 'none';
+            } else {
+                focusedElement.blur();
+            }
+            setTimeout(function() {
+                focusedElement.style.display = '';
+                eventController.resume();
+            }, 1000);
+        }
+    },
+    getActualWindowOuterHeight: function() {
+        return Math.round(this.getWindowOuterHeight() / window.devicePixelRatio);
+    },
+    maximize: function() {
+        var stretchHeights = this.stretchHeights,
+            orientation = this.getOrientation(),
+            height;
+        height = stretchHeights[orientation];
+        if (!height) {
+            stretchHeights[orientation] = height = this.getActualWindowOuterHeight();
+        }
+        if (!this.addressBarHeight) {
+            this.addressBarHeight = height - this.getWindowHeight();
+        }
+        this.setHeight(height);
+        var isHeightMaximized = Ext.Function.bind(this.isHeightMaximized, this, [
+                height
+            ]);
+        this.scrollToTop();
+        this.waitUntil(isHeightMaximized, this.fireMaximizeEvent, this.fireMaximizeEvent);
+    },
+    isHeightMaximized: function(height) {
+        this.scrollToTop();
+        return this.getWindowHeight() === height;
+    },
+    doPreventZooming: function(e) {
+        // Don't prevent right mouse event
+        if ('button' in e && e.button !== 0) {
+            return;
+        }
+        var target = e.target;
+        if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName) && !this.focusedElement) {
+            e.preventDefault();
+        }
+    }
+}, 1, 0, [
+    "component",
+    "container",
+    "viewport"
+], {
+    "component": true,
+    "container": true,
+    "viewport": true
+}, 0, 0, [
+    Ext.viewport,
+    'AndroidStock',
+    Ext.viewport,
+    'Android'
+], function() {
+    if (!Ext.os.is.Android) {
+        return;
+    }
+    var version = Ext.os.version,
+        userAgent = Ext.browser.userAgent,
+        // These Android devices have a nasty bug which causes JavaScript timers to be completely frozen
+        // when the browser's viewport is being panned.
+        isBuggy = /(htc|desire|incredible|ADR6300)/i.test(userAgent) && version.lt('2.3');
+    if (isBuggy) {
+        this.override({
+            constructor: function(config) {
+                if (!config) {
+                    config = {};
+                }
+                config.autoMaximize = false;
+                this.watchDogTick = Ext.Function.bind(this.watchDogTick, this);
+                setInterval(this.watchDogTick, 1000);
+                return this.callParent([
+                    config
+                ]);
+            },
+            watchDogTick: function() {
+                this.watchDogLastTick = Ext.Date.now();
+            },
+            doPreventPanning: function() {
+                var now = Ext.Date.now(),
+                    lastTick = this.watchDogLastTick,
+                    deltaTime = now - lastTick;
+                // Timers are frozen
+                if (deltaTime >= 2000) {
+                    return;
+                }
+                return this.callParent(arguments);
+            },
+            doPreventZooming: function() {
+                var now = Ext.Date.now(),
+                    lastTick = this.watchDogLastTick,
+                    deltaTime = now - lastTick;
+                // Timers are frozen
+                if (deltaTime >= 2000) {
+                    return;
+                }
+                return this.callParent(arguments);
+            }
+        });
+    }
+    if (version.match('2')) {
+        this.override({
+            onReady: function() {
+                this.addWindowListener('resize', Ext.Function.bind(this.onWindowResize, this));
+                this.callParent(arguments);
+            },
+            scrollToTop: function() {
+                document.body.scrollTop = 100;
+            },
+            onWindowResize: function() {
+                var oldWidth = this.windowWidth,
+                    oldHeight = this.windowHeight,
+                    width = this.getWindowWidth(),
+                    height = this.getWindowHeight();
+                if (this.getAutoMaximize() && !this.isMaximizing && !this.orientationChanging && window.scrollY === 0 && oldWidth === width && height < oldHeight && ((height >= oldHeight - this.addressBarHeight) || !this.focusedElement)) {
+                    this.scrollToTop();
+                }
+            }
+        });
+    } else if (version.gtEq('3.1')) {
+        this.override({
+            isHeightMaximized: function(height) {
+                this.scrollToTop();
+                return this.getWindowHeight() === height - 1;
+            }
+        });
+    } else if (version.match('3')) {
+        this.override({
+            isHeightMaximized: function() {
+                this.scrollToTop();
+                return true;
+            }
+        });
+    }
+    if (version.gtEq('4')) {
+        this.override({
+            doBlurInput: Ext.emptyFn
+        });
+    }
+}));
+
+/**
+ * @private
+ * iOS version of viewport.
+ */
+(Ext.cmd.derive('Ext.viewport.Ios', Ext.viewport.Default, {
+    isFullscreen: function() {
+        return this.isHomeScreen();
+    },
+    isHomeScreen: function() {
+        return window.navigator.standalone === true;
+    },
+    constructor: function() {
+        Ext.viewport.Default.prototype.constructor.apply(this, arguments);
+        if (this.getAutoMaximize() && !this.isFullscreen()) {
+            this.addWindowListener('touchstart', Ext.Function.bind(this.onTouchStart, this));
+        }
+    },
+    maximize: function() {
+        if (this.isFullscreen()) {
+            return Ext.viewport.Default.prototype.maximize.call(this);
+        }
+        var stretchHeights = this.stretchHeights,
+            orientation = this.getOrientation(),
+            currentHeight = this.getWindowHeight(),
+            height = stretchHeights[orientation];
+        if (window.scrollY > 0) {
+            this.scrollToTop();
+            if (!height) {
+                stretchHeights[orientation] = height = this.getWindowHeight();
+            }
+            this.setHeight(height);
+            this.fireMaximizeEvent();
+        } else {
+            if (!height) {
+                height = this.getScreenHeight();
+            }
+            this.setHeight(height);
+            this.waitUntil(function() {
+                this.scrollToTop();
+                return currentHeight !== this.getWindowHeight();
+            }, function() {
+                if (!stretchHeights[orientation]) {
+                    height = stretchHeights[orientation] = this.getWindowHeight();
+                    this.setHeight(height);
+                }
+                this.fireMaximizeEvent();
+            }, function() {
+                height = stretchHeights[orientation] = this.getWindowHeight();
+                this.setHeight(height);
+                this.fireMaximizeEvent();
+            }, 50, 1000);
+        }
+    },
+    getScreenHeight: function() {
+        var orientation = this.getOrientation();
+        return window.screen[orientation === this.PORTRAIT ? 'height' : 'width'];
+    },
+    onElementFocus: function() {
+        if (this.getAutoMaximize() && !this.isFullscreen()) {
+            clearTimeout(this.scrollToTopTimer);
+        }
+        Ext.viewport.Default.prototype.onElementFocus.apply(this, arguments);
+    },
+    onElementBlur: function() {
+        if (this.getAutoMaximize() && !this.isFullscreen()) {
+            this.scrollToTopTimer = setTimeout(this.scrollToTop, 500);
+        }
+        Ext.viewport.Default.prototype.onElementBlur.apply(this, arguments);
+    },
+    onTouchStart: function() {
+        if (this.focusedElement === null) {
+            this.scrollToTop();
+        }
+    },
+    scrollToTop: function() {
+        window.scrollTo(0, 0);
+    }
+}, 1, 0, [
+    "component",
+    "container",
+    "viewport"
+], {
+    "component": true,
+    "container": true,
+    "viewport": true
+}, 0, 0, [
+    Ext.viewport,
+    'Ios'
+], function() {
+    if (!Ext.os.is.iOS) {
+        return;
+    }
+    if (Ext.os.version.lt('3.2')) {
+        this.override({
+            constructor: function() {
+                var stretchHeights = this.stretchHeights = {};
+                stretchHeights[this.PORTRAIT] = 416;
+                stretchHeights[this.LANDSCAPE] = 268;
+                return this.callOverridden(arguments);
+            }
+        });
+    }
+    if (Ext.os.version.lt('5')) {
+        this.override({
+            fieldMaskClsTest: '-field-mask',
+            doPreventZooming: function(e) {
+                var target = e.target;
+                if (target && target.nodeType === 1 && !this.isInputRegex.test(target.tagName) && target.className.indexOf(this.fieldMaskClsTest) == -1) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+    if (Ext.os.is.iPad) {
+        this.override({
+            isFullscreen: function() {
+                return true;
+            }
+        });
+    }
+    if (Ext.os.version.gtEq('7')) {
+        // iPad or Homescreen or UIWebView
+        if (Ext.os.deviceType === 'Tablet' || !Ext.browser.is.Safari || window.navigator.standalone) {
+            this.override({
+                constructor: function() {
+                    var stretchHeights = {},
+                        stretchWidths = {},
+                        orientation = this.determineOrientation(),
+                        screenHeight = window.screen.height,
+                        screenWidth = window.screen.width,
+                        menuHeight = orientation === this.PORTRAIT ? screenHeight - window.innerHeight : screenWidth - window.innerHeight;
+                    stretchHeights[this.PORTRAIT] = screenHeight - menuHeight;
+                    stretchHeights[this.LANDSCAPE] = screenWidth - menuHeight;
+                    stretchWidths[this.PORTRAIT] = screenWidth;
+                    stretchWidths[this.LANDSCAPE] = screenHeight;
+                    this.stretchHeights = stretchHeights;
+                    this.stretchWidths = stretchWidths;
+                    this.callOverridden(arguments);
+                    this.on('ready', this.setViewportSizeToAbsolute, this);
+                    this.on('orientationchange', this.setViewportSizeToAbsolute, this);
+                },
+                getWindowHeight: function() {
+                    var orientation = this.getOrientation();
+                    return this.stretchHeights[orientation];
+                },
+                getWindowWidth: function() {
+                    var orientation = this.getOrientation();
+                    return this.stretchWidths[orientation];
+                },
+                setViewportSizeToAbsolute: function() {
+                    this.setWidth(this.getWindowWidth());
+                    this.setHeight(this.getWindowHeight());
+                }
+            });
+        }
+        // iPad Only
+        if (Ext.os.deviceType === 'Tablet') {
+            this.override({
+                constructor: function() {
+                    this.callOverridden(arguments);
+                    window.addEventListener('scroll', function() {
+                        if (window.scrollX !== 0) {
+                            window.scrollTo(0, window.scrollY);
+                        }
+                    }, false);
+                },
+                setViewportSizeToAbsolute: function() {
+                    window.scrollTo(0, 0);
+                    this.callOverridden(arguments);
+                },
+                onElementBlur: function() {
+                    this.callOverridden(arguments);
+                    if (window.scrollY !== 0) {
+                        window.scrollTo(0, 0);
+                    }
+                }
+            });
+        }
+    }
+}));
+
+/**
+ * @private
+ * Windows Phone version of Viewport.
+ */
+(Ext.cmd.derive('Ext.viewport.WindowsPhone', Ext.viewport.Default, {
+    alternateClassName: 'Ext.viewport.WP',
+    // so one pixel line is displayed on the right side of the screen. Setting width more than 100% fix the issue
+    //    config: {
+    //        width: '100.2%',
+    //        height: '100.2%'
+    //    },
+    config: {
+        translatable: {
+            translationMethod: 'csstransform'
+        }
+    },
+    initialize: function() {
+        // There is -ms-user-select CSS property for IE10, but it seems it works only in desktop browser. So we need to prevent selection event.
+        var preventSelection = function(e) {
+                var srcElement = e.srcElement.nodeName.toUpperCase(),
+                    selectableElements = [
+                        'INPUT',
+                        'TEXTAREA'
+                    ];
+                if (selectableElements.indexOf(srcElement) == -1) {
+                    return false;
+                }
+            };
+        document.body.addEventListener('onselectstart', preventSelection);
+        Ext.viewport.Default.prototype.initialize.apply(this, arguments);
+    }
+}, 0, 0, [
+    "component",
+    "container",
+    "viewport"
+], {
+    "component": true,
+    "container": true,
+    "viewport": true
+}, 0, 0, [
+    Ext.viewport,
+    'WindowsPhone',
+    Ext.viewport,
+    'WP'
+], 0));
+
+/**
+ * This class acts as a factory for environment-specific viewport implementations.
+ *
+ * Please refer to the {@link Ext.Viewport} documentation about using the global instance.
+ * @private
+ */
+(Ext.cmd.derive('Ext.viewport.Viewport', Ext.Base, {
+    constructor: function(config) {
+        var osName = Ext.os.name,
+            viewportName, viewport;
+        switch (osName) {
+            case 'Android':
+                viewportName = (Ext.browser.name == 'ChromeMobile') ? 'Default' : 'AndroidStock';
+                break;
+            case 'iOS':
+                viewportName = 'Ios';
+                break;
+            case 'Windows':
+                viewportName = (Ext.browser.name == 'IE') ? 'WindowsPhone' : 'Default';
+                break;
+            case 'WindowsPhone':
+                viewportName = 'WindowsPhone';
+                break;
+            default:
+                viewportName = 'Default';
+                break;
+        }
+        viewport = Ext.create('Ext.viewport.' + viewportName, config);
+        return viewport;
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.viewport,
+    'Viewport'
+], 0));
+// Docs for the singleton instance created by above factory:
+/**
+ * @class Ext.Viewport
+ * @extends Ext.viewport.Default
+ * @singleton
+ *
+ * Ext.Viewport is a instance created when you use {@link Ext#setup}. Because {@link Ext.Viewport} extends from
+ * {@link Ext.Container}, it has as {@link #layout} (which defaults to {@link Ext.layout.Card}). This means you
+ * can add items to it at any time, from anywhere in your code. The {@link Ext.Viewport} {@link #cfg-fullscreen}
+ * configuration is `true` by default, so it will take up your whole screen.
+ *
+ *     @example raw
+ *     Ext.setup({
+ *         onReady: function() {
+ *             Ext.Viewport.add({
+ *                 xtype: 'container',
+ *                 html: 'My new container!'
+ *             });
+ *         }
+ *     });
+ *
+ * If you want to customize anything about this {@link Ext.Viewport} instance, you can do so by adding a property
+ * called `viewport` into your {@link Ext#setup} object:
+ *
+ *     @example raw
+ *     Ext.setup({
+ *         viewport: {
+ *             layout: 'vbox'
+ *         },
+ *         onReady: function() {
+ *             //do something
+ *         }
+ *     });
+ *
+ * **Note** if you use {@link Ext#onReady}, this instance of {@link Ext.Viewport} will **not** be created. Though, in most cases,
+ * you should **not** use {@link Ext#onReady}.
+ */
+
+/*
+ * File: app/model/Contact.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -67518,6 +71911,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.DealPicture', Ext.Panel, {
     config: {
         fullscreen: true,
@@ -67790,6 +72184,59 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/DealsPanel.js
+=======
+(Ext.cmd.derive('Contact.model.Contact', Ext.data.Model, {
+    config: {
+        fields: [
+            {
+                name: 'businessName',
+                type: 'string'
+            },
+            {
+                name: 'category',
+                type: 'string'
+            },
+            {
+                name: 'phoneNumber',
+                type: 'string'
+            },
+            {
+                name: 'emailAddress',
+                type: 'string'
+            },
+            {
+                name: 'address',
+                type: 'string'
+            },
+            {
+                name: 'city',
+                type: 'string'
+            },
+            {
+                name: 'state',
+                type: 'string'
+            },
+            {
+                name: 'zipcode',
+                type: 'string'
+            },
+            {
+                defaultValue: 'resources/img/defaultContactPic.png',
+                name: 'picture'
+            },
+            {
+                name: 'customerId'
+            }
+        ]
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.model,
+    'Contact'
+], 0));
+
+/*
+ * File: app/model/Deal.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -67802,6 +72249,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.DealsPanel', Ext.form.Panel, {
     config: {
         baseCls: 'x-list',
@@ -67885,6 +72333,38 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/ChangeContactPicForm.js
+=======
+(Ext.cmd.derive('Contact.model.Deal', Ext.data.Model, {
+    config: {
+        fields: [
+            {
+                name: 'customerId'
+            },
+            {
+                name: 'dealName'
+            },
+            {
+                name: 'dealStatus'
+            },
+            {
+                name: 'dealStartDate'
+            },
+            {
+                name: 'dealEndDate'
+            },
+            {
+                name: 'dealPictureURL'
+            }
+        ]
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.model,
+    'Deal'
+], 0));
+
+/*
+ * File: app/model/UserPreferences.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -67897,6 +72377,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.ChangeContactPicForm', Ext.form.Panel, {
     config: {
         centered: true,
@@ -68074,6 +72555,29 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/panel.js
+=======
+(Ext.cmd.derive('Contact.model.UserPreferences', Ext.data.Model, {
+    config: {
+        idProperty: '',
+        fields: [
+            {
+                name: 'customerId',
+                type: 'auto'
+            },
+            {
+                defaultValue: false,
+                name: 'isFavorite',
+                type: 'boolean'
+            }
+        ]
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.model,
+    'UserPreferences'
+], 0));
+
+/*
+ * File: app/store/ContactStore.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -68086,6 +72590,109 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+(Ext.cmd.derive('Contact.store.ContactStore', Ext.data.Store, {
+    config: {
+        autoLoad: true,
+        autoSync: true,
+        data: [
+            {
+                businessName: 'iste',
+                category: 'illo',
+                phoneNumber: '(599) 543-9099',
+                emailAddress: '198 Hovde Trail',
+                address: '304 Monica Crossing',
+                city: 'Officia',
+                state: 'AS',
+                zipcode: 'atque',
+                picture: 'ea',
+                isFavorite: false
+            },
+            {
+                businessName: 'fugit',
+                category: 'et',
+                phoneNumber: '(515) 687-0416',
+                emailAddress: '28 Banding Drive',
+                address: '263 West Point',
+                city: 'Veritatis',
+                state: 'FL',
+                zipcode: 'repellendus',
+                picture: 'recusandae',
+                isFavorite: false
+            },
+            {
+                businessName: 'nisi',
+                category: 'dolorem',
+                phoneNumber: '(883) 506-3306',
+                emailAddress: '47 Elmside Place',
+                address: '263 West Point',
+                city: 'Laboriosam',
+                state: 'WY',
+                zipcode: 'optio',
+                picture: 'et',
+                isFavorite: false
+            },
+            {
+                businessName: 'est',
+                category: 'nulla',
+                phoneNumber: '(827) 412-2582',
+                emailAddress: '70664 Twin Pines Street',
+                address: '296 Reindahl Center',
+                city: 'Aspernatur',
+                state: 'IA',
+                zipcode: 'soluta',
+                picture: 'ullam',
+                isFavorite: true
+            },
+            {
+                businessName: 'provident',
+                category: 'veritatis',
+                phoneNumber: '(673) 355-2351',
+                emailAddress: '47 Elmside Place',
+                address: '28 Banding Drive',
+                city: 'Voluptate',
+                state: 'AR',
+                zipcode: 'eius',
+                picture: 'rerum',
+                isFavorite: true
+            }
+        ],
+        groupDir: 'ASC',
+        groupField: 'category',
+        model: 'Contact.model.Contact',
+        storeId: 'ContactStore',
+        proxy: {
+            type: 'localstorage'
+        },
+        grouper: {
+            groupFn: function(record) {
+                return record.get('businessName')[0];
+            }
+        },
+        sorters: {
+            property: 'businessName'
+        }
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.store,
+    'ContactStore'
+], 0));
+
+/*
+ * File: app/store/MyJsonPStore.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.panel', Ext.tab.Panel, {
     config: {
         id: 'panel',
@@ -68305,6 +72912,37 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/UpdateDealForm.js
+=======
+(Ext.cmd.derive('Contact.store.MyJsonPStore', Ext.data.Store, {
+    config: {
+        autoLoad: true,
+        groupField: 'category',
+        model: 'Contact.model.Contact',
+        storeId: 'MyJsonPStore',
+        grouper: {
+            groupFn: function(item) {
+                return record.get('category');
+            },
+            sortProperty: ''
+        },
+        sorters: {
+            sorterFn: function(first, second) {}
+        },
+        proxy: {
+            type: 'jsonp',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
+            reader: {
+                type: 'json'
+            }
+        }
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.store,
+    'MyJsonPStore'
+], 0));
+
+/*
+ * File: app/store/MyDealsStore.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -68312,6 +72950,163 @@ Ext.define('Ext.picker.Picker', {
  * This file requires use of the Sencha Touch 2.4.x library, under independent license.
  * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
  * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.store.MyDealsStore', Ext.data.Store, {
+    config: {
+        autoLoad: true,
+        model: 'Contact.model.Deal',
+        storeId: 'MyDealsStore',
+        proxy: {
+            type: 'jsonp',
+            extraParams: '{customerId}',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/deals',
+            reader: {
+                type: 'json'
+            }
+        }
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.store,
+    'MyDealsStore'
+], 0));
+
+/*
+ * File: app/store/UserPreferences.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.store.UserPreferences', Ext.data.Store, {
+    config: {
+        autoSync: true,
+        clearOnPageLoad: false,
+        model: 'Contact.model.UserPreferences',
+        remoteFilter: true,
+        storeId: 'UserPreferences',
+        proxy: {
+            type: 'localstorage',
+            batchActions: false,
+            id: ''
+        }
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.store,
+    'UserPreferences'
+], 0));
+
+/*
+ * File: app/store/MyJsonPStore1.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.store.MyJsonPStore1', Ext.data.Store, {
+    config: {
+        autoLoad: true,
+        groupField: 'category',
+        model: 'Contact.model.Contact',
+        storeId: 'MyJsonPStore1',
+        grouper: {
+            groupFn: function(item) {
+                return record.get('category');
+            },
+            sortProperty: ''
+        },
+        sorters: {
+            sorterFn: function(first, second) {}
+        },
+        proxy: {
+            type: 'jsonp',
+            url: 'http://awseb-e-t-awsebloa-6wjsk6atywko-728481327.us-west-2.elb.amazonaws.com/stores',
+            reader: {
+                type: 'json'
+            }
+        }
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.store,
+    'MyJsonPStore1'
+], 0));
+
+/*
+ * File: app/view/List.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.List', Ext.dataview.List, {
+    config: {
+        disableSelection: true,
+        emptyText: 'No Contacts',
+        store: 'MyJsonPStore',
+        grouped: true,
+        itemTpl: [
+            '<div>{businessName}</div>'
+        ],
+        indexBar: {
+            itemId: 'myindexbar'
+        }
+    }
+}, 0, [
+    "contactlist"
+], [
+    "component",
+    "container",
+    "dataview",
+    "list",
+    "contactlist"
+], {
+    "component": true,
+    "container": true,
+    "dataview": true,
+    "list": true,
+    "contactlist": true
+}, [
+    "widget.contactlist"
+], 0, [
+    Contact.view,
+    'List'
+], 0));
+
+/*
+ * File: app/view/FavoriteView.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+<<<<<<< HEAD
  *
  * This file will be auto-generated each and everytime you save your project.
  *
@@ -68652,6 +73447,47 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/UploadDealNoImageForm.js
+=======
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.FavoriteView', Ext.dataview.DataView, {
+    config: {
+        height: 415,
+        itemId: 'favoriteview',
+        emptyText: 'No Favorites',
+        inline: true,
+        store: 'MyJsonPStore1',
+        itemTpl: [
+            '<div class="favorite"><img src="{picture:empty("resources/img/defaultContactPic.png")}" width="160" />,',
+            '                <div>{businessName}</div>',
+            '            </div>'
+        ]
+    }
+}, 0, [
+    "favoriteview"
+], [
+    "component",
+    "container",
+    "dataview",
+    "favoriteview"
+], {
+    "component": true,
+    "container": true,
+    "dataview": true,
+    "favoriteview": true
+}, [
+    "widget.favoriteview"
+], 0, [
+    Contact.view,
+    'FavoriteView'
+], 0));
+
+/*
+ * File: app/view/Main.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -68664,6 +73500,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.UploadDealNoImageForm', Ext.form.Panel, {
     config: {
         html: '',
@@ -68870,11 +73707,24 @@ Ext.define('Ext.picker.Picker', {
                                 event: 'painted'
                             }
                         ]
+=======
+(Ext.cmd.derive('Contact.view.Main', Ext.tab.Panel, {
+    config: {
+        items: [
+            {
+                xtype: 'container',
+                title: 'Home',
+                items: [
+                    {
+                        xtype: 'contactlist',
+                        height: 403
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                     }
                 ]
             },
             {
                 xtype: 'container',
+<<<<<<< HEAD
                 height: 140,
                 margin: '10 10 10 10 10',
                 styleHtmlContent: true,
@@ -68938,10 +73788,19 @@ Ext.define('Ext.picker.Picker', {
                         ui: 'confirm',
                         width: '30%',
                         text: 'Submit'
+=======
+                title: 'My Favorites',
+                itemId: 'mycontainer1',
+                items: [
+                    {
+                        xtype: 'favoriteview',
+                        itemId: 'favoriteview1'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                     }
                 ]
             }
         ]
+<<<<<<< HEAD
     },
     getValidationErrors: function() {
         var errors = [];
@@ -68981,6 +73840,23 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/UploadDealWithImageForm.js
+=======
+    }
+}, 0, 0, [
+    "component",
+    "container",
+    "tabpanel"
+], {
+    "component": true,
+    "container": true,
+    "tabpanel": true
+}, 0, 0, [
+    Contact.view,
+    'Main'
+], 0));
+
+/*
+ * File: app/view/Picture.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -68993,6 +73869,55 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+(Ext.cmd.derive('Contact.view.Picture', Ext.Container, {
+    config: {
+        overflow: 'hidden',
+        height: 120,
+        minHeight: 100,
+        padding: '5 5 5 5',
+        style: 'overflow: hidden',
+        ui: '',
+        tpl: [
+            '<img src="{picture}" width="160" />'
+        ],
+        layout: {
+            type: 'vbox',
+            align: 'center'
+        }
+    }
+}, 0, [
+    "contactpic"
+], [
+    "component",
+    "container",
+    "contactpic"
+], {
+    "component": true,
+    "container": true,
+    "contactpic": true
+}, [
+    "widget.contactpic"
+], 0, [
+    Contact.view,
+    'Picture'
+], 0));
+
+/*
+ * File: app/view/ListOfDeals.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.UploadDealWithImageForm', Ext.form.Panel, {
     config: {
         html: '',
@@ -69065,10 +73990,104 @@ Ext.define('Ext.picker.Picker', {
                     {
                         text: 'Expired',
                         value: 'Expired'
+=======
+(Ext.cmd.derive('Contact.view.ListOfDeals', Ext.dataview.List, {
+    config: {
+        height: 247,
+        id: 'ListOfDeals',
+        style: 'font-size: 10px',
+        store: 'MyDealsStore',
+        onItemDisclosure: false,
+        striped: true,
+        useSimpleItems: false,
+        itemTpl: [
+            '<div>{dealName}</div>',
+            '<div style="color:#0000FF;font-size:14px;font-style:italics" >{dealStartDate} - {dealEndDate}</div>'
+        ]
+    }
+}, 0, [
+    "listofdeals"
+], [
+    "component",
+    "container",
+    "dataview",
+    "list",
+    "listofdeals"
+], {
+    "component": true,
+    "container": true,
+    "dataview": true,
+    "list": true,
+    "listofdeals": true
+}, [
+    "widget.listofdeals"
+], 0, [
+    Contact.view,
+    'ListOfDeals'
+], 0));
+
+/*
+ * File: app/view/Info.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.Info', Ext.form.Panel, {
+    config: {
+        border: 5,
+        height: 463,
+        enableSubmissionForm: false,
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                style: 'font-size:6vw',
+                ui: 'light',
+                items: [
+                    {
+                        xtype: 'button',
+                        itemId: 'infoBackBtn',
+                        style: '',
+                        ui: 'back',
+                        text: 'Back'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            button.addCls('x-button-pressed');
+                        },
+                        cls: 'empty-star',
+                        docked: 'right',
+                        itemId: 'favbutton',
+                        style: ''
+                    },
+                    {
+                        xtype: 'spacer',
+                        height: 11,
+                        width: 18
+                    },
+                    {
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        html: '<b>First Name</b>',
+                        id: 'nameTxt',
+                        itemId: 'nameTxt',
+                        style: ''
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                     }
                 ]
             },
             {
+<<<<<<< HEAD
                 xtype: 'datepickerfield',
                 cls: [
                     'customfield',
@@ -69217,12 +74236,95 @@ Ext.define('Ext.picker.Picker', {
                                     });
                                 },
                                 event: 'painted'
+=======
+                xtype: 'panel',
+                border: '',
+                height: '',
+                maxHeight: '100%',
+                minHeight: '100%',
+                minWidth: '',
+                padding: '5 5 5 5',
+                style: 'border:1px inset',
+                layout: {
+                    type: 'vbox',
+                    align: 'end'
+                },
+                items: [
+                    {
+                        xtype: 'contactpic',
+                        border: '',
+                        docked: 'left',
+                        height: 137,
+                        maxHeight: '100%',
+                        minHeight: '50%',
+                        minWidth: '30%',
+                        style: '',
+                        ui: 'light',
+                        width: 97,
+                        scrollable: false,
+                        flex: 0.5,
+                        layout: {
+                            type: 'hbox',
+                            align: 'start',
+                            pack: 'center'
+                        }
+                    },
+                    {
+                        xtype: 'panel',
+                        height: '',
+                        maxHeight: '100%',
+                        minHeight: '100%',
+                        width: '100%',
+                        items: [
+                            {
+                                xtype: 'textfield',
+                                cls: [
+                                    'icon-phone',
+                                    'customfield'
+                                ],
+                                height: '',
+                                itemId: 'phoneNumber',
+                                maxHeight: '30%',
+                                maxWidth: '100%',
+                                minHeight: '',
+                                minWidth: '100%',
+                                width: '100%',
+                                clearIcon: false,
+                                inputCls: 'customfield',
+                                name: 'phoneNumber',
+                                readOnly: true
+                            },
+                            {
+                                xtype: 'spacer',
+                                height: '10px'
+                            },
+                            {
+                                xtype: 'textareafield',
+                                cls: [
+                                    'icon-location',
+                                    'customfield'
+                                ],
+                                height: '100%',
+                                itemId: 'address',
+                                maxHeight: '100%',
+                                maxWidth: '100%',
+                                minHeight: '100%',
+                                minWidth: '100%',
+                                style: 'border:1 px inset',
+                                width: '100%',
+                                clearIcon: false,
+                                inputCls: 'customfield',
+                                name: 'address',
+                                readOnly: true,
+                                maxRows: 3
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                             }
                         ]
                     }
                 ]
             },
             {
+<<<<<<< HEAD
                 xtype: 'container',
                 height: 140,
                 margin: '0 10 50 10',
@@ -69299,12 +74401,25 @@ Ext.define('Ext.picker.Picker', {
                         ui: 'confirm',
                         width: '30%',
                         text: 'Submit'
+=======
+                xtype: 'panel',
+                padding: '5 5 5 5',
+                style: 'border:1px inset',
+                items: [
+                    {
+                        xtype: 'listofdeals',
+                        border: '',
+                        cls: 'list-item',
+                        style: '',
+                        itemCls: 'list-item'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                     }
                 ]
             }
         ],
         listeners: [
             {
+<<<<<<< HEAD
                 fn: 'onMydatepicker3Pick',
                 event: 'pick',
                 delegate: '#mydatepicker3'
@@ -69334,17 +74449,93 @@ Ext.define('Ext.picker.Picker', {
     }
 }, 0, [
     "UploadDealWithImageForm"
+=======
+                fn: 'onFavbuttonTap',
+                event: 'tap',
+                delegate: '#favbutton'
+            }
+        ]
+    },
+    onFavbuttonTap: function(button, e, eOpts) {
+        var store = Ext.getStore('UserPreferences');
+        //store.clearFilter();
+        var pressingCls = 'x-button-pressed';
+        button.element.toggleCls(pressingCls);
+        var isPressed = button.element.hasCls(pressingCls);
+        var record = this.getRecord();
+        var customerId = record.get('customerId');
+        store.add({
+            'customerId': customerId,
+            'isFavorite': isPressed
+        });
+        if (isPressed === true) {
+            button.setCls('fill-star');
+        } else // localStorage.setItem('customerId',record.get('customerId'));
+        // localStorage.setItem('isFavorite', isPressed);
+        // store.add({'customerId':customerId,'isFavorite':isPressed});
+        //  store.sync();
+        {
+            button.setCls('empty-star');
+            // localStorage.removeItem('customerId');
+            // localStorage.removeItem('isFavorite
+            store.findRecord('customerId', customerId).destroy();
+            store.sync();
+        }
+        //console.log(customerId + isPressed);
+        record.set('isFavorite', isPressed);
+        store.sync();
+    },
+    setRecord: function(record) {
+        (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
+        if (record) {
+            var name = record.get('businessName');
+            var isFavorite = record.get('isFavorite');
+            var customerId = record.get('customerId');
+            var store = Ext.getStore('UserPreferences');
+            if (store.getAllCount() !== 0) {
+                store.each(function(rec) {
+                    if (rec.get('customerId') == customerId) {
+                        isFavorite = rec.get('isFavorite');
+                    }
+                });
+            }
+            //console.log(customerId + isFavorite );
+            this.down('#nameTxt').setHtml(name);
+            // console.log(store.getData());
+            if (isFavorite === true) {
+                this.down('#favbutton').setCls('fill-star');
+            } else //store.setData({'isFavorite':isFavorite});
+            {
+                this.down('#favbutton').setCls('empty-star');
+            }
+            // this.down('#favoriteview')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            this.down('#favbutton')[isFavorite ? 'addCls' : 'removeCls']('x-button-pressed');
+            this.down('contactpic').setData(record.data);
+            var ds = Ext.StoreManager.lookup('MyDealsStore');
+            ds.clearFilter();
+            ds.filter('customerId', customerId);
+            this.down('listofdeals').setData(ds.getData());
+        }
+    }
+}, 0, [
+    "contactinfo"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 ], [
     "component",
     "container",
     "panel",
     "formpanel",
+<<<<<<< HEAD
     "UploadDealWithImageForm"
+=======
+    "contactinfo"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 ], {
     "component": true,
     "container": true,
     "panel": true,
     "formpanel": true,
+<<<<<<< HEAD
     "UploadDealWithImageForm": true
 }, [
     "widget.UploadDealWithImageForm"
@@ -69355,6 +74546,23 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/CreateBuzzOption.js
+=======
+    "contactinfo": true
+}, [
+    "widget.contactinfo"
+], 0, [
+    Contact.view,
+    'Info'
+], 0));
+/*dealsData  = ds.getData().getAt(0);
+            var dealName = 'No Deals';
+            if(dealsData) {
+                 dealName = dealsData.get('dealName');
+            }*/
+
+/*
+ * File: app/view/DealPicture.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -69367,6 +74575,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.CreateBuzzOption', Ext.ActionSheet, {
     config: {
         height: '100%',
@@ -69468,6 +74677,71 @@ Ext.define('Ext.picker.Picker', {
 
 /*
  * File: app/view/DealImage.js
+=======
+(Ext.cmd.derive('Contact.view.DealPicture', Ext.Container, {
+    alternateClassName: [
+        'dealPicture'
+    ],
+    config: {
+        fullscreen: true,
+        id: 'dealPicture',
+        itemId: 'dealPicture',
+        style: 'font-size:6vw',
+        layout: 'fit',
+        scrollable: true,
+        tpl: [
+            '<img src="{dealPictureURL}" />'
+        ],
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                ui: 'light',
+                items: [
+                    {
+                        xtype: 'button',
+                        itemId: 'dealBackBtn',
+                        style: '',
+                        ui: 'back',
+                        text: 'Back'
+                    },
+                    {
+                        xtype: 'button',
+                        docked: 'right',
+                        itemId: 'share',
+                        iconCls: 'action'
+                    }
+                ]
+            }
+        ]
+    },
+    setRecord: function(record) {
+        //console.log(record.getData()) ;
+        this.setData(record.getData());
+    }
+}, 0, [
+    "dealpicture"
+], [
+    "component",
+    "container",
+    "dealpicture"
+], {
+    "component": true,
+    "container": true,
+    "dealpicture": true
+}, [
+    "widget.dealpicture"
+], 0, [
+    Contact.view,
+    'DealPicture',
+    0,
+    'dealPicture'
+], 0));
+//this.setTpl('<img src="'+record.get('dealPictureURL') +'"/>') ;
+
+/*
+ * File: app/controller/Contacts.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -69480,6 +74754,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
+<<<<<<< HEAD
 (Ext.cmd.derive('Contact.view.DealImage', Ext.Panel, {
     config: {
         height: '80%',
@@ -69558,6 +74833,269 @@ Ext.define('Ext.picker.Picker', {
 ], 0, [
     Contact.view,
     'DealImage'
+=======
+(Ext.cmd.derive('Contact.controller.Contacts', Ext.app.Controller, {
+    config: {
+        stores: [
+            'MyJsonPStore',
+            'MyDealsStore',
+            'MyJsonPStore1',
+            'UserPreferences'
+        ],
+        refs: {
+            contactinfo: {
+                autoCreate: true,
+                selector: 'contactinfo',
+                xtype: 'contactinfo'
+            },
+            contactlist: {
+                autoCreate: true,
+                selector: 'contactlist',
+                xtype: 'contactlist'
+            },
+            dealsinfo: {
+                autoCreate: true,
+                selector: 'dealsinfo',
+                xtype: 'listofdeals'
+            },
+            dealpicture: {
+                autoCreate: true,
+                selector: 'dealpicture',
+                xtype: 'dealpicture'
+            },
+            phoneNumber: 'textfield#phoneNumber',
+            address: 'textfield#address',
+            mycontainer1: {
+                selector: 'container#mycontainer1',
+                xtype: 'favoriteview'
+            },
+            favoriteview: 'dataview#favoriteview',
+            share: 'button#share'
+        },
+        control: {
+            "dataview": {
+                itemtap: 'onContactItemTap'
+            },
+            "button#infoBackBtn": {
+                tap: 'onInfoBackBtnTapHome'
+            },
+            "contactpic": {
+                change: 'onContactPickerChange'
+            },
+            "list": {
+                activate: 'onListActivate'
+            },
+            "listofdeals": {
+                itemtap: 'onListOfDealsItemTap'
+            },
+            "button#dealBackBtn": {
+                tap: 'onDealBackBtnTap'
+            },
+            "textfield#phoneNumber": {
+                focus: 'onPhoneNumberFocus'
+            },
+            "textfield#address": {
+                focus: 'onAddressFocus'
+            },
+            "container#mycontainer1": {
+                activate: 'onMycontainer1Activate'
+            },
+            "button#share": {
+                tap: 'onShareTap'
+            }
+        }
+    },
+    onContactItemTap: function(dataview, index, target, record, e, eOpts) {
+        var info = this.getContactinfo();
+        info.setRecord(record);
+        Ext.Viewport.setActiveItem(info);
+    },
+    //console.log(info);
+    onInfoBackBtnTapHome: function(button, e, eOpts) {
+        /*var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter() ;*/
+        Ext.Viewport.setActiveItem(0);
+        var store = Ext.getStore('UserPreferences');
+        var records = [];
+        var ds = Ext.getStore('MyJsonPStore1');
+        ds.clearFilter();
+        //store.clearFilter();
+        store.each(function(rec) {
+            if (rec.get('isFavorite') === true) {
+                records.push(rec.get('customerId'));
+            } else {
+                Ext.Array.remove(records, rec.get('customerId'));
+            }
+        });
+        ds.filterBy(function(record) {
+            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
+        }, this);
+    },
+    onContactPickerChange: function(picker, value, eOpts) {
+        var currentForm = Ext.Viewport.getActiveItem();
+        var record = currentForm.getRecord();
+        if (record) {
+            record.set('picture', value);
+            record.commit();
+            currentForm.setRecord(record);
+        }
+    },
+    onListActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter();
+    },
+    onListOfDealsItemTap: function(dataview, index, target, record, e, eOpts) {
+        var pic = this.getDealpicture();
+        /*console.log("Data View is: ") ;
+        console.log(dataview) ;
+        console.log("Index is: " + index) ;
+        console.log("Target is: ") ;
+        console.log(target) ;
+        console.log("Event is: ") ;
+        console.log(e) ;
+        console.log("Event Options is: ") ;
+        console.log(eOpts) ;*/
+        pic.setRecord(record);
+        Ext.Viewport.setActiveItem(pic);
+        //_gaq.push(['_trackEvent', 'Images', 'Click', 'Deal Picture', 0]);
+        //analytics.trackEvent(record.get('customerId'), 'DealClick', record.get('dealName'));
+        var showPosition;
+        if (navigator.geolocation) {
+            //if you have the geolocation, run the showPosition function
+            navigator.geolocation.getCurrentPosition(function showPosition(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                console.log(latitude + "," + longitude);
+                // api call for postal code and track event
+                $.getJSON("http://api.geonames.org/findNearbyPostalCodesJSON?lat=" + latitude + "&lng=" + longitude + "&username=1234_5678", function(json) {
+                    //analytics.trackEvent(record.get('dealName'),DealClick', json.postalCodes[0].postalCode);
+                    //analytics.addCustomDimension('1', record.get('customerId'));
+                    analytics.trackEvent(record.get('dealName'), json.postalCodes[0].postalCode, record.get('customerId'));
+                });
+            });
+        } else {
+            //geolocation not happening
+            console.log("Gelocation not working");
+            analytics.trackEvent(record.get('dealName'), 'DealClick', 'Unknown');
+        }
+    },
+    onDealBackBtnTap: function(button, e, eOpts) {
+        var ds = Ext.StoreManager.lookup('MyJsonPStore');
+        ds.clearFilter();
+        var dealRecord = this.getContactinfo().getRecord();
+        //console.log("Deal Record is:") ;
+        //console.log(dealRecord) ;
+        var customerId = dealRecord.get('customerId');
+        //console.log("Customer Id is " + customerId) ;
+        ds.filter('customerId', customerId);
+        var customerData = ds.getData().getAt(0);
+        //console.log("Customer Data is:") ;
+        //console.log(customerData) ;
+        var info = this.getContactinfo();
+        info.setRecord(customerData);
+        ds.clearFilter();
+        Ext.Viewport.setActiveItem(info);
+    },
+    //Ext.Viewport.setActiveItem('contactinfo') ;
+    onPhoneNumberFocus: function(textfield, e, eOpts) {
+        console.log(e);
+        numberToDial = textfield.getValue();
+        textfield.blur();
+        e.destroy();
+        e.stopEvent();
+        window.location = 'tel:' + numberToDial;
+    },
+    onAddressFocus: function(textfield, e, eOpts) {
+        console.log(textfield.getValue());
+        var queryString = encodeURIComponent(textfield.getValue());
+        var url;
+        if (Ext.os.is('Android')) {
+            url = 'geo:0,0?q=' + queryString;
+        } else {
+            url = 'maps:q=' + queryString;
+        }
+        textfield.blur();
+        e.stopEvent();
+        e.destroy();
+        Ext.device.Device.openURL(url);
+    },
+    onMycontainer1Activate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var store = Ext.getStore('UserPreferences');
+        var records = [];
+        var ds = Ext.getStore('MyJsonPStore1');
+        ds.clearFilter();
+        //store.clearFilter();
+        store.each(function(rec) {
+            if (rec.get('isFavorite') === true) {
+                records.push(rec.get('customerId'));
+            } else {
+                Ext.Array.remove(records, rec.get('customerId'));
+            }
+        });
+        ds.filterBy(function(record) {
+            return Ext.Array.indexOf(records, record.get('customerId')) !== -1;
+        }, this);
+    },
+    onShareTap: function(button, e, eOpts) {
+        //var picture = Ext.getCmp('dealPicture');
+        var businessName = button.getParent().getParent().getData();
+        console.log(businessName);
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Contact.controller,
+    'Contacts'
+], 0));
+//window.plugins.socialsharing.share('Hi!Check out the latest deal from ' + businessName , null, null, 'www.google.com');
+
+/*
+ * File: app/view/Main1.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.Main1', Ext.Panel, {
+    config: {
+        cls: 'home',
+        html: '',
+        style: '',
+        items: [
+            {
+                xtype: 'toolbar',
+                cls: 'customToolbar',
+                docked: 'top',
+                html: '<center><img src="localbuzz.png"/></center>',
+                padding: '10 0 0 0',
+                style: 'font-size:5vw',
+                ui: 'light'
+            },
+            {
+                xtype: 'contactlist',
+                height: 379,
+                style: 'font-size:7vw',
+                itemCls: 'list-items'
+            }
+        ]
+    }
+}, 0, 0, [
+    "component",
+    "container",
+    "panel"
+], {
+    "component": true,
+    "container": true,
+    "panel": true
+}, 0, 0, [
+    Contact.view,
+    'Main1'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 ], 0));
 
 /*
@@ -69580,6 +75118,7 @@ Ext.application({
     models: [
         'Contact',
         'Deal',
+<<<<<<< HEAD
         'UserDetails'
     ],
     stores: [
@@ -69602,13 +75141,36 @@ Ext.application({
         'UploadDealWithImageForm',
         'CreateBuzzOption',
         'DealImage'
+=======
+        'UserPreferences'
+    ],
+    stores: [
+        'ContactStore',
+        'MyJsonPStore',
+        'MyDealsStore',
+        'UserPreferences',
+        'MyJsonPStore1'
+    ],
+    views: [
+        'Main1',
+        'Info',
+        'Picture',
+        'List',
+        'DealPicture',
+        'ListOfDeals',
+        'Main',
+        'FavoriteView'
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
     ],
     controllers: [
         'Contacts'
     ],
     icon: 'icon.png',
     name: 'Contact',
+<<<<<<< HEAD
     startupImage: 'icon.png',
+=======
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
     launch: function() {
         Ext.util.Format.empty = function(value, defaultValue) {
             return !Ext.isEmpty(value) ? value : defaultValue;
@@ -69616,6 +75178,7 @@ Ext.application({
         Ext.util.Format.undef = function(value, defaultValue) {
             return Ext.isDefined(value) ? value : defaultValue;
         };
+<<<<<<< HEAD
         var BackButtonPanel;
         var exitApp = false;
         BackButtonPanel = Ext.create('Ext.Panel', {
@@ -69749,11 +75312,43 @@ Ext.application({
 
 		    }*/
         Ext.create('Contact.view.Login', {
+=======
+        var view = Ext.create('Contact.view.Main', {});
+        Ext.create('Contact.store.MyJsonPStore', {
+            autoLoad: true,
+            listeners: {
+                load: function(self, records) {
+                    view.setData(records);
+                }
+            }
+        });
+        Ext.create('Contact.store.MyDealsStore', {
+            autoLoad: true
+        });
+        if (Ext.os.is('Android')) {
+            document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);
+            // add back button listener
+            function onBackKeyDown(eve) {
+                eve.preventDefault();
+                Ext.Msg.confirm("Exit", "", function(answer) {
+                    if (answer == 'yes') {
+                        navigator.app.exitApp();
+                    } else {}
+                });
+            }
+        }
+        //do nothing
+        Ext.create('Contact.view.Main', {
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
             fullscreen: true
         });
     }
 });
 
 // @tag full-page
+<<<<<<< HEAD
 // @require H:\Apps\Sencha Architect Apps\LocalBuzzBusinessApp\app.js
+=======
+// @require H:\Apps\LocalBuzzMobileApp\app.js
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 

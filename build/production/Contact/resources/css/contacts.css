@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 $toolbar-icon-size: 1em;
 $base-color: #1985d0;
 $confirm-color: #659D32;
@@ -201,3 +202,6 @@ $list-header-bg-color: $base-color;
 	background:red !important;
 }
 
+=======
+.favorite{border:1px solid #aaa;padding:5px;margin:5px;text-align:center}.square{border-radius:0}.contact-name{color:white;padding-left:4px}
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b

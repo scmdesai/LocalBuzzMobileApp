@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"_comment":"Please don't edit. This is Architect data.","name":"LocalBuzzMerchantDemo","resources":["resources/css/contacts.css"],"requires":[],"classpath":null,"css":[{"path":"resources/css/contacts.css"},{"update":"delta","platform":["phone","tablet","desktop"],"theme":"Default","path":"resources/css/sencha-touch-7a7e94c9-893d-4b38-b73b-2b335ebd90b1.css"}],"js":[]}
+=======
+{"_comment":"Please don't edit. This is Architect data.","name":"Contact","resources":["resources/css/contacts.css"],"requires":[],"classpath":null,"css":[{"path":"resources/css/contacts.css"},{"update":"delta","platform":["phone","tablet","desktop"],"theme":"Default","path":"resources/css/sencha-touch-ad5f85a3-a6ed-417f-9af0-39d887064b86.css"}],"js":[]}
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b

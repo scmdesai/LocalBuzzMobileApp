@@ -13,6 +13,7 @@
  * Do NOT hand edit this file.
  */
 
+<<<<<<< HEAD
 Ext.define('LocalBuzzMerchantDemo.view.DealPicture', {
 	extend: 'Ext.Panel',
 	alias: 'widget.dealPicture',
@@ -302,5 +303,60 @@ Ext.define('LocalBuzzMerchantDemo.view.DealPicture', {
 
 
 	}
+=======
+Ext.define('Contact.view.DealPicture', {
+    extend: 'Ext.Container',
+    alias: 'widget.dealpicture',
+
+    alternateClassName: [
+        'dealPicture'
+    ],
+    requires: [
+        'Ext.XTemplate',
+        'Ext.Toolbar',
+        'Ext.Button'
+    ],
+
+    config: {
+        fullscreen: true,
+        id: 'dealPicture',
+        itemId: 'dealPicture',
+        style: 'background:#fff',
+        layout: 'fit',
+        scrollable: true,
+        tpl: [
+            '<img src="{dealPictureURL}" />'
+        ],
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                items: [
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.getStore('LocalStore').removeAt(0);
+                            Ext.Viewport.getActiveItem().destroy();
+                            var view = Ext.Viewport.add({xtype:'DealsPanel'});
+                            Ext.Viewport.setActiveItem(view);
+
+                        },
+                        style: 'border:none;font-size:8vw',
+                        ui: 'plain',
+                        text: 'Back'
+                    },
+                    {
+                        xtype: 'button',
+                        docked: 'right',
+                        itemId: 'share',
+                        style: 'border:none;font-size:7vw',
+                        ui: 'plain',
+                        iconCls: 'action'
+                    }
+                ]
+            }
+        ]
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 });

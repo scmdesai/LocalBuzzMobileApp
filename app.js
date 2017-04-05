@@ -21,6 +21,7 @@ Ext.Loader.setConfig({
 
 Ext.application({
 
+<<<<<<< HEAD
 	requires: [
 		'Ext.MessageBox',
 		'Ext.device.Camera'
@@ -252,5 +253,84 @@ Ext.application({
 
 		Ext.create('LocalBuzzMerchantDemo.view.WelcomeScreen', {fullscreen: true});
 	}
+=======
+    requires: [
+        'Ext.MessageBox',
+        'Ext.device.Camera'
+    ],
+    models: [
+        'Contact',
+        'Deal',
+        'UserPreferences'
+    ],
+    stores: [
+        'ContactStore',
+        'MyJsonPStore',
+        'MyDealsStore',
+        'UserPreferences',
+        'MyJsonPStore1',
+        'LocalStore'
+    ],
+    views: [
+        'Main1',
+        'Info',
+        'Picture',
+        'List',
+        'DealPicture',
+        'ListOfDeals',
+        'Main',
+        'FavoriteView',
+        'DealsPanel'
+    ],
+    controllers: [
+        'Contacts'
+    ],
+    icon: 'icon.png',
+    name: 'Contact',
+
+    launch: function() {
+
+        Ext.util.Format.empty = function(value, defaultValue) {
+            return !Ext.isEmpty(value) ? value : defaultValue;
+        };
+        Ext.util.Format.undef = function(value, defaultValue) {
+            return Ext.isDefined(value) ? value : defaultValue;
+        };
+
+
+
+        /*var view = Ext.create('Contact.view.Main',{}) ;
+        Ext.create('Contact.store.MyJsonPStore', {
+            autoLoad: true,
+            listeners: {
+                load: function (self, records) {
+                    view.setData(records);
+                }
+            }
+        });
+
+        Ext.create('Contact.store.MyDealsStore', {
+            autoLoad: true
+
+        });*/
+        if (Ext.os.is('Android')) {
+            document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
+
+            function onBackKeyDown(eve) {
+                eve.preventDefault();
+                Ext.Msg.confirm("Exit", "",  function ( answer ) {
+                    if ( answer == 'yes') {
+                        navigator.app.exitApp();
+                    } else {
+                        //do nothing
+                    }
+                });
+            }
+        }
+
+
+        Ext.create('Contact.view.Main', {fullscreen: true});
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 });

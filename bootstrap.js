@@ -37,6 +37,30 @@ Ext.Loader.addClassPathMappings({
 });
 
 Ext.ClassManager.addNameAlternateMappings({
+<<<<<<< HEAD
+=======
+  "Contact.controller.Contacts": [],
+  "Contact.model.Contact": [],
+  "Contact.model.Deal": [],
+  "Contact.model.UserPreferences": [],
+  "Contact.store.ContactStore": [],
+  "Contact.store.LocalStore": [],
+  "Contact.store.MyDealsStore": [],
+  "Contact.store.MyJsonPStore": [],
+  "Contact.store.MyJsonPStore1": [],
+  "Contact.store.UserPreferences": [],
+  "Contact.view.DealPicture": [
+    "dealPicture"
+  ],
+  "Contact.view.DealsPanel": [],
+  "Contact.view.FavoriteView": [],
+  "Contact.view.Info": [],
+  "Contact.view.List": [],
+  "Contact.view.ListOfDeals": [],
+  "Contact.view.Main": [],
+  "Contact.view.Main1": [],
+  "Contact.view.Picture": [],
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
   "Ext.AbstractComponent": [],
   "Ext.AbstractManager": [],
   "Ext.AbstractPlugin": [],
@@ -683,6 +707,42 @@ Ext.ClassManager.addNameAlternateMappings({
 });
 
 Ext.ClassManager.addNameAliasMappings({
+<<<<<<< HEAD
+=======
+  "Contact.controller.Contacts": [],
+  "Contact.model.Contact": [],
+  "Contact.model.Deal": [],
+  "Contact.model.UserPreferences": [],
+  "Contact.store.ContactStore": [],
+  "Contact.store.LocalStore": [],
+  "Contact.store.MyDealsStore": [],
+  "Contact.store.MyJsonPStore": [],
+  "Contact.store.MyJsonPStore1": [],
+  "Contact.store.UserPreferences": [],
+  "Contact.view.DealPicture": [
+    "widget.dealpicture"
+  ],
+  "Contact.view.DealsPanel": [
+    "widget.DealsPanel"
+  ],
+  "Contact.view.FavoriteView": [
+    "widget.favoriteview"
+  ],
+  "Contact.view.Info": [
+    "widget.contactinfo"
+  ],
+  "Contact.view.List": [
+    "widget.contactlist"
+  ],
+  "Contact.view.ListOfDeals": [
+    "widget.listofdeals"
+  ],
+  "Contact.view.Main": [],
+  "Contact.view.Main1": [],
+  "Contact.view.Picture": [
+    "widget.contactpic"
+  ],
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
   "Ext.AbstractComponent": [],
   "Ext.AbstractManager": [],
   "Ext.AbstractPlugin": [],

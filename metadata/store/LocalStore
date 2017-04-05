@@ -11,5 +11,9 @@
         "storeId": "LocalStore"
     },
     "name": "MyStore",
+<<<<<<< HEAD
     "designerId": "2bc15503-4434-4703-b034-1b1ec9fda636"
+=======
+    "designerId": "b4f21b07-932a-4933-9bef-aa29423cbf89"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 }

@@ -12,6 +12,7 @@
         "designer|userAlias": "dealPicture",
         "designer|userClassName": "DealPicture",
         "fullscreen": true,
+<<<<<<< HEAD
         "height": null,
         "id": "dealPicture",
         "itemId": "dealPicture",
@@ -22,6 +23,13 @@
         "scrollable": null,
         "style": "background:#fff",
         "width": "100%"
+=======
+        "id": "dealPicture",
+        "itemId": "dealPicture",
+        "layout": "fit",
+        "scrollable": true,
+        "style": "background:#fff"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
     },
     "designerId": "b78d5436-71c8-48eb-ba05-2d08234588cd",
     "cn": [
@@ -129,6 +137,7 @@
             ]
         },
         {
+<<<<<<< HEAD
             "type": "basiceventbinding",
             "reference": {
                 "name": "listeners",
@@ -151,12 +160,16 @@
         },
         {
             "type": "Ext.Component",
+=======
+            "type": "Ext.Toolbar",
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
+<<<<<<< HEAD
                 "cls": [
                     "contact-name"
                 ],
@@ -173,6 +186,12 @@
             },
             "name": "MyComponent2",
             "designerId": "8c8c5e85-99be-4806-8d2b-9624f25e818e",
+=======
+                "docked": "top"
+            },
+            "name": "MyToolbar",
+            "designerId": "5b415e4a-726d-43f3-ac6e-4f8d68c2af32",
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
             "cn": [
                 {
                     "type": "basiceventbinding",
@@ -182,6 +201,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+<<<<<<< HEAD
                         "fn": "onDealimagePainted",
                         "implHandler": [
                             "var record = Ext.getStore('LocalStore').getAt(0);",
@@ -202,6 +222,60 @@
                     },
                     "name": "onDealimagePainted",
                     "designerId": "3e347cb2-2cfa-4bf7-a3b8-0bebd86ebe13"
+=======
+                        "designer|uiInterfaceName": "plain",
+                        "style": "border:none;font-size:8vw",
+                        "text": "Back",
+                        "ui": "plain"
+                    },
+                    "name": "MyButton",
+                    "designerId": "30ea22c5-b226-4821-8805-b19674fcabf3",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "Ext.getStore('LocalStore').removeAt(0);",
+                                    "Ext.Viewport.getActiveItem().destroy();",
+                                    "var view = Ext.Viewport.add({xtype:'DealsPanel'});",
+                                    "Ext.Viewport.setActiveItem(view);",
+                                    ""
+                                ]
+                            },
+                            "name": "handler",
+                            "designerId": "b583a6da-d661-4245-809f-7afe7951a364"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "plain",
+                        "docked": "right",
+                        "iconCls": "action",
+                        "itemId": "share",
+                        "style": "border:none;font-size:7vw",
+                        "text": null,
+                        "ui": "plain"
+                    },
+                    "name": "MyButton5",
+                    "designerId": "4b2cc1f1-bf93-4b70-8cf5-274cf035404a"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
                 }
             ]
         },

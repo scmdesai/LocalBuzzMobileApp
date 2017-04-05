@@ -13,6 +13,7 @@
  * Do NOT hand edit this file.
  */
 
+<<<<<<< HEAD
 Ext.define('LocalBuzzMerchantDemo.view.DealsPanel', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.DealsPanel',
@@ -145,5 +146,50 @@ Ext.define('LocalBuzzMerchantDemo.view.DealsPanel', {
 			Ext.getCmp('UploadDeal').enable();
 		}
 	}
+=======
+Ext.define('Contact.view.DealsPanel', {
+    extend: 'Ext.Panel',
+    alias: 'widget.DealsPanel',
+
+    requires: [
+        'Contact.view.ListOfDeals',
+        'Ext.Toolbar',
+        'Ext.Button',
+        'Ext.dataview.List'
+    ],
+
+    config: {
+        height: '100%',
+        padding: '5 5 5 5',
+        style: 'background:#fff',
+        scrollable: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax',
+            pack: 'center'
+        },
+        items: [
+            {
+                xtype: 'toolbar',
+                docked: 'top',
+                items: [
+                    {
+                        xtype: 'button',
+                        itemId: 'dealBackBtn',
+                        style: 'border:none;font-size:8vw',
+                        ui: 'plain',
+                        text: 'Back'
+                    }
+                ]
+            },
+            {
+                xtype: 'listofdeals',
+                height: '90%',
+                minHeight: '90%',
+                flex: 1
+            }
+        ]
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 
 });

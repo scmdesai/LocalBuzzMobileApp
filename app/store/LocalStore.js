@@ -13,6 +13,7 @@
  * Do NOT hand edit this file.
  */
 
+<<<<<<< HEAD
 Ext.define('LocalBuzzMerchantDemo.store.LocalStore', {
 	extend: 'Ext.data.Store',
 
@@ -24,4 +25,17 @@ Ext.define('LocalBuzzMerchantDemo.store.LocalStore', {
 		model: 'LocalBuzzMerchantDemo.model.Deal',
 		storeId: 'LocalStore'
 	}
+=======
+Ext.define('Contact.store.LocalStore', {
+    extend: 'Ext.data.Store',
+
+    requires: [
+        'Contact.model.Deal'
+    ],
+
+    config: {
+        model: 'Contact.model.Deal',
+        storeId: 'LocalStore'
+    }
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
 });

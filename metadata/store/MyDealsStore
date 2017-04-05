@@ -22,9 +22,16 @@
             },
             "codeClass": null,
             "userConfig": {
+<<<<<<< HEAD
                 "callbackKey": null,
                 "timeout": 300000,
                 "url": "http://services.appsonmobile.com/demoDeals"
+=======
+                "extraParams": [
+                    "{customerId}"
+                ],
+                "url": "http://awseb-e-t-awsebloa-6jvxjux3fp3k-1527799463.us-west-2.elb.amazonaws.com/deals"
+>>>>>>> 9aa003d17072fb2b35719aa33fba9abae5e66c2b
             },
             "name": "MyJsonPProxy4",
             "designerId": "bc4564d9-e33b-4116-9f9f-85c6e6753e2a",
