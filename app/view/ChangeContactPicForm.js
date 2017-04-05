@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.ChangeContactPicForm', {
+Ext.define('LocalBuzzMerchantDemo.view.ChangeContactPicForm', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.ChangeContactPicForm',
 
@@ -42,16 +42,16 @@ Ext.define('Contact.view.ChangeContactPicForm', {
 		items: [
 			{
 				xtype: 'filefield',
-				baseCls: 'customfield1',
+				cls: 'customfield1',
 				itemId: 'myfilefield1',
 				margin: '5 5 5 5',
-				style: 'border:none',
 				styleHtmlContent: true,
 				width: 214,
 				clearIcon: false,
 				label: '',
 				labelWrap: true,
 				name: 'fileUpload',
+				accept: 'image',
 				capture: 'camera'
 			},
 			{
@@ -67,67 +67,66 @@ Ext.define('Contact.view.ChangeContactPicForm', {
 
 
 					var store = Ext.getStore('MyJsonPStore');
+					var file= form.getAt(0).getValue();
+
+					if(file){
+
+						form.submit({
+
+							url: 'http://services.appsonmobile.com/demoStores/' + customerId ,
+							xhr2:true,
+							cache: false,
+							waitMsg : 'Please Wait...',
+							success: function(form,action){
+
+								//var view = Ext.Viewport.getActiveItem();
+
+								/*record.setDirty();
+
+								record.beginEdit(true,record.getChanges());
+
+								form.updateRecord(record);
+
+								record.endEdit(true,record.getChanges());
 
 
-					form.submit({
+								record.commit();*/
 
-						url: 'http://services.appsonmobile.com/stores/' + customerId ,
-						xhr2:true,
-						cache: false,
-						success: function(form,action){
+								store.sync();
+								store.load();
 
 
+								Ext.Msg.alert('Record updated', "Please login again to see the changes",null,null);
 
-							var view = Ext.Viewport.getActiveItem();
+								Ext.Viewport.getComponent('formpanel').setRecord(record);
+								form.destroy();
 
-
-
-							record.beginEdit(true,record.getChanges());
-
-							form.updateRecord(record);
-
-							record.endEdit(true,record.getChanges());
-
-
-							record.commit();
-
-
-
-
-							store.sync();
-							store.load();
-
-
-							Ext.Msg.alert('Success',action.msg);
-
-
-
-
-							view.setRecord(record);
-
+								//view.setRecord(record);
 
 
 
 
 
-							form.destroy();
+							},
+							failure: function(form,action) {
+
+								store.load();
+								Ext.Msg.alert('Oops.....!Something went wrong','Please check your internet connection or try again later',null,null);
 
 
 
-						},
-						failure: function(form,action) {
+								form.destroy();
 
-							store.load();
-							Ext.Msg.alert('Failure',action.msg);
+							},
 
 
+						});
+					}
+					else {
 
-							form.destroy();
+						Ext.Msg.alert('Error!','No image to upload ',null,null);
 
-						},
-
-
-					});
+					}
 
 
 
@@ -175,6 +174,11 @@ Ext.define('Contact.view.ChangeContactPicForm', {
 				xtype: 'textfield',
 				hidden: true,
 				name: 'emailAddress'
+			},
+			{
+				xtype: 'textfield',
+				hidden: true,
+				name: 'loginEmail'
 			},
 			{
 				xtype: 'textfield',

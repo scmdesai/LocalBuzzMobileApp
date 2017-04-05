@@ -9,67 +9,86 @@ $list-color: #fff;
 $list-header-bg-color: $base-color;
 
 .favorite {
-    border: 2px outset #C0C0C0; 
-    padding: 5px 5px 5px 5px; 
-    margin: 5px 5px 5px 5px;
-    text-align: center;
+	border: 2px outset #C0C0C0; 
+	padding: 5px 5px 5px 5px; 
+	margin: 5px 5px 5px 5px;
+	text-align: center;
 }
 
 .square {
-    border-radius: 0px;
+	border-radius: 0px;
 }
 
 .contact-name{
-    color:#00529D;
-    padding-left: 4px;
-    word-wrap: normal;
-	font-size:5.2vw;
+	color:#00529D;
+	padding-left: 4px;
+	word-wrap: normal;
+	font-size:6vw;
 }
 
 .toolbarCls {
-    background:white !important;
-    border-bottom:1px solid #C0C0C0 !important;
+	background:white !important;
+	border-bottom:1px solid #C0C0C0 !important;
 }
 
 .emptyText {
-    
-    color: #C0C0C0 !important;
-    position: absolute !important;
-    text-align:center !important;
-    vertical-align:middle !important;
-    top: 50px !important;
-    left:20px !important;
-    font-family:Arial !important;
-    font-size:4vw !important;
+
+	color: #C0C0C0 !important;
+	position: absolute !important;
+	text-align:center !important;
+	vertical-align:middle !important;
+	top: 50px !important;
+	left:20px !important;
+	font-family:Arial !important;
+	font-size:4vw !important;
 }
 
 .dateValidity {
-    color:grey;
-    font-size:2.5vw;
-    font-style:italics;
-    font-weight:normal;
-    font-family:'Arial';
+	color:grey;
+	font-size:2.5vw;
+	font-style:italics;
+	font-weight:normal;
+	font-family:'Arial';
 
 }
 .expiringDate {
-    color:#ff0000;
-    font-size:2.5vw;
-    font-style:italics;
-    font-weight:normal;
-    font-family:'Arial';
-    
+	color:#ff0000;
+	font-size:2.5vw;
+	font-style:italics;
+	font-weight:normal;
+	font-family:'Arial';
+
 
 }
 
 
 .customfield {
-    border:1px groove #C0C0C0!important;
-    height:12vh;
-    font-weight:normal !important;
-    text-align:center !important;
-    vertical-align:middle !important;
-    font-family:Arial !important;
-    font-size:4vw !important;
+	border:1px groove #C0C0C0!important;
+	height:12vh;
+	font-weight:normal !important;
+	text-align:center !important;
+	vertical-align:middle !important;
+	font-family:Arial !important;
+	font-size:5vw !important;
+	padding-right:5px!important;
+	overflow: visible;
+
+
+
+
+
+
+
+}
+
+.filefield {
+	border:1px groove #C0C0C0!important;
+	height:12vh;
+	font-weight:normal !important;
+	text-align:center !important;
+	vertical-align:middle !important;
+	font-family:Arial !important;
+	font-size:4vw !important;
 	padding-right:5px!important;
 	overflow: visible;
 
@@ -84,19 +103,19 @@ $list-header-bg-color: $base-color;
 
 
 .tabBarCls {
-    padding: 5px,5px,5px,5px;
+	padding: 5px,5px,5px,5px;
 }
 
 
 
 .x-field {
-    border-bottom:1px groove #C0C0C0!important;
-    height:12vh;
-    font-weight:normal !important;
-    text-align:center !important;
-    vertical-align:middle !important;
-    font-family:Arial !important;
-    font-size:4vw !important;
+	border-bottom:1px groove #C0C0C0!important;
+	height:12vh;
+	font-weight:normal !important;
+	text-align:center !important;
+	vertical-align:middle !important;
+	font-family:Arial !important;
+	font-size:4.5vw;
 	padding-right:5px!important;
 
 
@@ -108,29 +127,29 @@ $list-header-bg-color: $base-color;
 }
 
 .x-form-label {
-	
-    font-weight:normal !important;
-    text-align:center !important;
-    vertical-align:middle !important;
+
+	font-weight:normal !important;
+	text-align:center !important;
+	vertical-align:middle !important;
 	padding-top:15px !important;
-    font-family:Arial !important;
-    font-size:4.5vw;
+	font-family:Arial !important;
+	font-size:4.5vw;
 	border-top-left-radius:0 em;
 	background:#FFF !important;
 	border-right:1px solid #eee!important;
-	
+
 }
 
 
 
 .customfield1 {
-    height:12vh;
-    font-weight:normal !important;
-    text-align:center !important;
-    vertical-align:middle !important;
-    font-family:Arial !important;
-    font-size:4vw;
-	
+	height:12vh;
+	font-weight:normal !important;
+	text-align:center !important;
+	vertical-align:middle !important;
+	font-family:Arial !important;
+	font-size:4vw;
+	border:none;
 
 
 
@@ -143,15 +162,15 @@ $list-header-bg-color: $base-color;
 
 
 .searchfield {
-    border-bottom:2px groove #C0C0C0;
-    margin:5px 5px 5px 5px;
-    font-size:5vw;
-    height:12vh;
-    font-weight:normal;
-    text-align:center;
-    vertical-align:middle;
-    font-family:Arial;
-    border-radius:7px;
+	border-bottom:2px groove #C0C0C0;
+	margin:5px 5px 5px 5px;
+	font-size:5vw;
+	height:12vh;
+	font-weight:normal;
+	text-align:center;
+	vertical-align:middle;
+	font-family:Arial;
+	border-radius:7px;
 
 
 

@@ -13,23 +13,22 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.contactinfo', {
+Ext.define('LocalBuzzMerchantDemo.view.contactinfo', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.contactinfo',
 
 	requires: [
-		'Contact.view.Picture',
 		'Ext.Toolbar',
-		'Ext.Button',
 		'Ext.Spacer',
-		'Ext.field.TextArea'
+		'Ext.Button',
+		'Ext.field.TextArea',
+		'Ext.Menu'
 	],
 
 	config: {
 		border: 5,
-		height: '100%',
+		id: 'info',
 		itemId: 'info',
-		minHeight: '100%',
 		style: 'background;#fff',
 		styleHtmlContent: true,
 		modal: true,
@@ -46,14 +45,12 @@ Ext.define('Contact.view.contactinfo', {
 				ui: 'plain',
 				items: [
 					{
-						xtype: 'button',
-						docked: 'right',
-						height: 48,
-						itemId: 'editButton',
-						style: 'color:#00529D',
-						ui: 'plain',
-						width: '20%',
-						iconCls: 'compose'
+						xtype: 'component',
+						cls: 'contact-name',
+						disabled: true,
+						html: '<b>First Name</b>',
+						id: 'nameTxt',
+						itemId: 'nameTxt'
 					},
 					{
 						xtype: 'spacer',
@@ -61,89 +58,292 @@ Ext.define('Contact.view.contactinfo', {
 						width: 18
 					},
 					{
-						xtype: 'component',
-						cls: 'contact-name',
-						disabled: true,
-						html: '<b>First Name</b>',
-						id: 'nameTxt',
-						itemId: 'nameTxt'
+						xtype: 'button',
+						docked: 'right',
+						itemId: 'mybutton10',
+						style: 'color:#00529D',
+						ui: 'plain',
+						iconCls: 'icon-menu'
 					}
 				]
 			},
 			{
-				xtype: 'textfield',
-				cls: 'icon-phone',
-				disabled: false,
-				height: '',
-				itemId: 'phoneNumber',
-				margin: '',
-				minWidth: '',
-				padding: '10 10 10 10',
-				clearIcon: false,
-				name: 'phoneNumber',
-				readOnly: true
-			},
-			{
-				xtype: 'textfield',
-				cls: 'icon-email',
-				disabled: false,
-				height: '',
-				itemId: 'email',
-				minWidth: '',
-				padding: '10 10 10 10',
-				clearIcon: false,
-				label: '',
-				name: 'emailAddress',
-				readOnly: true
-			},
-			{
-				xtype: 'textfield',
-				cls: 'icon-globe',
-				disabled: false,
-				height: '',
-				itemId: 'websiteDisplayName',
-				padding: '10 10 10 10',
-				style: 'font-size:2px !important',
-				clearIcon: false,
-				name: 'websiteDisplayName',
-				readOnly: true
+				xtype: 'component',
+				cls: 'contact-name',
+				disabled: true,
+				docked: 'top',
+				height: '40vh',
+				id: 'storeImage',
+				itemId: 'storeImage'
 			},
 			{
 				xtype: 'textareafield',
-				baseCls: '',
 				cls: [
-					'icon-location',
+					'icon-location1',
 					'customfield1'
 				],
 				disabled: false,
+				docked: 'bottom',
 				height: '12vh',
+				hidden: false,
 				html: '',
 				itemId: 'address',
+				margin: '0 5 0 5',
 				maxHeight: '',
 				minHeight: '',
-				padding: '10 10 10 10',
-				style: '\'font-size:3.5vw;font-family: arial\'',
+				padding: '10 0 5 10',
+				style: 'font-size:3.5vw;',
+				styleHtmlContent: true,
 				clearIcon: false,
 				name: 'address',
+				placeHolder: 'Not Listed',
 				readOnly: true,
 				maxRows: 2
 			},
 			{
-				xtype: 'contactpic',
-				cls: 'x-panel-body',
-				docked: 'top',
-				height: '30%',
-				itemId: 'contactpic',
-				width: ''
+				xtype: 'textfield',
+				cls: [
+					'icon-globe1',
+					'customfield2'
+				],
+				disabled: false,
+				docked: 'bottom',
+				height: '1vh',
+				hidden: false,
+				itemId: 'websiteDisplayName',
+				margin: '0 5 0 5',
+				padding: '0 0 5 15',
+				style: 'font-size:5vw;font-family: arial',
+				styleHtmlContent: true,
+				width: '95%',
+				clearIcon: false,
+				name: 'websiteDisplayName',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: [
+					'icon-email1',
+					'customfield2'
+				],
+				disabled: false,
+				docked: 'bottom',
+				height: '1vh',
+				hidden: false,
+				itemId: 'email',
+				margin: '0 5 0 5',
+				padding: '0 0 5 5',
+				style: 'font-size:5vw;font-family: arial',
+				styleHtmlContent: true,
+				width: '95%',
+				clearIcon: false,
+				label: '',
+				name: 'emailAddress',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: [
+					'icon-email1',
+					'customfield2'
+				],
+				disabled: false,
+				docked: 'bottom',
+				height: '1vh',
+				hidden: true,
+				itemId: 'email1',
+				margin: '0 5 0 5',
+				padding: '0 0 5 5',
+				style: 'font-size:5vw;font-family: arial',
+				styleHtmlContent: true,
+				width: '95%',
+				clearIcon: false,
+				label: '',
+				name: 'loginEmail',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: [
+					'icon-phone1',
+					'customfield2'
+				],
+				disabled: false,
+				docked: 'bottom',
+				height: '1vh',
+				hidden: false,
+				id: 'phoneNumber2',
+				itemId: 'phoneNumber',
+				margin: '0 5 0 5',
+				padding: '0 0 5 5',
+				style: 'font-size:4.5vw;font-family: arial;',
+				styleHtmlContent: true,
+				width: '95%',
+				clearIcon: false,
+				name: 'phoneNumber',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber1',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'city',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber2',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'state',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber3',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'zipcode',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber4',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'pictureURL',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber5',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'customerId',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber6',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'category',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				disabled: false,
+				height: '',
+				hidden: true,
+				itemId: 'phoneNumber7',
+				margin: '',
+				minWidth: '',
+				padding: '10 10 10 10',
+				clearIcon: false,
+				name: 'businessName',
+				readOnly: true
+			},
+			{
+				xtype: 'button',
+				hidden: true,
+				itemId: 'editButton',
+				margin: '5 5 5 5',
+				style: 'color:#00529D;font-size:6vw;',
+				styleHtmlContent: true,
+				ui: 'plain',
+				iconCls: 'compose'
+			}
+		],
+		listeners: [
+			{
+				fn: 'onMybutton10Tap',
+				event: 'tap',
+				delegate: '#mybutton10'
+			},
+			{
+				fn: 'onInfoPainted',
+				event: 'painted'
 			}
 		]
+	},
+
+	onMybutton10Tap: function(button, e, eOpts) {
+
+
+		if(Ext.getCmp('menu').isHidden())
+
+		Ext.Viewport.showMenu('right');
+		else
+		Ext.Viewport.hideMenu('right');
+
+
+
+
+	},
+
+	onInfoPainted: function(element, eOpts) {
+
+		var storeUserDetails = Ext.getStore('UserDetails');
+		storeUserDetails.load();
+		var customerId;
+		var businessName;
+		var date = new Date();
+
+		var today = Ext.Date.format(date, 'n/j/Y');
+
+		storeUserDetails.each(function(record){
+			//console.log('StoreUserDetails : ' +record.get('customerId'));
+			customerId = record.get('customerId');
+			businessName = record.get('businessName');
+
+		});
+
+		var record = Ext.getStore('MyJsonPStore').findRecord('customerId',customerId);
+
+		this.setRecord(record);
 	},
 
 	setRecord: function(record) {
 
 		this.callParent(arguments);
 
-
+		console.log('Set Record of info page');
 
 
 		if (record) {
@@ -157,7 +357,15 @@ Ext.define('Contact.view.contactinfo', {
 
 			this.down('#nameTxt').setHtml(name);
 
-		   this.down('contactpic').setData(record.data);
+			//this.down('contactpic').setData(record.data);
+
+		this.down('#storeImage').setHtml('<img src = "'+record.get('pictureURL')+'" style="height:40vh;width:95%;margin-left:5px;margin-top:2px;"/>');
+
+
+
+
+
+
 
 
 
@@ -172,6 +380,70 @@ Ext.define('Contact.view.contactinfo', {
 
 
 
+	},
+
+	initialize: function() {
+		this.callParent();
+		var menu = Ext.create('Ext.Menu', {
+			id:'menu',
+		     items: [
+		         {
+
+		             iconCls: 'icon-edit',
+					 handler: function(){
+
+						Ext.Viewport.hideMenu('right');
+						var storeUserDetails = Ext.getStore('UserDetails');
+						storeUserDetails.load();
+						var customerId;
+						var businessName;
+
+						storeUserDetails.each(function(record){
+						console.log('StoreUserDetails : ' +record.get('customerId'));
+						customerId = record.get('customerId');
+						businessName = record.get('businessName');
+
+						});
+
+
+
+						var form = Ext.Viewport.add({xtype:'contactform'});
+
+						var record = Ext.getStore('MyJsonPStore').findRecord('customerId',customerId,0,true,false,false);
+
+						Ext.Viewport.setActiveItem(form);
+						form.setRecord(record);
+				 }
+
+		         },
+		         {
+
+		             iconCls: 'icon-signout',
+					 handler: function(){
+						 Ext.Viewport.hideMenu('right');
+						 Ext.Msg.confirm('Logout','Are you sure you want to logout?',function(btn){
+						if (btn == 'yes'){
+
+
+							FacebookInAppBrowser.logout(function(){
+								window.localStorage.setItem('facebookAccessToken',null) ;
+								location.reload();
+								//navigator.app.exitApp();
+
+							});
+						}
+						});
+					 }
+		         }
+		     ]
+
+		 });
+
+		 Ext.Viewport.setMenu(menu, {
+		     side: 'right',
+		     reveal: true,
+
+		 });
 	}
 
 });

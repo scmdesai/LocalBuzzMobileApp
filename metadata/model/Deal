@@ -203,6 +203,46 @@
                     "designerId": "cae7fdf9-d6ce-4857-8b6f-36165a2de816"
                 }
             ]
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealDescription",
+                "type": "string"
+            },
+            "name": "field28",
+            "designerId": "28a88b72-ac29-42d8-97fa-974fd12ad8b7"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dealImageURL"
+            },
+            "name": "field30",
+            "designerId": "d07b5648-1090-4e45-9ba1-aca9af76cbaf"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "city"
+            },
+            "name": "field37",
+            "designerId": "00daf0fd-475b-446d-b59d-2a558e921d48"
         }
     ]
 }

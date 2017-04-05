@@ -1,0 +1,734 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoDestroy": false,
+        "baseCls": null,
+        "baseParams": null,
+        "container|align": "stretchmax",
+        "designer|uiInterfaceName": "light",
+        "designer|userAlias": "UpdateDealForm",
+        "designer|userClassName": "UpdateDealForm",
+        "html": "",
+        "id": "formpanel1",
+        "itemId": "formpanel",
+        "layout": "vbox",
+        "modal": true,
+        "multipartDetection": false,
+        "scrollable": false,
+        "style": "background:white",
+        "ui": "light"
+    },
+    "name": "contactform1",
+    "designerId": "0f725449-3288-415e-ad3a-2f2fa6313d12",
+    "cn": [
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getValidationErrors",
+                "implHandler": [
+                    "var errors = [];",
+                    "        var reqFields = this.query('field[required=true]');",
+                    "        var i = 0, ln = reqFields.length, field;",
+                    "        for (; i < ln; i++) {",
+                    "            field = reqFields[i];",
+                    "            if (!field.getValue()) {",
+                    "                errors.push(field.getLabel() + ' must be completed.');",
+                    "            }",
+                    "        }",
+                    "        console.dir(errors);",
+                    "        return errors;"
+                ]
+            },
+            "name": "getValidationErrors",
+            "designerId": "b902cb59-cf45-4d3d-bff8-ae7bc49dc36c"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "customfield"
+                ],
+                "designer|displayName": "businessName",
+                "height": "15%",
+                "hidden": true,
+                "id": "businessName1",
+                "itemId": "businessName",
+                "label": null,
+                "margin": "30 15 2 15",
+                "name": "businessName",
+                "styleHtmlContent": true
+            },
+            "name": "MyTextField1",
+            "designerId": "d7602346-0d2a-402f-832d-eb3efaafa26f"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "hidden": true,
+                "id": "customerId1",
+                "itemId": "customerId",
+                "name": "customerId"
+            },
+            "name": "MyTextField6",
+            "designerId": "9858542a-e767-4f01-8e63-8543cc11b065"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "customfield"
+                ],
+                "disabled": false,
+                "height": null,
+                "id": "DealName",
+                "inputCls": null,
+                "itemId": "DealName",
+                "label": "Name",
+                "labelCls": null,
+                "labelWidth": "35%",
+                "margin": "5 5 5 5 ",
+                "name": "DealName",
+                "padding": "",
+                "readOnly": true,
+                "style": "border:1px solid #C0C0C0!important:color: #d3d3d3!important",
+                "styleHtmlContent": true,
+                "width": ""
+            },
+            "name": "MyTextField3",
+            "designerId": "68ad3dce-62f1-4c33-8041-9964f76c14ec"
+        },
+        {
+            "type": "Ext.field.Select",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "autoSelect": false,
+                "baseCls": null,
+                "cls": [
+                    "customfield"
+                ],
+                "designer|displayName": "DealStatus",
+                "id": "DealStatus",
+                "inputCls": null,
+                "itemId": "DealStatus",
+                "label": "Status",
+                "labelWidth": "35%",
+                "labelWrap": true,
+                "margin": "5 5 5 5 ",
+                "maxHeight": "",
+                "name": "DealStatus",
+                "options": [
+                    "[{text:'Active',value:'Active'},",
+                    "{text:'Expired',value:'Expired'}]"
+                ],
+                "placeHolder": "Active",
+                "style": "",
+                "styleHtmlContent": true,
+                "value": [
+                    "Active"
+                ]
+            },
+            "name": "MySelectField1",
+            "designerId": "e325185f-d860-4008-95df-1acfac3de32e"
+        },
+        {
+            "type": "Ext.field.DatePicker",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "autoSelect": false,
+                "cls": [
+                    "customfield",
+                    "x-field-select"
+                ],
+                "dateFormat": "m/d/Y",
+                "displayField": null,
+                "id": "DealStartDate1",
+                "inputCls": null,
+                "itemId": "DealStartDate",
+                "label": "Start Date",
+                "labelWidth": "35%",
+                "labelWrap": true,
+                "margin": "5 5 5 5 ",
+                "name": "DealStartDate",
+                "options": [
+                    "{minDate: new Date()}"
+                ],
+                "placeHolder": "mm/dd/yyyy",
+                "usePicker": [
+                    "true"
+                ],
+                "value": [
+                    "{ day: new Date().getDate(), month: (new Date().getMonth()+1), year : new Date().getFullYear()}"
+                ],
+                "width": "97%"
+            },
+            "name": "MyDatePicker2",
+            "configAlternates": {
+                "value": "object"
+            },
+            "designerId": "38df148b-36e3-4587-9928-051ed159c3b8",
+            "cn": [
+                {
+                    "type": "Ext.picker.Date",
+                    "reference": {
+                        "name": "picker",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "itemId": "mydatepicker3",
+                        "scrollable": false,
+                        "stretchX": false,
+                        "stretchY": false,
+                        "style": "",
+                        "ui": null,
+                        "yearFrom": 2016
+                    },
+                    "name": "MyDatePicker3",
+                    "designerId": "bfc6bd85-319d-47c7-9a94-308bca1cab0a",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "doneButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Done"
+                            },
+                            "name": "MyButton13",
+                            "designerId": "d86dea90-4bbc-4013-bdbb-9efe171b8946"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "cancelButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "docked": null,
+                                "text": "Cancel"
+                            },
+                            "name": "MyButton14",
+                            "designerId": "1eed03c6-ab78-4834-826f-db9ce14da13b"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.field.DatePicker",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "customfield",
+                    "x-field-select"
+                ],
+                "dateFormat": null,
+                "id": "DealEndDate1",
+                "inputCls": null,
+                "itemId": "DealEndDate",
+                "label": "End Date",
+                "labelWidth": "35%",
+                "margin": "5 5 5 5 ",
+                "name": "DealEndDate",
+                "placeHolder": "mm/dd/yyyy",
+                "usePicker": [
+                    "true"
+                ],
+                "value": [
+                    "{",
+                    "day: new Date().getDate()+1, month: (new Date().getMonth()+1), year : new Date().getFullYear()",
+                    "",
+                    "}",
+                    ""
+                ],
+                "width": "97%"
+            },
+            "name": "MyDatePicker4",
+            "configAlternates": {
+                "value": "object"
+            },
+            "designerId": "e603e0cb-d1aa-42cb-a4c5-a51faefc51ff",
+            "cn": [
+                {
+                    "type": "Ext.picker.Date",
+                    "reference": {
+                        "name": "picker",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "styleHtmlContent": true,
+                        "yearFrom": 2016
+                    },
+                    "name": "MyDatePicker3",
+                    "designerId": "b7490a98-e864-42de-8093-aeb28fffaf62",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "doneButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Done"
+                            },
+                            "name": "MyButton13",
+                            "designerId": "988a879f-a51f-4874-8ac1-51626016ba46"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "cancelButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Cancel"
+                            },
+                            "name": "MyButton14",
+                            "designerId": "458d2d62-43c3-4f45-90de-c35b29a122ed"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.field.TextArea",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "customfield"
+                ],
+                "height": "100%",
+                "id": "DealDescription",
+                "inputCls": null,
+                "itemId": "DealDescription",
+                "label": "Description",
+                "labelCls": null,
+                "labelWidth": "35%",
+                "margin": "5 5 5 5 ",
+                "name": "DealDescription",
+                "padding": "",
+                "style": "border:1px solid #C0C0C0!important",
+                "styleHtmlContent": true,
+                "width": ""
+            },
+            "name": "MyTextArea3",
+            "designerId": "f079aee5-c7a2-40f3-a81c-da4a365f7a46"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "customfield"
+                ],
+                "disabled": false,
+                "height": null,
+                "hidden": true,
+                "id": "DealImageURL",
+                "inputCls": null,
+                "itemId": "DealImageURL",
+                "label": null,
+                "labelCls": null,
+                "labelWidth": "35%",
+                "margin": "5 5 5 5 ",
+                "name": "DealImageURL",
+                "padding": "",
+                "readOnly": true,
+                "style": "border:1px solid #C0C0C0!important",
+                "styleHtmlContent": true,
+                "width": ""
+            },
+            "name": "MyTextField39",
+            "designerId": "fedaee6d-e2b6-47d7-9da0-86f82ebb01e3"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "hidden": true,
+                "id": "itemName",
+                "itemId": "itemName",
+                "name": "itemName"
+            },
+            "name": "MyTextField36",
+            "designerId": "9db185c0-90c8-4e39-91f8-9f5328a70d57"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "layout": "hbox",
+                "left": ""
+            },
+            "name": "MyContainer8",
+            "designerId": "0409972a-d574-4286-9749-30eaed4d7b06",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "left",
+                        "html": "<input type=\"checkbox\" name=\"chkbx\" id=\"chkbx\">",
+                        "left": "40%",
+                        "margin": "5 5 5 15",
+                        "top": "50%"
+                    },
+                    "name": "MyContainer7",
+                    "designerId": "32afe2e2-6be9-4490-aa56-bc6ed97a5274"
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "right",
+                        "height": "40px",
+                        "html": "<a id=\"terms\" style=\"font-size:2.5vw;\" > I agree to Apps On Mobile LLC's Terms & Conditions</a>",
+                        "itemId": "mycontainer5",
+                        "layout": "hbox",
+                        "margin": "5 5 5 10",
+                        "padding": "5 30 5 0",
+                        "styleHtmlContent": true,
+                        "width": null
+                    },
+                    "name": "MyContainer5",
+                    "designerId": "564d35a3-de19-4347-bffe-f0f275098882",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onMycontainer5Painted1",
+                                "implHandler": [
+                                    "element.addListener('tap',function(){",
+                                    "\t//Ext.Viewport.add({xtype:'Terms'}).show();",
+                                    "\tvar url = \"http://www.appsonmobile.com/terms-and-conditions/\";",
+                                    "    window.open(url, '_system', 'location=yes');",
+                                    "",
+                                    "});"
+                                ],
+                                "name": "painted"
+                            },
+                            "name": "onMycontainer5Painted1",
+                            "designerId": "5747b5e7-3e5d-4466-ba67-e3d34b0c0520"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": null,
+                "height": 140,
+                "html": null,
+                "layout": "fit",
+                "margin": "10 10 10 10 10",
+                "scrollable": false,
+                "style": null,
+                "styleHtmlContent": true,
+                "width": null
+            },
+            "name": "MyContainer",
+            "designerId": "1b70c597-e169-49d5-a616-3a26703f5919",
+            "cn": [
+                {
+                    "type": "Ext.Spacer",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "maxWidth": "",
+                        "minWidth": "",
+                        "width": null
+                    },
+                    "name": "MySpacer5",
+                    "designerId": "acdce5b3-6bc2-4b9e-adb4-8c4ba071f7db"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "decline",
+                        "docked": null,
+                        "height": "7vh",
+                        "minHeight": null,
+                        "style": "font-size:5vw!important",
+                        "text": "Cancel",
+                        "ui": "decline",
+                        "width": "40%"
+                    },
+                    "name": "MyButton3",
+                    "designerId": "823f8e20-198b-49c5-bceb-a1db8cd7ce05",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "Ext.Viewport.getActiveItem().destroy();",
+                                    ""
+                                ]
+                            },
+                            "name": "handler",
+                            "designerId": "5355045d-05ca-4838-a2da-941d70cc8215"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|uiInterfaceName": "confirm",
+                        "docked": "right",
+                        "height": "7vh",
+                        "itemId": "submit",
+                        "style": "font:size:4vw",
+                        "text": "Submit",
+                        "ui": "confirm",
+                        "width": "30%"
+                    },
+                    "name": "MyButton15",
+                    "designerId": "9234996c-8aee-4e8e-9f0d-04c093cc3682",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "",
+                                    "var form = this.up('UpdateDealForm');",
+                                    "",
+                                    "",
+                                    "var itemName = form.getAt(8).getValue();",
+                                    "",
+                                    "var startDate = form.getAt(4).getValue();",
+                                    "",
+                                    "var endDate = form.getAt(5).getValue();",
+                                    "",
+                                    "var dealName = form.getAt(0).getValue();",
+                                    "",
+                                    "",
+                                    "",
+                                    "var date = new Date();",
+                                    "",
+                                    "console.log(startDate);",
+                                    "",
+                                    "if(dealName){",
+                                    "",
+                                    "if(endDate >= date){",
+                                    "\tif(endDate >= startDate){",
+                                    "",
+                                    "if(document.getElementById('chkbx').checked){",
+                                    "",
+                                    "",
+                                    "form.submit({",
+                                    "\turl: 'http://services.appsonmobile.com/demoDeals/editDeal/'+itemName,",
+                                    "\tsuccess: function(form, action) {",
+                                    "",
+                                    "\t\tExt.Msg.alert('Success', action.msg);",
+                                    "",
+                                    "",
+                                    "",
+                                    "\t\tform.destroy();",
+                                    "\t},",
+                                    "\t    failure: function(form,action) {",
+                                    "",
+                                    "\t\tstore.load();",
+                                    "\t\tExt.Msg.alert('Oops.....!Something went wrong','Please check your internet connection or try again later',null,null);",
+                                    "",
+                                    "\t\tform.destroy();",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "\t}",
+                                    "",
+                                    "});",
+                                    "}",
+                                    "else{",
+                                    "     Ext.Msg.alert(null,'You must agree to Terms & Conditions',null,null);",
+                                    "}",
+                                    "}",
+                                    "\telse",
+                                    "{",
+                                    "\tExt.Msg.alert('Error!','Buzz start date cannot be after end date',null,null);",
+                                    "}",
+                                    "}",
+                                    "else",
+                                    "\t{",
+                                    "\t\tExt.Msg.alert('Error!','Buzz end date error ',null,null);",
+                                    "\t}",
+                                    "}",
+                                    "else {",
+                                    "\tExt.Msg.alert('Error!','Buzz name field is empty',null,null);",
+                                    "",
+                                    "}"
+                                ]
+                            },
+                            "name": "handler",
+                            "designerId": "84cecc44-210d-46b2-859b-40ee3a46d100"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "record"
+                ],
+                "fn": "setRecord",
+                "implHandler": [
+                    "this.callParent(arguments);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "if (record) {",
+                    "",
+                    "",
+                    "",
+                    "\tthis.down('#DealName').setValue(record.data.dealName);",
+                    "\tthis.down('#DealStatus').setValue(record.data.dealStatus);",
+                    "\tthis.down('#DealDescription').setValue(record.data.dealDescription);",
+                    "\tthis.down('#DealImageURL').setValue(record.data.dealImageURL);",
+                    "\t//this.child('contactpic').setData(record.data);",
+                    "\t//this.down('#DealStartDate').setValue(record.data.dealStartDate);",
+                    "\t//this.down('#DealEndDate').setValue(record.data.dealEndDate);",
+                    "    ",
+                    "\tvar startDate = Ext.Date.parse(record.data.dealStartDate,'n/j/Y');",
+                    "    var endDate = Ext.Date.parse(record.data.dealEndDate,'n/j/Y');",
+                    "",
+                    "\t",
+                    "\tthis.down('#DealStartDate').setValue(startDate);",
+                    "    this.down('#DealEndDate').setValue(endDate);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "}",
+                    ""
+                ]
+            },
+            "name": "setRecord",
+            "designerId": "0c1dc3c4-76ed-4426-a2b6-21d09690dbcb"
+        }
+    ]
+}

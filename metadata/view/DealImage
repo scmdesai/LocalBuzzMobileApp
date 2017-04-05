@@ -1,0 +1,137 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "container|align": "stretchmax",
+        "designer|userAlias": "DealImage",
+        "designer|userClassName": "DealImage",
+        "height": "80%",
+        "id": "DealImage",
+        "itemId": "DealImage",
+        "layout": "vbox",
+        "scrollable": true,
+        "style": "background:#FFF;border:1px solid #00529D",
+        "top": null,
+        "width": "95%"
+    },
+    "name": "MyPanel",
+    "designerId": "b3f3de46-32b5-4740-b6f5-e72d715fc4bc",
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "tpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "tpl",
+                "implHandler": [
+                    "<div id=\"wrapper\" style=\"margin:0px 0px 0px 0px;height:100%;width:100%\">",
+                    "\t",
+                    "\t<tpl if=\"dealImageURL\">",
+                    "\t<div id=\"scroller\"><img src=\"{dealImageURL}\" style=\"margin:0px 0px 0px 0px;height:100%;width:100%\"/></div>",
+                    "                            ",
+                    "\t\t</tpl>",
+                    "\t\t",
+                    "\t</div>"
+                ]
+            },
+            "name": "tpl",
+            "designerId": "a8268bb3-8c9a-4aa9-9b1a-0a5d423111e6"
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "cls": [
+                    "toolbarCls"
+                ],
+                "docked": "top",
+                "height": "8vh"
+            },
+            "name": "MyToolbar3",
+            "designerId": "b2fde148-48f5-4ea1-b032-f1fbd706356b",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "icon-close"
+                        ],
+                        "designer|uiInterfaceName": "plain",
+                        "docked": "right",
+                        "id": "close",
+                        "itemId": "close",
+                        "padding": "10 10 10 10",
+                        "style": "color:#00529D;font-size:5vw",
+                        "text": null,
+                        "ui": "plain"
+                    },
+                    "name": "MyButton9",
+                    "designerId": "f3256f69-8099-486e-a706-683b7b112b8a",
+                    "cn": [
+                        {
+                            "type": "fixedfunction",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "designer|params": [
+                                    "button",
+                                    "e"
+                                ],
+                                "fn": "handler",
+                                "implHandler": [
+                                    "Ext.Viewport.getComponent('DealImage').destroy();",
+                                    ""
+                                ]
+                            },
+                            "name": "handler",
+                            "designerId": "83bf3c95-2027-46c9-a519-9cbbe051af60"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDealImageShow",
+                "implHandler": [
+                    "var myScroll = new IScroll('#wrapper', {",
+                    "\t\tzoom: true,",
+                    "\t\tscrollX: true,",
+                    "\t\tscrollY: true,",
+                    "\t\tmouseWheel: true,",
+                    "\t\twheelAction: 'zoom'",
+                    "\t});"
+                ],
+                "name": "show"
+            },
+            "name": "onDealImageShow",
+            "designerId": "7bd2dc3e-6259-4790-aa14-086aedcf81fd"
+        }
+    ]
+}

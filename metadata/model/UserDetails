@@ -101,6 +101,45 @@
             },
             "name": "field27",
             "designerId": "aba5b92c-41a2-4626-8304-9f82416c593b"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "DealPictureURL"
+            },
+            "name": "field29",
+            "designerId": "4a06e78b-c1a8-4805-baf9-e17be9858e27"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "city"
+            },
+            "name": "field32",
+            "designerId": "20643eb6-e0f2-4527-ba7c-6d7ec4647f88"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "state"
+            },
+            "name": "field38",
+            "designerId": "a3ed5289-a148-447a-8bc5-7c319d75569d"
         }
     ]
 }

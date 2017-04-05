@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.model.Deal', {
+Ext.define('LocalBuzzMerchantDemo.model.Deal', {
 	extend: 'Ext.data.Model',
 	alias: 'model.deal',
 
@@ -66,6 +66,16 @@ Ext.define('Contact.model.Deal', {
 				},
 				name: 'todayplusthreedays',
 				type: 'date'
+			},
+			{
+				name: 'dealDescription',
+				type: 'string'
+			},
+			{
+				name: 'dealImageURL'
+			},
+			{
+				name: 'city'
 			}
 		]
 	}

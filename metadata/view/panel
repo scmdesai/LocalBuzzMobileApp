@@ -1,0 +1,366 @@
+{
+    "type": "Ext.tab.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "container|animation": false,
+        "designer|userAlias": "panel",
+        "designer|userClassName": "panel",
+        "id": "panel",
+        "itemId": "panel"
+    },
+    "name": "MyTabPanel",
+    "designerId": "e5482b2d-4cfe-4301-8329-044a672aa4f3",
+    "cn": [
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "Home",
+                "height": "",
+                "iconCls": "icon-home",
+                "id": "home",
+                "itemId": "home",
+                "padding": null,
+                "title": "Home"
+            },
+            "name": "MyContainer2",
+            "designerId": "4640af11-a961-4281-8be1-b9495cd9535d",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": "100%"
+                    },
+                    "name": "contactinfo1",
+                    "designerId": "fd40d1a9-8b79-4ea4-8529-3b57501f06a7",
+                    "masterInstanceId": "78728b0e-2a11-433c-9806-3ef3e52b6a30"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "iconCls": "icon-localbuzzicon_latest",
+                "title": "Manage Buzz"
+            },
+            "name": "MyContainer3",
+            "designerId": "9799e9ea-3607-45f2-8943-fdf9fcf2ac12",
+            "cn": [
+                {
+                    "type": "linkedinstance",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": "100%"
+                    },
+                    "name": "dealspanel",
+                    "designerId": "db091b1e-f5ac-4f88-8242-14aac4e88d8b",
+                    "masterInstanceId": "d4764d2e-c8e8-43dc-80d9-21aa4125e50d"
+                }
+            ]
+        },
+        {
+            "type": "Ext.tab.Bar",
+            "reference": {
+                "name": "tabBar",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|align": "end",
+                "container|pack": "justify",
+                "designer|uiInterfaceName": "plain",
+                "docked": "bottom",
+                "height": "8%",
+                "itemId": "mytabbar1",
+                "padding": "35 40 0 40",
+                "style": "color:#c0c0c0;background:#FFF;font-size:4vw",
+                "ui": "plain"
+            },
+            "name": "MyTabBar1",
+            "designerId": "d54a2c9e-68a4-48e6-9519-10ccfd7b3917"
+        },
+        {
+            "type": "Ext.tab.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "BuzzOMeter",
+                "iconCls": "icon-buzzometer",
+                "id": "buzzometer",
+                "itemId": "buzzometer",
+                "style": "font-size:5vw",
+                "styleHtmlContent": true,
+                "title": "BuzzOMeter"
+            },
+            "name": "MyTabPanel",
+            "designerId": "b0d1af7e-84bf-44a8-9a1c-f6f43c046b21",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": "100%",
+                        "html": "<div id=\"chart1\"></div>",
+                        "itemId": "mypanel",
+                        "padding": null,
+                        "scrollable": true,
+                        "styleHtmlContent": true,
+                        "title": "Buzz Popularity"
+                    },
+                    "name": "MyContainer4",
+                    "designerId": "e47f2dd8-586a-4d41-9d64-74b12e323f47",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onPanelActivate",
+                                "implHandler": [
+                                    "var storeUserDetails = Ext.getStore('UserDetails');",
+                                    "storeUserDetails.load();",
+                                    "var customerId;",
+                                    "var businessName;",
+                                    "",
+                                    "storeUserDetails.each(function(record){",
+                                    "\t//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                                    "\tcustomerId = record.get('customerId');",
+                                    "\tbusinessName = record.get('businessName');",
+                                    "",
+                                    "});",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "// Set a callback to run when the Google Visualization API is loaded.",
+                                    "google.charts.setOnLoadCallback(drawChart);",
+                                    "function drawChart() {",
+                                    "",
+                                    "",
+                                    "\t//Bar Chart",
+                                    "\tvar dataBarChart = new google.visualization.DataTable();",
+                                    "\tvar dealName=[];",
+                                    "",
+                                    "\tvar numberOfClicks=[];",
+                                    "\tdataBarChart.addColumn('string', 'dealName');",
+                                    "\tdataBarChart.addColumn('number', 'Number Of Clicks');",
+                                    "",
+                                    "\t$.getJSON('http://services.appsonmobile.com/analytics_buzz_popularity/v3/' + customerId,function(json){",
+                                    "\t\tfor(var i=0,j=i;i<json.totalResults;i++,j++){",
+                                    "",
+                                    "\t\t\tdealData = json.rows[i].toString();",
+                                    "",
+                                    "\t\t\ttmp = dealData.split(\",\");",
+                                    "",
+                                    "\t\t    dealName[j] = tmp[0];",
+                                    "",
+                                    "\t\t    numberOfClicks[j] = parseInt(tmp[1],10);",
+                                    "",
+                                    "",
+                                    "\t\t}",
+                                    "",
+                                    "",
+                                    "\t\tfor( j=0;j<dealName.length;j++){",
+                                    "",
+                                    "\t\t\tdataBarChart.addRow(",
+                                    "\t\t\t\t[dealName[j],numberOfClicks[j]]",
+                                    "",
+                                    "\t\t\t);",
+                                    "",
+                                    "\t\t}",
+                                    "",
+                                    "",
+                                    "",
+                                    "\t\t// Set chart options",
+                                    "\t\tvar optionsBarChart = {",
+                                    "\t\t\tvAxis: {",
+                                    "\t\t\t\ttitle: 'Number of Views',",
+                                    "\t\t\t\ttitleTextStyle: {",
+                                    "\t\t\t\t\tcolor: '#00529D',",
+                                    "\t\t\t\t\tfontSize: 16",
+                                    "\t\t\t\t},",
+                                    "",
+                                    "\t\t\t\tminValue: 0,",
+                                    "\t\t\t\tgridlines: { count: -1}",
+                                    "\t\t\t},",
+                                    "\t\t\thAxis: {",
+                                    "\t\t\t\ttitle: 'Buzz Name',",
+                                    "\t\t\t\ttitleTextStyle: {",
+                                    "\t\t\t\t\tcolor: '#00529D',",
+                                    "\t\t\t\t\tfontSize: 16",
+                                    "\t\t\t\t}",
+                                    "\t\t\t},",
+                                    "\t\t\tlegend:'none',",
+                                    "\t\t\theight:'400',",
+                                    "\t\t\torientation:'horizontal',",
+                                    "",
+                                    "\t\t\tbar: {",
+                                    "\t\t\t\tgroupWidth: 20",
+                                    "\t\t\t}",
+                                    "\t\t};",
+                                    "\t\t// Instantiate and draw our chart, passing in some options.",
+                                    "\t\tvar chartBar = new google.visualization.BarChart(document.getElementById('chart1'));",
+                                    "\t\tchartBar.draw(dataBarChart, optionsBarChart);",
+                                    "",
+                                    "",
+                                    "",
+                                    "\t});",
+                                    "}",
+                                    ""
+                                ],
+                                "name": "painted"
+                            },
+                            "name": "onPanelActivate",
+                            "designerId": "d5304625-6625-4377-bae0-ddf2ef459575"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": "100%",
+                        "html": "<div id=\"chart2\"></div>",
+                        "itemId": "mypanel1",
+                        "padding": null,
+                        "scrollable": true,
+                        "styleHtmlContent": true,
+                        "title": "User Location"
+                    },
+                    "name": "MyContainer1",
+                    "designerId": "c8439232-e360-4b62-98d5-11cab7eb66e0",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onPanelActivate1",
+                                "implHandler": [
+                                    "var storeUserDetails = Ext.getStore('UserDetails');",
+                                    "storeUserDetails.load();",
+                                    "var customerId;",
+                                    "var businessName;",
+                                    "",
+                                    "storeUserDetails.each(function(record){",
+                                    "//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                                    "customerId = record.get('customerId');",
+                                    "businessName = record.get('businessName');",
+                                    "",
+                                    "});",
+                                    "",
+                                    "var dealName=[];",
+                                    "",
+                                    "",
+                                    "",
+                                    "     // Set a callback to run when the Google Visualization API is loaded.",
+                                    "      google.charts.setOnLoadCallback(drawChart);",
+                                    "      function drawChart() {",
+                                    "",
+                                    "        // Create the data table.",
+                                    "var data = new google.visualization.DataTable();",
+                                    "\t\t  var zipcode=[];",
+                                    "\t\t  var numberOfHits=[];",
+                                    "",
+                                    "//data.addColumn('string', 'dealName');",
+                                    "data.addColumn('string', 'zipcode');",
+                                    "data.addColumn('number', 'Number Of Hits');",
+                                    "",
+                                    "",
+                                    "$.getJSON('http://services.appsonmobile.com/analytics_user_location/v3/' + customerId,function(json){",
+                                    "\tfor(var i=0,j=i;i<json.totalResults;i++,j++){",
+                                    "",
+                                    "\t dealData = json.rows[i].toString();",
+                                    "\t tmp = dealData.split(\",\");",
+                                    "",
+                                    "\t\t  zipcode[j] = tmp[0];",
+                                    "\t\t  numberOfHits[j] = parseInt(tmp[1],10);",
+                                    "\t\t}",
+                                    "",
+                                    "",
+                                    "\tfor(j=0;j< zipcode.length;j++) {",
+                                    "\t\tif(zipcode[j]==='(not set)') {",
+                                    "\t\t\tzipcode[j]=\"Unknown\";",
+                                    "\t\t}",
+                                    "\t data.addRow(",
+                                    "\t\t[zipcode[j],numberOfHits[j]]",
+                                    "\t);",
+                                    "\t}",
+                                    "\t // Set chart options",
+                                    "        var options = {",
+                                    "",
+                                    "\t\t\t\t\t   'pieHole':0.4,",
+                                    "\t\t\t\t\t   'pieSliceTextStyle': {",
+                                    "            color: 'black',",
+                                    "",
+                                    "",
+                                    "          },",
+                                    "\t\theight:'550',",
+                                    "\t    width:'375',",
+                                    "\t\t\tlegend:'top'",
+                                    "",
+                                    "\t\t\t\t\t  };",
+                                    "\t// Instantiate and draw our chart, passing in some options.",
+                                    "        var chart = new google.visualization.PieChart(document.getElementById('chart2'));",
+                                    "        chart.draw(data, options);",
+                                    "",
+                                    "",
+                                    "",
+                                    "});",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "\t  }",
+                                    ""
+                                ],
+                                "name": "painted"
+                            },
+                            "name": "onPanelActivate1",
+                            "designerId": "7bdbeaff-f6ef-449b-a59d-0194396daf00"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

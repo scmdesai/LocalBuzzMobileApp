@@ -11,13 +11,17 @@
         "container|align": "stretchmax",
         "designer|userAlias": "contactinfo",
         "designer|userClassName": "contactinfo",
-        "height": "100%",
-        "id": null,
+        "height": null,
+        "html": null,
+        "id": "info",
         "itemId": "info",
         "layout": "vbox",
-        "minHeight": "100%",
+        "minHeight": null,
         "modal": true,
         "padding": null,
+        "requires": [
+            "Ext.Menu"
+        ],
         "scrollable": false,
         "style": "background;#fff",
         "styleHtmlContent": true
@@ -39,6 +43,7 @@
                 ],
                 "designer|uiInterfaceName": "plain",
                 "docked": "top",
+                "html": null,
                 "style": null,
                 "ui": "plain",
                 "width": null
@@ -47,31 +52,24 @@
             "designerId": "b4f1c33c-db01-4a13-9131-db478a8a0b21",
             "cn": [
                 {
-                    "type": "Ext.Button",
+                    "type": "Ext.Component",
                     "reference": {
                         "name": "items",
                         "type": "array"
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "baseCls": null,
-                        "designer|createAlias": "",
-                        "designer|uiInterfaceName": "plain",
-                        "docked": "right",
-                        "height": 48,
-                        "iconCls": "compose",
-                        "itemId": "editButton",
-                        "layout|flex": null,
-                        "margin": null,
-                        "minHeight": null,
-                        "pressedDelay": null,
-                        "style": "color:#00529D",
-                        "text": null,
-                        "ui": "plain",
-                        "width": "20%"
+                        "cls": [
+                            "contact-name"
+                        ],
+                        "disabled": true,
+                        "html": "<b>First Name</b>",
+                        "id": "nameTxt",
+                        "itemId": "nameTxt",
+                        "padding": null
                     },
-                    "name": "MyButton1",
-                    "designerId": "36d29e8d-31b4-4da6-8856-f69abcd701ac"
+                    "name": "MyComponent",
+                    "designerId": "927e48c5-a255-485a-b4ea-a873cb21c009"
                 },
                 {
                     "type": "Ext.Spacer",
@@ -88,28 +86,52 @@
                     "designerId": "64c29608-35ca-49e6-8ca2-0ed9d759a43d"
                 },
                 {
-                    "type": "Ext.Component",
+                    "type": "Ext.Button",
                     "reference": {
                         "name": "items",
                         "type": "array"
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "baseCls": null,
-                        "cls": [
-                            "contact-name"
-                        ],
-                        "disabled": true,
-                        "height": null,
-                        "html": "<b>First Name</b>",
-                        "id": "nameTxt",
-                        "itemId": "nameTxt",
-                        "layout|flex": null,
-                        "style": null,
-                        "width": null
+                        "designer|uiInterfaceName": "plain",
+                        "docked": "right",
+                        "iconCls": "icon-menu",
+                        "itemId": "mybutton10",
+                        "style": "color:#00529D",
+                        "text": null,
+                        "ui": "plain"
                     },
-                    "name": "MyComponent1",
-                    "designerId": "a8e6751f-5a9a-4f5c-946c-43e2a9282518"
+                    "name": "MyButton10",
+                    "designerId": "eefd594d-a08c-45c8-b4ef-b7fc6aee40ed",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onMybutton10Tap",
+                                "implHandler": [
+                                    "",
+                                    "",
+                                    "if(Ext.getCmp('menu').isHidden())",
+                                    "",
+                                    "Ext.Viewport.showMenu('right');",
+                                    "else",
+                                    "Ext.Viewport.hideMenu('right');",
+                                    "\t",
+                                    "",
+                                    "",
+                                    ""
+                                ],
+                                "name": "tap"
+                            },
+                            "name": "onMybutton10Tap",
+                            "designerId": "17a5f9d7-377e-4aea-9754-f3b80b026662"
+                        }
+                    ]
                 }
             ]
         },
@@ -129,7 +151,7 @@
                     "",
                     "this.callParent(arguments);",
                     "",
-                    "",
+                    "console.log('Set Record of info page');",
                     "",
                     "",
                     "if (record) {",
@@ -143,9 +165,17 @@
                     "",
                     "\tthis.down('#nameTxt').setHtml(name);",
                     "",
-                    "   this.down('contactpic').setData(record.data);",
+                    "\t//this.down('contactpic').setData(record.data);",
                     "",
-                    "\t",
+                    "this.down('#storeImage').setHtml('<img src = \"'+record.get('pictureURL')+'\" style=\"height:40vh;width:95%;margin-left:5px;margin-top:2px;\"/>');",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
                     "",
                     "",
                     "",
@@ -164,7 +194,30 @@
             "designerId": "d9797c1a-36ac-4a31-a8b0-01d1ad2a4bbe"
         },
         {
-            "type": "Ext.field.Text",
+            "type": "Ext.Component",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "contact-name"
+                ],
+                "disabled": true,
+                "docked": "top",
+                "height": "40vh",
+                "html": null,
+                "id": "storeImage",
+                "itemId": "storeImage",
+                "left": null,
+                "padding": null
+            },
+            "name": "MyComponent3",
+            "designerId": "e4924943-d822-4893-8685-eba3c244040d"
+        },
+        {
+            "type": "Ext.field.TextArea",
             "reference": {
                 "name": "items",
                 "type": "array"
@@ -174,32 +227,34 @@
                 "baseCls": null,
                 "clearIcon": false,
                 "cls": [
-                    "icon-phone"
+                    "icon-location1",
+                    "customfield1"
                 ],
-                "designer|displayName": "phoneNumber",
+                "designer|displayName": "address",
                 "disabled": false,
-                "docked": null,
-                "height": "",
-                "html": null,
+                "docked": "bottom",
+                "height": "12vh",
+                "hidden": false,
+                "html": "",
                 "inputCls": null,
-                "itemId": "phoneNumber",
+                "itemId": "address",
                 "label": null,
-                "labelCls": null,
-                "margin": "",
-                "maxHeight": null,
+                "margin": "0 5 0 5",
+                "maxHeight": "",
+                "maxRows": 2,
                 "maxWidth": null,
-                "minHeight": null,
-                "minWidth": "",
-                "name": "phoneNumber",
-                "padding": "10 10 10 10",
-                "placeHolder": null,
+                "minHeight": "",
+                "minWidth": null,
+                "name": "address",
+                "padding": "10 0 5 10",
+                "placeHolder": "Not Listed",
                 "readOnly": true,
-                "style": null,
-                "styleHtmlCls": null,
+                "style": "font-size:3.5vw;",
+                "styleHtmlContent": true,
                 "width": null
             },
-            "name": "MyTextField",
-            "designerId": "593e7c45-76fd-4425-88eb-3b0a999a1be0"
+            "name": "MyTextArea",
+            "designerId": "300184c3-073e-49d3-ab0c-b75d6578cd1f"
         },
         {
             "type": "Ext.field.Text",
@@ -212,29 +267,75 @@
                 "baseCls": null,
                 "clearIcon": false,
                 "cls": [
-                    "icon-email"
+                    "icon-globe1",
+                    "customfield2"
+                ],
+                "designer|displayName": "websiteDisplayName",
+                "disabled": false,
+                "docked": "bottom",
+                "height": "1vh",
+                "hidden": false,
+                "html": null,
+                "inputCls": null,
+                "itemId": "websiteDisplayName",
+                "label": null,
+                "labelCls": null,
+                "margin": "0 5 0 5",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": null,
+                "name": "websiteDisplayName",
+                "padding": "0 0 5 15",
+                "placeHolder": "Not Listed",
+                "readOnly": true,
+                "style": "font-size:5vw;font-family: arial",
+                "styleHtmlCls": null,
+                "styleHtmlContent": true,
+                "top": null,
+                "width": "95%"
+            },
+            "name": "MyTextField25",
+            "designerId": "b6ebf1fe-9d35-4619-806f-7ee0f853d04f"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "cls": [
+                    "icon-email1",
+                    "customfield2"
                 ],
                 "designer|displayName": "emailAddress",
                 "disabled": false,
-                "docked": null,
-                "height": "",
+                "docked": "bottom",
+                "height": "1vh",
+                "hidden": false,
                 "html": null,
                 "inputCls": null,
                 "itemId": "email",
                 "label": "",
                 "labelCls": null,
-                "margin": null,
+                "margin": "0 5 0 5",
                 "maxHeight": null,
                 "maxWidth": null,
                 "minHeight": null,
-                "minWidth": "",
+                "minWidth": null,
                 "name": "emailAddress",
-                "padding": "10 10 10 10",
-                "placeHolder": null,
+                "padding": "0 0 5 5",
+                "placeHolder": "Not Listed",
                 "readOnly": true,
-                "style": null,
+                "style": "font-size:5vw;font-family: arial",
                 "styleHtmlCls": null,
-                "width": null
+                "styleHtmlContent": true,
+                "top": null,
+                "width": "95%"
             },
             "name": "MyTextField29",
             "designerId": "89d6c578-30b2-41ca-97c5-8a5727956bda"
@@ -250,72 +351,39 @@
                 "baseCls": null,
                 "clearIcon": false,
                 "cls": [
-                    "icon-globe"
+                    "icon-email1",
+                    "customfield2"
                 ],
-                "designer|displayName": "websiteDisplayName",
+                "designer|displayName": "loginEmail",
                 "disabled": false,
-                "docked": null,
-                "height": "",
+                "docked": "bottom",
+                "height": "1vh",
+                "hidden": true,
                 "html": null,
                 "inputCls": null,
-                "itemId": "websiteDisplayName",
-                "label": null,
+                "itemId": "email1",
+                "label": "",
                 "labelCls": null,
-                "margin": null,
+                "margin": "0 5 0 5",
                 "maxHeight": null,
                 "maxWidth": null,
                 "minHeight": null,
                 "minWidth": null,
-                "name": "websiteDisplayName",
-                "padding": "10 10 10 10",
-                "placeHolder": null,
+                "name": "loginEmail",
+                "padding": "0 0 5 5",
+                "placeHolder": "Not Listed",
                 "readOnly": true,
-                "style": "font-size:2px !important",
+                "style": "font-size:5vw;font-family: arial",
                 "styleHtmlCls": null,
-                "width": null
+                "styleHtmlContent": true,
+                "top": null,
+                "width": "95%"
             },
-            "name": "MyTextField25",
-            "designerId": "b6ebf1fe-9d35-4619-806f-7ee0f853d04f"
+            "name": "MyTextField38",
+            "designerId": "abf64919-2773-45f4-b5c4-b0c6d9394fcb"
         },
         {
-            "type": "Ext.field.TextArea",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "baseCls": "",
-                "clearIcon": false,
-                "cls": [
-                    "icon-location",
-                    "customfield1"
-                ],
-                "designer|displayName": "address",
-                "disabled": false,
-                "docked": null,
-                "height": "12vh",
-                "html": "",
-                "inputCls": null,
-                "itemId": "address",
-                "label": null,
-                "margin": null,
-                "maxHeight": "",
-                "maxRows": 2,
-                "maxWidth": null,
-                "minHeight": "",
-                "minWidth": null,
-                "name": "address",
-                "padding": "10 10 10 10",
-                "readOnly": true,
-                "style": "'font-size:3.5vw;font-family: arial'",
-                "width": null
-            },
-            "name": "MyTextArea",
-            "designerId": "300184c3-073e-49d3-ab0c-b75d6578cd1f"
-        },
-        {
-            "type": "linkedinstance",
+            "type": "Ext.field.Text",
             "reference": {
                 "name": "items",
                 "type": "array"
@@ -323,18 +391,427 @@
             "codeClass": null,
             "userConfig": {
                 "baseCls": null,
+                "clearIcon": false,
                 "cls": [
-                    "x-panel-body"
+                    "icon-phone1",
+                    "customfield2"
                 ],
-                "docked": "top",
-                "height": "30%",
-                "itemId": "contactpic",
+                "designer|displayName": "phoneNumber",
+                "disabled": false,
+                "docked": "bottom",
+                "height": "1vh",
+                "hidden": false,
+                "html": null,
+                "id": "phoneNumber2",
+                "inputCls": null,
+                "itemId": "phoneNumber",
+                "label": null,
+                "labelCls": null,
+                "margin": "0 5 0 5",
+                "maxHeight": null,
                 "maxWidth": null,
-                "width": ""
+                "minHeight": null,
+                "minWidth": null,
+                "name": "phoneNumber",
+                "padding": "0 0 5 5",
+                "placeHolder": "Not Listed",
+                "readOnly": true,
+                "style": "font-size:4.5vw;font-family: arial;",
+                "styleHtmlCls": null,
+                "styleHtmlContent": true,
+                "top": null,
+                "width": "95%"
             },
-            "name": "picture1",
-            "designerId": "4b7b4050-105e-4709-abbe-ff34b838383c",
-            "masterInstanceId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd"
+            "name": "MyTextField",
+            "designerId": "593e7c45-76fd-4425-88eb-3b0a999a1be0"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "city",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber1",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "city",
+                "padding": "10 10 10 10",
+                "placeHolder": "Not Listed",
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField26",
+            "designerId": "01d594c0-284d-4090-9e11-476a44097033"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "state",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber2",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "state",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField30",
+            "designerId": "150e3161-6b5f-4845-99cc-b124a0abe93b"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "zipcode",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber3",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "zipcode",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField31",
+            "designerId": "1c317eaa-2fea-400b-a78f-4ce6e842f2f6"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "pictureURL",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber4",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "pictureURL",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField32",
+            "designerId": "f3d9f568-c1aa-452a-8a4d-acc8dac15202"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "customerId",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber5",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "customerId",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField33",
+            "designerId": "09807530-3657-4e98-b7a6-bbd7b2d55ea4"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "category",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber6",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "category",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField34",
+            "designerId": "bf5de008-164e-47b2-bc13-7da12b343907"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "baseCls": null,
+                "clearIcon": false,
+                "designer|displayName": "businessName",
+                "disabled": false,
+                "docked": null,
+                "height": "",
+                "hidden": true,
+                "html": null,
+                "inputCls": null,
+                "itemId": "phoneNumber7",
+                "label": null,
+                "labelCls": null,
+                "margin": "",
+                "maxHeight": null,
+                "maxWidth": null,
+                "minHeight": null,
+                "minWidth": "",
+                "name": "businessName",
+                "padding": "10 10 10 10",
+                "placeHolder": null,
+                "readOnly": true,
+                "style": null,
+                "styleHtmlCls": null,
+                "width": null
+            },
+            "name": "MyTextField35",
+            "designerId": "dc5a9310-bf48-4e5e-af3f-eb0033e8ce98"
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onInfoPainted",
+                "implHandler": [
+                    "",
+                    "var storeUserDetails = Ext.getStore('UserDetails');",
+                    "storeUserDetails.load();",
+                    "var customerId;",
+                    "var businessName;",
+                    "var date = new Date();",
+                    "",
+                    "var today = Ext.Date.format(date, 'n/j/Y');",
+                    "",
+                    "storeUserDetails.each(function(record){",
+                    "\t//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                    "\tcustomerId = record.get('customerId');",
+                    "\tbusinessName = record.get('businessName');",
+                    "",
+                    "});",
+                    "",
+                    "var record = Ext.getStore('MyJsonPStore').findRecord('customerId',customerId);",
+                    "",
+                    "this.setRecord(record);"
+                ],
+                "name": "painted"
+            },
+            "name": "onInfoPainted",
+            "designerId": "97ff0762-e44c-4152-8ed5-5c9c858cbcc9"
+        },
+        {
+            "type": "Ext.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "badgeText": null,
+                "designer|uiInterfaceName": "plain",
+                "docked": null,
+                "hidden": true,
+                "iconCls": "compose",
+                "itemId": "editButton",
+                "margin": "5 5 5 5",
+                "padding": null,
+                "style": "color:#00529D;font-size:6vw;",
+                "styleHtmlContent": true,
+                "text": null,
+                "ui": "plain",
+                "width": null
+            },
+            "name": "MyButton1",
+            "designerId": "f04d1b68-ab05-4a5e-a7fa-f70e3918d362"
+        },
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "initialize",
+                "implHandler": [
+                    "this.callParent();",
+                    "var menu = Ext.create('Ext.Menu', {",
+                    "\tid:'menu',",
+                    "     items: [",
+                    "         {",
+                    "",
+                    "             iconCls: 'icon-edit',",
+                    "\t\t\t handler: function(){",
+                    "",
+                    "\t\t\t\tExt.Viewport.hideMenu('right');",
+                    "\t\t\t\tvar storeUserDetails = Ext.getStore('UserDetails');",
+                    "\t\t\t\tstoreUserDetails.load();",
+                    "\t\t\t\tvar customerId;",
+                    "\t\t\t\tvar businessName;",
+                    "",
+                    "\t\t\t\tstoreUserDetails.each(function(record){",
+                    "\t\t\t\tconsole.log('StoreUserDetails : ' +record.get('customerId'));",
+                    "\t\t\t\tcustomerId = record.get('customerId');",
+                    "\t\t\t\tbusinessName = record.get('businessName');",
+                    "",
+                    "\t\t\t\t});",
+                    "",
+                    "",
+                    "",
+                    "\t\t\t\tvar form = Ext.Viewport.add({xtype:'contactform'});",
+                    "",
+                    "\t\t\t\tvar record = Ext.getStore('MyJsonPStore').findRecord('customerId',customerId,0,true,false,false);",
+                    "",
+                    "\t\t\t\tExt.Viewport.setActiveItem(form);",
+                    "\t\t\t\tform.setRecord(record);",
+                    "\t\t }",
+                    "",
+                    "         },",
+                    "         {",
+                    "",
+                    "             iconCls: 'icon-signout',",
+                    "\t\t\t handler: function(){",
+                    "\t\t\t\t Ext.Viewport.hideMenu('right');",
+                    "\t\t\t\t Ext.Msg.confirm('Logout','Are you sure you want to logout?',function(btn){",
+                    "\t\t\t\tif (btn == 'yes'){",
+                    "",
+                    "",
+                    "\t\t\t\t\tFacebookInAppBrowser.logout(function(){",
+                    "\t\t\t\t\t\twindow.localStorage.setItem('facebookAccessToken',null) ;",
+                    "\t\t\t\t\t\tlocation.reload();",
+                    "\t\t\t\t\t\t//navigator.app.exitApp();",
+                    "",
+                    "\t\t\t\t\t});",
+                    "\t\t\t\t}",
+                    "\t\t\t\t});",
+                    "\t\t\t }",
+                    "         }",
+                    "     ]",
+                    "",
+                    " });",
+                    "",
+                    " Ext.Viewport.setMenu(menu, {",
+                    "     side: 'right',",
+                    "     reveal: true,",
+                    "",
+                    " });"
+                ]
+            },
+            "name": "initialize",
+            "designerId": "fe6c3a79-632e-421c-bac4-ed4bcdf16153"
         }
     ]
 }

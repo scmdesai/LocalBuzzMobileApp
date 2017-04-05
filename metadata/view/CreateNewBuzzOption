@@ -1,0 +1,149 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userAlias": "CreateNewBuzzOption",
+        "designer|userClassName": "CreateNewBuzzOption",
+        "id": "CreateNewBuzzOption",
+        "itemId": "CreateNewBuzzOption"
+    },
+    "name": "MyPanel",
+    "designerId": "567f372c-2a41-4c27-aaa2-9b351d706218",
+    "cn": [
+        {
+            "type": "Ext.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|uiInterfaceName": "action",
+                "height": "9vh",
+                "left": "20%",
+                "styleHtmlContent": true,
+                "text": "Create Buzz With Image",
+                "top": "30%",
+                "ui": "action",
+                "width": "65%"
+            },
+            "name": "MyButton12",
+            "designerId": "7eebd197-8d66-49f5-81c1-e49a259f7c14",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "button",
+                            "e"
+                        ],
+                        "fn": "handler",
+                        "implHandler": [
+                            "var storeUserDetails = Ext.getStore('UserDetails');",
+                            "\t\t\t\t\tstoreUserDetails.load();",
+                            "\t\t\t\t\tvar customerId;",
+                            "\t\t\t\t\tvar businessName;",
+                            "\t\t\t\t\tvar DealPictureURL ;",
+                            "                    var city;",
+                            "                    var state;",
+                            "",
+                            "",
+                            "",
+                            "\t\t\t\t\tExt.Viewport.getActiveItem().destroy();",
+                            "\t\t\t\t\tvar view = Ext.Viewport.add({xtype: 'CreateNewBuzzWithImage'});",
+                            "\t\t\t\t\tstoreUserDetails.each(function(record){",
+                            "\t\t\t\t\t\t//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                            "\t\t\t\t\t\tcustomerId = record.get('customerId');",
+                            "\t\t\t\t\t\tbusinessName = record.get('businessName');",
+                            "\t\t\t\t\t\tDealPictureURL = record.get('DealPictureURL');",
+                            "\t\t\t\t\t\tcity= record.get('city');",
+                            "\t\t\t\t\t\tstate= record.get('state');",
+                            "",
+                            "\t\t\t\t\t\tview.setRecord(record);",
+                            "\t\t\t\t\t});",
+                            "",
+                            "Ext.Viewport.setActiveItem(view);",
+                            ""
+                        ]
+                    },
+                    "name": "handler",
+                    "designerId": "a1e88285-5fb6-4d61-bcdb-6ced0f3b151d"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "",
+                "designer|uiInterfaceName": "action",
+                "height": "9vh",
+                "left": "20%",
+                "styleHtmlContent": true,
+                "text": "Create Buzz No Image",
+                "top": "50%",
+                "ui": "action",
+                "width": "65%"
+            },
+            "name": "MyButton17",
+            "designerId": "018831c6-b714-445a-9fb1-5534b5abb754",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "button",
+                            "e"
+                        ],
+                        "fn": "handler",
+                        "implHandler": [
+                            "var storeUserDetails = Ext.getStore('UserDetails');",
+                            "\t\t\t\t\tstoreUserDetails.load();",
+                            "\t\t\t\t\tvar customerId;",
+                            "\t\t\t\t\tvar businessName;",
+                            "\t\t\t\t\tvar DealPictureURL ;",
+                            "                    var city;",
+                            "                    var state;",
+                            "",
+                            "",
+                            "\t\t\t\t\tExt.Viewport.getActiveItem().destroy();",
+                            "\t\t\t\t\tvar view = Ext.Viewport.add({xtype: 'CreateNewBuzzNoImage'});",
+                            "\t\t\t\t\tstoreUserDetails.each(function(record){",
+                            "\t\t\t\t\t\t//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                            "\t\t\t\t\t\tcustomerId = record.get('customerId');",
+                            "\t\t\t\t\t\tbusinessName = record.get('businessName');",
+                            "\t\t\t\t\t\tDealPictureURL = record.get('DealPictureURL');",
+                            "\t\t\t\t\t\tcity= record.get('city');",
+                            "\t\t\t\t\t\tstate= record.get('state');",
+                            "\t\t\t\t\t\tview.setRecord(record);",
+                            "\t\t\t\t\t});",
+                            "",
+                            "Ext.Viewport.setActiveItem(view);",
+                            ""
+                        ]
+                    },
+                    "name": "handler",
+                    "designerId": "6b4ec96d-9865-4ece-9fa9-bfe45f2422cc"
+                }
+            ]
+        }
+    ]
+}

@@ -13,18 +13,18 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.store.UserDetails', {
+Ext.define('LocalBuzzMerchantDemo.store.UserDetails', {
 	extend: 'Ext.data.Store',
 
 	requires: [
-		'Contact.model.UserDetails',
+		'LocalBuzzMerchantDemo.model.UserDetails',
 		'Ext.data.proxy.SessionStorage'
 	],
 
 	config: {
 		autoLoad: true,
 		autoSync: true,
-		model: 'Contact.model.UserDetails',
+		model: 'LocalBuzzMerchantDemo.model.UserDetails',
 		remoteFilter: true,
 		storeId: 'UserDetails',
 		proxy: {

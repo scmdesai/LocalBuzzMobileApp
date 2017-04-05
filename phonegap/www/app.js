@@ -1,14 +1,7 @@
-var Contact = Contact || {};
-if (!Contact.controller) Contact.controller = {};
-if (!Contact.model) Contact.model = {};
-if (!Contact.store) Contact.store = {};
-if (!Contact.view) Contact.view = {};
 var Ext = Ext || {};
 if (!Ext.Picker) Ext.Picker = {};
 if (!Ext.app) Ext.app = {};
 if (!Ext.behavior) Ext.behavior = {};
-if (!Ext.chart) Ext.chart = {};
-if (!Ext.chart.series) Ext.chart.series = {};
 if (!Ext.data) Ext.data = {};
 if (!Ext.data.association) Ext.data.association = {};
 if (!Ext.data.identifier) Ext.data.identifier = {};
@@ -49,6 +42,11 @@ if (!Ext.util.paintmonitor) Ext.util.paintmonitor = {};
 if (!Ext.util.sizemonitor) Ext.util.sizemonitor = {};
 if (!Ext.util.translatable) Ext.util.translatable = {};
 if (!Ext.viewport) Ext.viewport = {};
+var LocalBuzzMerchantDemo = LocalBuzzMerchantDemo || {};
+if (!LocalBuzzMerchantDemo.controller) LocalBuzzMerchantDemo.controller = {};
+if (!LocalBuzzMerchantDemo.model) LocalBuzzMerchantDemo.model = {};
+if (!LocalBuzzMerchantDemo.store) LocalBuzzMerchantDemo.store = {};
+if (!LocalBuzzMerchantDemo.view) LocalBuzzMerchantDemo.view = {};
 /* 
  * Helper code for compiler optimization
  */
@@ -8068,9 +8066,6 @@ Ext.apply(Ext, {
             },
             elementSize: {
                 xclass: 'Ext.event.publisher.ElementSize'
-            },
-            seriesItemEvents: {
-                xclass: 'Ext.chart.series.ItemPublisher'
             }
         },
         animator: {
@@ -32560,6 +32555,175 @@ this);
 ], function() {}));
 
 /**
+ * {@link Ext.Menu}'s are used with {@link Ext.Viewport#setMenu}. A menu can be linked with any side of the screen (top, left, bottom or right)
+ *  and will simply describe the contents of your menu. To use this menu you will call various menu related functions on the {@link Ext.Viewport}
+ * such as {@link Ext.Viewport#showMenu}, {@link Ext.Viewport#hideMenu}, {@link Ext.Viewport#toggleMenu}, {@link Ext.Viewport#hideOtherMenus},
+ * or {@link Ext.Viewport#hideAllMenus}.
+ *
+ *      @example preview
+ *      var menu = Ext.create('Ext.Menu', {
+ *          items: [
+ *              {
+ *                  text: 'Settings',
+ *                  iconCls: 'settings'
+ *              },
+ *              {
+ *                  text: 'New Item',
+ *                  iconCls: 'compose'
+ *              },
+ *              {
+ *                  text: 'Star',
+ *                  iconCls: 'star'
+ *              }
+ *          ]
+ *      });
+ *
+ *      Ext.Viewport.setMenu(menu, {
+ *          side: 'left',
+ *          reveal: true
+ *      });
+ *
+ *      Ext.Viewport.showMenu('left');
+ *
+ * The {@link #defaultType} of a Menu item is a {@link Ext.Button button}.
+ */
+(Ext.cmd.derive('Ext.Menu', Ext.Sheet, {
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: 'x-menu',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        left: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        right: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        bottom: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        height: 'auto',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        width: 'auto',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        defaultType: 'button',
+        /**
+         * @hide
+         */
+        showAnimation: null,
+        /**
+         * @hide
+         */
+        hideAnimation: null,
+        /**
+         * @hide
+         */
+        centered: false,
+        /**
+         * @hide
+         */
+        modal: true,
+        /**
+         * @hide
+         */
+        hidden: true,
+        /**
+         * @hide
+         */
+        hideOnMaskTap: true,
+        /**
+         * @hide
+         */
+        translatable: {
+            translationMethod: null
+        }
+    },
+    constructor: function() {
+        this.config.translatable.translationMethod = Ext.browser.is.AndroidStock2 ? 'cssposition' : 'csstransform';
+        Ext.Sheet.prototype.constructor.apply(this, arguments);
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ]
+        },
+        {
+            theme: [
+                'Blackberry',
+                'Blackberry103'
+            ],
+            ui: 'context',
+            layout: {
+                pack: 'center'
+            }
+        }
+    ],
+    updateUi: function(newUi, oldUi) {
+        Ext.Sheet.prototype.updateUi.apply(this, arguments);
+        if (newUi != oldUi && (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103)) {
+            if (newUi == 'context') {
+                this.innerElement.swapCls('x-vertical', 'x-horizontal');
+            } else if (newUi == 'application') {
+                this.innerElement.swapCls('x-horizontal', 'x-vertical');
+            }
+        }
+    },
+    updateHideOnMaskTap: function(hide) {
+        var mask = this.getModal();
+        if (mask) {
+            mask[hide ? 'on' : 'un'].call(mask, 'tap', function() {
+                Ext.Viewport.hideMenu(this.$side);
+            }, this);
+        }
+    },
+    /**
+     * Only fire the hide event if it is initialized
+     */
+    doSetHidden: function() {
+        if (this.initialized) {
+            Ext.Sheet.prototype.doSetHidden.apply(this, arguments);
+        }
+    }
+}, 1, [
+    "menu"
+], [
+    "component",
+    "container",
+    "panel",
+    "sheet",
+    "menu"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "sheet": true,
+    "menu": true
+}, [
+    "widget.menu"
+], 0, [
+    Ext,
+    'Menu'
+], 0));
+
+/**
  * {@link Ext.Title} is used for the {@link Ext.Toolbar#title} configuration in the {@link Ext.Toolbar} component.
  * @private
  */
@@ -39235,2417 +39399,6 @@ function() {}));
 ], [
     Ext.util,
     'Collection'
-], 0));
-
-/**
- * @docauthor Evan Trimboli <evan@sencha.com>
- *
- * Contains a collection of all stores that are created that have an identifier. An identifier can be assigned by
- * setting the {@link Ext.data.Store#storeId storeId} property. When a store is in the StoreManager, it can be
- * referred to via it's identifier:
- *
- *     Ext.create('Ext.data.Store', {
- *         model: 'SomeModel',
- *         storeId: 'myStore'
- *     });
- *
- *     var store = Ext.data.StoreManager.lookup('myStore');
- *
- * Also note that the {@link #lookup} method is aliased to {@link Ext#getStore} for convenience.
- *
- * If a store is registered with the StoreManager, you can also refer to the store by it's identifier when registering
- * it with any Component that consumes data from a store:
- *
- *     Ext.create('Ext.data.Store', {
- *         model: 'SomeModel',
- *         storeId: 'myStore'
- *     });
- *
- *     Ext.create('Ext.view.View', {
- *         store: 'myStore'
- *         // other configuration here
- *     });
- *
- * ###Further Reading
- * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
- * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
- * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
- * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
- */
-(Ext.cmd.derive('Ext.data.StoreManager', Ext.util.Collection, {
-    alternateClassName: [
-        'Ext.StoreMgr',
-        'Ext.data.StoreMgr',
-        'Ext.StoreManager'
-    ],
-    singleton: true,
-    /**
-     * Registers one or more Stores with the StoreManager. You do not normally need to register stores manually. Any
-     * store initialized with a {@link Ext.data.Store#storeId} will be auto-registered.
-     * @param {Ext.data.Store...} stores Any number of Store instances.
-     */
-    register: function() {
-        for (var i = 0,
-            s; (s = arguments[i]); i++) {
-            this.add(s);
-        }
-    },
-    /**
-     * Unregisters one or more Stores with the StoreManager.
-     * @param {String/Object...} stores Any number of Store instances or ID-s.
-     */
-    unregister: function() {
-        for (var i = 0,
-            s; (s = arguments[i]); i++) {
-            this.remove(this.lookup(s));
-        }
-    },
-    /**
-     * Gets a registered Store by its id, returns a passed store instance, or returns a new instance of a store created with the supplied configuration.
-     * @param {String/Object} store The `id` of the Store, or a Store instance, or a store configuration.
-     * @return {Ext.data.Store}
-     */
-    lookup: function(store) {
-        // handle the case when we are given an array or an array of arrays.
-        if (Ext.isArray(store)) {
-            var fields = [
-                    'field1'
-                ],
-                expand = !Ext.isArray(store[0]),
-                data = store,
-                i, len;
-            if (expand) {
-                data = [];
-                for (i = 0 , len = store.length; i < len; ++i) {
-                    data.push([
-                        store[i]
-                    ]);
-                }
-            } else {
-                for (i = 2 , len = store[0].length; i <= len; ++i) {
-                    fields.push('field' + i);
-                }
-            }
-            return Ext.create('Ext.data.ArrayStore', {
-                data: data,
-                fields: fields,
-                // See https://sencha.jira.com/browse/TOUCH-1541
-                autoDestroy: true,
-                autoCreated: true,
-                expanded: expand
-            });
-        }
-        if (Ext.isString(store)) {
-            // store id
-            return this.get(store);
-        } else {
-            // store instance or store config
-            if (store instanceof Ext.data.Store) {
-                return store;
-            } else {
-                return Ext.factory(store, Ext.data.Store, null, 'store');
-            }
-        }
-    },
-    // getKey implementation for MixedCollection
-    getKey: function(o) {
-        return o.getStoreId();
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Ext.data,
-    'StoreManager',
-    Ext,
-    'StoreMgr',
-    Ext.data,
-    'StoreMgr',
-    Ext,
-    'StoreManager'
-], function() {
-    /**
-     * Creates a new store for the given id and config, then registers it with the {@link Ext.data.StoreManager Store Manager}.
-     * Sample usage:
-     *
-     *     Ext.regStore('AllUsers', {
-     *         model: 'User'
-     *     });
-     *
-     *     // the store can now easily be used throughout the application
-     *     new Ext.List({
-     *         store: 'AllUsers'
-     *         // ...
-     *     });
-     *
-     * @param {String} id The id to set on the new store.
-     * @param {Object} config The store config.
-     * @member Ext
-     * @method regStore
-     */
-    Ext.regStore = function(name, config) {
-        var store;
-        if (Ext.isObject(name)) {
-            config = name;
-        } else {
-            if (config instanceof Ext.data.Store) {
-                config.setStoreId(name);
-            } else {
-                config.storeId = name;
-            }
-        }
-        if (config instanceof Ext.data.Store) {
-            store = config;
-        } else {
-            store = Ext.create('Ext.data.Store', config);
-        }
-        return Ext.data.StoreManager.register(store);
-    };
-    /**
-     * Shortcut to {@link Ext.data.StoreManager#lookup}.
-     * @member Ext
-     * @method getStore
-     * @alias Ext.data.StoreManager#lookup
-     */
-    Ext.getStore = function(name) {
-        return Ext.data.StoreManager.lookup(name);
-    };
-}));
-
-/**
- * Tracks what records are currently selected in a databound widget. This class is mixed in to {@link Ext.dataview.DataView} and
- * all subclasses.
- * @private
- */
-(Ext.cmd.derive('Ext.mixin.Selectable', Ext.mixin.Mixin, {
-    mixinConfig: {
-        id: 'selectable',
-        hooks: {
-            updateStore: 'updateStore'
-        }
-    },
-    /**
-     * @event beforeselectionchange
-     * Fires before an item is selected.
-     * @param {Ext.mixin.Selectable} this
-     * @preventable selectionchange
-     * @deprecated 2.0.0 Please listen to the {@link #selectionchange} event with an order of `before` instead.
-     */
-    /**
-     * @event selectionchange
-     * Fires when a selection changes.
-     * @param {Ext.mixin.Selectable} this
-     * @param {Ext.data.Model[]} records The records whose selection has changed.
-     */
-    config: {
-        /**
-         * @cfg {Boolean} disableSelection `true` to disable selection.
-         * This configuration will lock the selection model that the DataView uses.
-         * @accessor
-         */
-        disableSelection: null,
-        /**
-         * @cfg {String} mode
-         * Modes of selection.
-         * Valid values are `'SINGLE'`, `'SIMPLE'`, and `'MULTI'`.
-         * @accessor
-         */
-        mode: 'SINGLE',
-        /**
-         * @cfg {Boolean} allowDeselect
-         * Allow users to deselect a record in a DataView, List or Grid. Only applicable when the Selectable's `mode` is
-         * `'SINGLE'`.
-         * @accessor
-         */
-        allowDeselect: false,
-        /**
-         * @cfg {Ext.data.Model} lastSelected
-         * @private
-         * @accessor
-         */
-        lastSelected: null,
-        /**
-         * @cfg {Ext.data.Model} lastFocused
-         * @private
-         * @accessor
-         */
-        lastFocused: null,
-        /**
-         * @cfg {Boolean} deselectOnContainerClick `true` to deselect current selection when the container body is
-         * clicked.
-         * @accessor
-         */
-        deselectOnContainerClick: true
-    },
-    modes: {
-        SINGLE: true,
-        SIMPLE: true,
-        MULTI: true
-    },
-    selectableEventHooks: {
-        addrecords: 'onSelectionStoreAdd',
-        removerecords: 'onSelectionStoreRemove',
-        updaterecord: 'onSelectionStoreUpdate',
-        load: 'refreshSelection',
-        refresh: 'refreshSelection'
-    },
-    constructor: function() {
-        this.selected = new Ext.util.MixedCollection();
-        this.callParent(arguments);
-    },
-    /**
-     * @private
-     */
-    applyMode: function(mode) {
-        mode = mode ? mode.toUpperCase() : 'SINGLE';
-        // set to mode specified unless it doesnt exist, in that case
-        // use single.
-        return this.modes[mode] ? mode : 'SINGLE';
-    },
-    /**
-     * @private
-     */
-    updateStore: function(newStore, oldStore) {
-        var me = this,
-            bindEvents = Ext.apply({}, me.selectableEventHooks, {
-                scope: me
-            });
-        if (oldStore && Ext.isObject(oldStore) && oldStore.isStore) {
-            if (oldStore.autoDestroy) {
-                oldStore.destroy();
-            } else {
-                oldStore.un(bindEvents);
-                if (newStore) {
-                    newStore.un('clear', 'onSelectionStoreClear', this);
-                }
-            }
-        }
-        if (newStore) {
-            newStore.on(bindEvents);
-            newStore.onBefore('clear', 'onSelectionStoreClear', this);
-            me.refreshSelection();
-        }
-    },
-    /**
-     * Selects all records.
-     * @param {Boolean} silent `true` to suppress all select events.
-     */
-    selectAll: function(silent) {
-        var me = this,
-            selections = me.getStore().getRange();
-        me.select(selections, true, silent);
-    },
-    /**
-     * Deselects all records.
-     */
-    deselectAll: function(supress) {
-        var me = this,
-            selections = me.getStore().getRange();
-        me.deselect(selections, supress);
-        me.selected.clear();
-        me.setLastSelected(null);
-        me.setLastFocused(null);
-    },
-    // Provides differentiation of logic between MULTI, SIMPLE and SINGLE
-    // selection modes.
-    selectWithEvent: function(record) {
-        var me = this,
-            isSelected = me.isSelected(record);
-        switch (me.getMode()) {
-            case 'MULTI':
-            case 'SIMPLE':
-                if (isSelected) {
-                    me.deselect(record);
-                } else {
-                    me.select(record, true);
-                };
-                ;
-                break;
-            case 'SINGLE':
-                if (me.getAllowDeselect() && isSelected) {
-                    // if allowDeselect is on and this record isSelected, deselect it
-                    me.deselect(record);
-                } else {
-                    // select the record and do NOT maintain existing selections
-                    me.select(record, false);
-                };
-                ;
-                break;
-        }
-    },
-    /**
-     * Selects a range of rows if the selection model {@link Ext.mixin.Selectable#getDisableSelection} is not locked.
-     * All rows in between `startRecord` and `endRecord` are also selected.
-     * @param {Number} startRecord The index of the first row in the range.
-     * @param {Number} endRecord The index of the last row in the range.
-     * @param {Boolean} [keepExisting] `true` to retain existing selections.
-     */
-    selectRange: function(startRecord, endRecord, keepExisting) {
-        var me = this,
-            store = me.getStore(),
-            records = [],
-            tmp, i;
-        if (me.getDisableSelection()) {
-            return;
-        }
-        // swap values
-        if (startRecord > endRecord) {
-            tmp = endRecord;
-            endRecord = startRecord;
-            startRecord = tmp;
-        }
-        for (i = startRecord; i <= endRecord; i++) {
-            records.push(store.getAt(i));
-        }
-        this.doMultiSelect(records, keepExisting);
-    },
-    /**
-     * Adds the given records to the currently selected set.
-     * @param {Ext.data.Model/Array/Number} records The records to select.
-     * @param {Boolean} keepExisting If `true`, the existing selection will be added to (if not, the old selection is replaced).
-     * @param {Boolean} suppressEvent If `true`, the `select` event will not be fired.
-     */
-    select: function(records, keepExisting, suppressEvent) {
-        var me = this,
-            record;
-        if (me.getDisableSelection()) {
-            return;
-        }
-        if (typeof records === "number") {
-            records = [
-                me.getStore().getAt(records)
-            ];
-        }
-        if (!records) {
-            return;
-        }
-        if (me.getMode() == "SINGLE" && records) {
-            record = records.length ? records[0] : records;
-            me.doSingleSelect(record, suppressEvent);
-        } else {
-            me.doMultiSelect(records, keepExisting, suppressEvent);
-        }
-    },
-    /**
-     * Selects a single record.
-     * @private
-     */
-    doSingleSelect: function(record, suppressEvent) {
-        var me = this,
-            selected = me.selected;
-        if (me.getDisableSelection()) {
-            return;
-        }
-        // already selected.
-        // should we also check beforeselect?
-        if (me.isSelected(record)) {
-            return;
-        }
-        if (selected.getCount() > 0) {
-            me.deselect(me.getLastSelected(), suppressEvent);
-        }
-        selected.add(record);
-        me.setLastSelected(record);
-        me.onItemSelect(record, suppressEvent);
-        me.setLastFocused(record);
-        if (!suppressEvent) {
-            me.fireSelectionChange([
-                record
-            ]);
-        }
-    },
-    /**
-     * Selects a set of multiple records.
-     * @private
-     */
-    doMultiSelect: function(records, keepExisting, suppressEvent) {
-        if (records === null || this.getDisableSelection()) {
-            return;
-        }
-        records = !Ext.isArray(records) ? [
-            records
-        ] : records;
-        var me = this,
-            selected = me.selected,
-            ln = records.length,
-            change = false,
-            i = 0,
-            record;
-        if (!keepExisting && selected.getCount() > 0) {
-            change = true;
-            me.deselect(me.getSelection(), true);
-        }
-        for (; i < ln; i++) {
-            record = records[i];
-            if (keepExisting && me.isSelected(record)) {
-                
-                continue;
-            }
-            change = true;
-            me.setLastSelected(record);
-            selected.add(record);
-            if (!suppressEvent) {
-                me.setLastFocused(record);
-            }
-            me.onItemSelect(record, suppressEvent);
-        }
-        if (change && !suppressEvent) {
-            this.fireSelectionChange(records);
-        }
-    },
-    /**
-     * Deselects the given record(s). If many records are currently selected, it will only deselect those you pass in.
-     * @param {Number/Array/Ext.data.Model} records The record(s) to deselect. Can also be a number to reference by index.
-     * @param {Boolean} suppressEvent If `true` the `deselect` event will not be fired.
-     */
-    deselect: function(records, suppressEvent) {
-        var me = this;
-        if (me.getDisableSelection()) {
-            return;
-        }
-        records = Ext.isArray(records) ? records : [
-            records
-        ];
-        var selected = me.selected,
-            change = false,
-            i = 0,
-            store = me.getStore(),
-            ln = records.length,
-            record;
-        for (; i < ln; i++) {
-            record = records[i];
-            if (typeof record === 'number') {
-                record = store.getAt(record);
-            }
-            if (selected.remove(record)) {
-                if (me.getLastSelected() == record) {
-                    me.setLastSelected(selected.last());
-                }
-                change = true;
-            }
-            if (record) {
-                me.onItemDeselect(record, suppressEvent);
-            }
-        }
-        if (change && !suppressEvent) {
-            me.fireSelectionChange(records);
-        }
-    },
-    /**
-     * Sets a record as the last focused record. This does NOT mean
-     * that the record has been selected.
-     * @param {Ext.data.Record} newRecord
-     * @param {Ext.data.Record} oldRecord
-     */
-    updateLastFocused: function(newRecord, oldRecord) {
-        this.onLastFocusChanged(oldRecord, newRecord);
-    },
-    fireSelectionChange: function(records) {
-        var me = this;
-        me.fireAction('selectionchange', [
-            me,
-            records
-        ], 'getSelection');
-    },
-    /**
-     * Returns an array of the currently selected records.
-     * @return {Array} An array of selected records.
-     */
-    getSelection: function() {
-        return this.selected.getRange();
-    },
-    /**
-     * Returns `true` if the specified row is selected.
-     * @param {Ext.data.Model/Number} record The record or index of the record to check.
-     * @return {Boolean}
-     */
-    isSelected: function(record) {
-        record = Ext.isNumber(record) ? this.getStore().getAt(record) : record;
-        return this.selected.indexOf(record) !== -1;
-    },
-    /**
-     * Returns `true` if there is a selected record.
-     * @return {Boolean}
-     */
-    hasSelection: function() {
-        return this.selected.getCount() > 0;
-    },
-    /**
-     * @private
-     */
-    refreshSelection: function() {
-        var me = this,
-            selections = me.getSelection();
-        me.deselectAll(true);
-        if (selections.length) {
-            me.select(selections, false, true);
-        }
-    },
-    // prune records from the SelectionModel if
-    // they were selected at the time they were
-    // removed.
-    onSelectionStoreRemove: function(store, records) {
-        var me = this,
-            selected = me.selected,
-            ln = records.length,
-            record, i;
-        if (me.getDisableSelection()) {
-            return;
-        }
-        for (i = 0; i < ln; i++) {
-            record = records[i];
-            if (selected.remove(record)) {
-                if (me.getLastSelected() == record) {
-                    me.setLastSelected(null);
-                }
-                if (me.getLastFocused() == record) {
-                    me.setLastFocused(null);
-                }
-                me.fireSelectionChange([
-                    record
-                ]);
-            }
-        }
-    },
-    onSelectionStoreClear: function(store) {
-        var records = store.getData().items;
-        this.onSelectionStoreRemove(store, records);
-    },
-    /**
-     * Returns the number of selections.
-     * @return {Number}
-     */
-    getSelectionCount: function() {
-        return this.selected.getCount();
-    },
-    onSelectionStoreAdd: Ext.emptyFn,
-    onSelectionStoreUpdate: Ext.emptyFn,
-    onItemSelect: Ext.emptyFn,
-    onItemDeselect: Ext.emptyFn,
-    onLastFocusChanged: Ext.emptyFn,
-    onEditorKey: Ext.emptyFn
-}, 1, 0, 0, 0, 0, 0, [
-    Ext.mixin,
-    'Selectable'
-], function() {}));
-/**
-     * Selects a record instance by record instance or index.
-     * @member Ext.mixin.Selectable
-     * @method doSelect
-     * @param {Ext.data.Model/Number} records An array of records or an index.
-     * @param {Boolean} keepExisting
-     * @param {Boolean} suppressEvent Set to `false` to not fire a select event.
-     * @deprecated 2.0.0 Please use {@link #select} instead.
-     */
-/**
-     * Deselects a record instance by record instance or index.
-     * @member Ext.mixin.Selectable
-     * @method doDeselect
-     * @param {Ext.data.Model/Number} records An array of records or an index.
-     * @param {Boolean} suppressEvent Set to `false` to not fire a deselect event.
-     * @deprecated 2.0.0 Please use {@link #deselect} instead.
-     */
-/**
-     * Returns the selection mode currently used by this Selectable.
-     * @member Ext.mixin.Selectable
-     * @method getSelectionMode
-     * @return {String} The current mode.
-     * @deprecated 2.0.0 Please use {@link #getMode} instead.
-     */
-/**
-     * Returns the array of previously selected items.
-     * @member Ext.mixin.Selectable
-     * @method getLastSelected
-     * @return {Array} The previous selection.
-     * @deprecated 2.0.0
-     */
-/**
-     * Returns `true` if the Selectable is currently locked.
-     * @member Ext.mixin.Selectable
-     * @method isLocked
-     * @return {Boolean} True if currently locked
-     * @deprecated 2.0.0 Please use {@link #getDisableSelection} instead.
-     */
-/**
-     * This was an internal function accidentally exposed in 1.x and now deprecated. Calling it has no effect
-     * @member Ext.mixin.Selectable
-     * @method setLastFocused
-     * @deprecated 2.0.0
-     */
-/**
-     * Deselects any currently selected records and clears all stored selections.
-     * @member Ext.mixin.Selectable
-     * @method clearSelections
-     * @deprecated 2.0.0 Please use {@link #deselectAll} instead.
-     */
-/**
-     * Returns the number of selections.
-     * @member Ext.mixin.Selectable
-     * @method getCount
-     * @return {Number}
-     * @deprecated 2.0.0 Please use {@link #getSelectionCount} instead.
-     */
-/**
-     * @cfg {Boolean} locked
-     * @inheritdoc Ext.mixin.Selectable#disableSelection
-     * @deprecated 2.0.0 Please use {@link #disableSelection} instead.
-     */
-
-/**
- * A DataItem is a container for records inside of {@link Ext.dataview.DataView} with useComponents: true.
- * It ties together {@link Ext.data.Model records} to its contained Components. Consider the following example:
- *
- *      @example phone portrait preview
- *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MODEL
- *
- *     Ext.define('TestModel', {
- *         extend: 'Ext.data.Model',
- *         config: {
- *             fields: [{
- *                 name: 'val1'
- *             }, {
- *                 name: 'val2'
- *             }]
- *         }
- *     });
- *
- *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! STORE
- *
- *     Ext.define('TestStore', {
- *         extend: 'Ext.data.Store',
- *         config: {
- *             data: [{
- *                 val1: 'A Button',
- *                 val2: 'with text'
- *             }, {
- *                 val1: 'The Button',
- *                 val2: 'more text'
- *             }, {
- *                 val1: 'My Button',
- *                 val2: 'My Text'
- *             }],
- *             model: 'TestModel',
- *             storeId: 'TestStore'
- *         }
- *     });
- *
- *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DATA ITEM
- *
- *     Ext.define('MyDataItem', {
- *         extend: 'Ext.dataview.component.DataItem',
- *         alias: 'widget.mydataitem',
- *         config: {
- *             padding: 10,
- *             layout: {
- *                 type: 'hbox'
- *             },
- *             defaults: {
- *                 margin: 5
- *             },
- *             items: [{
- *                 xtype: 'button',
- *                 text: 'Val1'
- *             }, {
- *                 xtype: 'component',
- *                 flex: 1,
- *                 html: 'val2',
- *                 itemId: 'textCmp'
- *             }]
- *         },
- *         updateRecord: function(record) {
- *             var me = this;
- *
- *             me.down('button').setText(record.get('val1'));
- *             me.down('#textCmp').setHtml(record.get('val2'));
- *
- *             me.callParent(arguments);
- *         }
- *     });
- *
- *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DATA VIEW
- *
- *     Ext.define('MyDataView', {
- *         extend: 'Ext.dataview.DataView',
- *         config: {
- *             defaultType: 'mydataitem',
- *             useComponents: true
- *         }
- *     });
- *
- *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RUN
- *
- *     Ext.create('MyDataView', {
- *         fullscreen: true,
- *         store: Ext.create('TestStore')
- *     });
- *
- * Another way to accomplish this is via a {@link #dataMap dataMap} configuration.
- *
- * For example, lets say you have a `text` configuration which, when applied, gets turned into an instance of an
- * Ext.Component. We want to update the {@link #html} of a sub-component when the 'text' field of the record gets
- * changed.
- *
- * As you can see below, it is simply a matter of setting the key of the object to be the getter of the config
- * (getText), and then give that property a value of an object, which then has 'setHtml' (the html setter) as the key,
- * and 'text' (the field name) as the value. You can continue this for a as many sub-components as you wish.
- *
- *     dataMap: {
- *         // When the record is updated, get the text configuration, and
- *         // call {@link #setHtml} with the 'text' field of the record.
- *         getText: {
- *             setHtml: 'text'
- *         },
- *
- *         // When the record is updated, get the userName configuration, and
- *         // call {@link #setHtml} with the 'from_user' field of the record.
- *         getUserName: {
- *             setHtml: 'from_user'
- *         },
- *
- *         // When the record is updated, get the avatar configuration, and
- *         // call `setSrc` with the 'profile_image_url' field of the record.
- *         getAvatar: {
- *             setSrc: 'profile_image_url'
- *         }
- *     }
- */
-(Ext.cmd.derive('Ext.dataview.component.DataItem', Ext.Container, {
-    config: {
-        baseCls: 'x-data-item',
-        defaultType: 'component',
-        /**
-         * @cfg {Ext.data.Model} record The model instance of this DataItem. It is controlled by the Component DataView.
-         * @accessor
-         */
-        record: null,
-        /**
-         * @cfg {String} itemCls
-         * An additional CSS class to apply to items within the DataView.
-         * @accessor
-         */
-        itemCls: null,
-        /**
-         * @cfg dataMap
-         * The dataMap allows you to map {@link #record} fields to specific configurations in this component.
-         *
-         * For example, lets say you have a `text` configuration which, when applied, gets turned into an instance of an Ext.Component.
-         * We want to update the {@link #html} of this component when the 'text' field of the record gets changed.
-         * For example:
-         *
-         *      dataMap: {
-         *          getText: {
-         *              setHtml: 'text'
-         *          }
-         *      }
-         *
-         * In this example, it is simply a matter of setting the key of the object to be the getter of the config (`getText`), and then give that
-         * property a value of an object, which then has `setHtml` (the html setter) as the key, and `text` (the field name) as the value.
-         */
-        dataMap: {},
-        /*
-         * @private dataview
-         */
-        dataview: null,
-        width: '100%',
-        items: [
-            {
-                xtype: 'component'
-            }
-        ]
-    },
-    updateBaseCls: function(newBaseCls, oldBaseCls) {
-        var me = this;
-        Ext.Container.prototype.updateBaseCls.apply(this, arguments);
-    },
-    updateItemCls: function(newCls, oldCls) {
-        if (oldCls) {
-            this.removeCls(oldCls);
-        }
-        if (newCls) {
-            this.addCls(newCls);
-        }
-    },
-    doMapData: function(dataMap, data, item) {
-        var componentName, component, setterMap, setterName;
-        for (componentName in dataMap) {
-            setterMap = dataMap[componentName];
-            component = this[componentName]();
-            if (component) {
-                for (setterName in setterMap) {
-                    if (data && component[setterName] && data[setterMap[setterName]] !== undefined && data[setterMap[setterName]] !== null) {
-                        component[setterName](data[setterMap[setterName]]);
-                    }
-                }
-            }
-        }
-        if (item) {
-            // Bypassing setter because sometimes we pass the same object (different properties)
-            item.updateData(data);
-        }
-    },
-    /**
-     * Updates this container's child items, passing through the `dataMap`.
-     * @param {Ext.data.Model} newRecord
-     * @private
-     */
-    updateRecord: function(newRecord) {
-        if (!newRecord) {
-            return;
-        }
-        this._record = newRecord;
-        var me = this,
-            dataview = me.dataview || this.getDataview(),
-            data = dataview.prepareData(newRecord.getData(true), dataview.getStore().indexOf(newRecord), newRecord),
-            items = me.getItems(),
-            item = items.first(),
-            dataMap = me.getDataMap();
-        if (!item) {
-            return;
-        }
-        if (dataMap) {
-            this.doMapData(dataMap, data, item);
-        }
-        /**
-         * @event updatedata
-         * Fires whenever the data of the DataItem is updated.
-         * @param {Ext.dataview.component.DataItem} this The DataItem instance.
-         * @param {Object} newData The new data.
-         */
-        me.fireEvent('updatedata', me, data);
-    }
-}, 0, [
-    "dataitem"
-], [
-    "component",
-    "container",
-    "dataitem"
-], {
-    "component": true,
-    "container": true,
-    "dataitem": true
-}, [
-    "widget.dataitem"
-], 0, [
-    Ext.dataview.component,
-    'DataItem'
-], 0));
-
-/**
- * @private
- */
-(Ext.cmd.derive('Ext.dataview.component.Container', Ext.Container, {
-    /**
-     * @event itemtouchstart
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item touched
-     * @param {Number} index The index of the item touched
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchmove
-     * Fires whenever an item is moved
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item moved
-     * @param {Number} index The index of the item moved
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchend
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item touched
-     * @param {Number} index The index of the item touched
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtap
-     * Fires whenever an item is tapped
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item tapped
-     * @param {Number} index The index of the item tapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtaphold
-     * Fires whenever an item is tapped
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item tapped
-     * @param {Number} index The index of the item tapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemsingletap
-     * Fires whenever an item is doubletapped
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item singletapped
-     * @param {Number} index The index of the item singletapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemdoubletap
-     * Fires whenever an item is doubletapped
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item doubletapped
-     * @param {Number} index The index of the item doubletapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemswipe
-     * Fires whenever an item is swiped
-     * @param {Ext.dataview.component.Container} this
-     * @param {Ext.dataview.component.DataItem} item The item swiped
-     * @param {Number} index The index of the item swiped
-     * @param {Ext.EventObject} e The event object
-     */
-    constructor: function() {
-        this.itemCache = [];
-        Ext.Container.prototype.constructor.apply(this, arguments);
-    },
-    //@private
-    doInitialize: function() {
-        this.innerElement.on({
-            touchstart: 'onItemTouchStart',
-            touchend: 'onItemTouchEnd',
-            tap: 'onItemTap',
-            taphold: 'onItemTapHold',
-            touchmove: 'onItemTouchMove',
-            singletap: 'onItemSingleTap',
-            doubletap: 'onItemDoubleTap',
-            swipe: 'onItemSwipe',
-            delegate: '> .x-data-item',
-            scope: this
-        });
-    },
-    //@private
-    initialize: function() {
-        Ext.Container.prototype.initialize.call(this);
-        this.doInitialize();
-    },
-    onItemTouchStart: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        item.on({
-            touchmove: 'onItemTouchMove',
-            scope: me,
-            single: true
-        });
-        me.fireEvent('itemtouchstart', me, item, me.indexOf(item), e);
-    },
-    onItemTouchMove: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemtouchmove', me, item, me.indexOf(item), e);
-    },
-    onItemTouchEnd: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        item.un({
-            touchmove: 'onItemTouchMove',
-            scope: me
-        });
-        me.fireEvent('itemtouchend', me, item, me.indexOf(item), e);
-    },
-    onItemTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemtap', me, item, me.indexOf(item), e);
-    },
-    onItemTapHold: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemtaphold', me, item, me.indexOf(item), e);
-    },
-    onItemSingleTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemsingletap', me, item, me.indexOf(item), e);
-    },
-    onItemDoubleTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemdoubletap', me, item, me.indexOf(item), e);
-    },
-    onItemSwipe: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            item = Ext.getCmp(target.id);
-        me.fireEvent('itemswipe', me, item, me.indexOf(item), e);
-    },
-    moveItemsToCache: function(from, to) {
-        var me = this,
-            dataview = me.dataview,
-            maxItemCache = dataview.getMaxItemCache(),
-            items = me.getViewItems(),
-            itemCache = me.itemCache,
-            cacheLn = itemCache.length,
-            pressedCls = dataview.getPressedCls(),
-            selectedCls = dataview.getSelectedCls(),
-            i = to - from,
-            item;
-        for (; i >= 0; i--) {
-            item = items[from + i];
-            if (cacheLn !== maxItemCache) {
-                me.remove(item, false);
-                item.removeCls([
-                    pressedCls,
-                    selectedCls
-                ]);
-                itemCache.push(item);
-                cacheLn++;
-            } else {
-                item.destroy();
-            }
-        }
-        if (me.getViewItems().length == 0) {
-            this.dataview.showEmptyText();
-        }
-    },
-    moveItemsFromCache: function(records) {
-        var me = this,
-            dataview = me.dataview,
-            store = dataview.getStore(),
-            ln = records.length,
-            xtype = dataview.getDefaultType(),
-            itemConfig = dataview.getItemConfig(),
-            itemCache = me.itemCache,
-            cacheLn = itemCache.length,
-            items = [],
-            i, item, record;
-        if (ln) {
-            dataview.hideEmptyText();
-        }
-        for (i = 0; i < ln; i++) {
-            records[i]._tmpIndex = store.indexOf(records[i]);
-        }
-        Ext.Array.sort(records, function(record1, record2) {
-            return record1._tmpIndex > record2._tmpIndex ? 1 : -1;
-        });
-        for (i = 0; i < ln; i++) {
-            record = records[i];
-            if (cacheLn) {
-                cacheLn--;
-                item = itemCache.pop();
-                this.updateListItem(record, item);
-            } else {
-                item = me.getDataItemConfig(xtype, record, itemConfig);
-            }
-            item = this.insert(record._tmpIndex, item);
-            delete record._tmpIndex;
-        }
-        return items;
-    },
-    getViewItems: function() {
-        return this.getInnerItems();
-    },
-    updateListItem: function(record, item) {
-        if (item.updateRecord) {
-            if (item.getRecord() === record) {
-                item.updateRecord(record);
-            } else {
-                item.setRecord(record);
-            }
-        }
-    },
-    getDataItemConfig: function(xtype, record, itemConfig) {
-        var dataview = this.dataview,
-            dataItemConfig = {
-                xtype: xtype,
-                record: record,
-                itemCls: dataview.getItemCls(),
-                defaults: itemConfig,
-                dataview: dataview
-            };
-        return Ext.merge(dataItemConfig, itemConfig);
-    },
-    doRemoveItemCls: function(cls) {
-        var items = this.getViewItems(),
-            ln = items.length,
-            i = 0;
-        for (; i < ln; i++) {
-            items[i].removeCls(cls);
-        }
-    },
-    doAddItemCls: function(cls) {
-        var items = this.getViewItems(),
-            ln = items.length,
-            i = 0;
-        for (; i < ln; i++) {
-            items[i].addCls(cls);
-        }
-    },
-    updateAtNewIndex: function(oldIndex, newIndex, record) {
-        this.moveItemsToCache(oldIndex, oldIndex);
-        this.moveItemsFromCache([
-            record
-        ]);
-    },
-    destroy: function() {
-        var me = this,
-            itemCache = me.itemCache,
-            ln = itemCache.length,
-            i = 0;
-        for (; i < ln; i++) {
-            itemCache[i].destroy();
-        }
-        Ext.Container.prototype.destroy.call(this);
-    }
-}, 1, 0, [
-    "component",
-    "container"
-], {
-    "component": true,
-    "container": true
-}, 0, 0, [
-    Ext.dataview.component,
-    'Container'
-], 0));
-
-/**
- * @private
- */
-(Ext.cmd.derive('Ext.dataview.element.Container', Ext.Component, {
-    /**
-     * @event itemtouchstart
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item touched
-     * @param {Number} index The index of the item touched
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchmove
-     * Fires whenever an item is moved
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item moved
-     * @param {Number} index The index of the item moved
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchend
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item touched
-     * @param {Number} index The index of the item touched
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtap
-     * Fires whenever an item is tapped
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item tapped
-     * @param {Number} index The index of the item tapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtaphold
-     * Fires whenever an item is tapped
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item tapped
-     * @param {Number} index The index of the item tapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemsingletap
-     * Fires whenever an item is singletapped
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item singletapped
-     * @param {Number} index The index of the item singletapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemdoubletap
-     * Fires whenever an item is doubletapped
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item doubletapped
-     * @param {Number} index The index of the item doubletapped
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemswipe
-     * Fires whenever an item is swiped
-     * @param {Ext.dataview.element.Container} this
-     * @param {Ext.dom.Element} item The item swiped
-     * @param {Number} index The index of the item swiped
-     * @param {Ext.EventObject} e The event object
-     */
-    doInitialize: function() {
-        this.element.on({
-            touchstart: 'onItemTouchStart',
-            touchend: 'onItemTouchEnd',
-            tap: 'onItemTap',
-            taphold: 'onItemTapHold',
-            touchmove: 'onItemTouchMove',
-            singletap: 'onItemSingleTap',
-            doubletap: 'onItemDoubleTap',
-            swipe: 'onItemSwipe',
-            delegate: '> div',
-            scope: this
-        });
-    },
-    //@private
-    initialize: function() {
-        Ext.Component.prototype.initialize.call(this);
-        this.doInitialize();
-    },
-    updateBaseCls: function(newBaseCls, oldBaseCls) {
-        var me = this;
-        Ext.Component.prototype.updateBaseCls.call(this, newBaseCls + '-container', oldBaseCls);
-    },
-    onItemTouchStart: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        Ext.get(target).on({
-            touchmove: 'onItemTouchMove',
-            scope: me,
-            single: true
-        });
-        me.fireEvent('itemtouchstart', me, Ext.get(target), index, e);
-    },
-    onItemTouchEnd: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        Ext.get(target).un({
-            touchmove: 'onItemTouchMove',
-            scope: me
-        });
-        me.fireEvent('itemtouchend', me, Ext.get(target), index, e);
-    },
-    onItemTouchMove: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemtouchmove', me, Ext.get(target), index, e);
-    },
-    onItemTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemtap', me, Ext.get(target), index, e);
-    },
-    onItemTapHold: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemtaphold', me, Ext.get(target), index, e);
-    },
-    onItemDoubleTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemdoubletap', me, Ext.get(target), index, e);
-    },
-    onItemSingleTap: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemsingletap', me, Ext.get(target), index, e);
-    },
-    onItemSwipe: function(e) {
-        var me = this,
-            target = e.getTarget(),
-            index = me.getViewItems().indexOf(target);
-        me.fireEvent('itemswipe', me, Ext.get(target), index, e);
-    },
-    updateListItem: function(record, item) {
-        var me = this,
-            dataview = me.dataview,
-            store = dataview.getStore(),
-            index = store.indexOf(record),
-            data = dataview.prepareData(record.getData(true), index, record);
-        data.xcount = store.getCount();
-        data.xindex = typeof data.xindex === 'number' ? data.xindex : index;
-        item.innerHTML = dataview.getItemTpl().apply(data);
-    },
-    addListItem: function(index, record) {
-        var me = this,
-            dataview = me.dataview,
-            store = dataview.getStore(),
-            data = dataview.prepareData(record.getData(true), index, record),
-            element = me.element,
-            childNodes = element.dom.childNodes,
-            ln = childNodes.length,
-            wrapElement;
-        data.xcount = typeof data.xcount === 'number' ? data.xcount : store.getCount();
-        data.xindex = typeof data.xindex === 'number' ? data.xindex : index;
-        wrapElement = Ext.Element.create(this.getItemElementConfig(index, data));
-        if (!ln || index == ln) {
-            wrapElement.appendTo(element);
-        } else {
-            wrapElement.insertBefore(childNodes[index]);
-        }
-    },
-    getItemElementConfig: function(index, data) {
-        var dataview = this.dataview,
-            itemCls = dataview.getItemCls(),
-            cls = dataview.getBaseCls() + '-item';
-        if (itemCls) {
-            cls += ' ' + itemCls;
-        }
-        return {
-            cls: cls,
-            html: dataview.getItemTpl().apply(data)
-        };
-    },
-    doRemoveItemCls: function(cls) {
-        var elements = this.getViewItems(),
-            ln = elements.length,
-            i = 0;
-        for (; i < ln; i++) {
-            Ext.fly(elements[i]).removeCls(cls);
-        }
-    },
-    doAddItemCls: function(cls) {
-        var elements = this.getViewItems(),
-            ln = elements.length,
-            i = 0;
-        for (; i < ln; i++) {
-            Ext.fly(elements[i]).addCls(cls);
-        }
-    },
-    // Remove
-    moveItemsToCache: function(from, to) {
-        var me = this,
-            items = me.getViewItems(),
-            i = to - from,
-            item;
-        for (; i >= 0; i--) {
-            item = items[from + i];
-            Ext.get(item).destroy();
-        }
-        if (me.getViewItems().length == 0) {
-            this.dataview.showEmptyText();
-        }
-    },
-    // Add
-    moveItemsFromCache: function(records) {
-        var me = this,
-            dataview = me.dataview,
-            store = dataview.getStore(),
-            ln = records.length,
-            i, record;
-        if (ln) {
-            dataview.hideEmptyText();
-        }
-        for (i = 0; i < ln; i++) {
-            records[i]._tmpIndex = store.indexOf(records[i]);
-        }
-        Ext.Array.sort(records, function(record1, record2) {
-            return record1._tmpIndex > record2._tmpIndex ? 1 : -1;
-        });
-        for (i = 0; i < ln; i++) {
-            record = records[i];
-            me.addListItem(record._tmpIndex, record);
-            delete record._tmpIndex;
-        }
-    },
-    // Transform ChildNodes into a proper Array so we can do indexOf...
-    getViewItems: function() {
-        return Array.prototype.slice.call(this.element.dom.childNodes);
-    },
-    updateAtNewIndex: function(oldIndex, newIndex, record) {
-        this.moveItemsToCache(oldIndex, oldIndex);
-        this.moveItemsFromCache([
-            record
-        ]);
-    },
-    destroy: function() {
-        var elements = this.getViewItems(),
-            ln = elements.length,
-            i = 0;
-        for (; i < ln; i++) {
-            Ext.get(elements[i]).destroy();
-        }
-        Ext.Component.prototype.destroy.call(this);
-    }
-}, 0, 0, [
-    "component"
-], {
-    "component": true
-}, 0, 0, [
-    Ext.dataview.element,
-    'Container'
-], 0));
-
-/**
- * DataView makes it easy to create lots of components dynamically, usually based off a {@link Ext.data.Store Store}.
- * It's great for rendering lots of data from your server backend or any other data source and is what powers
- * components like {@link Ext.List}.
- *
- * Use DataView whenever you want to show sets of the same component many times, for examples in apps like these:
- *
- * - List of messages in an email app
- * - Showing latest news/tweets
- * - Tiled set of albums in an HTML5 music player
- *
- * # Creating a Simple DataView
- *
- * At its simplest, a DataView is just a Store full of data and a simple template that we use to render each item:
- *
- *     @example miniphone preview
- *     var touchTeam = Ext.create('Ext.DataView', {
- *         fullscreen: true,
- *         store: {
- *             fields: ['name', 'age'],
- *             data: [
- *                 {name: 'Jamie',  age: 100},
- *                 {name: 'Rob',   age: 21},
- *                 {name: 'Tommy', age: 24},
- *                 {name: 'Jacky', age: 24},
- *                 {name: 'Ed',   age: 26}
- *             ]
- *         },
- *
- *         itemTpl: '<div>{name} is {age} years old</div>'
- *     });
- *
- * Here we just defined everything inline so it's all local with nothing being loaded from a server. For each of the 5
- * data items defined in our Store, DataView will render a {@link Ext.Component Component} and pass in the name and age
- * data. The component will use the tpl we provided above, rendering the data in the curly bracket placeholders we
- * provided.
- *
- * Because DataView is integrated with Store, any changes to the Store are immediately reflected on the screen. For
- * example, if we add a new record to the Store it will be rendered into our DataView:
- *
- *     touchTeam.getStore().add({
- *         name: 'Abe Elias',
- *         age: 33
- *     });
- *
- * We didn't have to manually update the DataView, it's just automatically updated. The same happens if we modify one
- * of the existing records in the Store:
- *
- *     touchTeam.getStore().getAt(0).set('age', 42);
- *
- * This will get the first record in the Store (Jamie), change the age to 42 and automatically update what's on the
- * screen.
- *
- *     @example miniphone
- *     var touchTeam = Ext.create('Ext.DataView', {
- *         fullscreen: true,
- *         store: {
- *             fields: ['name', 'age'],
- *             data: [
- *                 {name: 'Jamie',  age: 100},
- *                 {name: 'Rob',   age: 21},
- *                 {name: 'Tommy', age: 24},
- *                 {name: 'Jacky', age: 24},
- *                 {name: 'Ed',   age: 26}
- *             ]
- *         },
- *
- *         itemTpl: '<div>{name} is {age} years old</div>'
- *     });
- *
- *     touchTeam.getStore().add({
- *         name: 'Abe Elias',
- *         age: 33
- *     });
- *
- *     touchTeam.getStore().getAt(0).set('age', 42);
- *
- * # Loading data from a server
- *
- * We often want to load data from our server or some other web service so that we don't have to hard code it all
- * locally. Let's say we want to load some horror movies from Rotten Tomatoes into a DataView, and for each one
- * render the cover image and title. To do this all we have to do is grab an api key from rotten tomatoes (http://developer.rottentomatoes.com/)
- * and modify the {@link #store} and {@link #itemTpl} a little:
- *
- *     @example portrait
- *     Ext.create('Ext.DataView', {
- *         fullscreen: true,
- *         store: {
- *             autoLoad: true,
- *             fields: ['id', 'title',
- *              {
- *                  name:'thumbnail_image',
- *                  convert: function(v, record) {return record.raw.posters.thumbnail; }
- *              }],
- *
- *             proxy: {
- *                 type: 'jsonp',
- *                 // Modify this line with your API key, pretty please...
- *                 url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hbjgfgryw8tygxztr5wtag3u&q=Horror',
- *
- *                 reader: {
- *                     type: 'json',
- *                     rootProperty: 'results'
- *                 }
- *             }
- *         },
- *
- *         itemTpl: '<img src="{thumbnail_image}" /><p>{title}</p><div style="clear: both"></div>'
- *     });
- *
- * The Store no longer has hard coded data, instead we've provided a {@link Ext.data.proxy.Proxy Proxy}, which fetches
- * the data for us. In this case we used a JSON-P proxy so that we can load from Twitter's JSON-P search API. We also
- * specified the fields present for each tweet, and used Store's {@link Ext.data.Store#autoLoad autoLoad} configuration
- * to load automatically. Finally, we configured a Reader to decode the response from Twitter, telling it to expect
- * JSON and that the tweets can be found in the 'results' part of the JSON response.
- *
- * The last thing we did is update our template to render the image, Twitter username and message. All we need to do
- * now is add a little CSS to style the list the way we want it and we end up with a very basic Twitter viewer. Click
- * the preview button on the example above to see it in action.
- *
- * ###Further Reading
- * [Sencha Touch DataView Guide](../../../components/dataview.html)
- */
-(Ext.cmd.derive('Ext.dataview.DataView', Ext.Container, {
-    alternateClassName: 'Ext.DataView',
-    /**
-     * @event containertap
-     * Fires when a tap occurs and it is not on a template node.
-     * @removed 2.0.0
-     */
-    /**
-     * @event itemtouchstart
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item touched
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchmove
-     * Fires whenever an item is moved
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item moved
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem moved
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtouchend
-     * Fires whenever an item is touched
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item touched
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtap
-     * Fires whenever an item is tapped
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item tapped
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem tapped
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemtaphold
-     * Fires whenever an item's taphold event fires
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item touched
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemsingletap
-     * Fires whenever an item is singletapped
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item singletapped
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem singletapped
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemdoubletap
-     * Fires whenever an item is doubletapped
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item doubletapped
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem doubletapped
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event itemswipe
-     * Fires whenever an item is swiped
-     * @param {Ext.dataview.DataView} this
-     * @param {Number} index The index of the item swiped
-     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem swiped
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Ext.EventObject} e The event object
-     */
-    /**
-     * @event select
-     * @preventable doItemSelect
-     * Fires whenever an item is selected
-     * @param {Ext.dataview.DataView} this
-     * @param {Ext.data.Model} record The record associated to the item
-     */
-    /**
-     * @event deselect
-     * @preventable doItemDeselect
-     * Fires whenever an item is deselected
-     * @param {Ext.dataview.DataView} this
-     * @param {Ext.data.Model} record The record associated to the item
-     * @param {Boolean} supressed Flag to suppress the event
-     */
-    /**
-     * @event refresh
-     * @preventable doRefresh
-     * Fires whenever the DataView is refreshed
-     * @param {Ext.dataview.DataView} this
-     */
-    /**
-     * @hide
-     * @event add
-     */
-    /**
-     * @hide
-     * @event remove
-     */
-    /**
-     * @hide
-     * @event move
-     */
-    config: {
-        /**
-         * @cfg layout
-         * Hide layout config in DataView. It only causes confusion.
-         * @accessor
-         * @private
-         */
-        /**
-         * @cfg {Ext.data.Store/Object} store
-         * Can be either a Store instance or a configuration object that will be turned into a Store. The Store is used
-         * to populate the set of items that will be rendered in the DataView. See the DataView intro documentation for
-         * more information about the relationship between Store and DataView.
-         * @accessor
-         */
-        store: null,
-        /**
-         * @cfg {Object[]} data
-         * @inheritdoc
-         */
-        data: null,
-        /**
-         * @cfg baseCls
-         * @inheritdoc
-         */
-        baseCls: 'x-dataview',
-        /**
-         * @cfg {String} emptyText
-         * The text to display in the view when there is no data to display
-         */
-        emptyText: null,
-        /**
-         * @cfg {Boolean} deferEmptyText `true` to defer `emptyText` being applied until the store's first load.
-         */
-        deferEmptyText: true,
-        /**
-         * @cfg {String/String[]/Ext.XTemplate} itemTpl
-         * The `tpl` to use for each of the items displayed in this DataView.
-         */
-        itemTpl: '<div>{text}</div>',
-        /**
-         * @cfg {String} pressedCls
-         * The CSS class to apply to an item on the view while it is being pressed.
-         * @accessor
-         */
-        pressedCls: 'x-item-pressed',
-        /**
-         * @cfg {String} itemCls
-         * An additional CSS class to apply to items within the DataView.
-         * @accessor
-         */
-        itemCls: null,
-        /**
-         * @cfg {String} selectedCls
-         * The CSS class to apply to an item on the view while it is selected.
-         * @accessor
-         */
-        selectedCls: 'x-item-selected',
-        /**
-         * @cfg {String} triggerEvent
-         * Determines what type of touch event causes an item to be selected.
-         * Valid options are: 'itemtap', 'itemsingletap', 'itemdoubletap', 'itemswipe', 'itemtaphold'.
-         * @accessor
-         */
-        triggerEvent: 'itemtap',
-        /**
-         * @cfg {String} triggerCtEvent
-         * Determines what type of touch event is recognized as a touch on the container.
-         * Valid options are 'tap' and 'singletap'.
-         * @accessor
-         */
-        triggerCtEvent: 'tap',
-        /**
-         * @cfg {Boolean} deselectOnContainerClick
-         * When set to true, tapping on the DataView's background (i.e. not on
-         * an item in the DataView) will deselect any currently selected items.
-         * @accessor
-         */
-        deselectOnContainerClick: true,
-        /**
-         * @cfg scrollable
-         * @inheritdoc
-         */
-        scrollable: true,
-        /**
-         * @cfg {Boolean/Object} inline
-         * When set to `true` the items within the DataView will have their display set to inline-block
-         * and be arranged horizontally. By default the items will wrap to the width of the DataView.
-         * Passing an object with `{ wrap: false }` will turn off this wrapping behavior and overflowed
-         * items will need to be scrolled to horizontally.
-         * @accessor
-         */
-        inline: null,
-        /**
-         * @cfg {Number} pressedDelay
-         * The amount of delay between the `tapstart` and the moment we add the `pressedCls`.
-         *
-         * Settings this to `true` defaults to 100ms.
-         * @accessor
-         */
-        pressedDelay: 100,
-        /**
-         * @cfg {String/Boolean} loadingText
-         * A string to display during data load operations.  If specified, this text will be
-         * displayed in a loading div and the view's contents will be cleared while loading, otherwise the view's
-         * contents will continue to display normally until the new data is loaded and the contents are replaced.
-         */
-        loadingText: 'Loading...',
-        /**
-         * @cfg {Boolean} useComponents
-         * Flag the use a component based DataView implementation.  This allows the full use of components in the
-         * DataView at the cost of some performance.
-         *
-         * Checkout the [Sencha Touch DataView Guide](../../../components/dataview.html) for more information on using this configuration.
-         * @accessor
-         */
-        useComponents: null,
-        /**
-         * @cfg {Object} itemConfig
-         * A configuration object that is passed to every item created by a component based DataView. Because each
-         * item that a DataView renders is a Component, we can pass configuration options to each component to
-         * easily customize how each child component behaves.
-         *
-         * __Note:__ this is only used when `{@link #useComponents}` is `true`.
-         * @accessor
-         */
-        itemConfig: {},
-        /**
-         * @cfg {Number} maxItemCache
-         * Maintains a cache of reusable components when using a component based DataView.  Improving performance at
-         * the cost of memory.
-         *
-         * __Note:__ this is currently only used when `{@link #useComponents}` is `true`.
-         * @accessor
-         */
-        maxItemCache: 20,
-        /**
-         * @cfg {String} defaultType
-         * The xtype used for the component based DataView.
-         *
-         * __Note:__ this is only used when `{@link #useComponents}` is `true`.
-         * @accessor
-         */
-        defaultType: 'dataitem',
-        /**
-         * @cfg {Boolean} scrollToTopOnRefresh
-         * Scroll the DataView to the top when the DataView is refreshed.
-         * @accessor
-         */
-        scrollToTopOnRefresh: true
-    },
-    constructor: function(config) {
-        var me = this,
-            layout;
-        me.hasLoadedStore = false;
-        me.mixins.selectable.constructor.apply(me, arguments);
-        me.indexOffset = 0;
-        Ext.Container.prototype.constructor.apply(this, arguments);
-    },
-    updateItemCls: function(newCls, oldCls) {
-        var container = this.container;
-        if (container) {
-            if (oldCls) {
-                container.doRemoveItemCls(oldCls);
-            }
-            if (newCls) {
-                container.doAddItemCls(newCls);
-            }
-        }
-    },
-    storeEventHooks: {
-        beforeload: 'onBeforeLoad',
-        load: 'onLoad',
-        refresh: 'refresh',
-        addrecords: 'onStoreAdd',
-        removerecords: 'onStoreRemove',
-        updaterecord: 'onStoreUpdate'
-    },
-    initialize: function() {
-        Ext.Container.prototype.initialize.call(this);
-        var me = this,
-            container,
-            triggerEvent = me.getTriggerEvent();
-        me.on(me.getTriggerCtEvent(), me.onContainerTrigger, me);
-        container = me.container = this.add(new Ext.dataview[me.getUseComponents() ? 'component' : 'element'].Container({
-            baseCls: this.getBaseCls()
-        }));
-        container.dataview = me;
-        if (triggerEvent) {
-            me.on(triggerEvent, me.onItemTrigger, me);
-        }
-        container.on({
-            itemtouchstart: 'onItemTouchStart',
-            itemtouchend: 'onItemTouchEnd',
-            itemtap: 'onItemTap',
-            itemtaphold: 'onItemTapHold',
-            itemtouchmove: 'onItemTouchMove',
-            itemsingletap: 'onItemSingleTap',
-            itemdoubletap: 'onItemDoubleTap',
-            itemswipe: 'onItemSwipe',
-            scope: me
-        });
-        if (me.getStore()) {
-            if (me.isPainted()) {
-                me.refresh();
-            } else {
-                me.on({
-                    painted: 'refresh',
-                    single: true
-                });
-            }
-        }
-    },
-    applyInline: function(config) {
-        if (Ext.isObject(config)) {
-            config = Ext.apply({}, config);
-        }
-        return config;
-    },
-    updateInline: function(newInline, oldInline) {
-        var baseCls = this.getBaseCls();
-        if (oldInline) {
-            this.removeCls([
-                baseCls + '-inlineblock',
-                baseCls + '-nowrap'
-            ]);
-        }
-        if (newInline) {
-            this.addCls(baseCls + '-inlineblock');
-            if (Ext.isObject(newInline) && newInline.wrap === false) {
-                this.addCls(baseCls + '-nowrap');
-            } else {
-                this.removeCls(baseCls + '-nowrap');
-            }
-        }
-    },
-    /**
-     * Function which can be overridden to provide custom formatting for each Record that is used by this
-     * DataView's {@link #tpl template} to render each node.
-     * @param {Object/Object[]} data The raw data object that was used to create the Record.
-     * @param {Number} index the index number of the Record being prepared for rendering.
-     * @param {Ext.data.Model} record The Record being prepared for rendering.
-     * @return {Array/Object} The formatted data in a format expected by the internal {@link #tpl template}'s `overwrite()` method.
-     * (either an array if your params are numeric (i.e. `{0}`) or an object (i.e. `{foo: 'bar'}`))
-     */
-    prepareData: function(data, index, record) {
-        return data;
-    },
-    // apply to the selection model to maintain visual UI cues
-    onContainerTrigger: function(e) {
-        var me = this;
-        if (e.target != me.element.dom) {
-            return;
-        }
-        if (me.getDeselectOnContainerClick() && me.getStore()) {
-            me.deselectAll();
-        }
-    },
-    // apply to the selection model to maintain visual UI cues
-    onItemTrigger: function(me, index) {
-        if (!this.isDestroyed) {
-            this.selectWithEvent(this.getStore().getAt(index));
-        }
-    },
-    doAddPressedCls: function(record) {
-        var me = this,
-            item = me.getItemAt(me.getStore().indexOf(record));
-        if (Ext.isElement(item)) {
-            item = Ext.get(item);
-        }
-        if (item) {
-            if (item.isComponent) {
-                item.renderElement.addCls(me.getPressedCls());
-            } else {
-                item.addCls(me.getPressedCls());
-            }
-        }
-    },
-    onItemTouchStart: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireAction('itemtouchstart', [
-            me,
-            index,
-            target,
-            record,
-            e
-        ], 'doItemTouchStart');
-    },
-    doItemTouchStart: function(me, index, target, record) {
-        var pressedDelay = me.getPressedDelay();
-        if (record) {
-            if (pressedDelay > 0) {
-                me.pressedTimeout = Ext.defer(me.doAddPressedCls, pressedDelay, me, [
-                    record
-                ]);
-            } else {
-                me.doAddPressedCls(record);
-            }
-        }
-    },
-    onItemTouchEnd: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        if (this.hasOwnProperty('pressedTimeout')) {
-            clearTimeout(this.pressedTimeout);
-            delete this.pressedTimeout;
-        }
-        if (record && target) {
-            if (target.isComponent) {
-                target.renderElement.removeCls(me.getPressedCls());
-            } else {
-                target.removeCls(me.getPressedCls());
-            }
-        }
-        me.fireEvent('itemtouchend', me, index, target, record, e);
-    },
-    onItemTouchMove: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        if (me.hasOwnProperty('pressedTimeout')) {
-            clearTimeout(me.pressedTimeout);
-            delete me.pressedTimeout;
-        }
-        if (record && target) {
-            if (target.isComponent) {
-                target.renderElement.removeCls(me.getPressedCls());
-            } else {
-                target.removeCls(me.getPressedCls());
-            }
-        }
-        me.fireEvent('itemtouchmove', me, index, target, record, e);
-    },
-    onItemTap: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireEvent('itemtap', me, index, target, record, e);
-    },
-    onItemTapHold: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireEvent('itemtaphold', me, index, target, record, e);
-    },
-    onItemSingleTap: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireEvent('itemsingletap', me, index, target, record, e);
-    },
-    onItemDoubleTap: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireEvent('itemdoubletap', me, index, target, record, e);
-    },
-    onItemSwipe: function(container, target, index, e) {
-        var me = this,
-            store = me.getStore(),
-            record = store && store.getAt(index);
-        me.fireEvent('itemswipe', me, index, target, record, e);
-    },
-    // invoked by the selection model to maintain visual UI cues
-    onItemSelect: function(record, suppressEvent) {
-        var me = this;
-        if (suppressEvent) {
-            me.doItemSelect(me, record);
-        } else {
-            me.fireAction('select', [
-                me,
-                record
-            ], 'doItemSelect');
-        }
-    },
-    // invoked by the selection model to maintain visual UI cues
-    doItemSelect: function(me, record) {
-        if (me.container && !me.isDestroyed) {
-            var item = me.getItemAt(me.getStore().indexOf(record));
-            if (Ext.isElement(item)) {
-                item = Ext.get(item);
-            }
-            if (item) {
-                if (item.isComponent) {
-                    item.renderElement.removeCls(me.getPressedCls());
-                    item.renderElement.addCls(me.getSelectedCls());
-                } else {
-                    item.removeCls(me.getPressedCls());
-                    item.addCls(me.getSelectedCls());
-                }
-            }
-        }
-    },
-    // invoked by the selection model to maintain visual UI cues
-    onItemDeselect: function(record, suppressEvent) {
-        var me = this;
-        if (me.container && !me.isDestroyed) {
-            if (suppressEvent) {
-                me.doItemDeselect(me, record);
-            } else {
-                me.fireAction('deselect', [
-                    me,
-                    record,
-                    suppressEvent
-                ], 'doItemDeselect');
-            }
-        }
-    },
-    doItemDeselect: function(me, record) {
-        var item = me.getItemAt(me.getStore().indexOf(record));
-        if (Ext.isElement(item)) {
-            item = Ext.get(item);
-        }
-        if (item) {
-            if (item.isComponent) {
-                item.renderElement.removeCls([
-                    me.getPressedCls(),
-                    me.getSelectedCls()
-                ]);
-            } else {
-                item.removeCls([
-                    me.getPressedCls(),
-                    me.getSelectedCls()
-                ]);
-            }
-        }
-    },
-    updateData: function(data) {
-        var store = this.getStore();
-        if (!store) {
-            this.setStore(Ext.create('Ext.data.Store', {
-                data: data,
-                autoDestroy: true
-            }));
-        } else {
-            store.add(data);
-        }
-    },
-    applyStore: function(store) {
-        var me = this,
-            bindEvents = Ext.apply({}, me.storeEventHooks, {
-                scope: me
-            }),
-            proxy, reader;
-        if (store) {
-            store = Ext.data.StoreManager.lookup(store);
-            if (store && Ext.isObject(store) && store.isStore) {
-                store.on(bindEvents);
-                proxy = store.getProxy();
-                if (proxy) {
-                    reader = proxy.getReader();
-                    if (reader) {
-                        reader.on('exception', 'handleException', this);
-                    }
-                }
-            }
-        }
-        return store;
-    },
-    /**
-     * Method called when the Store's Reader throws an exception
-     * @method handleException
-     */
-    handleException: function() {
-        this.setMasked(false);
-    },
-    updateStore: function(newStore, oldStore) {
-        var me = this,
-            bindEvents = Ext.apply({}, me.storeEventHooks, {
-                scope: me
-            }),
-            proxy, reader;
-        if (oldStore && Ext.isObject(oldStore) && oldStore.isStore) {
-            oldStore.un(bindEvents);
-            if (!me.isDestroyed) {
-                me.onStoreClear();
-            }
-            if (oldStore.getAutoDestroy()) {
-                oldStore.destroy();
-            } else {
-                proxy = oldStore.getProxy();
-                if (proxy) {
-                    reader = proxy.getReader();
-                    if (reader) {
-                        reader.un('exception', 'handleException', this);
-                    }
-                }
-            }
-        }
-        if (newStore) {
-            if (newStore.isLoaded()) {
-                this.hasLoadedStore = true;
-            }
-            if (newStore.isLoading()) {
-                me.onBeforeLoad();
-            }
-            if (me.container) {
-                me.refresh();
-            }
-        }
-    },
-    onBeforeLoad: function() {
-        var loadingText = this.getLoadingText();
-        if (loadingText && this.isPainted()) {
-            this.setMasked({
-                xtype: 'loadmask',
-                message: loadingText
-            });
-        }
-        this.hideEmptyText();
-    },
-    updateEmptyText: function(newEmptyText, oldEmptyText) {
-        var me = this,
-            store;
-        if (oldEmptyText && me.emptyTextCmp) {
-            me.remove(me.emptyTextCmp, true);
-            delete me.emptyTextCmp;
-        }
-        if (newEmptyText) {
-            me.emptyTextCmp = me.add({
-                xtype: 'component',
-                cls: me.getBaseCls() + '-emptytext',
-                html: newEmptyText,
-                hidden: true
-            });
-            store = me.getStore();
-            if (store && me.hasLoadedStore && !store.getCount()) {
-                this.showEmptyText();
-            }
-        }
-    },
-    onLoad: function(store) {
-        //remove any masks on the store
-        this.hasLoadedStore = true;
-        this.setMasked(false);
-        if (!store.getCount()) {
-            this.showEmptyText();
-        }
-    },
-    /**
-     * Refreshes the view by reloading the data from the store and re-rendering the template.
-     */
-    refresh: function() {
-        var me = this,
-            container = me.container;
-        if (!me.getStore()) {
-            if (!me.hasLoadedStore && !me.getDeferEmptyText()) {
-                me.showEmptyText();
-            }
-            return;
-        }
-        if (container) {
-            me.fireAction('refresh', [
-                me
-            ], 'doRefresh');
-        }
-    },
-    applyItemTpl: function(config) {
-        return (Ext.isObject(config) && config.isTemplate) ? config : new Ext.XTemplate(config);
-    },
-    onAfterRender: function() {
-        var me = this;
-        me.callParent(arguments);
-        me.updateStore(me.getStore());
-    },
-    /**
-     * Returns an item at the specified index.
-     * @param {Number} index Index of the item.
-     * @return {Ext.dom.Element/Ext.dataview.component.DataItem} item Item at the specified index.
-     */
-    getItemAt: function(index) {
-        return this.getViewItems()[index - this.indexOffset];
-    },
-    /**
-     * Returns an index for the specified item.
-     * @param {Number} item The item to locate.
-     * @return {Number} Index for the specified item.
-     */
-    getItemIndex: function(item) {
-        var index = this.getViewItems().indexOf(item);
-        return (index === -1) ? index : this.indexOffset + index;
-    },
-    /**
-     * Returns an array of the current items in the DataView.
-     * @return {Ext.dom.Element[]/Ext.dataview.component.DataItem[]} Array of Items.
-     */
-    getViewItems: function() {
-        return this.container.getViewItems();
-    },
-    doRefresh: function(me) {
-        var container = me.container,
-            store = me.getStore(),
-            records = store.getRange(),
-            items = me.getViewItems(),
-            recordsLn = records.length,
-            itemsLn = items.length,
-            deltaLn = recordsLn - itemsLn,
-            scrollable = me.getScrollable(),
-            i, item;
-        if (this.getScrollToTopOnRefresh() && scrollable) {
-            scrollable.getScroller().scrollToTop();
-        }
-        // No items, hide all the items from the collection.
-        if (recordsLn < 1) {
-            me.onStoreClear();
-            return;
-        } else {
-            me.hideEmptyText();
-        }
-        // Too many items, hide the unused ones
-        if (deltaLn < 0) {
-            container.moveItemsToCache(itemsLn + deltaLn, itemsLn - 1);
-            // Items can changed, we need to refresh our references
-            items = me.getViewItems();
-            itemsLn = items.length;
-        }
-        // Not enough items, create new ones
-        else if (deltaLn > 0) {
-            container.moveItemsFromCache(store.getRange(itemsLn));
-        }
-        // Update Data and insert the new html for existing items
-        for (i = 0; i < itemsLn; i++) {
-            item = items[i];
-            container.updateListItem(records[i], item);
-        }
-        if (this.hasSelection()) {
-            var selection = this.getSelection(),
-                selectionLn = this.getSelectionCount(),
-                record;
-            for (i = 0; i < selectionLn; i++) {
-                record = selection[i];
-                this.doItemSelect(this, record);
-            }
-        }
-    },
-    showEmptyText: function() {
-        if (this.getEmptyText() && (this.hasLoadedStore || !this.getDeferEmptyText())) {
-            this.emptyTextCmp.show();
-        }
-    },
-    hideEmptyText: function() {
-        if (this.getEmptyText()) {
-            this.emptyTextCmp.hide();
-        }
-    },
-    destroy: function() {
-        var store = this.getStore(),
-            proxy = (store && store.getProxy()),
-            reader = (proxy && proxy.getReader());
-        if (reader) {
-            // TODO: Use un() instead of clearListeners() when TOUCH-2723 is fixed.
-            //          reader.un('exception', 'handleException', this);
-            reader.clearListeners();
-        }
-        Ext.Container.prototype.destroy.apply(this, arguments);
-        this.setStore(null);
-    },
-    onStoreClear: function() {
-        var me = this,
-            container = me.container,
-            items = me.getViewItems();
-        container.moveItemsToCache(0, items.length - 1);
-        this.showEmptyText();
-    },
-    /**
-     * @private
-     * @param {Ext.data.Store} store
-     * @param {Array} records
-     */
-    onStoreAdd: function(store, records) {
-        if (records) {
-            this.hideEmptyText();
-            this.container.moveItemsFromCache(records);
-        }
-    },
-    /**
-     * @private
-     * @param {Ext.data.Store} store
-     * @param {Array} records
-     * @param {Array} indices
-     */
-    onStoreRemove: function(store, records, indices) {
-        var container = this.container,
-            ln = records.length,
-            i;
-        for (i = 0; i < ln; i++) {
-            container.moveItemsToCache(indices[i], indices[i]);
-        }
-    },
-    /**
-     * @private
-     * @param {Ext.data.Store} store
-     * @param {Ext.data.Model} record
-     * @param {Number} newIndex
-     * @param {Number} oldIndex
-     */
-    onStoreUpdate: function(store, record, newIndex, oldIndex) {
-        var me = this,
-            container = me.container,
-            item;
-        oldIndex = (typeof oldIndex === 'undefined') ? newIndex : oldIndex;
-        if (oldIndex !== newIndex) {
-            container.updateAtNewIndex(oldIndex, newIndex, record);
-            if (me.isSelected(record)) {
-                me.doItemSelect(me, record);
-            }
-        } else {
-            item = me.getViewItems()[newIndex];
-            if (item) {
-                // Bypassing setter because sometimes we pass the same record (different data)
-                container.updateListItem(record, item);
-            }
-        }
-    }
-}, 1, [
-    "dataview"
-], [
-    "component",
-    "container",
-    "dataview"
-], {
-    "component": true,
-    "container": true,
-    "dataview": true
-}, [
-    "widget.dataview"
-], [
-    [
-        Ext.mixin.Selectable.prototype.mixinId || Ext.mixin.Selectable.$className,
-        Ext.mixin.Selectable
-    ]
-], [
-    Ext.dataview,
-    'DataView',
-    Ext,
-    'DataView'
 ], 0));
 
 /**
@@ -49349,6 +47102,178 @@ function() {
 ], 0));
 
 /**
+ * @docauthor Evan Trimboli <evan@sencha.com>
+ *
+ * Contains a collection of all stores that are created that have an identifier. An identifier can be assigned by
+ * setting the {@link Ext.data.Store#storeId storeId} property. When a store is in the StoreManager, it can be
+ * referred to via it's identifier:
+ *
+ *     Ext.create('Ext.data.Store', {
+ *         model: 'SomeModel',
+ *         storeId: 'myStore'
+ *     });
+ *
+ *     var store = Ext.data.StoreManager.lookup('myStore');
+ *
+ * Also note that the {@link #lookup} method is aliased to {@link Ext#getStore} for convenience.
+ *
+ * If a store is registered with the StoreManager, you can also refer to the store by it's identifier when registering
+ * it with any Component that consumes data from a store:
+ *
+ *     Ext.create('Ext.data.Store', {
+ *         model: 'SomeModel',
+ *         storeId: 'myStore'
+ *     });
+ *
+ *     Ext.create('Ext.view.View', {
+ *         store: 'myStore'
+ *         // other configuration here
+ *     });
+ *
+ * ###Further Reading
+ * [Sencha Touch Data Overview](../../../core_concepts/data/data_package_overview.html)
+ * [Sencha Touch Store Guide](../../../core_concepts/data/stores.html)
+ * [Sencha Touch Models Guide](../../../core_concepts/data/models.html)
+ * [Sencha Touch Proxy Guide](../../../core_concepts/data/proxies.html)
+ */
+(Ext.cmd.derive('Ext.data.StoreManager', Ext.util.Collection, {
+    alternateClassName: [
+        'Ext.StoreMgr',
+        'Ext.data.StoreMgr',
+        'Ext.StoreManager'
+    ],
+    singleton: true,
+    /**
+     * Registers one or more Stores with the StoreManager. You do not normally need to register stores manually. Any
+     * store initialized with a {@link Ext.data.Store#storeId} will be auto-registered.
+     * @param {Ext.data.Store...} stores Any number of Store instances.
+     */
+    register: function() {
+        for (var i = 0,
+            s; (s = arguments[i]); i++) {
+            this.add(s);
+        }
+    },
+    /**
+     * Unregisters one or more Stores with the StoreManager.
+     * @param {String/Object...} stores Any number of Store instances or ID-s.
+     */
+    unregister: function() {
+        for (var i = 0,
+            s; (s = arguments[i]); i++) {
+            this.remove(this.lookup(s));
+        }
+    },
+    /**
+     * Gets a registered Store by its id, returns a passed store instance, or returns a new instance of a store created with the supplied configuration.
+     * @param {String/Object} store The `id` of the Store, or a Store instance, or a store configuration.
+     * @return {Ext.data.Store}
+     */
+    lookup: function(store) {
+        // handle the case when we are given an array or an array of arrays.
+        if (Ext.isArray(store)) {
+            var fields = [
+                    'field1'
+                ],
+                expand = !Ext.isArray(store[0]),
+                data = store,
+                i, len;
+            if (expand) {
+                data = [];
+                for (i = 0 , len = store.length; i < len; ++i) {
+                    data.push([
+                        store[i]
+                    ]);
+                }
+            } else {
+                for (i = 2 , len = store[0].length; i <= len; ++i) {
+                    fields.push('field' + i);
+                }
+            }
+            return Ext.create('Ext.data.ArrayStore', {
+                data: data,
+                fields: fields,
+                // See https://sencha.jira.com/browse/TOUCH-1541
+                autoDestroy: true,
+                autoCreated: true,
+                expanded: expand
+            });
+        }
+        if (Ext.isString(store)) {
+            // store id
+            return this.get(store);
+        } else {
+            // store instance or store config
+            if (store instanceof Ext.data.Store) {
+                return store;
+            } else {
+                return Ext.factory(store, Ext.data.Store, null, 'store');
+            }
+        }
+    },
+    // getKey implementation for MixedCollection
+    getKey: function(o) {
+        return o.getStoreId();
+    }
+}, 0, 0, 0, 0, 0, 0, [
+    Ext.data,
+    'StoreManager',
+    Ext,
+    'StoreMgr',
+    Ext.data,
+    'StoreMgr',
+    Ext,
+    'StoreManager'
+], function() {
+    /**
+     * Creates a new store for the given id and config, then registers it with the {@link Ext.data.StoreManager Store Manager}.
+     * Sample usage:
+     *
+     *     Ext.regStore('AllUsers', {
+     *         model: 'User'
+     *     });
+     *
+     *     // the store can now easily be used throughout the application
+     *     new Ext.List({
+     *         store: 'AllUsers'
+     *         // ...
+     *     });
+     *
+     * @param {String} id The id to set on the new store.
+     * @param {Object} config The store config.
+     * @member Ext
+     * @method regStore
+     */
+    Ext.regStore = function(name, config) {
+        var store;
+        if (Ext.isObject(name)) {
+            config = name;
+        } else {
+            if (config instanceof Ext.data.Store) {
+                config.setStoreId(name);
+            } else {
+                config.storeId = name;
+            }
+        }
+        if (config instanceof Ext.data.Store) {
+            store = config;
+        } else {
+            store = Ext.create('Ext.data.Store', config);
+        }
+        return Ext.data.StoreManager.register(store);
+    };
+    /**
+     * Shortcut to {@link Ext.data.StoreManager#lookup}.
+     * @member Ext
+     * @method getStore
+     * @alias Ext.data.StoreManager#lookup
+     */
+    Ext.getStore = function(name) {
+        return Ext.data.StoreManager.lookup(name);
+    };
+}));
+
+/**
  * @private
  */
 (Ext.cmd.derive('Ext.util.Grouper', Ext.util.Sorter, {
@@ -51657,400 +49582,6 @@ function() {
 ], 0));
 
 /**
- * @private
- */
-(Ext.cmd.derive('Ext.event.publisher.Publisher', Ext.Base, {
-    targetType: '',
-    idSelectorRegex: /^#([\w\-]+)$/i,
-    constructor: function() {
-        var handledEvents = this.handledEvents,
-            handledEventsMap, i, ln, event;
-        handledEventsMap = this.handledEventsMap = {};
-        for (i = 0 , ln = handledEvents.length; i < ln; i++) {
-            event = handledEvents[i];
-            handledEventsMap[event] = true;
-        }
-        this.subscribers = {};
-        return this;
-    },
-    handles: function(eventName) {
-        var map = this.handledEventsMap;
-        return !!map[eventName] || !!map['*'] || eventName === '*';
-    },
-    getHandledEvents: function() {
-        return this.handledEvents;
-    },
-    setDispatcher: function(dispatcher) {
-        this.dispatcher = dispatcher;
-    },
-    subscribe: function() {
-        return false;
-    },
-    unsubscribe: function() {
-        return false;
-    },
-    unsubscribeAll: function() {
-        delete this.subscribers;
-        this.subscribers = {};
-        return this;
-    },
-    notify: function() {
-        return false;
-    },
-    getTargetType: function() {
-        return this.targetType;
-    },
-    dispatch: function(target, eventName, args) {
-        this.dispatcher.doDispatchEvent(this.targetType, target, eventName, args);
-    }
-}, 1, 0, 0, 0, 0, 0, [
-    Ext.event.publisher,
-    'Publisher'
-], 0));
-
-/**
- * @private
- */
-(Ext.cmd.derive('Ext.chart.series.ItemPublisher', Ext.event.publisher.Publisher, {
-    targetType: 'series',
-    handledEvents: [
-        /**
-     * @event itemmousemove
-     * Fires when the mouse is moved on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemmousemove',
-        /**
-     * @event itemmouseup
-     * Fires when a mouseup event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemmouseup',
-        /**
-     * @event itemmousedown
-     * Fires when a mousedown event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemmousedown',
-        /**
-     * @event itemmouseover
-     * Fires when the mouse enters a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemmouseover',
-        /**
-     * @event itemmouseout
-     * Fires when the mouse exits a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemmouseout',
-        /**
-     * @event itemclick
-     * Fires when a click event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemclick',
-        /**
-     * @event itemdoubleclick
-     * Fires when a doubleclick event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemdoubleclick',
-        /**
-     * @event itemtap
-     * Fires when a tap event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtap',
-        /**
-     * @event itemtapstart
-     * Fires when a tapstart event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtapstart',
-        /**
-     * @event itemtapend
-     * Fires when a tapend event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtapend',
-        /**
-     * @event itemtapcancel
-     * Fires when a tapcancel event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtapcancel',
-        /**
-     * @event itemtaphold
-     * Fires when a taphold event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtaphold',
-        /**
-     * @event itemdoubletap
-     * Fires when a doubletap event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemdoubletap',
-        /**
-     * @event itemsingletap
-     * Fires when a singletap event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemsingletap',
-        /**
-     * @event itemtouchstart
-     * Fires when a touchstart event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtouchstart',
-        /**
-     * @event itemtouchmove
-     * Fires when a touchmove event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtouchmove',
-        /**
-     * @event itemtouchend
-     * Fires when a touchend event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemtouchend',
-        /**
-     * @event itemdragstart
-     * Fires when a dragstart event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemdragstart',
-        /**
-     * @event itemdrag
-     * Fires when a drag event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemdrag',
-        /**
-     * @event itemdragend
-     * Fires when a dragend event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemdragend',
-        /**
-     * @event itempinchstart
-     * Fires when a pinchstart event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itempinchstart',
-        /**
-     * @event itempinch
-     * Fires when a pinch event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itempinch',
-        /**
-     * @event itempinchend
-     * Fires when a pinchend event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itempinchend',
-        /**
-     * @event itemswipe
-     * Fires when a swipe event occurs on a series item.
-     * @param {Ext.chart.series.Series} series
-     * @param {Object} item
-     * @param {Event} event
-     */
-        'itemswipe'
-    ],
-    delegationRegex: /^item([a-z]+)$/i,
-    getSubscribers: function(chartId) {
-        var subscribers = this.subscribers;
-        if (!subscribers.hasOwnProperty(chartId)) {
-            subscribers[chartId] = {};
-        }
-        return subscribers[chartId];
-    },
-    subscribe: function(target, eventName) {
-        var match = target.match(this.idSelectorRegex),
-            dispatcher = this.dispatcher,
-            targetType = this.targetType,
-            series, id;
-        if (!match) {
-            return false;
-        }
-        id = match[1];
-        series = Ext.ComponentManager.get(id);
-        if (!series) {
-            return false;
-        }
-        if (!series.getChart()) {
-            dispatcher.addListener(targetType, target, 'chartattached', 'attachChart', this, [
-                series,
-                eventName
-            ], 'before');
-        } else {
-            this.attachChart(series.getChart(), [
-                series,
-                eventName
-            ]);
-        }
-        return true;
-    },
-    attachChart: function(chart, args) {
-        var dispatcher = this.dispatcher,
-            targetType = this.targetType,
-            series = args[0],
-            eventName = args[1],
-            subscribers = this.getSubscribers(chart.getId()),
-            match = eventName.match(this.delegationRegex);
-        if (match) {
-            var chartEventName = match[1];
-            if (!subscribers.hasOwnProperty(eventName)) {
-                subscribers[eventName] = [];
-                dispatcher.addListener(targetType, '#' + series.getId(), 'chartdetached', 'detachChart', this, [
-                    series,
-                    eventName,
-                    subscribers
-                ], 'after');
-                chart.element.on(chartEventName, "relayMethod", this, [
-                    chart,
-                    eventName
-                ]);
-            }
-            subscribers[eventName].push(series);
-            return true;
-        } else {
-            return false;
-        }
-    },
-    unsubscribe: function(target, eventName) {
-        var match = target.match(this.idSelectorRegex),
-            dispatcher = this.dispatcher,
-            targetType = this.targetType,
-            series, id;
-        if (!match) {
-            return false;
-        }
-        id = match[1];
-        series = Ext.ComponentManager.get(id);
-        if (!series) {
-            return false;
-        }
-        dispatcher.removeListener(targetType, target, 'chartattached', 'attachChart', this, 'before');
-        if (series.getChart()) {
-            this.detachChart(series.getChart(), [
-                series,
-                eventName
-            ]);
-        }
-        return true;
-    },
-    detachChart: function(chart, args) {
-        var dispatcher = this.dispatcher,
-            targetType = this.targetType,
-            series = args[0],
-            eventName = args[1],
-            subscribers = this.getSubscribers(chart.getId()),
-            match = eventName.match(this.delegationRegex),
-            index, seriesArray;
-        if (match) {
-            var chartEventName = match[1];
-            if (subscribers.hasOwnProperty(eventName)) {
-                seriesArray = subscribers[eventName];
-                index = seriesArray.indexOf(series);
-                if (index > -1) {
-                    seriesArray.splice(index, 1);
-                }
-                if (seriesArray.length === 0) {
-                    chart.element.un(chartEventName, "relayMethod", this, [
-                        chart,
-                        eventName
-                    ]);
-                    dispatcher.removeListener(targetType, '#' + series.getId(), 'chartdetached', 'detachChart', this, 'after');
-                    delete subscribers[eventName];
-                }
-            }
-        }
-    },
-    relayMethod: function(e, sender, args) {
-        var chart = args[0],
-            eventName = args[1],
-            dispatcher = this.dispatcher,
-            targetType = this.targetType,
-            chartXY = chart.getEventXY(e),
-            x = chartXY[0],
-            y = chartXY[1],
-            subscriber = this.getSubscribers(chart.getId())[eventName],
-            i, ln;
-        if (subscriber) {
-            for (i = 0 , ln = subscriber.length; i < ln; i++) {
-                var series = subscriber[i],
-                    item = series.getItemForPoint(x, y);
-                if (item) {
-                    // TODO: Don't stop at the first item.
-                    // Depending on the selectionTolerance, there might be an item in another
-                    // series that's closer to the event location. See test case 3943c.
-                    dispatcher.doDispatchEvent(targetType, '#' + series.getId(), eventName, [
-                        series,
-                        item,
-                        e
-                    ]);
-                    return;
-                }
-            }
-        }
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Ext.chart.series,
-    'ItemPublisher'
-], function() {}));
-
-/**
  * @author Ed Spencer
  *
  * Small helper class to make creating {@link Ext.data.Store}s from Array data easier. An ArrayStore will be
@@ -53594,6 +51125,2245 @@ Ext.define('Ext.direct.Manager', {
     'Array',
     Ext.data,
     'ArrayReader'
+], 0));
+
+/**
+ * Tracks what records are currently selected in a databound widget. This class is mixed in to {@link Ext.dataview.DataView} and
+ * all subclasses.
+ * @private
+ */
+(Ext.cmd.derive('Ext.mixin.Selectable', Ext.mixin.Mixin, {
+    mixinConfig: {
+        id: 'selectable',
+        hooks: {
+            updateStore: 'updateStore'
+        }
+    },
+    /**
+     * @event beforeselectionchange
+     * Fires before an item is selected.
+     * @param {Ext.mixin.Selectable} this
+     * @preventable selectionchange
+     * @deprecated 2.0.0 Please listen to the {@link #selectionchange} event with an order of `before` instead.
+     */
+    /**
+     * @event selectionchange
+     * Fires when a selection changes.
+     * @param {Ext.mixin.Selectable} this
+     * @param {Ext.data.Model[]} records The records whose selection has changed.
+     */
+    config: {
+        /**
+         * @cfg {Boolean} disableSelection `true` to disable selection.
+         * This configuration will lock the selection model that the DataView uses.
+         * @accessor
+         */
+        disableSelection: null,
+        /**
+         * @cfg {String} mode
+         * Modes of selection.
+         * Valid values are `'SINGLE'`, `'SIMPLE'`, and `'MULTI'`.
+         * @accessor
+         */
+        mode: 'SINGLE',
+        /**
+         * @cfg {Boolean} allowDeselect
+         * Allow users to deselect a record in a DataView, List or Grid. Only applicable when the Selectable's `mode` is
+         * `'SINGLE'`.
+         * @accessor
+         */
+        allowDeselect: false,
+        /**
+         * @cfg {Ext.data.Model} lastSelected
+         * @private
+         * @accessor
+         */
+        lastSelected: null,
+        /**
+         * @cfg {Ext.data.Model} lastFocused
+         * @private
+         * @accessor
+         */
+        lastFocused: null,
+        /**
+         * @cfg {Boolean} deselectOnContainerClick `true` to deselect current selection when the container body is
+         * clicked.
+         * @accessor
+         */
+        deselectOnContainerClick: true
+    },
+    modes: {
+        SINGLE: true,
+        SIMPLE: true,
+        MULTI: true
+    },
+    selectableEventHooks: {
+        addrecords: 'onSelectionStoreAdd',
+        removerecords: 'onSelectionStoreRemove',
+        updaterecord: 'onSelectionStoreUpdate',
+        load: 'refreshSelection',
+        refresh: 'refreshSelection'
+    },
+    constructor: function() {
+        this.selected = new Ext.util.MixedCollection();
+        this.callParent(arguments);
+    },
+    /**
+     * @private
+     */
+    applyMode: function(mode) {
+        mode = mode ? mode.toUpperCase() : 'SINGLE';
+        // set to mode specified unless it doesnt exist, in that case
+        // use single.
+        return this.modes[mode] ? mode : 'SINGLE';
+    },
+    /**
+     * @private
+     */
+    updateStore: function(newStore, oldStore) {
+        var me = this,
+            bindEvents = Ext.apply({}, me.selectableEventHooks, {
+                scope: me
+            });
+        if (oldStore && Ext.isObject(oldStore) && oldStore.isStore) {
+            if (oldStore.autoDestroy) {
+                oldStore.destroy();
+            } else {
+                oldStore.un(bindEvents);
+                if (newStore) {
+                    newStore.un('clear', 'onSelectionStoreClear', this);
+                }
+            }
+        }
+        if (newStore) {
+            newStore.on(bindEvents);
+            newStore.onBefore('clear', 'onSelectionStoreClear', this);
+            me.refreshSelection();
+        }
+    },
+    /**
+     * Selects all records.
+     * @param {Boolean} silent `true` to suppress all select events.
+     */
+    selectAll: function(silent) {
+        var me = this,
+            selections = me.getStore().getRange();
+        me.select(selections, true, silent);
+    },
+    /**
+     * Deselects all records.
+     */
+    deselectAll: function(supress) {
+        var me = this,
+            selections = me.getStore().getRange();
+        me.deselect(selections, supress);
+        me.selected.clear();
+        me.setLastSelected(null);
+        me.setLastFocused(null);
+    },
+    // Provides differentiation of logic between MULTI, SIMPLE and SINGLE
+    // selection modes.
+    selectWithEvent: function(record) {
+        var me = this,
+            isSelected = me.isSelected(record);
+        switch (me.getMode()) {
+            case 'MULTI':
+            case 'SIMPLE':
+                if (isSelected) {
+                    me.deselect(record);
+                } else {
+                    me.select(record, true);
+                };
+                ;
+                break;
+            case 'SINGLE':
+                if (me.getAllowDeselect() && isSelected) {
+                    // if allowDeselect is on and this record isSelected, deselect it
+                    me.deselect(record);
+                } else {
+                    // select the record and do NOT maintain existing selections
+                    me.select(record, false);
+                };
+                ;
+                break;
+        }
+    },
+    /**
+     * Selects a range of rows if the selection model {@link Ext.mixin.Selectable#getDisableSelection} is not locked.
+     * All rows in between `startRecord` and `endRecord` are also selected.
+     * @param {Number} startRecord The index of the first row in the range.
+     * @param {Number} endRecord The index of the last row in the range.
+     * @param {Boolean} [keepExisting] `true` to retain existing selections.
+     */
+    selectRange: function(startRecord, endRecord, keepExisting) {
+        var me = this,
+            store = me.getStore(),
+            records = [],
+            tmp, i;
+        if (me.getDisableSelection()) {
+            return;
+        }
+        // swap values
+        if (startRecord > endRecord) {
+            tmp = endRecord;
+            endRecord = startRecord;
+            startRecord = tmp;
+        }
+        for (i = startRecord; i <= endRecord; i++) {
+            records.push(store.getAt(i));
+        }
+        this.doMultiSelect(records, keepExisting);
+    },
+    /**
+     * Adds the given records to the currently selected set.
+     * @param {Ext.data.Model/Array/Number} records The records to select.
+     * @param {Boolean} keepExisting If `true`, the existing selection will be added to (if not, the old selection is replaced).
+     * @param {Boolean} suppressEvent If `true`, the `select` event will not be fired.
+     */
+    select: function(records, keepExisting, suppressEvent) {
+        var me = this,
+            record;
+        if (me.getDisableSelection()) {
+            return;
+        }
+        if (typeof records === "number") {
+            records = [
+                me.getStore().getAt(records)
+            ];
+        }
+        if (!records) {
+            return;
+        }
+        if (me.getMode() == "SINGLE" && records) {
+            record = records.length ? records[0] : records;
+            me.doSingleSelect(record, suppressEvent);
+        } else {
+            me.doMultiSelect(records, keepExisting, suppressEvent);
+        }
+    },
+    /**
+     * Selects a single record.
+     * @private
+     */
+    doSingleSelect: function(record, suppressEvent) {
+        var me = this,
+            selected = me.selected;
+        if (me.getDisableSelection()) {
+            return;
+        }
+        // already selected.
+        // should we also check beforeselect?
+        if (me.isSelected(record)) {
+            return;
+        }
+        if (selected.getCount() > 0) {
+            me.deselect(me.getLastSelected(), suppressEvent);
+        }
+        selected.add(record);
+        me.setLastSelected(record);
+        me.onItemSelect(record, suppressEvent);
+        me.setLastFocused(record);
+        if (!suppressEvent) {
+            me.fireSelectionChange([
+                record
+            ]);
+        }
+    },
+    /**
+     * Selects a set of multiple records.
+     * @private
+     */
+    doMultiSelect: function(records, keepExisting, suppressEvent) {
+        if (records === null || this.getDisableSelection()) {
+            return;
+        }
+        records = !Ext.isArray(records) ? [
+            records
+        ] : records;
+        var me = this,
+            selected = me.selected,
+            ln = records.length,
+            change = false,
+            i = 0,
+            record;
+        if (!keepExisting && selected.getCount() > 0) {
+            change = true;
+            me.deselect(me.getSelection(), true);
+        }
+        for (; i < ln; i++) {
+            record = records[i];
+            if (keepExisting && me.isSelected(record)) {
+                
+                continue;
+            }
+            change = true;
+            me.setLastSelected(record);
+            selected.add(record);
+            if (!suppressEvent) {
+                me.setLastFocused(record);
+            }
+            me.onItemSelect(record, suppressEvent);
+        }
+        if (change && !suppressEvent) {
+            this.fireSelectionChange(records);
+        }
+    },
+    /**
+     * Deselects the given record(s). If many records are currently selected, it will only deselect those you pass in.
+     * @param {Number/Array/Ext.data.Model} records The record(s) to deselect. Can also be a number to reference by index.
+     * @param {Boolean} suppressEvent If `true` the `deselect` event will not be fired.
+     */
+    deselect: function(records, suppressEvent) {
+        var me = this;
+        if (me.getDisableSelection()) {
+            return;
+        }
+        records = Ext.isArray(records) ? records : [
+            records
+        ];
+        var selected = me.selected,
+            change = false,
+            i = 0,
+            store = me.getStore(),
+            ln = records.length,
+            record;
+        for (; i < ln; i++) {
+            record = records[i];
+            if (typeof record === 'number') {
+                record = store.getAt(record);
+            }
+            if (selected.remove(record)) {
+                if (me.getLastSelected() == record) {
+                    me.setLastSelected(selected.last());
+                }
+                change = true;
+            }
+            if (record) {
+                me.onItemDeselect(record, suppressEvent);
+            }
+        }
+        if (change && !suppressEvent) {
+            me.fireSelectionChange(records);
+        }
+    },
+    /**
+     * Sets a record as the last focused record. This does NOT mean
+     * that the record has been selected.
+     * @param {Ext.data.Record} newRecord
+     * @param {Ext.data.Record} oldRecord
+     */
+    updateLastFocused: function(newRecord, oldRecord) {
+        this.onLastFocusChanged(oldRecord, newRecord);
+    },
+    fireSelectionChange: function(records) {
+        var me = this;
+        me.fireAction('selectionchange', [
+            me,
+            records
+        ], 'getSelection');
+    },
+    /**
+     * Returns an array of the currently selected records.
+     * @return {Array} An array of selected records.
+     */
+    getSelection: function() {
+        return this.selected.getRange();
+    },
+    /**
+     * Returns `true` if the specified row is selected.
+     * @param {Ext.data.Model/Number} record The record or index of the record to check.
+     * @return {Boolean}
+     */
+    isSelected: function(record) {
+        record = Ext.isNumber(record) ? this.getStore().getAt(record) : record;
+        return this.selected.indexOf(record) !== -1;
+    },
+    /**
+     * Returns `true` if there is a selected record.
+     * @return {Boolean}
+     */
+    hasSelection: function() {
+        return this.selected.getCount() > 0;
+    },
+    /**
+     * @private
+     */
+    refreshSelection: function() {
+        var me = this,
+            selections = me.getSelection();
+        me.deselectAll(true);
+        if (selections.length) {
+            me.select(selections, false, true);
+        }
+    },
+    // prune records from the SelectionModel if
+    // they were selected at the time they were
+    // removed.
+    onSelectionStoreRemove: function(store, records) {
+        var me = this,
+            selected = me.selected,
+            ln = records.length,
+            record, i;
+        if (me.getDisableSelection()) {
+            return;
+        }
+        for (i = 0; i < ln; i++) {
+            record = records[i];
+            if (selected.remove(record)) {
+                if (me.getLastSelected() == record) {
+                    me.setLastSelected(null);
+                }
+                if (me.getLastFocused() == record) {
+                    me.setLastFocused(null);
+                }
+                me.fireSelectionChange([
+                    record
+                ]);
+            }
+        }
+    },
+    onSelectionStoreClear: function(store) {
+        var records = store.getData().items;
+        this.onSelectionStoreRemove(store, records);
+    },
+    /**
+     * Returns the number of selections.
+     * @return {Number}
+     */
+    getSelectionCount: function() {
+        return this.selected.getCount();
+    },
+    onSelectionStoreAdd: Ext.emptyFn,
+    onSelectionStoreUpdate: Ext.emptyFn,
+    onItemSelect: Ext.emptyFn,
+    onItemDeselect: Ext.emptyFn,
+    onLastFocusChanged: Ext.emptyFn,
+    onEditorKey: Ext.emptyFn
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.mixin,
+    'Selectable'
+], function() {}));
+/**
+     * Selects a record instance by record instance or index.
+     * @member Ext.mixin.Selectable
+     * @method doSelect
+     * @param {Ext.data.Model/Number} records An array of records or an index.
+     * @param {Boolean} keepExisting
+     * @param {Boolean} suppressEvent Set to `false` to not fire a select event.
+     * @deprecated 2.0.0 Please use {@link #select} instead.
+     */
+/**
+     * Deselects a record instance by record instance or index.
+     * @member Ext.mixin.Selectable
+     * @method doDeselect
+     * @param {Ext.data.Model/Number} records An array of records or an index.
+     * @param {Boolean} suppressEvent Set to `false` to not fire a deselect event.
+     * @deprecated 2.0.0 Please use {@link #deselect} instead.
+     */
+/**
+     * Returns the selection mode currently used by this Selectable.
+     * @member Ext.mixin.Selectable
+     * @method getSelectionMode
+     * @return {String} The current mode.
+     * @deprecated 2.0.0 Please use {@link #getMode} instead.
+     */
+/**
+     * Returns the array of previously selected items.
+     * @member Ext.mixin.Selectable
+     * @method getLastSelected
+     * @return {Array} The previous selection.
+     * @deprecated 2.0.0
+     */
+/**
+     * Returns `true` if the Selectable is currently locked.
+     * @member Ext.mixin.Selectable
+     * @method isLocked
+     * @return {Boolean} True if currently locked
+     * @deprecated 2.0.0 Please use {@link #getDisableSelection} instead.
+     */
+/**
+     * This was an internal function accidentally exposed in 1.x and now deprecated. Calling it has no effect
+     * @member Ext.mixin.Selectable
+     * @method setLastFocused
+     * @deprecated 2.0.0
+     */
+/**
+     * Deselects any currently selected records and clears all stored selections.
+     * @member Ext.mixin.Selectable
+     * @method clearSelections
+     * @deprecated 2.0.0 Please use {@link #deselectAll} instead.
+     */
+/**
+     * Returns the number of selections.
+     * @member Ext.mixin.Selectable
+     * @method getCount
+     * @return {Number}
+     * @deprecated 2.0.0 Please use {@link #getSelectionCount} instead.
+     */
+/**
+     * @cfg {Boolean} locked
+     * @inheritdoc Ext.mixin.Selectable#disableSelection
+     * @deprecated 2.0.0 Please use {@link #disableSelection} instead.
+     */
+
+/**
+ * A DataItem is a container for records inside of {@link Ext.dataview.DataView} with useComponents: true.
+ * It ties together {@link Ext.data.Model records} to its contained Components. Consider the following example:
+ *
+ *      @example phone portrait preview
+ *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MODEL
+ *
+ *     Ext.define('TestModel', {
+ *         extend: 'Ext.data.Model',
+ *         config: {
+ *             fields: [{
+ *                 name: 'val1'
+ *             }, {
+ *                 name: 'val2'
+ *             }]
+ *         }
+ *     });
+ *
+ *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! STORE
+ *
+ *     Ext.define('TestStore', {
+ *         extend: 'Ext.data.Store',
+ *         config: {
+ *             data: [{
+ *                 val1: 'A Button',
+ *                 val2: 'with text'
+ *             }, {
+ *                 val1: 'The Button',
+ *                 val2: 'more text'
+ *             }, {
+ *                 val1: 'My Button',
+ *                 val2: 'My Text'
+ *             }],
+ *             model: 'TestModel',
+ *             storeId: 'TestStore'
+ *         }
+ *     });
+ *
+ *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DATA ITEM
+ *
+ *     Ext.define('MyDataItem', {
+ *         extend: 'Ext.dataview.component.DataItem',
+ *         alias: 'widget.mydataitem',
+ *         config: {
+ *             padding: 10,
+ *             layout: {
+ *                 type: 'hbox'
+ *             },
+ *             defaults: {
+ *                 margin: 5
+ *             },
+ *             items: [{
+ *                 xtype: 'button',
+ *                 text: 'Val1'
+ *             }, {
+ *                 xtype: 'component',
+ *                 flex: 1,
+ *                 html: 'val2',
+ *                 itemId: 'textCmp'
+ *             }]
+ *         },
+ *         updateRecord: function(record) {
+ *             var me = this;
+ *
+ *             me.down('button').setText(record.get('val1'));
+ *             me.down('#textCmp').setHtml(record.get('val2'));
+ *
+ *             me.callParent(arguments);
+ *         }
+ *     });
+ *
+ *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DATA VIEW
+ *
+ *     Ext.define('MyDataView', {
+ *         extend: 'Ext.dataview.DataView',
+ *         config: {
+ *             defaultType: 'mydataitem',
+ *             useComponents: true
+ *         }
+ *     });
+ *
+ *     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! RUN
+ *
+ *     Ext.create('MyDataView', {
+ *         fullscreen: true,
+ *         store: Ext.create('TestStore')
+ *     });
+ *
+ * Another way to accomplish this is via a {@link #dataMap dataMap} configuration.
+ *
+ * For example, lets say you have a `text` configuration which, when applied, gets turned into an instance of an
+ * Ext.Component. We want to update the {@link #html} of a sub-component when the 'text' field of the record gets
+ * changed.
+ *
+ * As you can see below, it is simply a matter of setting the key of the object to be the getter of the config
+ * (getText), and then give that property a value of an object, which then has 'setHtml' (the html setter) as the key,
+ * and 'text' (the field name) as the value. You can continue this for a as many sub-components as you wish.
+ *
+ *     dataMap: {
+ *         // When the record is updated, get the text configuration, and
+ *         // call {@link #setHtml} with the 'text' field of the record.
+ *         getText: {
+ *             setHtml: 'text'
+ *         },
+ *
+ *         // When the record is updated, get the userName configuration, and
+ *         // call {@link #setHtml} with the 'from_user' field of the record.
+ *         getUserName: {
+ *             setHtml: 'from_user'
+ *         },
+ *
+ *         // When the record is updated, get the avatar configuration, and
+ *         // call `setSrc` with the 'profile_image_url' field of the record.
+ *         getAvatar: {
+ *             setSrc: 'profile_image_url'
+ *         }
+ *     }
+ */
+(Ext.cmd.derive('Ext.dataview.component.DataItem', Ext.Container, {
+    config: {
+        baseCls: 'x-data-item',
+        defaultType: 'component',
+        /**
+         * @cfg {Ext.data.Model} record The model instance of this DataItem. It is controlled by the Component DataView.
+         * @accessor
+         */
+        record: null,
+        /**
+         * @cfg {String} itemCls
+         * An additional CSS class to apply to items within the DataView.
+         * @accessor
+         */
+        itemCls: null,
+        /**
+         * @cfg dataMap
+         * The dataMap allows you to map {@link #record} fields to specific configurations in this component.
+         *
+         * For example, lets say you have a `text` configuration which, when applied, gets turned into an instance of an Ext.Component.
+         * We want to update the {@link #html} of this component when the 'text' field of the record gets changed.
+         * For example:
+         *
+         *      dataMap: {
+         *          getText: {
+         *              setHtml: 'text'
+         *          }
+         *      }
+         *
+         * In this example, it is simply a matter of setting the key of the object to be the getter of the config (`getText`), and then give that
+         * property a value of an object, which then has `setHtml` (the html setter) as the key, and `text` (the field name) as the value.
+         */
+        dataMap: {},
+        /*
+         * @private dataview
+         */
+        dataview: null,
+        width: '100%',
+        items: [
+            {
+                xtype: 'component'
+            }
+        ]
+    },
+    updateBaseCls: function(newBaseCls, oldBaseCls) {
+        var me = this;
+        Ext.Container.prototype.updateBaseCls.apply(this, arguments);
+    },
+    updateItemCls: function(newCls, oldCls) {
+        if (oldCls) {
+            this.removeCls(oldCls);
+        }
+        if (newCls) {
+            this.addCls(newCls);
+        }
+    },
+    doMapData: function(dataMap, data, item) {
+        var componentName, component, setterMap, setterName;
+        for (componentName in dataMap) {
+            setterMap = dataMap[componentName];
+            component = this[componentName]();
+            if (component) {
+                for (setterName in setterMap) {
+                    if (data && component[setterName] && data[setterMap[setterName]] !== undefined && data[setterMap[setterName]] !== null) {
+                        component[setterName](data[setterMap[setterName]]);
+                    }
+                }
+            }
+        }
+        if (item) {
+            // Bypassing setter because sometimes we pass the same object (different properties)
+            item.updateData(data);
+        }
+    },
+    /**
+     * Updates this container's child items, passing through the `dataMap`.
+     * @param {Ext.data.Model} newRecord
+     * @private
+     */
+    updateRecord: function(newRecord) {
+        if (!newRecord) {
+            return;
+        }
+        this._record = newRecord;
+        var me = this,
+            dataview = me.dataview || this.getDataview(),
+            data = dataview.prepareData(newRecord.getData(true), dataview.getStore().indexOf(newRecord), newRecord),
+            items = me.getItems(),
+            item = items.first(),
+            dataMap = me.getDataMap();
+        if (!item) {
+            return;
+        }
+        if (dataMap) {
+            this.doMapData(dataMap, data, item);
+        }
+        /**
+         * @event updatedata
+         * Fires whenever the data of the DataItem is updated.
+         * @param {Ext.dataview.component.DataItem} this The DataItem instance.
+         * @param {Object} newData The new data.
+         */
+        me.fireEvent('updatedata', me, data);
+    }
+}, 0, [
+    "dataitem"
+], [
+    "component",
+    "container",
+    "dataitem"
+], {
+    "component": true,
+    "container": true,
+    "dataitem": true
+}, [
+    "widget.dataitem"
+], 0, [
+    Ext.dataview.component,
+    'DataItem'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.dataview.component.Container', Ext.Container, {
+    /**
+     * @event itemtouchstart
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item touched
+     * @param {Number} index The index of the item touched
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchmove
+     * Fires whenever an item is moved
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item moved
+     * @param {Number} index The index of the item moved
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchend
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item touched
+     * @param {Number} index The index of the item touched
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtap
+     * Fires whenever an item is tapped
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item tapped
+     * @param {Number} index The index of the item tapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtaphold
+     * Fires whenever an item is tapped
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item tapped
+     * @param {Number} index The index of the item tapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemsingletap
+     * Fires whenever an item is doubletapped
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item singletapped
+     * @param {Number} index The index of the item singletapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemdoubletap
+     * Fires whenever an item is doubletapped
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item doubletapped
+     * @param {Number} index The index of the item doubletapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemswipe
+     * Fires whenever an item is swiped
+     * @param {Ext.dataview.component.Container} this
+     * @param {Ext.dataview.component.DataItem} item The item swiped
+     * @param {Number} index The index of the item swiped
+     * @param {Ext.EventObject} e The event object
+     */
+    constructor: function() {
+        this.itemCache = [];
+        Ext.Container.prototype.constructor.apply(this, arguments);
+    },
+    //@private
+    doInitialize: function() {
+        this.innerElement.on({
+            touchstart: 'onItemTouchStart',
+            touchend: 'onItemTouchEnd',
+            tap: 'onItemTap',
+            taphold: 'onItemTapHold',
+            touchmove: 'onItemTouchMove',
+            singletap: 'onItemSingleTap',
+            doubletap: 'onItemDoubleTap',
+            swipe: 'onItemSwipe',
+            delegate: '> .x-data-item',
+            scope: this
+        });
+    },
+    //@private
+    initialize: function() {
+        Ext.Container.prototype.initialize.call(this);
+        this.doInitialize();
+    },
+    onItemTouchStart: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        item.on({
+            touchmove: 'onItemTouchMove',
+            scope: me,
+            single: true
+        });
+        me.fireEvent('itemtouchstart', me, item, me.indexOf(item), e);
+    },
+    onItemTouchMove: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemtouchmove', me, item, me.indexOf(item), e);
+    },
+    onItemTouchEnd: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        item.un({
+            touchmove: 'onItemTouchMove',
+            scope: me
+        });
+        me.fireEvent('itemtouchend', me, item, me.indexOf(item), e);
+    },
+    onItemTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemtap', me, item, me.indexOf(item), e);
+    },
+    onItemTapHold: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemtaphold', me, item, me.indexOf(item), e);
+    },
+    onItemSingleTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemsingletap', me, item, me.indexOf(item), e);
+    },
+    onItemDoubleTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemdoubletap', me, item, me.indexOf(item), e);
+    },
+    onItemSwipe: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            item = Ext.getCmp(target.id);
+        me.fireEvent('itemswipe', me, item, me.indexOf(item), e);
+    },
+    moveItemsToCache: function(from, to) {
+        var me = this,
+            dataview = me.dataview,
+            maxItemCache = dataview.getMaxItemCache(),
+            items = me.getViewItems(),
+            itemCache = me.itemCache,
+            cacheLn = itemCache.length,
+            pressedCls = dataview.getPressedCls(),
+            selectedCls = dataview.getSelectedCls(),
+            i = to - from,
+            item;
+        for (; i >= 0; i--) {
+            item = items[from + i];
+            if (cacheLn !== maxItemCache) {
+                me.remove(item, false);
+                item.removeCls([
+                    pressedCls,
+                    selectedCls
+                ]);
+                itemCache.push(item);
+                cacheLn++;
+            } else {
+                item.destroy();
+            }
+        }
+        if (me.getViewItems().length == 0) {
+            this.dataview.showEmptyText();
+        }
+    },
+    moveItemsFromCache: function(records) {
+        var me = this,
+            dataview = me.dataview,
+            store = dataview.getStore(),
+            ln = records.length,
+            xtype = dataview.getDefaultType(),
+            itemConfig = dataview.getItemConfig(),
+            itemCache = me.itemCache,
+            cacheLn = itemCache.length,
+            items = [],
+            i, item, record;
+        if (ln) {
+            dataview.hideEmptyText();
+        }
+        for (i = 0; i < ln; i++) {
+            records[i]._tmpIndex = store.indexOf(records[i]);
+        }
+        Ext.Array.sort(records, function(record1, record2) {
+            return record1._tmpIndex > record2._tmpIndex ? 1 : -1;
+        });
+        for (i = 0; i < ln; i++) {
+            record = records[i];
+            if (cacheLn) {
+                cacheLn--;
+                item = itemCache.pop();
+                this.updateListItem(record, item);
+            } else {
+                item = me.getDataItemConfig(xtype, record, itemConfig);
+            }
+            item = this.insert(record._tmpIndex, item);
+            delete record._tmpIndex;
+        }
+        return items;
+    },
+    getViewItems: function() {
+        return this.getInnerItems();
+    },
+    updateListItem: function(record, item) {
+        if (item.updateRecord) {
+            if (item.getRecord() === record) {
+                item.updateRecord(record);
+            } else {
+                item.setRecord(record);
+            }
+        }
+    },
+    getDataItemConfig: function(xtype, record, itemConfig) {
+        var dataview = this.dataview,
+            dataItemConfig = {
+                xtype: xtype,
+                record: record,
+                itemCls: dataview.getItemCls(),
+                defaults: itemConfig,
+                dataview: dataview
+            };
+        return Ext.merge(dataItemConfig, itemConfig);
+    },
+    doRemoveItemCls: function(cls) {
+        var items = this.getViewItems(),
+            ln = items.length,
+            i = 0;
+        for (; i < ln; i++) {
+            items[i].removeCls(cls);
+        }
+    },
+    doAddItemCls: function(cls) {
+        var items = this.getViewItems(),
+            ln = items.length,
+            i = 0;
+        for (; i < ln; i++) {
+            items[i].addCls(cls);
+        }
+    },
+    updateAtNewIndex: function(oldIndex, newIndex, record) {
+        this.moveItemsToCache(oldIndex, oldIndex);
+        this.moveItemsFromCache([
+            record
+        ]);
+    },
+    destroy: function() {
+        var me = this,
+            itemCache = me.itemCache,
+            ln = itemCache.length,
+            i = 0;
+        for (; i < ln; i++) {
+            itemCache[i].destroy();
+        }
+        Ext.Container.prototype.destroy.call(this);
+    }
+}, 1, 0, [
+    "component",
+    "container"
+], {
+    "component": true,
+    "container": true
+}, 0, 0, [
+    Ext.dataview.component,
+    'Container'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.dataview.element.Container', Ext.Component, {
+    /**
+     * @event itemtouchstart
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item touched
+     * @param {Number} index The index of the item touched
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchmove
+     * Fires whenever an item is moved
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item moved
+     * @param {Number} index The index of the item moved
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchend
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item touched
+     * @param {Number} index The index of the item touched
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtap
+     * Fires whenever an item is tapped
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item tapped
+     * @param {Number} index The index of the item tapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtaphold
+     * Fires whenever an item is tapped
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item tapped
+     * @param {Number} index The index of the item tapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemsingletap
+     * Fires whenever an item is singletapped
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item singletapped
+     * @param {Number} index The index of the item singletapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemdoubletap
+     * Fires whenever an item is doubletapped
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item doubletapped
+     * @param {Number} index The index of the item doubletapped
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemswipe
+     * Fires whenever an item is swiped
+     * @param {Ext.dataview.element.Container} this
+     * @param {Ext.dom.Element} item The item swiped
+     * @param {Number} index The index of the item swiped
+     * @param {Ext.EventObject} e The event object
+     */
+    doInitialize: function() {
+        this.element.on({
+            touchstart: 'onItemTouchStart',
+            touchend: 'onItemTouchEnd',
+            tap: 'onItemTap',
+            taphold: 'onItemTapHold',
+            touchmove: 'onItemTouchMove',
+            singletap: 'onItemSingleTap',
+            doubletap: 'onItemDoubleTap',
+            swipe: 'onItemSwipe',
+            delegate: '> div',
+            scope: this
+        });
+    },
+    //@private
+    initialize: function() {
+        Ext.Component.prototype.initialize.call(this);
+        this.doInitialize();
+    },
+    updateBaseCls: function(newBaseCls, oldBaseCls) {
+        var me = this;
+        Ext.Component.prototype.updateBaseCls.call(this, newBaseCls + '-container', oldBaseCls);
+    },
+    onItemTouchStart: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        Ext.get(target).on({
+            touchmove: 'onItemTouchMove',
+            scope: me,
+            single: true
+        });
+        me.fireEvent('itemtouchstart', me, Ext.get(target), index, e);
+    },
+    onItemTouchEnd: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        Ext.get(target).un({
+            touchmove: 'onItemTouchMove',
+            scope: me
+        });
+        me.fireEvent('itemtouchend', me, Ext.get(target), index, e);
+    },
+    onItemTouchMove: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemtouchmove', me, Ext.get(target), index, e);
+    },
+    onItemTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemtap', me, Ext.get(target), index, e);
+    },
+    onItemTapHold: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemtaphold', me, Ext.get(target), index, e);
+    },
+    onItemDoubleTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemdoubletap', me, Ext.get(target), index, e);
+    },
+    onItemSingleTap: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemsingletap', me, Ext.get(target), index, e);
+    },
+    onItemSwipe: function(e) {
+        var me = this,
+            target = e.getTarget(),
+            index = me.getViewItems().indexOf(target);
+        me.fireEvent('itemswipe', me, Ext.get(target), index, e);
+    },
+    updateListItem: function(record, item) {
+        var me = this,
+            dataview = me.dataview,
+            store = dataview.getStore(),
+            index = store.indexOf(record),
+            data = dataview.prepareData(record.getData(true), index, record);
+        data.xcount = store.getCount();
+        data.xindex = typeof data.xindex === 'number' ? data.xindex : index;
+        item.innerHTML = dataview.getItemTpl().apply(data);
+    },
+    addListItem: function(index, record) {
+        var me = this,
+            dataview = me.dataview,
+            store = dataview.getStore(),
+            data = dataview.prepareData(record.getData(true), index, record),
+            element = me.element,
+            childNodes = element.dom.childNodes,
+            ln = childNodes.length,
+            wrapElement;
+        data.xcount = typeof data.xcount === 'number' ? data.xcount : store.getCount();
+        data.xindex = typeof data.xindex === 'number' ? data.xindex : index;
+        wrapElement = Ext.Element.create(this.getItemElementConfig(index, data));
+        if (!ln || index == ln) {
+            wrapElement.appendTo(element);
+        } else {
+            wrapElement.insertBefore(childNodes[index]);
+        }
+    },
+    getItemElementConfig: function(index, data) {
+        var dataview = this.dataview,
+            itemCls = dataview.getItemCls(),
+            cls = dataview.getBaseCls() + '-item';
+        if (itemCls) {
+            cls += ' ' + itemCls;
+        }
+        return {
+            cls: cls,
+            html: dataview.getItemTpl().apply(data)
+        };
+    },
+    doRemoveItemCls: function(cls) {
+        var elements = this.getViewItems(),
+            ln = elements.length,
+            i = 0;
+        for (; i < ln; i++) {
+            Ext.fly(elements[i]).removeCls(cls);
+        }
+    },
+    doAddItemCls: function(cls) {
+        var elements = this.getViewItems(),
+            ln = elements.length,
+            i = 0;
+        for (; i < ln; i++) {
+            Ext.fly(elements[i]).addCls(cls);
+        }
+    },
+    // Remove
+    moveItemsToCache: function(from, to) {
+        var me = this,
+            items = me.getViewItems(),
+            i = to - from,
+            item;
+        for (; i >= 0; i--) {
+            item = items[from + i];
+            Ext.get(item).destroy();
+        }
+        if (me.getViewItems().length == 0) {
+            this.dataview.showEmptyText();
+        }
+    },
+    // Add
+    moveItemsFromCache: function(records) {
+        var me = this,
+            dataview = me.dataview,
+            store = dataview.getStore(),
+            ln = records.length,
+            i, record;
+        if (ln) {
+            dataview.hideEmptyText();
+        }
+        for (i = 0; i < ln; i++) {
+            records[i]._tmpIndex = store.indexOf(records[i]);
+        }
+        Ext.Array.sort(records, function(record1, record2) {
+            return record1._tmpIndex > record2._tmpIndex ? 1 : -1;
+        });
+        for (i = 0; i < ln; i++) {
+            record = records[i];
+            me.addListItem(record._tmpIndex, record);
+            delete record._tmpIndex;
+        }
+    },
+    // Transform ChildNodes into a proper Array so we can do indexOf...
+    getViewItems: function() {
+        return Array.prototype.slice.call(this.element.dom.childNodes);
+    },
+    updateAtNewIndex: function(oldIndex, newIndex, record) {
+        this.moveItemsToCache(oldIndex, oldIndex);
+        this.moveItemsFromCache([
+            record
+        ]);
+    },
+    destroy: function() {
+        var elements = this.getViewItems(),
+            ln = elements.length,
+            i = 0;
+        for (; i < ln; i++) {
+            Ext.get(elements[i]).destroy();
+        }
+        Ext.Component.prototype.destroy.call(this);
+    }
+}, 0, 0, [
+    "component"
+], {
+    "component": true
+}, 0, 0, [
+    Ext.dataview.element,
+    'Container'
+], 0));
+
+/**
+ * DataView makes it easy to create lots of components dynamically, usually based off a {@link Ext.data.Store Store}.
+ * It's great for rendering lots of data from your server backend or any other data source and is what powers
+ * components like {@link Ext.List}.
+ *
+ * Use DataView whenever you want to show sets of the same component many times, for examples in apps like these:
+ *
+ * - List of messages in an email app
+ * - Showing latest news/tweets
+ * - Tiled set of albums in an HTML5 music player
+ *
+ * # Creating a Simple DataView
+ *
+ * At its simplest, a DataView is just a Store full of data and a simple template that we use to render each item:
+ *
+ *     @example miniphone preview
+ *     var touchTeam = Ext.create('Ext.DataView', {
+ *         fullscreen: true,
+ *         store: {
+ *             fields: ['name', 'age'],
+ *             data: [
+ *                 {name: 'Jamie',  age: 100},
+ *                 {name: 'Rob',   age: 21},
+ *                 {name: 'Tommy', age: 24},
+ *                 {name: 'Jacky', age: 24},
+ *                 {name: 'Ed',   age: 26}
+ *             ]
+ *         },
+ *
+ *         itemTpl: '<div>{name} is {age} years old</div>'
+ *     });
+ *
+ * Here we just defined everything inline so it's all local with nothing being loaded from a server. For each of the 5
+ * data items defined in our Store, DataView will render a {@link Ext.Component Component} and pass in the name and age
+ * data. The component will use the tpl we provided above, rendering the data in the curly bracket placeholders we
+ * provided.
+ *
+ * Because DataView is integrated with Store, any changes to the Store are immediately reflected on the screen. For
+ * example, if we add a new record to the Store it will be rendered into our DataView:
+ *
+ *     touchTeam.getStore().add({
+ *         name: 'Abe Elias',
+ *         age: 33
+ *     });
+ *
+ * We didn't have to manually update the DataView, it's just automatically updated. The same happens if we modify one
+ * of the existing records in the Store:
+ *
+ *     touchTeam.getStore().getAt(0).set('age', 42);
+ *
+ * This will get the first record in the Store (Jamie), change the age to 42 and automatically update what's on the
+ * screen.
+ *
+ *     @example miniphone
+ *     var touchTeam = Ext.create('Ext.DataView', {
+ *         fullscreen: true,
+ *         store: {
+ *             fields: ['name', 'age'],
+ *             data: [
+ *                 {name: 'Jamie',  age: 100},
+ *                 {name: 'Rob',   age: 21},
+ *                 {name: 'Tommy', age: 24},
+ *                 {name: 'Jacky', age: 24},
+ *                 {name: 'Ed',   age: 26}
+ *             ]
+ *         },
+ *
+ *         itemTpl: '<div>{name} is {age} years old</div>'
+ *     });
+ *
+ *     touchTeam.getStore().add({
+ *         name: 'Abe Elias',
+ *         age: 33
+ *     });
+ *
+ *     touchTeam.getStore().getAt(0).set('age', 42);
+ *
+ * # Loading data from a server
+ *
+ * We often want to load data from our server or some other web service so that we don't have to hard code it all
+ * locally. Let's say we want to load some horror movies from Rotten Tomatoes into a DataView, and for each one
+ * render the cover image and title. To do this all we have to do is grab an api key from rotten tomatoes (http://developer.rottentomatoes.com/)
+ * and modify the {@link #store} and {@link #itemTpl} a little:
+ *
+ *     @example portrait
+ *     Ext.create('Ext.DataView', {
+ *         fullscreen: true,
+ *         store: {
+ *             autoLoad: true,
+ *             fields: ['id', 'title',
+ *              {
+ *                  name:'thumbnail_image',
+ *                  convert: function(v, record) {return record.raw.posters.thumbnail; }
+ *              }],
+ *
+ *             proxy: {
+ *                 type: 'jsonp',
+ *                 // Modify this line with your API key, pretty please...
+ *                 url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=hbjgfgryw8tygxztr5wtag3u&q=Horror',
+ *
+ *                 reader: {
+ *                     type: 'json',
+ *                     rootProperty: 'results'
+ *                 }
+ *             }
+ *         },
+ *
+ *         itemTpl: '<img src="{thumbnail_image}" /><p>{title}</p><div style="clear: both"></div>'
+ *     });
+ *
+ * The Store no longer has hard coded data, instead we've provided a {@link Ext.data.proxy.Proxy Proxy}, which fetches
+ * the data for us. In this case we used a JSON-P proxy so that we can load from Twitter's JSON-P search API. We also
+ * specified the fields present for each tweet, and used Store's {@link Ext.data.Store#autoLoad autoLoad} configuration
+ * to load automatically. Finally, we configured a Reader to decode the response from Twitter, telling it to expect
+ * JSON and that the tweets can be found in the 'results' part of the JSON response.
+ *
+ * The last thing we did is update our template to render the image, Twitter username and message. All we need to do
+ * now is add a little CSS to style the list the way we want it and we end up with a very basic Twitter viewer. Click
+ * the preview button on the example above to see it in action.
+ *
+ * ###Further Reading
+ * [Sencha Touch DataView Guide](../../../components/dataview.html)
+ */
+(Ext.cmd.derive('Ext.dataview.DataView', Ext.Container, {
+    alternateClassName: 'Ext.DataView',
+    /**
+     * @event containertap
+     * Fires when a tap occurs and it is not on a template node.
+     * @removed 2.0.0
+     */
+    /**
+     * @event itemtouchstart
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item touched
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchmove
+     * Fires whenever an item is moved
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item moved
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem moved
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtouchend
+     * Fires whenever an item is touched
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item touched
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtap
+     * Fires whenever an item is tapped
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item tapped
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem tapped
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemtaphold
+     * Fires whenever an item's taphold event fires
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item touched
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem touched
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemsingletap
+     * Fires whenever an item is singletapped
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item singletapped
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem singletapped
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemdoubletap
+     * Fires whenever an item is doubletapped
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item doubletapped
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem doubletapped
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event itemswipe
+     * Fires whenever an item is swiped
+     * @param {Ext.dataview.DataView} this
+     * @param {Number} index The index of the item swiped
+     * @param {Ext.Element/Ext.dataview.component.DataItem} target The element or DataItem swiped
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Ext.EventObject} e The event object
+     */
+    /**
+     * @event select
+     * @preventable doItemSelect
+     * Fires whenever an item is selected
+     * @param {Ext.dataview.DataView} this
+     * @param {Ext.data.Model} record The record associated to the item
+     */
+    /**
+     * @event deselect
+     * @preventable doItemDeselect
+     * Fires whenever an item is deselected
+     * @param {Ext.dataview.DataView} this
+     * @param {Ext.data.Model} record The record associated to the item
+     * @param {Boolean} supressed Flag to suppress the event
+     */
+    /**
+     * @event refresh
+     * @preventable doRefresh
+     * Fires whenever the DataView is refreshed
+     * @param {Ext.dataview.DataView} this
+     */
+    /**
+     * @hide
+     * @event add
+     */
+    /**
+     * @hide
+     * @event remove
+     */
+    /**
+     * @hide
+     * @event move
+     */
+    config: {
+        /**
+         * @cfg layout
+         * Hide layout config in DataView. It only causes confusion.
+         * @accessor
+         * @private
+         */
+        /**
+         * @cfg {Ext.data.Store/Object} store
+         * Can be either a Store instance or a configuration object that will be turned into a Store. The Store is used
+         * to populate the set of items that will be rendered in the DataView. See the DataView intro documentation for
+         * more information about the relationship between Store and DataView.
+         * @accessor
+         */
+        store: null,
+        /**
+         * @cfg {Object[]} data
+         * @inheritdoc
+         */
+        data: null,
+        /**
+         * @cfg baseCls
+         * @inheritdoc
+         */
+        baseCls: 'x-dataview',
+        /**
+         * @cfg {String} emptyText
+         * The text to display in the view when there is no data to display
+         */
+        emptyText: null,
+        /**
+         * @cfg {Boolean} deferEmptyText `true` to defer `emptyText` being applied until the store's first load.
+         */
+        deferEmptyText: true,
+        /**
+         * @cfg {String/String[]/Ext.XTemplate} itemTpl
+         * The `tpl` to use for each of the items displayed in this DataView.
+         */
+        itemTpl: '<div>{text}</div>',
+        /**
+         * @cfg {String} pressedCls
+         * The CSS class to apply to an item on the view while it is being pressed.
+         * @accessor
+         */
+        pressedCls: 'x-item-pressed',
+        /**
+         * @cfg {String} itemCls
+         * An additional CSS class to apply to items within the DataView.
+         * @accessor
+         */
+        itemCls: null,
+        /**
+         * @cfg {String} selectedCls
+         * The CSS class to apply to an item on the view while it is selected.
+         * @accessor
+         */
+        selectedCls: 'x-item-selected',
+        /**
+         * @cfg {String} triggerEvent
+         * Determines what type of touch event causes an item to be selected.
+         * Valid options are: 'itemtap', 'itemsingletap', 'itemdoubletap', 'itemswipe', 'itemtaphold'.
+         * @accessor
+         */
+        triggerEvent: 'itemtap',
+        /**
+         * @cfg {String} triggerCtEvent
+         * Determines what type of touch event is recognized as a touch on the container.
+         * Valid options are 'tap' and 'singletap'.
+         * @accessor
+         */
+        triggerCtEvent: 'tap',
+        /**
+         * @cfg {Boolean} deselectOnContainerClick
+         * When set to true, tapping on the DataView's background (i.e. not on
+         * an item in the DataView) will deselect any currently selected items.
+         * @accessor
+         */
+        deselectOnContainerClick: true,
+        /**
+         * @cfg scrollable
+         * @inheritdoc
+         */
+        scrollable: true,
+        /**
+         * @cfg {Boolean/Object} inline
+         * When set to `true` the items within the DataView will have their display set to inline-block
+         * and be arranged horizontally. By default the items will wrap to the width of the DataView.
+         * Passing an object with `{ wrap: false }` will turn off this wrapping behavior and overflowed
+         * items will need to be scrolled to horizontally.
+         * @accessor
+         */
+        inline: null,
+        /**
+         * @cfg {Number} pressedDelay
+         * The amount of delay between the `tapstart` and the moment we add the `pressedCls`.
+         *
+         * Settings this to `true` defaults to 100ms.
+         * @accessor
+         */
+        pressedDelay: 100,
+        /**
+         * @cfg {String/Boolean} loadingText
+         * A string to display during data load operations.  If specified, this text will be
+         * displayed in a loading div and the view's contents will be cleared while loading, otherwise the view's
+         * contents will continue to display normally until the new data is loaded and the contents are replaced.
+         */
+        loadingText: 'Loading...',
+        /**
+         * @cfg {Boolean} useComponents
+         * Flag the use a component based DataView implementation.  This allows the full use of components in the
+         * DataView at the cost of some performance.
+         *
+         * Checkout the [Sencha Touch DataView Guide](../../../components/dataview.html) for more information on using this configuration.
+         * @accessor
+         */
+        useComponents: null,
+        /**
+         * @cfg {Object} itemConfig
+         * A configuration object that is passed to every item created by a component based DataView. Because each
+         * item that a DataView renders is a Component, we can pass configuration options to each component to
+         * easily customize how each child component behaves.
+         *
+         * __Note:__ this is only used when `{@link #useComponents}` is `true`.
+         * @accessor
+         */
+        itemConfig: {},
+        /**
+         * @cfg {Number} maxItemCache
+         * Maintains a cache of reusable components when using a component based DataView.  Improving performance at
+         * the cost of memory.
+         *
+         * __Note:__ this is currently only used when `{@link #useComponents}` is `true`.
+         * @accessor
+         */
+        maxItemCache: 20,
+        /**
+         * @cfg {String} defaultType
+         * The xtype used for the component based DataView.
+         *
+         * __Note:__ this is only used when `{@link #useComponents}` is `true`.
+         * @accessor
+         */
+        defaultType: 'dataitem',
+        /**
+         * @cfg {Boolean} scrollToTopOnRefresh
+         * Scroll the DataView to the top when the DataView is refreshed.
+         * @accessor
+         */
+        scrollToTopOnRefresh: true
+    },
+    constructor: function(config) {
+        var me = this,
+            layout;
+        me.hasLoadedStore = false;
+        me.mixins.selectable.constructor.apply(me, arguments);
+        me.indexOffset = 0;
+        Ext.Container.prototype.constructor.apply(this, arguments);
+    },
+    updateItemCls: function(newCls, oldCls) {
+        var container = this.container;
+        if (container) {
+            if (oldCls) {
+                container.doRemoveItemCls(oldCls);
+            }
+            if (newCls) {
+                container.doAddItemCls(newCls);
+            }
+        }
+    },
+    storeEventHooks: {
+        beforeload: 'onBeforeLoad',
+        load: 'onLoad',
+        refresh: 'refresh',
+        addrecords: 'onStoreAdd',
+        removerecords: 'onStoreRemove',
+        updaterecord: 'onStoreUpdate'
+    },
+    initialize: function() {
+        Ext.Container.prototype.initialize.call(this);
+        var me = this,
+            container,
+            triggerEvent = me.getTriggerEvent();
+        me.on(me.getTriggerCtEvent(), me.onContainerTrigger, me);
+        container = me.container = this.add(new Ext.dataview[me.getUseComponents() ? 'component' : 'element'].Container({
+            baseCls: this.getBaseCls()
+        }));
+        container.dataview = me;
+        if (triggerEvent) {
+            me.on(triggerEvent, me.onItemTrigger, me);
+        }
+        container.on({
+            itemtouchstart: 'onItemTouchStart',
+            itemtouchend: 'onItemTouchEnd',
+            itemtap: 'onItemTap',
+            itemtaphold: 'onItemTapHold',
+            itemtouchmove: 'onItemTouchMove',
+            itemsingletap: 'onItemSingleTap',
+            itemdoubletap: 'onItemDoubleTap',
+            itemswipe: 'onItemSwipe',
+            scope: me
+        });
+        if (me.getStore()) {
+            if (me.isPainted()) {
+                me.refresh();
+            } else {
+                me.on({
+                    painted: 'refresh',
+                    single: true
+                });
+            }
+        }
+    },
+    applyInline: function(config) {
+        if (Ext.isObject(config)) {
+            config = Ext.apply({}, config);
+        }
+        return config;
+    },
+    updateInline: function(newInline, oldInline) {
+        var baseCls = this.getBaseCls();
+        if (oldInline) {
+            this.removeCls([
+                baseCls + '-inlineblock',
+                baseCls + '-nowrap'
+            ]);
+        }
+        if (newInline) {
+            this.addCls(baseCls + '-inlineblock');
+            if (Ext.isObject(newInline) && newInline.wrap === false) {
+                this.addCls(baseCls + '-nowrap');
+            } else {
+                this.removeCls(baseCls + '-nowrap');
+            }
+        }
+    },
+    /**
+     * Function which can be overridden to provide custom formatting for each Record that is used by this
+     * DataView's {@link #tpl template} to render each node.
+     * @param {Object/Object[]} data The raw data object that was used to create the Record.
+     * @param {Number} index the index number of the Record being prepared for rendering.
+     * @param {Ext.data.Model} record The Record being prepared for rendering.
+     * @return {Array/Object} The formatted data in a format expected by the internal {@link #tpl template}'s `overwrite()` method.
+     * (either an array if your params are numeric (i.e. `{0}`) or an object (i.e. `{foo: 'bar'}`))
+     */
+    prepareData: function(data, index, record) {
+        return data;
+    },
+    // apply to the selection model to maintain visual UI cues
+    onContainerTrigger: function(e) {
+        var me = this;
+        if (e.target != me.element.dom) {
+            return;
+        }
+        if (me.getDeselectOnContainerClick() && me.getStore()) {
+            me.deselectAll();
+        }
+    },
+    // apply to the selection model to maintain visual UI cues
+    onItemTrigger: function(me, index) {
+        if (!this.isDestroyed) {
+            this.selectWithEvent(this.getStore().getAt(index));
+        }
+    },
+    doAddPressedCls: function(record) {
+        var me = this,
+            item = me.getItemAt(me.getStore().indexOf(record));
+        if (Ext.isElement(item)) {
+            item = Ext.get(item);
+        }
+        if (item) {
+            if (item.isComponent) {
+                item.renderElement.addCls(me.getPressedCls());
+            } else {
+                item.addCls(me.getPressedCls());
+            }
+        }
+    },
+    onItemTouchStart: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireAction('itemtouchstart', [
+            me,
+            index,
+            target,
+            record,
+            e
+        ], 'doItemTouchStart');
+    },
+    doItemTouchStart: function(me, index, target, record) {
+        var pressedDelay = me.getPressedDelay();
+        if (record) {
+            if (pressedDelay > 0) {
+                me.pressedTimeout = Ext.defer(me.doAddPressedCls, pressedDelay, me, [
+                    record
+                ]);
+            } else {
+                me.doAddPressedCls(record);
+            }
+        }
+    },
+    onItemTouchEnd: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        if (this.hasOwnProperty('pressedTimeout')) {
+            clearTimeout(this.pressedTimeout);
+            delete this.pressedTimeout;
+        }
+        if (record && target) {
+            if (target.isComponent) {
+                target.renderElement.removeCls(me.getPressedCls());
+            } else {
+                target.removeCls(me.getPressedCls());
+            }
+        }
+        me.fireEvent('itemtouchend', me, index, target, record, e);
+    },
+    onItemTouchMove: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        if (me.hasOwnProperty('pressedTimeout')) {
+            clearTimeout(me.pressedTimeout);
+            delete me.pressedTimeout;
+        }
+        if (record && target) {
+            if (target.isComponent) {
+                target.renderElement.removeCls(me.getPressedCls());
+            } else {
+                target.removeCls(me.getPressedCls());
+            }
+        }
+        me.fireEvent('itemtouchmove', me, index, target, record, e);
+    },
+    onItemTap: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireEvent('itemtap', me, index, target, record, e);
+    },
+    onItemTapHold: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireEvent('itemtaphold', me, index, target, record, e);
+    },
+    onItemSingleTap: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireEvent('itemsingletap', me, index, target, record, e);
+    },
+    onItemDoubleTap: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireEvent('itemdoubletap', me, index, target, record, e);
+    },
+    onItemSwipe: function(container, target, index, e) {
+        var me = this,
+            store = me.getStore(),
+            record = store && store.getAt(index);
+        me.fireEvent('itemswipe', me, index, target, record, e);
+    },
+    // invoked by the selection model to maintain visual UI cues
+    onItemSelect: function(record, suppressEvent) {
+        var me = this;
+        if (suppressEvent) {
+            me.doItemSelect(me, record);
+        } else {
+            me.fireAction('select', [
+                me,
+                record
+            ], 'doItemSelect');
+        }
+    },
+    // invoked by the selection model to maintain visual UI cues
+    doItemSelect: function(me, record) {
+        if (me.container && !me.isDestroyed) {
+            var item = me.getItemAt(me.getStore().indexOf(record));
+            if (Ext.isElement(item)) {
+                item = Ext.get(item);
+            }
+            if (item) {
+                if (item.isComponent) {
+                    item.renderElement.removeCls(me.getPressedCls());
+                    item.renderElement.addCls(me.getSelectedCls());
+                } else {
+                    item.removeCls(me.getPressedCls());
+                    item.addCls(me.getSelectedCls());
+                }
+            }
+        }
+    },
+    // invoked by the selection model to maintain visual UI cues
+    onItemDeselect: function(record, suppressEvent) {
+        var me = this;
+        if (me.container && !me.isDestroyed) {
+            if (suppressEvent) {
+                me.doItemDeselect(me, record);
+            } else {
+                me.fireAction('deselect', [
+                    me,
+                    record,
+                    suppressEvent
+                ], 'doItemDeselect');
+            }
+        }
+    },
+    doItemDeselect: function(me, record) {
+        var item = me.getItemAt(me.getStore().indexOf(record));
+        if (Ext.isElement(item)) {
+            item = Ext.get(item);
+        }
+        if (item) {
+            if (item.isComponent) {
+                item.renderElement.removeCls([
+                    me.getPressedCls(),
+                    me.getSelectedCls()
+                ]);
+            } else {
+                item.removeCls([
+                    me.getPressedCls(),
+                    me.getSelectedCls()
+                ]);
+            }
+        }
+    },
+    updateData: function(data) {
+        var store = this.getStore();
+        if (!store) {
+            this.setStore(Ext.create('Ext.data.Store', {
+                data: data,
+                autoDestroy: true
+            }));
+        } else {
+            store.add(data);
+        }
+    },
+    applyStore: function(store) {
+        var me = this,
+            bindEvents = Ext.apply({}, me.storeEventHooks, {
+                scope: me
+            }),
+            proxy, reader;
+        if (store) {
+            store = Ext.data.StoreManager.lookup(store);
+            if (store && Ext.isObject(store) && store.isStore) {
+                store.on(bindEvents);
+                proxy = store.getProxy();
+                if (proxy) {
+                    reader = proxy.getReader();
+                    if (reader) {
+                        reader.on('exception', 'handleException', this);
+                    }
+                }
+            }
+        }
+        return store;
+    },
+    /**
+     * Method called when the Store's Reader throws an exception
+     * @method handleException
+     */
+    handleException: function() {
+        this.setMasked(false);
+    },
+    updateStore: function(newStore, oldStore) {
+        var me = this,
+            bindEvents = Ext.apply({}, me.storeEventHooks, {
+                scope: me
+            }),
+            proxy, reader;
+        if (oldStore && Ext.isObject(oldStore) && oldStore.isStore) {
+            oldStore.un(bindEvents);
+            if (!me.isDestroyed) {
+                me.onStoreClear();
+            }
+            if (oldStore.getAutoDestroy()) {
+                oldStore.destroy();
+            } else {
+                proxy = oldStore.getProxy();
+                if (proxy) {
+                    reader = proxy.getReader();
+                    if (reader) {
+                        reader.un('exception', 'handleException', this);
+                    }
+                }
+            }
+        }
+        if (newStore) {
+            if (newStore.isLoaded()) {
+                this.hasLoadedStore = true;
+            }
+            if (newStore.isLoading()) {
+                me.onBeforeLoad();
+            }
+            if (me.container) {
+                me.refresh();
+            }
+        }
+    },
+    onBeforeLoad: function() {
+        var loadingText = this.getLoadingText();
+        if (loadingText && this.isPainted()) {
+            this.setMasked({
+                xtype: 'loadmask',
+                message: loadingText
+            });
+        }
+        this.hideEmptyText();
+    },
+    updateEmptyText: function(newEmptyText, oldEmptyText) {
+        var me = this,
+            store;
+        if (oldEmptyText && me.emptyTextCmp) {
+            me.remove(me.emptyTextCmp, true);
+            delete me.emptyTextCmp;
+        }
+        if (newEmptyText) {
+            me.emptyTextCmp = me.add({
+                xtype: 'component',
+                cls: me.getBaseCls() + '-emptytext',
+                html: newEmptyText,
+                hidden: true
+            });
+            store = me.getStore();
+            if (store && me.hasLoadedStore && !store.getCount()) {
+                this.showEmptyText();
+            }
+        }
+    },
+    onLoad: function(store) {
+        //remove any masks on the store
+        this.hasLoadedStore = true;
+        this.setMasked(false);
+        if (!store.getCount()) {
+            this.showEmptyText();
+        }
+    },
+    /**
+     * Refreshes the view by reloading the data from the store and re-rendering the template.
+     */
+    refresh: function() {
+        var me = this,
+            container = me.container;
+        if (!me.getStore()) {
+            if (!me.hasLoadedStore && !me.getDeferEmptyText()) {
+                me.showEmptyText();
+            }
+            return;
+        }
+        if (container) {
+            me.fireAction('refresh', [
+                me
+            ], 'doRefresh');
+        }
+    },
+    applyItemTpl: function(config) {
+        return (Ext.isObject(config) && config.isTemplate) ? config : new Ext.XTemplate(config);
+    },
+    onAfterRender: function() {
+        var me = this;
+        me.callParent(arguments);
+        me.updateStore(me.getStore());
+    },
+    /**
+     * Returns an item at the specified index.
+     * @param {Number} index Index of the item.
+     * @return {Ext.dom.Element/Ext.dataview.component.DataItem} item Item at the specified index.
+     */
+    getItemAt: function(index) {
+        return this.getViewItems()[index - this.indexOffset];
+    },
+    /**
+     * Returns an index for the specified item.
+     * @param {Number} item The item to locate.
+     * @return {Number} Index for the specified item.
+     */
+    getItemIndex: function(item) {
+        var index = this.getViewItems().indexOf(item);
+        return (index === -1) ? index : this.indexOffset + index;
+    },
+    /**
+     * Returns an array of the current items in the DataView.
+     * @return {Ext.dom.Element[]/Ext.dataview.component.DataItem[]} Array of Items.
+     */
+    getViewItems: function() {
+        return this.container.getViewItems();
+    },
+    doRefresh: function(me) {
+        var container = me.container,
+            store = me.getStore(),
+            records = store.getRange(),
+            items = me.getViewItems(),
+            recordsLn = records.length,
+            itemsLn = items.length,
+            deltaLn = recordsLn - itemsLn,
+            scrollable = me.getScrollable(),
+            i, item;
+        if (this.getScrollToTopOnRefresh() && scrollable) {
+            scrollable.getScroller().scrollToTop();
+        }
+        // No items, hide all the items from the collection.
+        if (recordsLn < 1) {
+            me.onStoreClear();
+            return;
+        } else {
+            me.hideEmptyText();
+        }
+        // Too many items, hide the unused ones
+        if (deltaLn < 0) {
+            container.moveItemsToCache(itemsLn + deltaLn, itemsLn - 1);
+            // Items can changed, we need to refresh our references
+            items = me.getViewItems();
+            itemsLn = items.length;
+        }
+        // Not enough items, create new ones
+        else if (deltaLn > 0) {
+            container.moveItemsFromCache(store.getRange(itemsLn));
+        }
+        // Update Data and insert the new html for existing items
+        for (i = 0; i < itemsLn; i++) {
+            item = items[i];
+            container.updateListItem(records[i], item);
+        }
+        if (this.hasSelection()) {
+            var selection = this.getSelection(),
+                selectionLn = this.getSelectionCount(),
+                record;
+            for (i = 0; i < selectionLn; i++) {
+                record = selection[i];
+                this.doItemSelect(this, record);
+            }
+        }
+    },
+    showEmptyText: function() {
+        if (this.getEmptyText() && (this.hasLoadedStore || !this.getDeferEmptyText())) {
+            this.emptyTextCmp.show();
+        }
+    },
+    hideEmptyText: function() {
+        if (this.getEmptyText()) {
+            this.emptyTextCmp.hide();
+        }
+    },
+    destroy: function() {
+        var store = this.getStore(),
+            proxy = (store && store.getProxy()),
+            reader = (proxy && proxy.getReader());
+        if (reader) {
+            // TODO: Use un() instead of clearListeners() when TOUCH-2723 is fixed.
+            //          reader.un('exception', 'handleException', this);
+            reader.clearListeners();
+        }
+        Ext.Container.prototype.destroy.apply(this, arguments);
+        this.setStore(null);
+    },
+    onStoreClear: function() {
+        var me = this,
+            container = me.container,
+            items = me.getViewItems();
+        container.moveItemsToCache(0, items.length - 1);
+        this.showEmptyText();
+    },
+    /**
+     * @private
+     * @param {Ext.data.Store} store
+     * @param {Array} records
+     */
+    onStoreAdd: function(store, records) {
+        if (records) {
+            this.hideEmptyText();
+            this.container.moveItemsFromCache(records);
+        }
+    },
+    /**
+     * @private
+     * @param {Ext.data.Store} store
+     * @param {Array} records
+     * @param {Array} indices
+     */
+    onStoreRemove: function(store, records, indices) {
+        var container = this.container,
+            ln = records.length,
+            i;
+        for (i = 0; i < ln; i++) {
+            container.moveItemsToCache(indices[i], indices[i]);
+        }
+    },
+    /**
+     * @private
+     * @param {Ext.data.Store} store
+     * @param {Ext.data.Model} record
+     * @param {Number} newIndex
+     * @param {Number} oldIndex
+     */
+    onStoreUpdate: function(store, record, newIndex, oldIndex) {
+        var me = this,
+            container = me.container,
+            item;
+        oldIndex = (typeof oldIndex === 'undefined') ? newIndex : oldIndex;
+        if (oldIndex !== newIndex) {
+            container.updateAtNewIndex(oldIndex, newIndex, record);
+            if (me.isSelected(record)) {
+                me.doItemSelect(me, record);
+            }
+        } else {
+            item = me.getViewItems()[newIndex];
+            if (item) {
+                // Bypassing setter because sometimes we pass the same record (different data)
+                container.updateListItem(record, item);
+            }
+        }
+    }
+}, 1, [
+    "dataview"
+], [
+    "component",
+    "container",
+    "dataview"
+], {
+    "component": true,
+    "container": true,
+    "dataview": true
+}, [
+    "widget.dataview"
+], [
+    [
+        Ext.mixin.Selectable.prototype.mixinId || Ext.mixin.Selectable.$className,
+        Ext.mixin.Selectable
+    ]
+], [
+    Ext.dataview,
+    'DataView',
+    Ext,
+    'DataView'
 ], 0));
 
 /**
@@ -56555,6 +56325,58 @@ Ext.define('Ext.direct.Manager', {
 }, 1, 0, 0, 0, 0, 0, [
     Ext.event,
     'Touch'
+], 0));
+
+/**
+ * @private
+ */
+(Ext.cmd.derive('Ext.event.publisher.Publisher', Ext.Base, {
+    targetType: '',
+    idSelectorRegex: /^#([\w\-]+)$/i,
+    constructor: function() {
+        var handledEvents = this.handledEvents,
+            handledEventsMap, i, ln, event;
+        handledEventsMap = this.handledEventsMap = {};
+        for (i = 0 , ln = handledEvents.length; i < ln; i++) {
+            event = handledEvents[i];
+            handledEventsMap[event] = true;
+        }
+        this.subscribers = {};
+        return this;
+    },
+    handles: function(eventName) {
+        var map = this.handledEventsMap;
+        return !!map[eventName] || !!map['*'] || eventName === '*';
+    },
+    getHandledEvents: function() {
+        return this.handledEvents;
+    },
+    setDispatcher: function(dispatcher) {
+        this.dispatcher = dispatcher;
+    },
+    subscribe: function() {
+        return false;
+    },
+    unsubscribe: function() {
+        return false;
+    },
+    unsubscribeAll: function() {
+        delete this.subscribers;
+        this.subscribers = {};
+        return this;
+    },
+    notify: function() {
+        return false;
+    },
+    getTargetType: function() {
+        return this.targetType;
+    },
+    dispatch: function(target, eventName, args) {
+        this.dispatcher.doDispatchEvent(this.targetType, target, eventName, args);
+    }
+}, 1, 0, 0, 0, 0, 0, [
+    Ext.event.publisher,
+    'Publisher'
 ], 0));
 
 /**
@@ -66123,7 +65945,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.model.Contact', Ext.data.Model, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.model.Contact', Ext.data.Model, {
     config: {
         useCache: false,
         fields: [
@@ -66141,6 +65963,10 @@ Ext.define('Ext.picker.Picker', {
             },
             {
                 name: 'emailAddress',
+                type: 'string'
+            },
+            {
+                name: 'loginEmail',
                 type: 'string'
             },
             {
@@ -66171,11 +65997,23 @@ Ext.define('Ext.picker.Picker', {
             },
             {
                 name: 'websiteDisplayName'
+            },
+            {
+                name: 'signupStatus'
+            },
+            {
+                name: 'startDate'
+            },
+            {
+                name: 'planType'
+            },
+            {
+                name: 'endDate'
             }
         ]
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.model,
+    LocalBuzzMerchantDemo.model,
     'Contact'
 ], 0));
 
@@ -66193,7 +66031,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.model.Deal', Ext.data.Model, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.model.Deal', Ext.data.Model, {
     config: {
         useCache: false,
         fields: [
@@ -66239,13 +66077,23 @@ Ext.define('Ext.picker.Picker', {
                 },
                 name: 'todayplusthreedays',
                 type: 'date'
+            },
+            {
+                name: 'dealDescription',
+                type: 'string'
+            },
+            {
+                name: 'dealImageURL'
+            },
+            {
+                name: 'city'
             }
         ]
     }
 }, 0, 0, 0, 0, [
     "model.deal"
 ], 0, [
-    Contact.model,
+    LocalBuzzMerchantDemo.model,
     'Deal'
 ], 0));
 
@@ -66263,7 +66111,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.model.UserDetails', Ext.data.Model, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.model.UserDetails', Ext.data.Model, {
     config: {
         fields: [
             {
@@ -66286,102 +66134,21 @@ Ext.define('Ext.picker.Picker', {
             },
             {
                 name: 'access_token'
+            },
+            {
+                name: 'DealPictureURL'
+            },
+            {
+                name: 'city'
+            },
+            {
+                name: 'state'
             }
         ]
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.model,
+    LocalBuzzMerchantDemo.model,
     'UserDetails'
-], 0));
-
-/*
- * File: app/model/AnalyticsData.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.model.AnalyticsData', Ext.data.Model, {
-    config: {
-        fields: [
-            {
-                name: 'dealName'
-            },
-            {
-                name: 'numberOfHits',
-                type: 'int'
-            },
-            {
-                name: 'zipcode'
-            }
-        ]
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Contact.model,
-    'AnalyticsData'
-], 0));
-
-/*
- * File: app/store/MyJsonPStore.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.store.MyJsonPStore', Ext.data.Store, {
-    config: {
-        autoLoad: true,
-        autoSync: true,
-        groupField: 'category',
-        model: 'Contact.model.Contact',
-        storeId: 'MyJsonPStore',
-        grouper: {
-            groupFn: function(item) {
-                return record.get('category');
-            },
-            sortProperty: ''
-        },
-        sorters: {
-            sorterFn: function(first, second) {}
-        },
-        proxy: {
-            type: 'jsonp',
-            url: 'http://services.appsonmobile.com/stores',
-            reader: {
-                type: 'json'
-            },
-            writer: {
-                type: 'json',
-                encode: true
-            }
-        },
-        listeners: [
-            {
-                fn: 'onJsonpstoreUpdaterecord',
-                event: 'updaterecord'
-            }
-        ]
-    },
-    onJsonpstoreUpdaterecord: function(store, record, newIndex, oldIndex, modifiedFieldNames, modifiedValues, eOpts) {
-        return record;
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
-    'MyJsonPStore'
 ], 0));
 
 /*
@@ -66398,14 +66165,15 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.store.MyDealsStore', Ext.data.Store, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.store.MyDealsStore', Ext.data.Store, {
     config: {
         autoLoad: true,
-        model: 'Contact.model.Deal',
+        model: 'LocalBuzzMerchantDemo.model.Deal',
         storeId: 'MyDealsStore',
         proxy: {
             type: 'jsonp',
-            url: 'http://services.appsonmobile.com/deals',
+            timeout: 300000,
+            url: 'http://services.appsonmobile.com/demoDeals',
             reader: {
                 type: 'json'
             },
@@ -66425,14 +66193,12 @@ Ext.define('Ext.picker.Picker', {
             }
         ]
     },
-    onJsonstoreAddrecords: function(store, records, eOpts) {
-        store.load();
-    },
+    onJsonstoreAddrecords: function(store, records, eOpts) {},
     onJsonstoreRemoverecords: function(store, records, indices, eOpts) {
         store.load();
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
+    LocalBuzzMerchantDemo.store,
     'MyDealsStore'
 ], 0));
 
@@ -66450,11 +66216,11 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.store.UserDetails', Ext.data.Store, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.store.UserDetails', Ext.data.Store, {
     config: {
         autoLoad: true,
         autoSync: true,
-        model: 'Contact.model.UserDetails',
+        model: 'LocalBuzzMerchantDemo.model.UserDetails',
         remoteFilter: true,
         storeId: 'UserDetails',
         proxy: {
@@ -66462,7 +66228,7 @@ Ext.define('Ext.picker.Picker', {
         }
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
+    LocalBuzzMerchantDemo.store,
     'UserDetails'
 ], 0));
 
@@ -66480,18 +66246,18 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.store.LocalStore', Ext.data.Store, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.store.LocalStore', Ext.data.Store, {
     config: {
-        model: 'Contact.model.Deal',
+        model: 'LocalBuzzMerchantDemo.model.Deal',
         storeId: 'LocalStore'
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
+    LocalBuzzMerchantDemo.store,
     'LocalStore'
 ], 0));
 
 /*
- * File: app/store/AnalyticsStore.js
+ * File: app/store/MyJsonPStore.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -66504,29 +66270,37 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.store.AnalyticsStore', Ext.data.Store, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.store.MyJsonPStore', Ext.data.Store, {
     config: {
         autoLoad: true,
-        model: 'Contact.model.AnalyticsData',
-        storeId: 'AnalyticsStore',
-        listeners: [
-            {
-                fn: 'onStoreAddrecords',
-                event: 'addrecords'
+        model: 'LocalBuzzMerchantDemo.model.Contact',
+        storeId: 'MyJsonPStore',
+        proxy: {
+            type: 'jsonp',
+            url: 'http://services.appsonmobile.com/demoStores',
+            reader: {
+                type: 'json'
             }
-        ]
-    },
-    onStoreAddrecords: function(store, records, eOpts) {
-        store.load();
-        console.log('store added');
+        },
+        sorters: {
+            sorterFn: function(first, second) {}
+        },
+        grouper: {
+            groupFn: function(item) {
+                return record.get('category');
+            },
+            sortProperty: ''
+        }
     }
-}, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
-    'AnalyticsStore'
+}, 0, 0, 0, 0, [
+    "store.MyJsonPStore"
+], 0, [
+    LocalBuzzMerchantDemo.store,
+    'MyJsonPStore'
 ], 0));
 
 /*
- * File: app/view/Picture.js
+ * File: app/view/WelcomeScreen.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -66539,41 +66313,81 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.Picture', Ext.Container, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.WelcomeScreen', Ext.Panel, {
     config: {
-        overflow: 'hidden',
-        id: 'contactpic',
-        itemId: 'contactpic1',
-        margin: '5 5 5 5',
-        padding: '',
-        style: 'overflow: hidden;border:1px groove #000;background:none',
-        ui: '',
-        scrollable: false,
-        tpl: [
-            '',
-            '\t<img src="{pictureURL}" style="width:100%;height:30%"/>',
-            '\t'
+        hidden: false,
+        hideAnimation: 'flip',
+        id: 'WelcomeScreen',
+        itemId: 'WelcomeScreen',
+        items: [
+            {
+                xtype: 'component',
+                hidden: false,
+                html: '<center><img src ="resources/img/localbuzzicon.png"/><br><div style="text-align:center;"><h3 style="color:#00529D"><b>Welcome to <br><br>Local Buzz For Merchants</h3></div></center>',
+                id: 'text1',
+                left: '12%',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+                top: '15%'
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({
+                            xtype: 'Login'
+                        });
+                    Ext.Viewport.setActiveItem(view);
+                },
+                height: '9vh',
+                hidden: false,
+                left: '20%',
+                margin: '50 0 0 0',
+                style: 'font-size:5vw;font-family:Arial',
+                top: '35%',
+                ui: 'action',
+                width: '60%',
+                text: 'Login'
+            }
         ],
-        layout: {
-            type: 'vbox',
-            align: 'stretchmax'
-        }
+        listeners: [
+            {
+                fn: 'onWelcomeScreenInitialize',
+                event: 'initialize'
+            }
+        ]
+    },
+    onWelcomeScreenInitialize: function(component, eOpts) {
+        FacebookInAppBrowser.settings.appId = '900651756709444';
+        FacebookInAppBrowser.settings.redirectUrl = 'http://www.appsonmobile.com';
+        FacebookInAppBrowser.settings.permissions = 'email';
+        // Optional
+        FacebookInAppBrowser.settings.timeoutDuration = 7500;
+        FacebookInAppBrowser.getInfo(function(response) {
+            if (response) {
+                var view = Ext.Viewport.add({
+                        xtype: 'Login'
+                    });
+                Ext.Viewport.setActiveItem(view);
+            }
+        });
     }
 }, 0, [
-    "contactpic"
+    "WelcomeScreen"
 ], [
     "component",
     "container",
-    "contactpic"
+    "panel",
+    "WelcomeScreen"
 ], {
     "component": true,
     "container": true,
-    "contactpic": true
+    "panel": true,
+    "WelcomeScreen": true
 }, [
-    "widget.contactpic"
+    "widget.WelcomeScreen"
 ], 0, [
-    Contact.view,
-    'Picture'
+    LocalBuzzMerchantDemo.view,
+    'WelcomeScreen'
 ], 0));
 
 /*
@@ -66590,12 +66404,11 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.contactinfo', Ext.form.Panel, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.contactinfo', Ext.form.Panel, {
     config: {
         border: 5,
-        height: '100%',
+        id: 'info',
         itemId: 'info',
-        minHeight: '100%',
         style: 'background;#fff',
         styleHtmlContent: true,
         modal: true,
@@ -66612,14 +66425,12 @@ Ext.define('Ext.picker.Picker', {
                 ui: 'plain',
                 items: [
                     {
-                        xtype: 'button',
-                        docked: 'right',
-                        height: 48,
-                        itemId: 'editButton',
-                        style: 'color:#00529D',
-                        ui: 'plain',
-                        width: '20%',
-                        iconCls: 'compose'
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        html: '<b>First Name</b>',
+                        id: 'nameTxt',
+                        itemId: 'nameTxt'
                     },
                     {
                         xtype: 'spacer',
@@ -66627,91 +66438,330 @@ Ext.define('Ext.picker.Picker', {
                         width: 18
                     },
                     {
-                        xtype: 'component',
-                        cls: 'contact-name',
-                        disabled: true,
-                        html: '<b>First Name</b>',
-                        id: 'nameTxt',
-                        itemId: 'nameTxt'
+                        xtype: 'button',
+                        docked: 'right',
+                        itemId: 'mybutton10',
+                        style: 'color:#00529D',
+                        ui: 'plain',
+                        iconCls: 'icon-menu'
                     }
                 ]
             },
             {
-                xtype: 'textfield',
-                cls: 'icon-phone',
-                disabled: false,
-                height: '',
-                itemId: 'phoneNumber',
-                margin: '',
-                minWidth: '',
-                padding: '10 10 10 10',
-                clearIcon: false,
-                name: 'phoneNumber',
-                readOnly: true
-            },
-            {
-                xtype: 'textfield',
-                cls: 'icon-email',
-                disabled: false,
-                height: '',
-                itemId: 'email',
-                minWidth: '',
-                padding: '10 10 10 10',
-                clearIcon: false,
-                label: '',
-                name: 'emailAddress',
-                readOnly: true
-            },
-            {
-                xtype: 'textfield',
-                cls: 'icon-globe',
-                disabled: false,
-                height: '',
-                itemId: 'websiteDisplayName',
-                padding: '10 10 10 10',
-                style: 'font-size:2px !important',
-                clearIcon: false,
-                name: 'websiteDisplayName',
-                readOnly: true
+                xtype: 'component',
+                cls: 'contact-name',
+                disabled: true,
+                docked: 'top',
+                height: '40vh',
+                id: 'storeImage',
+                itemId: 'storeImage'
             },
             {
                 xtype: 'textareafield',
-                baseCls: '',
                 cls: [
-                    'icon-location',
+                    'icon-location1',
                     'customfield1'
                 ],
                 disabled: false,
+                docked: 'bottom',
                 height: '12vh',
+                hidden: false,
                 html: '',
                 itemId: 'address',
+                margin: '0 5 0 5',
                 maxHeight: '',
                 minHeight: '',
-                padding: '10 10 10 10',
-                style: '\'font-size:3.5vw;font-family: arial\'',
+                padding: '10 0 5 10',
+                style: 'font-size:3.5vw;',
+                styleHtmlContent: true,
                 clearIcon: false,
                 name: 'address',
+                placeHolder: 'Not Listed',
                 readOnly: true,
                 maxRows: 2
             },
             {
-                xtype: 'contactpic',
-                cls: 'x-panel-body',
-                docked: 'top',
-                height: '30%',
-                itemId: 'contactpic',
-                width: ''
+                xtype: 'textfield',
+                cls: [
+                    'icon-globe1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                itemId: 'websiteDisplayName',
+                margin: '0 5 0 5',
+                padding: '0 0 5 15',
+                style: 'font-size:5vw;font-family: arial',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                name: 'websiteDisplayName',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-email1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                itemId: 'email',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:5vw;font-family: arial',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                label: '',
+                name: 'emailAddress',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-email1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: true,
+                itemId: 'email1',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:5vw;font-family: arial',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                label: '',
+                name: 'loginEmail',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-phone1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                id: 'phoneNumber2',
+                itemId: 'phoneNumber',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:4.5vw;font-family: arial;',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                name: 'phoneNumber',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber1',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'city',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber2',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'state',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber3',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'zipcode',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber4',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'pictureURL',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber5',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'customerId',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber6',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'category',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber7',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'businessName',
+                readOnly: true
+            },
+            {
+                xtype: 'button',
+                hidden: true,
+                itemId: 'editButton',
+                margin: '5 5 5 5',
+                style: 'color:#00529D;font-size:6vw;',
+                styleHtmlContent: true,
+                ui: 'plain',
+                iconCls: 'compose'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onMybutton10Tap',
+                event: 'tap',
+                delegate: '#mybutton10'
+            },
+            {
+                fn: 'onInfoPainted',
+                event: 'painted'
             }
         ]
     },
+    onMybutton10Tap: function(button, e, eOpts) {
+        if (Ext.getCmp('menu').isHidden()) {
+            Ext.Viewport.showMenu('right');
+        } else {
+            Ext.Viewport.hideMenu('right');
+        }
+    },
+    onInfoPainted: function(element, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        var date = new Date();
+        var today = Ext.Date.format(date, 'n/j/Y');
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
+        });
+        var record = Ext.getStore('MyJsonPStore').findRecord('customerId', customerId);
+        this.setRecord(record);
+    },
     setRecord: function(record) {
         (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
+        console.log('Set Record of info page');
         if (record) {
             var name = record.get('businessName');
             var customerId = record.get('customerId');
             this.down('#nameTxt').setHtml(name);
-            this.down('contactpic').setData(record.data);
+            //this.down('contactpic').setData(record.data);
+            this.down('#storeImage').setHtml('<img src = "' + record.get('pictureURL') + '" style="height:40vh;width:95%;margin-left:5px;margin-top:2px;"/>');
         }
+    },
+    initialize: function() {
+        Ext.form.Panel.prototype.initialize.call(this);
+        var menu = Ext.create('Ext.Menu', {
+                id: 'menu',
+                items: [
+                    {
+                        iconCls: 'icon-edit',
+                        handler: function() {
+                            Ext.Viewport.hideMenu('right');
+                            var storeUserDetails = Ext.getStore('UserDetails');
+                            storeUserDetails.load();
+                            var customerId;
+                            var businessName;
+                            storeUserDetails.each(function(record) {
+                                console.log('StoreUserDetails : ' + record.get('customerId'));
+                                customerId = record.get('customerId');
+                                businessName = record.get('businessName');
+                            });
+                            var form = Ext.Viewport.add({
+                                    xtype: 'contactform'
+                                });
+                            var record = Ext.getStore('MyJsonPStore').findRecord('customerId', customerId, 0, true, false, false);
+                            Ext.Viewport.setActiveItem(form);
+                            form.setRecord(record);
+                        }
+                    },
+                    {
+                        iconCls: 'icon-signout',
+                        handler: function() {
+                            Ext.Viewport.hideMenu('right');
+                            Ext.Msg.confirm('Logout', 'Are you sure you want to logout?', function(btn) {
+                                if (btn == 'yes') {
+                                    FacebookInAppBrowser.logout(function() {
+                                        window.localStorage.setItem('facebookAccessToken', null);
+                                        location.reload();
+                                    });
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        //navigator.app.exitApp();
+        Ext.Viewport.setMenu(menu, {
+            side: 'right',
+            reveal: true
+        });
     }
 }, 0, [
     "contactinfo"
@@ -66730,7 +66780,7 @@ Ext.define('Ext.picker.Picker', {
 }, [
     "widget.contactinfo"
 ], 0, [
-    Contact.view,
+    LocalBuzzMerchantDemo.view,
     'contactinfo'
 ], 0));
 
@@ -66748,21 +66798,20 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.ListOfDeals', Ext.dataview.List, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.ListOfDeals', Ext.dataview.List, {
     config: {
         cls: 'customlist',
         height: '100%',
         id: 'ListOfDeals',
         itemId: 'ListOfDeals',
-        style: '',
         autoDestroy: false,
+        allowDeselect: true,
         deselectOnContainerClick: false,
         mode: 'MULTI',
         deferEmptyText: false,
-        emptyText: 'Create Buzz!',
+        emptyText: 'Create a Buzz!',
         itemCls: 'list-item',
         store: 'MyDealsStore',
-        onItemDisclosure: false,
         pinHeaders: false,
         preventSelectionOnDisclose: false,
         refreshHeightOnUpdate: false,
@@ -66770,7 +66819,7 @@ Ext.define('Ext.picker.Picker', {
         itemTpl: [
             '',
             '',
-            '<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" class="delete_button" style="float:right">#</div>',
+            '<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" id="delete" class="delete_button" style="float:right;padding:0px 15px 0px 15px;">#<button type="button" id="edit" class="delete_button" style="float:right">p</div>',
             '<tpl if="dealEndDate &lt; todayplusthreedays ">',
             '<div class= expiringDate >Valid {dealStartDate} to {dealEndDate}</div>',
             '<tpl else>\t',
@@ -66795,207 +66844,8 @@ Ext.define('Ext.picker.Picker', {
 }, [
     "widget.listofdeals"
 ], 0, [
-    Contact.view,
+    LocalBuzzMerchantDemo.view,
     'ListOfDeals'
-], 0));
-
-/*
- * File: app/view/DealsPanel.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.DealsPanel', Ext.form.Panel, {
-    config: {
-        baseCls: 'x-list',
-        id: 'dealsPanel',
-        itemId: 'dealsPanel',
-        minHeight: '80%',
-        padding: '5 5 5 5',
-        style: 'border:1px inset;',
-        styleHtmlContent: true,
-        url: '',
-        items: [
-            {
-                xtype: 'listofdeals',
-                docked: 'top',
-                height: '90%',
-                itemId: 'listofdeals',
-                width: '100%'
-            },
-            {
-                xtype: 'button',
-                docked: 'bottom',
-                height: '7%',
-                id: 'UploadDeal',
-                itemId: 'UploadDeal',
-                margin: '5 5 5 5',
-                style: 'font-size:5vw',
-                ui: 'confirm',
-                width: '',
-                text: 'Create Buzz'
-            }
-        ],
-        listeners: [
-            {
-                fn: 'onDealsPanelActivate',
-                event: 'activate'
-            }
-        ]
-    },
-    onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        console.log('Deals Panel Activated');
-        var storeUserDetails = Ext.getStore('UserDetails');
-        storeUserDetails.load();
-        var customerId;
-        var businessName;
-        var date = new Date();
-        var today = Ext.Date.format(date, 'n/j/Y');
-        storeUserDetails.each(function(record) {
-            //console.log('StoreUserDetails : ' +record.get('customerId'));
-            customerId = record.get('customerId');
-            businessName = record.get('businessName');
-        });
-        console.log(customerId);
-        var store = Ext.getStore('MyDealsStore');
-        store.clearFilter();
-        store.filter('customerId', customerId);
-        var records = [];
-        store.each(function(rec) {
-            //console.log('Deal End Date: ' + rec.get('dealEndDate'));
-            //console.log('Tdays date is : ' + today);
-            /*if(rec.get('dealEndDate') >= today) {
-
-		                           records.push(rec.get('itemName'));
-								   //console.log('Active deal ' + rec.get('dealName'));
-
-
-		                       }
-		                       else {
-		                           Ext.Array.remove(records,rec.get('itemName'));
-								   //console.log('Expired deal ' + rec.get('dealName'));
-								   var req = Ext.Ajax.request({
-
-						method:'POST',
-
-
-						url  : 'http://services.appsonmobile.com/deals/'+ rec.get('itemName')
-
-			});
-
-
-		                       }*/
-            if (rec.get('dealEndDate') < today) {
-                Ext.Ajax.request({
-                    method: 'POST',
-                    url: 'http://services.appsonmobile.com/deals/' + rec.get('itemName')
-                });
-            }
-        });
-        store.load();
-    }
-}, 0, [
-    "DealsPanel"
-], [
-    "component",
-    "container",
-    "panel",
-    "formpanel",
-    "DealsPanel"
-], {
-    "component": true,
-    "container": true,
-    "panel": true,
-    "formpanel": true,
-    "DealsPanel": true
-}, [
-    "widget.DealsPanel"
-], 0, [
-    Contact.view,
-    'DealsPanel'
-], 0));
-/* store.clearFilter();
-
-		      console.log(records.length);
-
-		        store.filterBy(function(record){
-		            return Ext.Array.indexOf(records, record.get('itemName')) !== -1;
-
-		        }, this);*/
-
-/*
- * File: app/view/BuzzOMeter.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.BuzzOMeter', Ext.Panel, {
-    config: {
-        listeners: [
-            {
-                fn: 'onPanelActivate',
-                event: 'activate'
-            }
-        ]
-    },
-    onPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        var dealData;
-        var dataTable = Ext.getStore('AnalyticsStore');
-        var dealName;
-        var zipcode;
-        var numberOfHits;
-        $.getJSON('http://services.appsonmobile.com/analytics/v3/04', function(json) {
-            for (var i = 0; i < json.totalResults; i++) {
-                dealData = (json.rows[i]).toString();
-                var tmp = dealData.split(",");
-                dealName = tmp[0];
-                zipcode = tmp[1];
-                numberOfHits = tmp[2];
-                /*console.log(dealName);
-				console.log(zipcode);
-				console.log(numberOfHits);*/
-                dataTable.add({
-                    'dealName': dealName,
-                    'zipcode': zipcode,
-                    'numberOfHits': numberOfHits
-                });
-            }
-            console.log(dataTable.getAllCount());
-        });
-    }
-}, 0, [
-    "buzzometer"
-], [
-    "component",
-    "container",
-    "panel",
-    "buzzometer"
-], {
-    "component": true,
-    "container": true,
-    "panel": true,
-    "buzzometer": true
-}, [
-    "widget.buzzometer"
-], 0, [
-    Contact.view,
-    'BuzzOMeter'
 ], 0));
 
 /*
@@ -67012,13 +66862,12 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.contactform', Ext.form.Panel, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.contactform', Ext.form.Panel, {
     config: {
         html: '',
         id: 'formpanel',
         itemId: 'formpanel',
         style: 'background:white',
-        styleHtmlContent: true,
         ui: 'light',
         autoDestroy: false,
         modal: true,
@@ -67033,15 +66882,16 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'toolbar',
                 cls: 'toolbarCls',
                 docked: 'top',
+                height: '12vh',
                 style: 'border-top:none',
                 ui: 'plain',
                 autoDestroy: false,
                 items: [
                     {
                         xtype: 'button',
+                        height: '8vh',
                         itemId: 'cancelButton',
-                        margin: '0 0 0 10',
-                        styleHtmlContent: true,
+                        margin: '10 0 10 10',
                         ui: 'decline',
                         width: '30%',
                         text: 'Cancel'
@@ -67056,86 +66906,36 @@ Ext.define('Ext.picker.Picker', {
                             var store = Ext.getStore('MyJsonPStore');
                             var record = form.getRecord();
                             var customerId = form.getRecord().get('customerId');
-                            record.beginEdit(true, record.getChanges());
-                            form.updateRecord(record);
-                            record.endEdit(true, record.getChanges());
-                            record.commit();
-                            store.sync();
-                            store.load();
-                            //form.fireEvent('updateRecord',this);
+                            /*record.beginEdit(true, record.getChanges());
+							form.updateRecord(record);
+							record.endEdit(true, record.getChanges());
+							record.commit();
+							store.sync();
+							store.load();*/
                             form.submit({
-                                url: 'http://services.appsonmobile.com/updateStoreInfo/' + customerId,
+                                url: 'http://services.appsonmobile.com/demoUpdateStoreInfo/' + customerId,
                                 success: function(form, action) {
-                                    /*record.beginEdit(true, record.getChanges());
-									form.updateRecord(record);
-									record.endEdit(true, record.getChanges());
-									record.commit();
-									store.sync();
-									store.load();*/
-                                    Ext.Viewport.getComponent('panel').destroy();
-                                    var view = Ext.create("Ext.tab.Panel", {
-                                            fullscreen: true,
-                                            tabBarPosition: 'bottom',
-                                            itemId: 'panel',
-                                            cls: 'toolbarCls',
-                                            ui: 'plain',
-                                            style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
-                                            items: [
-                                                {
-                                                    xtype: 'contactinfo',
-                                                    title: 'Home',
-                                                    itemId: 'home',
-                                                    iconCls: 'icon-home'
-                                                },
-                                                {
-                                                    xtype: 'DealsPanel',
-                                                    title: 'Buzz',
-                                                    iconCls: 'icon-bubbles'
-                                                },
-                                                {
-                                                    xtype: 'buzzometer',
-                                                    title: 'BuzzOMeter',
-                                                    iconCls: 'info'
-                                                }
-                                            ]
-                                        });
-                                    //Ext.getCmp('changePicButton').hide();
-                                    Ext.Viewport.setActiveItem(view);
-                                    view.getComponent('home').setRecord(record);
-                                    Ext.Msg.alert('Success', action.msg);
+                                    Ext.Msg.alert('Record updated', "Please login again to see the changes", null, null);
+                                    store.sync();
+                                    store.load();
                                     form.destroy();
                                 },
                                 failure: function(form, action) {
                                     store.load();
-                                    Ext.Msg.alert('Failure', action.msg);
+                                    Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
                                     form.destroy();
                                 }
                             });
                         },
-                        /*var record = form.getRecord();
-
-							view =Ext.Viewport.add({xtype: 'contactinfo'});
-							view.setRecord(record);
-
-
-							Ext.Viewport.setActiveItem(view);*/
                         cls: 'button',
+                        height: '8vh',
                         itemId: 'saveContactButton',
-                        margin: '0 10 0 0',
-                        styleHtmlContent: true,
+                        margin: '10 10 10 0',
                         ui: 'confirm',
                         width: '30%',
                         text: 'Save'
                     }
                 ]
-            },
-            {
-                xtype: 'contactpic',
-                cls: 'x-panel-body',
-                docked: 'top',
-                height: '30%',
-                itemId: 'picture',
-                width: ''
             },
             {
                 xtype: 'button',
@@ -67145,7 +66945,7 @@ Ext.define('Ext.picker.Picker', {
                     var customerId;
                     var businessName;
                     storeUserDetails.each(function(record) {
-                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        console.log('StoreUserDetails : ' + record.get('customerId'));
                         customerId = record.get('customerId');
                         businessName = record.get('businessName');
                     });
@@ -67156,13 +66956,12 @@ Ext.define('Ext.picker.Picker', {
                     view.setRecord(record);
                     view.showBy(button);
                 },
-                flex: 1,
-                docked: 'top',
+                height: '20%',
                 id: 'changePicButton',
                 left: '0px',
                 margin: '5 5 5 5',
                 style: 'opacity:0.5;position:absolute',
-                top: '-10px',
+                top: '-1%',
                 ui: 'plain',
                 width: '20%',
                 iconCls: 'add'
@@ -67170,12 +66969,13 @@ Ext.define('Ext.picker.Picker', {
             {
                 xtype: 'textfield',
                 cls: 'customfield',
-                height: '15%',
+                hidden: true,
                 id: 'businessName',
                 itemId: 'businessName',
                 margin: '30 15 2 15',
                 styleHtmlContent: true,
-                name: 'businessName'
+                name: 'businessName',
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textfield',
@@ -67183,11 +66983,22 @@ Ext.define('Ext.picker.Picker', {
                     'icon-phone',
                     'customfield'
                 ],
+                height: '10vh',
                 id: 'phoneNumber',
                 itemId: 'phoneNumber',
                 margin: '0 15 2 15',
+                padding: '0 0 5 5',
                 styleHtmlContent: true,
-                name: 'phoneNumber'
+                top: '25%',
+                width: '95%',
+                component: {
+                    xtype: 'input',
+                    type: 'tel',
+                    fastFocus: true
+                },
+                name: 'phoneNumber',
+                maxLength: 12,
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textareafield',
@@ -67195,13 +67006,18 @@ Ext.define('Ext.picker.Picker', {
                     'customfield',
                     'icon-location'
                 ],
-                height: '20%',
                 id: 'address',
                 itemId: 'address',
                 margin: '0 15 0 15',
+                maxHeight: '15vh',
+                minHeight: '10vh',
+                padding: '0 0 5 5',
                 styleHtmlContent: true,
+                top: '60%',
+                width: '95%',
                 name: 'address',
-                required: true
+                required: true,
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textfield',
@@ -67220,6 +67036,11 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'textfield',
                 hidden: true,
                 name: 'emailAddress'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'loginEmail'
             },
             {
                 xtype: 'textfield',
@@ -67272,8 +67093,59 @@ Ext.define('Ext.picker.Picker', {
                 labelWrap: true,
                 name: 'websiteDisplayName',
                 required: true
+            },
+            {
+                xtype: 'container',
+                docked: 'bottom',
+                height: '40px',
+                html: '<p id="terms" style="font-size:2.5vw;" >To change the business name or website info, please <a>Contact Us</a> </p>',
+                itemId: 'mycontainer6',
+                margin: '5 5 5 10',
+                padding: '5 30 5 0',
+                styleHtmlContent: true,
+                layout: 'hbox',
+                listeners: [
+                    {
+                        fn: function(element, eOpts) {
+                            element.addListener('tap', function() {
+                                //Ext.Viewport.add({xtype:'Terms'}).show();
+                                var url = "http://www.appsonmobile.com/index.php/contact-us/";
+                                window.open(url, '_system', 'location=yes');
+                            });
+                        },
+                        event: 'painted'
+                    }
+                ]
+            },
+            {
+                xtype: 'component',
+                cls: 'contact-name',
+                disabled: true,
+                docked: 'top',
+                height: '40vh',
+                id: 'storeImage1',
+                itemId: 'storeImage1'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onPhoneNumberKeyup',
+                event: 'keyup',
+                delegate: '#phoneNumber'
             }
         ]
+    },
+    onPhoneNumberKeyup: function(textfield, e, eOpts) {
+        var len = textfield.getValue().length;
+        if (len === 3 || len === 7) {
+            textfield.setValue(textfield.getValue() + '-');
+        }
+        if (len === 4) {
+            textfield.setValue(textfield.getValue().substr(0, 3));
+        }
+        if (len === 8) {
+            textfield.setValue(textfield.getValue().substr(0, 7));
+        }
     },
     getValidationErrors: function() {
         var errors = [];
@@ -67296,7 +67168,8 @@ Ext.define('Ext.picker.Picker', {
             this.down('#businessName').setValue(record.data.businessName);
             this.down('#phoneNumber').setValue(record.data.phoneNumber);
             this.down('#address').setValue(record.data.address);
-            this.child('contactpic').setData(record.data);
+            //this.child('contactpic').setData(record.data);
+            this.down('#storeImage1').setHtml('<img src = "' + record.get('pictureURL') + '" style="height:40vh;width:95%;margin-left:5px;margin-top:2px;"/>');
         }
     }
 }, 0, [
@@ -67316,12 +67189,12 @@ Ext.define('Ext.picker.Picker', {
 }, [
     "widget.contactform"
 ], 0, [
-    Contact.view,
+    LocalBuzzMerchantDemo.view,
     'contactform'
 ], 0));
 
 /*
- * File: app/controller/Contacts.js
+ * File: app/controller/LocalBuzzMerchantDemo.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -67334,7 +67207,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.controller.Contacts', Ext.app.Controller, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.controller.LocalBuzzMerchantDemo', Ext.app.Controller, {
     config: {
         stores: [
             'MyJsonPStore',
@@ -67445,28 +67318,52 @@ Ext.define('Ext.picker.Picker', {
         var itemNames = [];
         var i = 0;
         if (e.target.type === 'button') {
-            var store = Ext.getStore('MyDealsStore');
-            var record = store.getAt(index);
-            var dealName = record.get('dealName');
-            Ext.Msg.confirm('Delete ' + dealName + '?', null, function(btnText) {
-                if (btnText === 'yes') {
-                    var itemName = record.get('itemName');
-                    var req = Ext.Ajax.request({
-                            method: 'POST',
-                            url: 'http://services.appsonmobile.com/deals/' + itemName,
-                            success: function(form, action) {
-                                Ext.Msg.alert('Success', action.msg);
-                                //console.log(action.msg);
-                                var dealsStore = Ext.getStore('MyDealsStore');
-                                dealsStore.load();
-                            },
-                            failure: function(form, action) {
-                                Ext.Msg.alert('Failure', action.msg);
-                            }
-                        });
-                }
-            }, //console.log(action.msg);
-            this);
+            if (e.target.id === 'delete') {
+                var store = Ext.getStore('MyDealsStore');
+                var record = store.getAt(index);
+                var dealName = record.get('dealName');
+                Ext.Msg.confirm('Delete ' + dealName + '?', null, function(btnText) {
+                    if (btnText === 'yes') {
+                        var itemName = record.get('itemName');
+                        var req = Ext.Ajax.request({
+                                method: 'POST',
+                                url: 'http://services.appsonmobile.com/demoDeals/' + itemName,
+                                success: function(form, action) {
+                                    Ext.Msg.alert('Success', action.msg);
+                                    //console.log(action.msg);
+                                    var store = Ext.getStore('MyDealsStore');
+                                    store.load();
+                                    var count = store.getCount() - 1;
+                                    if (count >= 5) {
+                                        Ext.getCmp('UploadDeal').disable();
+                                    } else {
+                                        Ext.getCmp('UploadDeal').enable();
+                                    }
+                                    dealsStore.load();
+                                },
+                                failure: function(form, action) {
+                                    Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
+                                    //console.log(action.msg);
+                                    var store = Ext.getStore('MyDealsStore');
+                                    store.load();
+                                    if (store.getCount() >= 5) {
+                                        Ext.getCmp('UploadDeal').disable();
+                                    } else {
+                                        Ext.getCmp('UploadDeal').enable();
+                                    }
+                                }
+                            });
+                    }
+                }, this);
+            } else {
+                var store = Ext.getStore('MyDealsStore');
+                var record = store.getAt(index);
+                var view = Ext.Viewport.add({
+                        xtype: 'UpdateDealForm'
+                    });
+                view.setRecord(record);
+                Ext.Viewport.setActiveItem(view);
+            }
         } else {
             Ext.Viewport.add({
                 xtype: 'DealsPanel'
@@ -67482,10 +67379,8 @@ Ext.define('Ext.picker.Picker', {
         }
     },
     onEditButtonTap: function(button, e, eOpts) {
-        var referrer = Ext.Viewport.getActiveItem();
         var form = this.getContactform();
         var info = this.getContactinfo().getRecord();
-        form.referrer = referrer;
         Ext.Viewport.setActiveItem(form);
         form.setRecord(info);
     },
@@ -67562,10 +67457,6 @@ Ext.define('Ext.picker.Picker', {
     onCancelButtonTap: function(button, e, eOpts) {
         var form = this.getContactform();
         form.destroy();
-        //var btn = Ext.get('changePicButton');
-        //btn.hide();
-        Ext.Viewport.setActiveItem(form.referrer);
-        delete form.referrer;
     },
     onBackFromDealsPanelTap: function(button, e, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
@@ -67586,29 +67477,45 @@ Ext.define('Ext.picker.Picker', {
         Ext.Viewport.setActiveItem(info);
     },
     onUploadDealTap: function(button, e, eOpts) {
-        var storeUserDetails = Ext.getStore('UserDetails');
-        storeUserDetails.load();
-        var customerId;
-        var businessName;
-        //Ext.Viewport.getActiveItem().destroy();
         var view = Ext.Viewport.add({
-                xtype: 'UploadDealForm'
+                xtype: 'CreateNewBuzzOption'
             });
-        storeUserDetails.each(function(record) {
-            //console.log('StoreUserDetails : ' +record.get('customerId'));
-            customerId = record.get('customerId');
-            businessName = record.get('businessName');
-            view.setRecord(record);
-        });
-        //view.showBy(button);
-        var frame = document.createElement('iframe');
         Ext.Viewport.setActiveItem(view);
     },
+    //view.showBy(button);
     onShareTap: function(button, e, eOpts) {
         var record = Ext.getStore('LocalStore').getAt(0);
         //var record = Ext.getStore('MyDealsStore').findRecord('itemName',itemName,0,0,true,false,false);
         //var record = Ext.getStore('MyDealsStore').findRecord('customerId',customerId,0,true,false,false);
-        window.plugins.socialsharing.share(null, null, record.get('dealPictureURL'), null);
+        //window.plugins.socialsharing.share(null, null,record.get('dealPictureURL'),null);
+        Ext.getCmp('dealBackBtn').hide();
+        Ext.get('share').hide();
+        if (Ext.os.is('Android')) {
+            navigator.screenshot.URI(function(error, res) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    //html = '<img style="width:100%;" src="'+res.URI+'">';
+                    //document.body.innerHTML = html;
+                    window.plugins.socialsharing.share(null, 'Hi! Check out the Latest Buzz from LocalBuzz', res.URI, null);
+                }
+            }, 50);
+            Ext.get('share').show();
+            var view = Ext.Viewport.getComponent('dealPicture');
+            view.setRecord(record);
+            Ext.Viewport.setActiveItem(view);
+        } else {
+            navigator.screenshot.save(function(error, res) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    //Ext.Msg.alert(res.filePath,null,null,null); //should be path/to/myScreenshot.jpg
+                    window.plugins.socialsharing.share(null, 'Hi! Check out the Latest Buzz from LocalBuzz', res.filePath, null);
+                    Ext.getCmp('dealBackBtn').show();
+                    Ext.get('share').show();
+                }
+            }, 'jpg', 50, 'myScreenShot');
+        }
     },
     onManageDealsTap: function(button, e, eOpts) {
         var storeUserDetails = Ext.getStore('UserDetails');
@@ -67639,13 +67546,13 @@ Ext.define('Ext.picker.Picker', {
                 console.log('Success');
             },
             failure: function(form, action) {
-                console.log('Failure');
+                Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
             }
         });
     }
 }, 0, 0, 0, 0, 0, 0, [
-    Contact.controller,
-    'Contacts'
+    LocalBuzzMerchantDemo.controller,
+    'LocalBuzzMerchantDemo'
 ], 0));
 
 /*
@@ -67662,20 +67569,14 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.DealPicture', Ext.Panel, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.DealPicture', Ext.Panel, {
     config: {
         fullscreen: true,
-        height: '100%',
+        id: 'dealPicture',
         itemId: 'dealPicture',
-        left: 'dealPicture',
-        style: 'overflow: hidden;background:#fff',
-        styleHtmlContent: true,
+        style: 'background:#fff',
         width: '100%',
         autoDestroy: false,
-        scrollable: false,
-        tpl: [
-            '<img src="{dealPictureURL}" style="margin:5px 5px 5px 5px;height:100%;width:100%;border:1px groove #C0C0C0;"/>'
-        ],
         layout: {
             type: 'vbox',
             align: 'stretchmax'
@@ -67685,35 +67586,239 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'toolbar',
                 cls: 'toolbarCls',
                 docked: 'top',
+                height: '8vh',
                 ui: 'plain',
                 width: '100%',
                 scrollable: false,
                 layout: {
                     type: 'hbox',
-                    align: 'stretchmax'
+                    align: 'center'
                 },
                 items: [
                     {
                         xtype: 'button',
                         cls: 'icon-back-button',
+                        docked: 'left',
+                        height: '100%',
+                        id: 'dealBackBtn',
                         itemId: 'dealBackBtn',
+                        margin: '10 0 0 0',
                         style: 'font-size:8vw',
+                        styleHtmlContent: true,
                         ui: 'plain'
                     },
                     {
                         xtype: 'button',
                         cls: 'icon-share',
                         docked: 'right',
+                        id: 'share',
                         itemId: 'share',
                         minHeight: '100%',
                         style: 'border:none;font-size:7vw',
                         ui: 'plain',
                         iconAlign: 'center',
                         text: ''
+                    },
+                    {
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        height: '100%',
+                        html: '<b>Business Name</b>',
+                        id: 'nameTxt1',
+                        itemId: 'nameTxt1',
+                        style: 'word-wrap:break-word;font-family:Arial;font-size:5vw;text-align:center',
+                        width: '100%'
                     }
                 ]
+            },
+            {
+                xtype: 'component',
+                cls: 'contact-name',
+                disabled: true,
+                height: '40vh',
+                id: 'dealimage',
+                itemId: 'dealimage',
+                left: '2%',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw;border:2px dotted #c0c0c0',
+                top: '1%',
+                width: '95%',
+                listeners: [
+                    {
+                        fn: function(element, eOpts) {
+                            var record = Ext.getStore('LocalStore').getAt(0);
+                            if (record.get('dealImageURL')) {
+                                element.addListener('tap', function() {
+                                    console.log('DealImage Tap');
+                                    var view = Ext.Viewport.add({
+                                            xtype: 'DealImage'
+                                        });
+                                    view.setRecord(record);
+                                    view.showBy(Ext.get('dealPicture'));
+                                });
+                            }
+                        },
+                        event: 'painted'
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                cls: 'contact-name',
+                disabled: true,
+                html: '<p style="font-size:3vw;text-align:center">       Published through Local Buzz',
+                id: 'nameTxt2',
+                itemId: 'nameTxt2',
+                left: '40%',
+                margin: '10 5 5 5',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+                top: '51%',
+                width: '65%'
+            },
+            {
+                xtype: 'container',
+                cls: 'contact-name',
+                disabled: true,
+                hidden: false,
+                html: '<p style="font-size:2.3vw;"> Click on picture to enlarge</p>',
+                id: 'nameTxt3',
+                itemId: 'nameTxt3',
+                left: '40%',
+                margin: '10 5 5 5',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+                top: '43%',
+                width: '65%'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-phone1',
+                docked: 'bottom',
+                height: '8vh',
+                id: 'phoneNumber1',
+                itemId: 'phoneNumber1',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'font-size:2vw !important',
+                styleHtmlContent: true,
+                top: '56%',
+                width: '90%',
+                clearIcon: false,
+                name: 'phoneNumber',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-globe1',
+                docked: 'bottom',
+                height: '8vh',
+                id: 'website3',
+                itemId: 'website3',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+                styleHtmlContent: true,
+                top: '76%',
+                width: '90%',
+                clearIcon: false,
+                name: 'websiteDisplayName',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-email1',
+                docked: 'bottom',
+                height: '8vh',
+                hidden: false,
+                id: 'email1',
+                itemId: 'email1',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+                styleHtmlContent: true,
+                top: '66%',
+                width: '90%',
+                clearIcon: false,
+                name: 'emailAddress',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-phone1',
+                docked: 'bottom',
+                hidden: true,
+                id: 'website2',
+                itemId: 'website2',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'font-size:2vw !important',
+                styleHtmlContent: true,
+                top: '65%',
+                width: '90%',
+                clearIcon: false,
+                name: 'website',
+                readOnly: true
+            },
+            {
+                xtype: 'textareafield',
+                cls: [
+                    'icon-location1',
+                    'customfield1'
+                ],
+                height: '9vh',
+                id: 'address1',
+                itemId: 'address1',
+                margin: '0 0 0 5',
+                style: 'font-size:4.2vw;font-family:Arial;',
+                styleHtmlContent: true,
+                top: '86%',
+                width: '95%',
+                clearIcon: false,
+                name: 'address',
+                readOnly: true
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onDealPictureInitialize',
+                event: 'initialize'
+            },
+            {
+                fn: 'onDealPictureShow',
+                event: 'show'
             }
         ]
+    },
+    onDealPictureInitialize: function(component, eOpts) {
+        if (Ext.os.is('Android')) {
+            Ext.getCmp('dealBackBtn').hide();
+        }
+    },
+    onDealPictureShow: function(component, eOpts) {
+        var record = Ext.getStore('LocalStore').getAt(0);
+        if (record.get('dealImageURL')) {
+            this.down('#dealimage').setHtml('<img src="' + record.get('dealImageURL') + '" style="margin: 0px 5px 0px 5px;height:40vh;width:95%;border:none;"/>');
+            this.down('#nameTxt3').show();
+        } else {
+            this.down('#dealimage').setHtml('<img src="resources/img/localbuzzicon.png" align="right" style="margin: 5px 5px 5px 5px"/><br><div style="font-size:6vw;">' + record.get('dealName') + '</div><br><br><div style="font-size:5vw;">' + record.get('dealDescription') + '</div><br><br><div style="font-size:4vw;margin:5px 5px 5px 5px;">Valid ' + record.get('dealStartDate') + ' - ' + record.get('dealEndDate') + '</div>');
+            this.down('#nameTxt3').hide();
+        }
+    },
+    setRecord: function(record) {
+        (arguments.callee.$previous || Ext.Panel.prototype.setRecord).apply(this, arguments);
+        if (record) {
+            var name = record.get('itemName');
+            var businessName = record.get('businessName');
+            this.down('#nameTxt1').setHtml(record.get('businessName'));
+            var store = Ext.getStore('MyJsonPStore');
+            var rec = store.findRecord('businessName', businessName);
+            Ext.getCmp('phoneNumber1').setValue(rec.get('phoneNumber'));
+            Ext.getCmp('website3').setValue(rec.get('websiteDisplayName'));
+            Ext.getCmp('website2').setValue(rec.get('website'));
+            Ext.getCmp('address1').setValue(rec.get('address'));
+            Ext.getCmp('email1').setValue(rec.get('emailAddress'));
+        }
     }
 }, 0, [
     "dealPicture"
@@ -67730,8 +67835,128 @@ Ext.define('Ext.picker.Picker', {
 }, [
     "widget.dealPicture"
 ], 0, [
-    Contact.view,
+    LocalBuzzMerchantDemo.view,
     'DealPicture'
+], 0));
+
+/*
+ * File: app/view/DealsPanel.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.DealsPanel', Ext.form.Panel, {
+    config: {
+        baseCls: 'x-list',
+        id: 'dealsPanel',
+        itemId: 'dealsPanel',
+        minHeight: '80%',
+        padding: '5 5 5 5',
+        style: 'border:1px inset;',
+        styleHtmlContent: true,
+        url: '',
+        items: [
+            {
+                xtype: 'listofdeals',
+                docked: 'top',
+                height: '90%',
+                itemId: 'listofdeals',
+                width: '100%'
+            },
+            {
+                xtype: 'component',
+                docked: 'bottom',
+                html: '<p style="font-size:2.5vw;text-align:center" > As per our Fair Use Policy,there cannot be more than 5 Active Buzz per account </p>'
+            },
+            {
+                xtype: 'button',
+                docked: 'bottom',
+                height: '7vh',
+                id: 'UploadDeal',
+                itemId: 'UploadDeal',
+                margin: '0 5 0 5',
+                style: 'font-size:5vw',
+                ui: 'confirm',
+                width: '',
+                text: 'Create Buzz'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onDealsPanelActivate',
+                event: 'activate'
+            },
+            {
+                fn: 'onDealsPanelPainted',
+                event: 'painted'
+            }
+        ]
+    },
+    onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
+        });
+        var store = Ext.getStore('MyDealsStore');
+        store.clearFilter();
+        store.filter('customerId', customerId);
+    },
+    onDealsPanelPainted: function(element, eOpts) {
+        var store = Ext.getStore('MyDealsStore');
+        store.load();
+    },
+    initialize: function() {
+        Ext.form.Panel.prototype.initialize.call(this);
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
+        });
+        var store = Ext.getStore('MyDealsStore');
+        store.clearFilter();
+        store.filter('customerId', customerId);
+        if (store.getCount() >= 5) {
+            Ext.getCmp('UploadDeal').disable();
+        } else {
+            Ext.getCmp('UploadDeal').enable();
+        }
+    }
+}, 0, [
+    "DealsPanel"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "DealsPanel"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "DealsPanel": true
+}, [
+    "widget.DealsPanel"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'DealsPanel'
 ], 0));
 
 /*
@@ -67748,9 +67973,11 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.Login', Ext.Container, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.Login', Ext.Container, {
     config: {
-        html: '<h3><b>Welcome to Local Buzz!</b></h3> <p>With this app you can stay in touch with your customers.In order to use Local Buzz, you must sign in with your Facebook account.</p>',
+        hidden: false,
+        id: 'Login',
+        itemId: 'Login',
         maxHeight: '',
         style: '',
         styleHtmlContent: true,
@@ -67758,33 +67985,17 @@ Ext.define('Ext.picker.Picker', {
             type: 'card',
             animation: 'pop'
         },
-        items: [
-            {
-                xtype: 'button',
-                centered: true,
-                html: '<img src="resources/images/login.png"/>',
-                id: 'Login',
-                itemId: 'Login',
-                maxHeight: '',
-                minHeight: '',
-                style: 'border:none;',
-                styleHtmlCls: '',
-                ui: 'plain',
-                iconAlign: 'top'
-            }
-        ],
         listeners: [
             {
-                fn: 'onLoginTap',
-                event: 'tap',
-                delegate: '#Login'
+                fn: 'onContainerPainted',
+                event: 'painted'
             }
         ]
     },
-    onLoginTap: function(button, e, eOpts) {
+    onContainerPainted: function(element, eOpts) {
         // Settings.
         FacebookInAppBrowser.settings.appId = '900651756709444';
-        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+        FacebookInAppBrowser.settings.redirectUrl = 'http://www.appsonmobile.com';
         FacebookInAppBrowser.settings.permissions = 'email';
         // Optional
         FacebookInAppBrowser.settings.timeoutDuration = 7500;
@@ -67795,6 +68006,7 @@ Ext.define('Ext.picker.Picker', {
             },
             success: function(access_token) {
                 console.log('done, access token: ' + access_token);
+                Ext.Viewport.getComponent('WelcomeScreen').destroy();
             },
             denied: function() {
                 console.log('user denied');
@@ -67817,348 +68029,99 @@ Ext.define('Ext.picker.Picker', {
                     var info = userInf.split("\",\"");
                     var tmp = info[0].split("\":\"");
                     var email = tmp[1];
-                    //console.log(email);
                     tmp = info[1].split("\":\"");
                     var loginName = tmp[1];
                     tmp = info[2].split("\":\"");
                     var gender = tmp[1];
                     tmp = info[3].split("\":\"");
                     var userId = tmp[1];
-                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'studionafisa@yahoo.com', 0, true, false, false);
-                    //console.log(store.getData());
-                    //store.loadRecord();
-                    //var view = Ext.create('Contact.view.Info');
-                    //view.setRecord(record.getRecord());
-                    //console.log(view.getData());
-                    //Ext.Viewport.setActiveItem(view);
-                    var storeUserDetails = Ext.getStore('UserDetails');
-                    storeUserDetails.removeAll();
-                    storeUserDetails.add({
-                        'customerId': record.get('customerId'),
-                        'email': email,
-                        'businessName': record.get('businessName')
-                    });
-                    //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-                    var store = Ext.getStore('MyJsonPStore');
-                    var view = Ext.create("Ext.tab.Panel", {
-                            itemId: 'panel',
-                            fullscreen: true,
-                            tabBarPosition: 'bottom',
-                            items: [
-                                {
-                                    xtype: 'contactinfo',
-                                    title: 'Home',
-                                    itemId: 'home',
-                                    iconCls: 'home'
-                                },
-                                {
-                                    xtype: 'DealsPanel',
-                                    title: 'Buzz',
-                                    iconCls: 'info'
-                                }
-                            ]
-                        });
-                    view.getComponent('home').setRecord(record);
-                    Ext.Viewport.getActiveItem().destroy();
-                    Ext.Viewport.setActiveItem(view);
-                } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
-                //console.log(view.getComponent('home').getItemId());
-                //view.setData(record.getData());
-                ////view.setRecord(record);
-                // Ext.Viewport.setActiveItem(view);
-                //view.setData(record.getData());
-                {
+                    var record = Ext.getStore('MyJsonPStore').findRecord('loginEmail', email, 0, true, false, false);
+                    if (!record) {
+                        Ext.Msg.alert('Business could not be verified', "Please contact us at info@appsonmobile.com", function() {
+                            FacebookInAppBrowser.logout(function() {
+                                window.localStorage.setItem('facebookAccessToken', null);
+                                location.reload();
+                            });
+                        }, null);
+                    } else {
+                        var endDate = new Date(record.get('endDate'));
+                        var today = new Date();
+                        var storeUserDetails = Ext.getStore('UserDetails');
+                        storeUserDetails.removeAll();
+                        if (record.get('signupStatus') === "Approved") {
+                            if ((record.get('planType') === "Free" && endDate >= today) || record.get('planType') === "Paid") {
+                                storeUserDetails.add({
+                                    'customerId': record.get('customerId'),
+                                    'email': email,
+                                    'businessName': record.get('businessName'),
+                                    'DealPictureURL': record.get('pictureURL'),
+                                    'city': record.get('city'),
+                                    'state': record.get('state')
+                                });
+                                var view = Ext.Viewport.add({
+                                        xtype: 'panel'
+                                    });
+                                Ext.Viewport.getActiveItem().destroy();
+                                Ext.Viewport.setActiveItem(view);
+                            } else {
+                                Ext.Msg.alert('Business could not be verified', "Please contact us at info@appsonmobile.com", function() {
+                                    FacebookInAppBrowser.logout(function() {
+                                        window.localStorage.setItem('facebookAccessToken', null);
+                                        location.reload();
+                                    });
+                                }, null);
+                            }
+                        } else if (record.get('signupStatus') === 'Pending') {
+                            Ext.Msg.alert('Business could not be verified', "Please contact us at info@appsonmobile.com", function() {
+                                FacebookInAppBrowser.logout(function() {
+                                    window.localStorage.setItem('facebookAccessToken', null);
+                                    location.reload();
+                                });
+                            }, null);
+                        } else if (record.get('signupStatus') === 'Denied') {
+                            Ext.Msg.alert('Business could not be verified', "Please contact us at info@appsonmobile.com", function() {
+                                FacebookInAppBrowser.logout(function() {
+                                    window.localStorage.setItem('facebookAccessToken', null);
+                                    location.reload();
+                                });
+                            }, null);
+                        } else if (record.get('signupStatus') === 'Cancelled') {
+                            Ext.Msg.alert('Our records show that your account is not active', "Please contact us at info@appsonmobile.com if you would like to activate your account", function() {
+                                FacebookInAppBrowser.logout(function() {
+                                    window.localStorage.setItem('facebookAccessToken', null);
+                                    location.reload();
+                                });
+                            }, null);
+                        } else {
+                            Ext.Msg.alert('Cannot find your account', "Please contact us at info@appsonmobile.com", function() {
+                                FacebookInAppBrowser.logout(function() {
+                                    window.localStorage.setItem('facebookAccessToken', null);
+                                    location.reload();
+                                });
+                            }, null);
+                        }
+                    }
+                } else {
                     console.log('no user info');
                 }
             }
         });
     }
-}, 0, 0, [
-    "component",
-    "container"
-], {
-    "component": true,
-    "container": true
-}, 0, 0, [
-    Contact.view,
-    'Login'
-], 0));
-
-/*
- * File: app/view/UploadDealForm.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.UploadDealForm', Ext.form.Panel, {
-    config: {
-        cls: 'customfield',
-        height: '100%',
-        minHeight: '',
-        style: 'background:white',
-        enctype: 'multipart/form-data',
-        url: 'http://services.appsonmobile.com/uploadS3',
-        items: [
-            {
-                xtype: 'textfield',
-                cls: 'customfield',
-                margin: '5 5 5 5 ',
-                padding: '',
-                style: 'border:1px solid #C0C0C0!important',
-                styleHtmlContent: true,
-                width: '',
-                clearIcon: false,
-                label: 'Name',
-                labelWidth: '35%',
-                name: 'DealName'
-            },
-            {
-                xtype: 'selectfield',
-                cls: 'customfield',
-                itemId: 'dealStatus',
-                margin: '5 5 5 5 ',
-                maxHeight: '',
-                style: '',
-                styleHtmlContent: true,
-                label: 'Status',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'DealStatus',
-                value: 'Active',
-                placeHolder: 'Active',
-                autoSelect: false,
-                options: [
-                    {
-                        text: 'Active',
-                        value: 'Active'
-                    },
-                    {
-                        text: 'Expired',
-                        value: 'Expired'
-                    }
-                ]
-            },
-            {
-                xtype: 'datepickerfield',
-                cls: [
-                    'customfield',
-                    'x-field-select'
-                ],
-                id: 'DealStartDate',
-                itemId: 'DealStartDate',
-                margin: '5 5 5 5 ',
-                styleHtmlContent: true,
-                width: '97%',
-                label: 'Start Date',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'DealStartDate',
-                value: {
-                    day: new Date().getDate(),
-                    month: (new Date().getMonth() + 1),
-                    year: new Date().getFullYear()
-                },
-                placeHolder: 'mm/dd/yyyy',
-                autoSelect: false,
-                usePicker: true,
-                dateFormat: 'm/d/Y',
-                picker: {
-                    itemId: 'mydatepicker3',
-                    styleHtmlContent: true,
-                    stretchX: false,
-                    yearFrom: 2016
-                }
-            },
-            {
-                xtype: 'datepickerfield',
-                cls: [
-                    'customfield',
-                    'x-field-select'
-                ],
-                itemId: 'DealEndDate',
-                margin: '5 5 5 5 ',
-                styleHtmlContent: true,
-                width: '97%',
-                label: 'End Date',
-                labelWidth: '35%',
-                name: 'DealEndDate',
-                value: {
-                    day: new Date().getDate(),
-                    month: (new Date().getMonth() + 1),
-                    year: new Date().getFullYear()
-                },
-                placeHolder: 'mm/dd/yyyy',
-                usePicker: true,
-                picker: {
-                    styleHtmlContent: true,
-                    yearFrom: 2016
-                }
-            },
-            {
-                xtype: 'filefield',
-                cls: 'customfield',
-                id: 'myfilefield',
-                itemId: 'myfilefield',
-                margin: '5 5 5 5 ',
-                style: 'color:white',
-                styleHtmlContent: true,
-                clearIcon: false,
-                label: 'Image',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'fileUpload',
-                capture: 'camera'
-            },
-            {
-                xtype: 'spacer',
-                maxHeight: ''
-            },
-            {
-                xtype: 'textfield',
-                hidden: true,
-                name: 'customerId'
-            },
-            {
-                xtype: 'textfield',
-                hidden: true,
-                name: 'businessName'
-            },
-            {
-                xtype: 'container',
-                height: 140,
-                margin: '10 10 10 10 10',
-                layout: 'fit',
-                scrollable: false,
-                items: [
-                    {
-                        xtype: 'spacer',
-                        maxWidth: '',
-                        minWidth: ''
-                    },
-                    {
-                        xtype: 'button',
-                        handler: function(button, e) {
-                            Ext.Viewport.getActiveItem().destroy();
-                        },
-                        height: '20%',
-                        style: 'font-size:5vw!important',
-                        styleHtmlContent: true,
-                        ui: 'decline',
-                        width: '40%',
-                        text: 'Cancel'
-                    },
-                    {
-                        xtype: 'button',
-                        handler: function(button, e) {
-                            var uForm = this.up('UploadDealForm');
-                            var file = uForm.getAt(4).getValue();
-                            //var dealStartDate = uForm.getAt(2).getValue().toDateString();
-                            //var dealEndDate = uForm.getAt(3).getValue();
-                            Ext.Date.format(uForm.getAt(2).getValue(), 'n/j/Y');
-                            Ext.Date.format(uForm.getAt(3).getValue(), 'n/j/Y');
-                            /*var startDate = uForm.getAt(2).getValue();
-
-							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
-							console.log(date);
-
-							uForm.getAt(2).setValue(date);
-
-
-							var startDate = uForm.getAt(3).getValue();
-
-							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
-							console.log(date);
-
-
-							uForm.getAt(3).setValue(date);
-
-
-							console.log(date);*/
-                            /*var startDate = dealStartDate.getDate();
-							var startMonth = dealStartDate.getMonth()+1;
-							var startYear = dealStartDate.getFullYear();
-
-							var dealStart = startDate + "/" + startMonth + "/" + startYear ;
-
-							console.log(dealStart);
-
-							uForm.getAt(2).setValue(dealStart);
-
-							var endDate = dealEndDate.getDate();
-							var endMonth = dealEndDate.getMonth()+1;
-							var endYear = dealEndDate.getFullYear();
-
-							var dealEnd = endDate + "/" + endMonth + "/" + endYear ;
-
-							uForm.getAt(3).setValue(dealEnd);
-							console.log(dealEnd);*/
-                            if (file) {
-                                uForm.submit({
-                                    url: 'http://services.appsonmobile.com/uploadS3',
-                                    xhr2: true,
-                                    waitMsg: 'Please Wait...',
-                                    timeout: 5000,
-                                    scope: this,
-                                    success: function(form, action) {
-                                        Ext.getStore('MyDealsStore').load();
-                                        Ext.Msg.alert('Success', action.msg);
-                                        //console.log("Action Msg is : " +action.success);
-                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
-                                        uForm.destroy();
-                                    },
-                                    failure: function(form, action) {
-                                        Ext.getStore('MyDealsStore').load();
-                                        Ext.Msg.alert('Failure', action.msg);
-                                        console.log("Action Msg is : " + action.msg);
-                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
-                                        uForm.destroy();
-                                    }
-                                });
-                            } else {
-                                Ext.Msg.alert('Failure', 'No Image to Upload');
-                                uForm.destroy();
-                            }
-                        },
-                        docked: 'right',
-                        height: '20%',
-                        itemId: 'submit',
-                        style: 'font:size:4vw',
-                        styleHtmlContent: true,
-                        ui: 'confirm',
-                        width: '30%',
-                        text: 'Submit'
-                    }
-                ]
-            }
-        ]
-    }
 }, 0, [
-    "UploadDealForm"
+    "Login"
 ], [
     "component",
     "container",
-    "panel",
-    "formpanel",
-    "UploadDealForm"
+    "Login"
 ], {
     "component": true,
     "container": true,
-    "panel": true,
-    "formpanel": true,
-    "UploadDealForm": true
+    "Login": true
 }, [
-    "widget.UploadDealForm"
+    "widget.Login"
 ], 0, [
-    Contact.view,
-    'UploadDealForm'
+    LocalBuzzMerchantDemo.view,
+    'Login'
 ], 0));
 
 /*
@@ -68175,7 +68138,7 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.ChangeContactPicForm', Ext.form.Panel, {
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.ChangeContactPicForm', Ext.form.Panel, {
     config: {
         centered: true,
         height: '40%',
@@ -68195,16 +68158,16 @@ Ext.define('Ext.picker.Picker', {
         items: [
             {
                 xtype: 'filefield',
-                baseCls: 'customfield1',
+                cls: 'customfield1',
                 itemId: 'myfilefield1',
                 margin: '5 5 5 5',
-                style: 'border:none',
                 styleHtmlContent: true,
                 width: 214,
                 clearIcon: false,
                 label: '',
                 labelWrap: true,
                 name: 'fileUpload',
+                accept: 'image',
                 capture: 'camera'
             },
             {
@@ -68214,28 +68177,41 @@ Ext.define('Ext.picker.Picker', {
                     var record = form.getRecord();
                     var customerId = form.getRecord().get('customerId');
                     var store = Ext.getStore('MyJsonPStore');
-                    form.submit({
-                        url: 'http://services.appsonmobile.com/stores/' + customerId,
-                        xhr2: true,
-                        cache: false,
-                        success: function(form, action) {
-                            var view = Ext.Viewport.getActiveItem();
-                            record.beginEdit(true, record.getChanges());
-                            form.updateRecord(record);
-                            record.endEdit(true, record.getChanges());
-                            record.commit();
-                            store.sync();
-                            store.load();
-                            Ext.Msg.alert('Success', action.msg);
-                            view.setRecord(record);
-                            form.destroy();
-                        },
-                        failure: function(form, action) {
-                            store.load();
-                            Ext.Msg.alert('Failure', action.msg);
-                            form.destroy();
-                        }
-                    });
+                    var file = form.getAt(0).getValue();
+                    if (file) {
+                        form.submit({
+                            url: 'http://services.appsonmobile.com/demoStores/' + customerId,
+                            xhr2: true,
+                            cache: false,
+                            waitMsg: 'Please Wait...',
+                            success: function(form, action) {
+                                //var view = Ext.Viewport.getActiveItem();
+                                /*record.setDirty();
+
+								record.beginEdit(true,record.getChanges());
+
+								form.updateRecord(record);
+
+								record.endEdit(true,record.getChanges());
+
+
+								record.commit();*/
+                                store.sync();
+                                store.load();
+                                Ext.Msg.alert('Record updated', "Please login again to see the changes", null, null);
+                                Ext.Viewport.getComponent('formpanel').setRecord(record);
+                                form.destroy();
+                            },
+                            //view.setRecord(record);
+                            failure: function(form, action) {
+                                store.load();
+                                Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
+                                form.destroy();
+                            }
+                        });
+                    } else {
+                        Ext.Msg.alert('Error!', 'No image to upload ', null, null);
+                    }
                 },
                 bottom: 30,
                 centered: false,
@@ -68279,6 +68255,11 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'textfield',
                 hidden: true,
                 name: 'emailAddress'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                name: 'loginEmail'
             },
             {
                 xtype: 'textfield',
@@ -68340,8 +68321,1656 @@ Ext.define('Ext.picker.Picker', {
 }, [
     "widget.ChangeContactPicForm"
 ], 0, [
-    Contact.view,
+    LocalBuzzMerchantDemo.view,
     'ChangeContactPicForm'
+], 0));
+
+/*
+ * File: app/view/panel.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.panel', Ext.tab.Panel, {
+    config: {
+        id: 'panel',
+        itemId: 'panel',
+        layout: {
+            type: 'card',
+            animation: false
+        },
+        items: [
+            {
+                xtype: 'container',
+                title: 'Home',
+                iconCls: 'icon-home',
+                height: '',
+                id: 'home',
+                itemId: 'home',
+                items: [
+                    {
+                        xtype: 'contactinfo',
+                        height: '100%'
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                title: 'Manage Buzz',
+                iconCls: 'icon-localbuzzicon_latest',
+                items: [
+                    {
+                        xtype: 'DealsPanel',
+                        height: '100%'
+                    }
+                ]
+            },
+            {
+                xtype: 'tabpanel',
+                title: 'BuzzOMeter',
+                iconCls: 'icon-buzzometer',
+                id: 'buzzometer',
+                itemId: 'buzzometer',
+                style: 'font-size:5vw',
+                styleHtmlContent: true,
+                items: [
+                    {
+                        xtype: 'container',
+                        title: 'Buzz Popularity',
+                        height: '100%',
+                        html: '<div id="chart1"></div>',
+                        itemId: 'mypanel',
+                        styleHtmlContent: true,
+                        scrollable: true,
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    var storeUserDetails = Ext.getStore('UserDetails');
+                                    storeUserDetails.load();
+                                    var customerId;
+                                    var businessName;
+                                    storeUserDetails.each(function(record) {
+                                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                                        customerId = record.get('customerId');
+                                        businessName = record.get('businessName');
+                                    });
+                                    // Set a callback to run when the Google Visualization API is loaded.
+                                    google.charts.setOnLoadCallback(drawChart);
+                                    function drawChart() {
+                                        //Bar Chart
+                                        var dataBarChart = new google.visualization.DataTable();
+                                        var dealName = [];
+                                        var numberOfClicks = [];
+                                        dataBarChart.addColumn('string', 'dealName');
+                                        dataBarChart.addColumn('number', 'Number Of Clicks');
+                                        $.getJSON('http://services.appsonmobile.com/analytics_buzz_popularity/v3/' + customerId, function(json) {
+                                            for (var i = 0,
+                                                j = i; i < json.totalResults; i++ , j++) {
+                                                dealData = json.rows[i].toString();
+                                                tmp = dealData.split(",");
+                                                dealName[j] = tmp[0];
+                                                numberOfClicks[j] = parseInt(tmp[1], 10);
+                                            }
+                                            for (j = 0; j < dealName.length; j++) {
+                                                dataBarChart.addRow([
+                                                    dealName[j],
+                                                    numberOfClicks[j]
+                                                ]);
+                                            }
+                                            // Set chart options
+                                            var optionsBarChart = {
+                                                    vAxis: {
+                                                        title: 'Number of Views',
+                                                        titleTextStyle: {
+                                                            color: '#00529D',
+                                                            fontSize: 16
+                                                        },
+                                                        minValue: 0,
+                                                        gridlines: {
+                                                            count: -1
+                                                        }
+                                                    },
+                                                    hAxis: {
+                                                        title: 'Buzz Name',
+                                                        titleTextStyle: {
+                                                            color: '#00529D',
+                                                            fontSize: 16
+                                                        }
+                                                    },
+                                                    legend: 'none',
+                                                    height: '400',
+                                                    orientation: 'horizontal',
+                                                    bar: {
+                                                        groupWidth: 20
+                                                    }
+                                                };
+                                            // Instantiate and draw our chart, passing in some options.
+                                            var chartBar = new google.visualization.BarChart(document.getElementById('chart1'));
+                                            chartBar.draw(dataBarChart, optionsBarChart);
+                                        });
+                                    }
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'container',
+                        title: 'User Location',
+                        height: '100%',
+                        html: '<div id="chart2"></div>',
+                        itemId: 'mypanel1',
+                        styleHtmlContent: true,
+                        scrollable: true,
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    var storeUserDetails = Ext.getStore('UserDetails');
+                                    storeUserDetails.load();
+                                    var customerId;
+                                    var businessName;
+                                    storeUserDetails.each(function(record) {
+                                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                                        customerId = record.get('customerId');
+                                        businessName = record.get('businessName');
+                                    });
+                                    var dealName = [];
+                                    // Set a callback to run when the Google Visualization API is loaded.
+                                    google.charts.setOnLoadCallback(drawChart);
+                                    function drawChart() {
+                                        // Create the data table.
+                                        var data = new google.visualization.DataTable();
+                                        var zipcode = [];
+                                        var numberOfHits = [];
+                                        //data.addColumn('string', 'dealName');
+                                        data.addColumn('string', 'zipcode');
+                                        data.addColumn('number', 'Number Of Hits');
+                                        $.getJSON('http://services.appsonmobile.com/analytics_user_location/v3/' + customerId, function(json) {
+                                            for (var i = 0,
+                                                j = i; i < json.totalResults; i++ , j++) {
+                                                dealData = json.rows[i].toString();
+                                                tmp = dealData.split(",");
+                                                zipcode[j] = tmp[0];
+                                                numberOfHits[j] = parseInt(tmp[1], 10);
+                                            }
+                                            for (j = 0; j < zipcode.length; j++) {
+                                                if (zipcode[j] === '(not set)') {
+                                                    zipcode[j] = "Unknown";
+                                                }
+                                                data.addRow([
+                                                    zipcode[j],
+                                                    numberOfHits[j]
+                                                ]);
+                                            }
+                                            // Set chart options
+                                            var options = {
+                                                    'pieHole': 0.4,
+                                                    'pieSliceTextStyle': {
+                                                        color: 'black'
+                                                    },
+                                                    height: '550',
+                                                    width: '375',
+                                                    legend: 'top'
+                                                };
+                                            // Instantiate and draw our chart, passing in some options.
+                                            var chart = new google.visualization.PieChart(document.getElementById('chart2'));
+                                            chart.draw(data, options);
+                                        });
+                                    }
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        tabBar: {
+            docked: 'bottom',
+            height: '8%',
+            itemId: 'mytabbar1',
+            padding: '35 40 0 40',
+            style: 'color:#c0c0c0;background:#FFF;font-size:4vw',
+            ui: 'plain',
+            layout: {
+                type: 'hbox',
+                align: 'end',
+                pack: 'justify'
+            }
+        }
+    }
+}, 0, [
+    "panel"
+], [
+    "component",
+    "container",
+    "tabpanel",
+    "panel"
+], {
+    "component": true,
+    "container": true,
+    "tabpanel": true,
+    "panel": true
+}, [
+    "widget.panel"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'panel'
+], 0));
+
+/*
+ * File: app/view/UpdateDealForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.UpdateDealForm', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel1',
+        itemId: 'formpanel',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: false,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName1',
+                itemId: 'businessName',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId1',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                disabled: false,
+                id: 'DealName',
+                itemId: 'DealName',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important:color: #d3d3d3!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Name',
+                labelWidth: '35%',
+                name: 'DealName',
+                readOnly: true
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                id: 'DealStatus',
+                itemId: 'DealStatus',
+                margin: '5 5 5 5 ',
+                maxHeight: '',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealStartDate1',
+                itemId: 'DealStartDate',
+                margin: '5 5 5 5 ',
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                options: {
+                    minDate: new Date()
+                },
+                usePicker: true,
+                dateFormat: 'm/d/Y',
+                picker: {
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealEndDate1',
+                itemId: 'DealEndDate',
+                margin: '5 5 5 5 ',
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                usePicker: true,
+                picker: {
+                    styleHtmlContent: true,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription',
+                itemId: 'DealDescription',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                disabled: false,
+                hidden: true,
+                id: 'DealImageURL',
+                itemId: 'DealImageURL',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                labelWidth: '35%',
+                name: 'DealImageURL',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'itemName',
+                itemId: 'itemName',
+                name: 'itemName'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 10',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '10 10 10 10 10',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                        },
+                        height: '7vh',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('UpdateDealForm');
+                            var itemName = form.getAt(8).getValue();
+                            var startDate = form.getAt(4).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            var dealName = form.getAt(0).getValue();
+                            var date = new Date();
+                            console.log(startDate);
+                            if (dealName) {
+                                if (endDate >= date) {
+                                    if (endDate >= startDate) {
+                                        if (document.getElementById('chkbx').checked) {
+                                            form.submit({
+                                                url: 'http://services.appsonmobile.com/demoDeals/editDeal/' + itemName,
+                                                success: function(form, action) {
+                                                    Ext.Msg.alert('Success', action.msg);
+                                                    form.destroy();
+                                                },
+                                                failure: function(form, action) {
+                                                    store.load();
+                                                    Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
+                                                    form.destroy();
+                                                }
+                                            });
+                                        } else {
+                                            Ext.Msg.alert(null, 'You must agree to Terms & Conditions', null, null);
+                                        }
+                                    } else {
+                                        Ext.Msg.alert('Error!', 'Buzz start date cannot be after end date', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        style: 'font:size:4vw',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ]
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    },
+    setRecord: function(record) {
+        (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
+        if (record) {
+            this.down('#DealName').setValue(record.data.dealName);
+            this.down('#DealStatus').setValue(record.data.dealStatus);
+            this.down('#DealDescription').setValue(record.data.dealDescription);
+            this.down('#DealImageURL').setValue(record.data.dealImageURL);
+            //this.child('contactpic').setData(record.data);
+            //this.down('#DealStartDate').setValue(record.data.dealStartDate);
+            //this.down('#DealEndDate').setValue(record.data.dealEndDate);
+            var startDate = Ext.Date.parse(record.data.dealStartDate, 'n/j/Y');
+            var endDate = Ext.Date.parse(record.data.dealEndDate, 'n/j/Y');
+            this.down('#DealStartDate').setValue(startDate);
+            this.down('#DealEndDate').setValue(endDate);
+        }
+    }
+}, 0, [
+    "UpdateDealForm"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "UpdateDealForm"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "UpdateDealForm": true
+}, [
+    "widget.UpdateDealForm"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'UpdateDealForm'
+], 0));
+
+/*
+ * File: app/view/CreateNewBuzzWithImage.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.CreateNewBuzzWithImage', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel3',
+        itemId: 'formpanel',
+        padding: '0 0 35 0',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: true,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '10vh',
+                hidden: false,
+                id: 'businessName4',
+                itemId: 'businessName',
+                margin: '5 5 5 5 ',
+                padding: '0 5 5 5',
+                styleHtmlContent: true,
+                label: 'Name',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealName'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName5',
+                itemId: 'businessName1',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId3',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                height: '10vh',
+                id: 'DealStatus2',
+                itemId: 'DealStatus',
+                margin: '0 5 5 5 ',
+                maxHeight: '',
+                padding: '0 0 5 10',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                height: '0vh',
+                id: 'DealStartDate3',
+                itemId: 'DealStartDate',
+                margin: '0 5 5 5 ',
+                padding: '0 5 5 5',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                usePicker: true,
+                component: {
+                    useMask: true,
+                    minValue: new Date()
+                },
+                dateFormat: 'm/d/Y',
+                picker: {
+                    id: 'startDatepicker',
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    useTitles: true,
+                    value: {
+                        year: 2016,
+                        month: 7,
+                        day: 16
+                    },
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                height: '10vh',
+                id: 'DealEndDate3',
+                itemId: 'DealEndDate',
+                margin: '0 5 5 5 ',
+                padding: '0 5 5 5',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                options: {
+                    minValue: new Date()
+                },
+                usePicker: true,
+                component: {
+                    useMask: true
+                },
+                picker: {
+                    itemId: 'mydatepicker3',
+                    useTitles: true,
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealPictureURL2',
+                itemId: 'DealPictureURL',
+                name: 'DealPictureURL'
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription2',
+                itemId: 'DealDescription',
+                margin: '0 5 5 5 ',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'filefield',
+                cls: 'customfield',
+                height: '10vh',
+                itemId: 'myfilefield2',
+                margin: '0 5 5 5 ',
+                padding: '5 5 5 5',
+                styleHtmlContent: true,
+                width: '97%',
+                clearIcon: false,
+                label: ' Image',
+                labelWidth: '29%',
+                labelWrap: true,
+                name: 'fileUpload',
+                accept: 'image',
+                capture: 'camera'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                margin: '0 5 5 5 ',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 0',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '0 10 50 10',
+                padding: '5 5 5 5',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                            var store = Ext.getStore('MyDealsStore');
+                            store.load();
+                            if (store.getCount() >= 5) {
+                                Ext.getCmp('UploadDeal').disable();
+                            } else {
+                                Ext.getCmp('UploadDeal').enable();
+                            }
+                        },
+                        height: '7vh',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('CreateNewBuzzWithImage');
+                            var date = new Date();
+                            //var dealName = form.getAt(0).getValue();
+                            var startDate = form.getAt(4).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            var file = form.getAt(8).getValue();
+                            var dealName = form.getAt(0).getValue();
+                            console.log('Picture URL is : ' + form.getAt(6).getValue());
+                            if (dealName) {
+                                if (file) {
+                                    if (endDate >= date) {
+                                        if (endDate >= startDate) {
+                                            if (document.getElementById('chkbx').checked) {
+                                                form.submit({
+                                                    url: 'http://services.appsonmobile.com/democreateNewBuzzWithImage',
+                                                    xhr2: true,
+                                                    cache: false,
+                                                    waitMsg: 'Please Wait...',
+                                                    success: function(form, action) {
+                                                        Ext.Msg.alert('Success', action.msg);
+                                                        var store = Ext.getStore('MyDealsStore');
+                                                        store.load();
+                                                        var count = store.getCount() + 1;
+                                                        console.log('Count is:' + count);
+                                                        if (count > 4) {
+                                                            Ext.getCmp('UploadDeal').disable();
+                                                        } else {
+                                                            Ext.getCmp('UploadDeal').enable();
+                                                        }
+                                                        form.destroy();
+                                                    },
+                                                    failure: function(form, action) {
+                                                        Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
+                                                        var store = Ext.getStore('MyDealsStore');
+                                                        store.load();
+                                                        if (store.getCount() >= 5) {
+                                                            Ext.getCmp('UploadDeal').disable();
+                                                        } else {
+                                                            Ext.getCmp('UploadDeal').enable();
+                                                        }
+                                                        form.destroy();
+                                                    }
+                                                });
+                                            } else {
+                                                Ext.Msg.alert(null, 'You must agree to Terms & Conditions', null, null);
+                                            }
+                                        } else {
+                                            Ext.Msg.alert('Error!', 'Buzz start date cannot be after end date', null, null);
+                                        }
+                                    } else {
+                                        Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'No image to upload ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName18',
+                itemId: 'businessName3',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'city'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName20',
+                itemId: 'businessName4',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'state'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onMydatepicker3Pick',
+                event: 'pick',
+                delegate: '#mydatepicker3'
+            }
+        ]
+    },
+    onMydatepicker3Pick: function(picker, value, slot, eOpts) {
+        var today = new Date();
+        if (value < today) {
+            picker.setValue(today);
+        }
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    }
+}, 0, [
+    "CreateNewBuzzWithImage"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "CreateNewBuzzWithImage"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "CreateNewBuzzWithImage": true
+}, [
+    "widget.CreateNewBuzzWithImage"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'CreateNewBuzzWithImage'
+], 0));
+
+/*
+ * File: app/view/DealImage.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.DealImage', Ext.Panel, {
+    config: {
+        height: '80%',
+        id: 'DealImage',
+        itemId: 'DealImage',
+        style: 'background:#FFF;border:1px solid #00529D',
+        width: '95%',
+        scrollable: true,
+        tpl: [
+            '<div id="wrapper" style="margin:0px 0px 0px 0px;height:100%;width:100%">',
+            '\t',
+            '\t<tpl if="dealImageURL">',
+            '\t<div id="scroller"><img src="{dealImageURL}" style="margin:0px 0px 0px 0px;height:100%;width:100%"/></div>',
+            '                            ',
+            '\t\t</tpl>',
+            '\t\t',
+            '\t</div>'
+        ],
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'toolbar',
+                cls: 'toolbarCls',
+                docked: 'top',
+                height: '8vh',
+                items: [
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getComponent('DealImage').destroy();
+                        },
+                        cls: 'icon-close',
+                        docked: 'right',
+                        id: 'close',
+                        itemId: 'close',
+                        padding: '10 10 10 10',
+                        style: 'color:#00529D;font-size:5vw',
+                        ui: 'plain'
+                    }
+                ]
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onDealImageShow',
+                event: 'show'
+            }
+        ]
+    },
+    onDealImageShow: function(component, eOpts) {
+        var myScroll = new IScroll('#wrapper', {
+                zoom: true,
+                scrollX: true,
+                scrollY: true,
+                mouseWheel: true,
+                wheelAction: 'zoom'
+            });
+    }
+}, 0, [
+    "DealImage"
+], [
+    "component",
+    "container",
+    "panel",
+    "DealImage"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "DealImage": true
+}, [
+    "widget.DealImage"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'DealImage'
+], 0));
+
+/*
+ * File: app/view/CreateNewBuzzNoImage.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.CreateNewBuzzNoImage', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel5',
+        itemId: 'formpanel',
+        padding: '0 0 35 0',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: true,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '10vh',
+                hidden: false,
+                id: 'businessName15',
+                itemId: 'businessName',
+                margin: '5 5 5 5 ',
+                padding: '0 0 5 5',
+                styleHtmlContent: true,
+                label: 'Name',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealName'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName16',
+                itemId: 'businessName1',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId4',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                height: '10vh',
+                id: 'DealStatus4',
+                itemId: 'DealStatus',
+                margin: '0 5 5 5 ',
+                maxHeight: '',
+                padding: '5 0 0 10',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                height: '10vh',
+                id: 'DealStartDate4',
+                itemId: 'DealStartDate',
+                margin: '0 5 5 5 ',
+                padding: '5 0 5 5',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                usePicker: true,
+                component: {
+                    useMask: true,
+                    minValue: new Date()
+                },
+                dateFormat: 'm/d/Y',
+                picker: {
+                    id: 'startDatepicker1',
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    useTitles: true,
+                    value: {
+                        year: 2016,
+                        month: 7,
+                        day: 16
+                    },
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                height: '10vh',
+                id: 'DealEndDate4',
+                itemId: 'DealEndDate',
+                margin: '0 5 5 5 ',
+                padding: '5 0 5 5',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                options: {
+                    minValue: new Date()
+                },
+                usePicker: true,
+                component: {
+                    useMask: true
+                },
+                picker: {
+                    itemId: 'mydatepicker3',
+                    useTitles: true,
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealPictureURL3',
+                itemId: 'DealPictureURL',
+                name: 'DealPictureURL'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealPictureURL4',
+                itemId: 'DealPictureURL1',
+                name: 'DealImageURL'
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription3',
+                itemId: 'DealDescription',
+                margin: '0 5 5 5 ',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName17',
+                itemId: 'businessName2',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'city'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName19',
+                itemId: 'businessName3',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'state'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                margin: '0 5 5 5 ',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 0',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/index.php/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '0 10 50 10',
+                padding: '5 5 5 5',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                            var store = Ext.getStore('MyDealsStore');
+                            store.load();
+                            if (store.getCount() >= 5) {
+                                Ext.getCmp('UploadDeal').disable();
+                            } else {
+                                Ext.getCmp('UploadDeal').enable();
+                            }
+                        },
+                        height: '7vh',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('CreateNewBuzzNoImage');
+                            var date = new Date();
+                            //var dealName = form.getAt(0).getValue();
+                            var startDate = form.getAt(4).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            var dealName = form.getAt(0).getValue();
+                            if (dealName) {
+                                if (endDate >= date) {
+                                    if (endDate >= startDate) {
+                                        if (document.getElementById('chkbx').checked) {
+                                            form.submit({
+                                                url: 'http://services.appsonmobile.com/democreateNewBuzzNoImage',
+                                                cache: false,
+                                                waitMsg: 'Please Wait...',
+                                                success: function(form, action) {
+                                                    Ext.Msg.alert('Success', action.msg);
+                                                    var store = Ext.getStore('MyDealsStore');
+                                                    store.load();
+                                                    var count = store.getCount() + 1;
+                                                    console.log('Count is:' + count);
+                                                    if (count > 4) {
+                                                        console.log('Disabling btn');
+                                                        Ext.getCmp('UploadDeal').disable();
+                                                    } else {
+                                                        Ext.getCmp('UploadDeal').enable();
+                                                    }
+                                                    form.destroy();
+                                                },
+                                                failure: function(form, action) {
+                                                    Ext.Msg.alert('Oops.....!Something went wrong', 'Please check your internet connection or try again later', null, null);
+                                                    var store = Ext.getStore('MyDealsStore');
+                                                    store.load();
+                                                    console.log('Count is:' + count);
+                                                    if (store.getCount() >= 5) {
+                                                        Ext.getCmp('UploadDeal').disable();
+                                                    } else {
+                                                        Ext.getCmp('UploadDeal').enable();
+                                                    }
+                                                    form.destroy();
+                                                }
+                                            });
+                                        } else {
+                                            Ext.Msg.alert(null, 'You must agree to Terms & Conditions', null, null);
+                                        }
+                                    } else {
+                                        Ext.Msg.alert('Error!', 'Buzz start date cannot be after end date', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onMydatepicker3Pick',
+                event: 'pick',
+                delegate: '#mydatepicker3'
+            }
+        ]
+    },
+    onMydatepicker3Pick: function(picker, value, slot, eOpts) {
+        var today = new Date();
+        if (value < today) {
+            picker.setValue(today);
+        }
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    }
+}, 0, [
+    "CreateNewBuzzNoImage"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "CreateNewBuzzNoImage"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "CreateNewBuzzNoImage": true
+}, [
+    "widget.CreateNewBuzzNoImage"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'CreateNewBuzzNoImage'
+], 0));
+
+/*
+ * File: app/view/CreateNewBuzzOption.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('LocalBuzzMerchantDemo.view.CreateNewBuzzOption', Ext.Panel, {
+    config: {
+        id: 'CreateNewBuzzOption',
+        itemId: 'CreateNewBuzzOption',
+        items: [
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.load();
+                    var customerId;
+                    var businessName;
+                    var DealPictureURL;
+                    var city;
+                    var state;
+                    Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({
+                            xtype: 'CreateNewBuzzWithImage'
+                        });
+                    storeUserDetails.each(function(record) {
+                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        customerId = record.get('customerId');
+                        businessName = record.get('businessName');
+                        DealPictureURL = record.get('DealPictureURL');
+                        city = record.get('city');
+                        state = record.get('state');
+                        view.setRecord(record);
+                    });
+                    Ext.Viewport.setActiveItem(view);
+                },
+                height: '9vh',
+                left: '20%',
+                styleHtmlContent: true,
+                top: '30%',
+                ui: 'action',
+                width: '65%',
+                text: 'Create Buzz With Image'
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.load();
+                    var customerId;
+                    var businessName;
+                    var DealPictureURL;
+                    var city;
+                    var state;
+                    Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({
+                            xtype: 'CreateNewBuzzNoImage'
+                        });
+                    storeUserDetails.each(function(record) {
+                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        customerId = record.get('customerId');
+                        businessName = record.get('businessName');
+                        DealPictureURL = record.get('DealPictureURL');
+                        city = record.get('city');
+                        state = record.get('state');
+                        view.setRecord(record);
+                    });
+                    Ext.Viewport.setActiveItem(view);
+                },
+                height: '9vh',
+                left: '20%',
+                styleHtmlContent: true,
+                top: '50%',
+                ui: 'action',
+                width: '65%',
+                text: 'Create Buzz No Image'
+            }
+        ]
+    }
+}, 0, [
+    "CreateNewBuzzOption"
+], [
+    "component",
+    "container",
+    "panel",
+    "CreateNewBuzzOption"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "CreateNewBuzzOption": true
+}, [
+    "widget.CreateNewBuzzOption"
+], 0, [
+    LocalBuzzMerchantDemo.view,
+    'CreateNewBuzzOption'
 ], 0));
 
 /*
@@ -68364,33 +69993,35 @@ Ext.application({
     models: [
         'Contact',
         'Deal',
-        'UserDetails',
-        'AnalyticsData'
+        'UserDetails'
     ],
     stores: [
-        'MyJsonPStore',
         'MyDealsStore',
         'UserDetails',
         'LocalStore',
-        'AnalyticsStore'
+        'MyJsonPStore'
     ],
     views: [
         'contactform',
-        'Picture',
         'DealPicture',
         'ListOfDeals',
         'DealsPanel',
         'Login',
-        'UploadDealForm',
         'ChangeContactPicForm',
         'contactinfo',
-        'BuzzOMeter'
+        'panel',
+        'UpdateDealForm',
+        'CreateNewBuzzWithImage',
+        'DealImage',
+        'WelcomeScreen',
+        'CreateNewBuzzNoImage',
+        'CreateNewBuzzOption'
     ],
     controllers: [
-        'Contacts'
+        'LocalBuzzMerchantDemo'
     ],
     icon: 'icon.png',
-    name: 'Contact',
+    name: 'LocalBuzzMerchantDemo',
     startupImage: 'icon.png',
     launch: function() {
         Ext.util.Format.empty = function(value, defaultValue) {
@@ -68399,126 +70030,144 @@ Ext.application({
         Ext.util.Format.undef = function(value, defaultValue) {
             return Ext.isDefined(value) ? value : defaultValue;
         };
+        var BackButtonPanel;
+        var exitApp = false;
+        BackButtonPanel = Ext.create('Ext.Panel', {
+            // fullscreen: true,
+            html: 'Press again to exit',
+            id: 'BackButtonPanel',
+            itemId: 'BackButtonPanel',
+            baseCls: 'x-box'
+        });
+        BackButtonPanel.setBottom('10%');
+        BackButtonPanel.setLeft('35%');
+        //BackButtonPanel.setHeight('50px');
+        BackButtonPanel.setWidth('100%');
+        BackButtonPanel.setCls('backButtonPanel');
+        //Load google charts
+        google.charts.load('current', {
+            'packages': [
+                'corechart'
+            ]
+        });
         if (Ext.os.is('Android')) {
+            var intval = setInterval(function() {
+                    exitApp = false;
+                }, 3000);
             document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);
             // add back button listener
-            function onBackKeyDown(eve) {
-                eve.preventDefault();
-                Ext.Msg.confirm("Exit", "", function(answer) {
-                    if (answer == 'yes') {
+            function onBackKeyDown(e) {
+                if (Ext.Viewport.getActiveItem().xtype === 'panel') {
+                    BackButtonPanel.show();
+                    setTimeout(function() {
+                        BackButtonPanel.hide();
+                    }, 3000);
+                    if (exitApp) {
+                        console.log('Exiting app');
+                        clearInterval(intval);
                         navigator.app.exitApp();
-                    } else {}
-                });
+                    } else {
+                        console.log('First time Back Button pressed');
+                        exitApp = true;
+                        Ext.Viewport.add(BackButtonPanel);
+                        BackButtonPanel.show();
+                        setTimeout(function() {
+                            BackButtonPanel.hide();
+                        }, 3000);
+                    }
+                } else if (Ext.Viewport.getActiveItem().getItemId() === 'dealPicture') {
+                    Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(Ext.Viewport.getComponent('DealsPanel'));
+                    Ext.getStore('LocalStore').removeAt(0);
+                }
             }
         }
-        //do nothing
-        //FB login
-        // Settings.
-        FacebookInAppBrowser.settings.appId = '900651756709444';
-        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
-        FacebookInAppBrowser.settings.permissions = 'email';
-        // Optional
-        FacebookInAppBrowser.settings.timeoutDuration = 7500;
-        // Login(accessToken will be stored trough localStorage in 'accessToken');
-        FacebookInAppBrowser.login({
-            send: function() {
-                console.log('login opened');
-            },
-            success: function(access_token) {
-                console.log('done, access token: ' + access_token);
-            },
-            denied: function() {
-                console.log('user denied');
-            },
-            timeout: function() {
-                console.log('a timeout has occurred, probably a bad internet connection');
-                Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
-            },
-            complete: function(access_token) {
-                console.log('window closed');
-                if (access_token) {
-                    console.log(access_token);
-                } else {
-                    console.log('no access token');
-                }
-            },
-            userInfo: function(userInfo) {
-                if (userInfo) {
-                    var userInf = JSON.stringify(userInfo);
-                    console.log(userInf);
-                    var info = userInf.split("\",\"");
-                    var tmp = info[0].split("\":\"");
-                    var email = tmp[1];
-                    //console.log(email);
-                    tmp = info[1].split("\":\"");
-                    var loginName = tmp[1];
-                    tmp = info[2].split("\":\"");
-                    var gender = tmp[1];
-                    tmp = info[3].split("\":\"");
-                    var userId = tmp[1];
-                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'sterling@sterling.com', 0, true, false, false);
-                    //console.log(store.getData());
-                    //store.loadRecord();
-                    //var view = Ext.create('Contact.view.Info');
-                    //view.setRecord(record.getRecord());
-                    //console.log(view.getData());
-                    //Ext.Viewport.setActiveItem(view);
-                    if (record) {
-                        var storeUserDetails = Ext.getStore('UserDetails');
-                        storeUserDetails.removeAll();
-                        storeUserDetails.add({
-                            'customerId': record.get('customerId'),
-                            'email': email,
-                            'businessName': record.get('businessName')
-                        });
-                        //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-                        var store = Ext.getStore('MyJsonPStore');
-                        var view = Ext.create("Ext.tab.Panel", {
-                                itemId: 'panel',
-                                fullscreen: true,
-                                tabBarPosition: 'bottom',
-                                cls: 'toolbarCls',
-                                ui: 'plain',
-                                style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
-                                items: [
-                                    {
-                                        xtype: 'contactinfo',
-                                        title: 'Home',
-                                        itemId: 'home',
-                                        iconCls: 'icon-home'
-                                    },
-                                    {
-                                        xtype: 'DealsPanel',
-                                        title: 'Buzz',
-                                        iconCls: 'icon-bubbles'
-                                    },
-                                    {
-                                        xtype: 'buzzometer',
-                                        title: 'BuzzOMeter',
-                                        iconCls: 'info'
-                                    }
-                                ]
-                            });
-                        view.getComponent('home').setRecord(record);
-                        //Ext.Viewport.getActiveItem().destroy();
-                        Ext.Viewport.setActiveItem(view);
-                    } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
-                    //console.log(view.getComponent('home').getItemId());
-                    //view.setData(record.getData());
-                    ////view.setRecord(record);
-                    // Ext.Viewport.setActiveItem(view);
-                    {
-                        Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
-                    }
-                } else //view.setData(record.getData());
-                {
-                    console.log('no user info');
-                }
-            }
+        document.addEventListener("resume", Ext.bind(onResume, this), false);
+        function onResume(e) {}
+        //Ext.Msg.alert('Resume',null,null,null);
+        /* var store = Ext.getStore('MyDealsStore');
+		    store.load();
+		    navigator.geolocation.getCurrentPosition(function showPosition(position) {
+		        Ext.getCmp('mymap').show();
+		        Ext.getCmp('locationOffText').hide();
+		        Ext.getCmp('lookUpZipcode').hide();
+		         var store1 = Ext.getStore('MyJsonPStore');
+		            store1.load();
+		            store1.clearFilter();
+		            store1.filterBy(function(record) {
+		                var address = record.get('address');
+		                var customerId;
+		                $.getJSON("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latitude + "," + longitude + "&destinations=" + address + "&key=AIzaSyDHFtBdpwHNSJ2Pu0HpRK1ce5uHCSGHKXM",
+		                   function(json) {
+		                       if(task){
+
+		                        task.cancel();
+		                        store.clearFilter();
+		                        store.load();
+
+		                        var store1 = Ext.getStore('calculateDistances');
+
+		                        var stores = [];
+
+		                      store1.each(function(record){
+		                      // stores.push(record.get('customerId'));
+		                          Ext.Array.include(stores,record.get('customerId'));
+
+
+		});
+		console.log(stores.length);
+
+		store.filterBy(function(record){
+		    return Ext.Array.indexOf(stores, record.get('customerId')) !== -1;
+
+		}, this);
+
+
+
+
+
+		                       }
+		                    var distance = json.rows[0].elements[0].distance.value;
+		                    if (distance <= 40234) {
+		                        storesNearBy.add({'customerId':record.get('customerId')});
+
+		                        return true;
+
+		                    } else {
+		                        return false;
+
+		                    }
+
+
+
+		                                      });
+		            });
+
+
+
+		var task = Ext.create('Ext.util.DelayedTask', function() {
+		    Ext.Viewport.mask({ xtype: 'loadmask',
+		                       message: "Loading Latest Buzz.." });
+		}, this);
+		},onError);
+
+
+
+		    function onError(error){
+
+		        Ext.getCmp('mymap').hide();
+		        Ext.getCmp('locationOffText').show();
+		        Ext.getCmp('lookUpZipcode').show();
+
+
+
+		    }*/
+        Ext.create('LocalBuzzMerchantDemo.view.WelcomeScreen', {
+            fullscreen: true
         });
     }
 });
 
 // @tag full-page
-// @require H:\Apps\Sencha Architect Apps\LocalBuzzBusinessApp\app.js
+// @require H:\Apps\Sencha Architect Apps\LocalBuzzMerchantDemo\app.js
 

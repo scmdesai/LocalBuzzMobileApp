@@ -13,15 +13,14 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.Login', {
+Ext.define('LocalBuzzMerchantDemo.view.Login', {
 	extend: 'Ext.Container',
-
-	requires: [
-		'Ext.Button'
-	],
+	alias: 'widget.Login',
 
 	config: {
-		html: '<h3><b>Welcome to Local Buzz!</b></h3> <p>With this app you can stay in touch with your customers.In order to use Local Buzz, you must sign in with your Facebook account.</p>',
+		hidden: false,
+		id: 'Login',
+		itemId: 'Login',
 		maxHeight: '',
 		style: '',
 		styleHtmlContent: true,
@@ -29,41 +28,28 @@ Ext.define('Contact.view.Login', {
 			type: 'card',
 			animation: 'pop'
 		},
-		items: [
-			{
-				xtype: 'button',
-				centered: true,
-				html: '<img src="resources/images/login.png"/>',
-				id: 'Login',
-				itemId: 'Login',
-				maxHeight: '',
-				minHeight: '',
-				style: 'border:none;',
-				styleHtmlCls: '',
-				ui: 'plain',
-				iconAlign: 'top'
-			}
-		],
 		listeners: [
 			{
-				fn: 'onLoginTap',
-				event: 'tap',
-				delegate: '#Login'
+				fn: 'onContainerPainted',
+				event: 'painted'
 			}
 		]
 	},
 
-	onLoginTap: function(button, e, eOpts) {
+	onContainerPainted: function(element, eOpts) {
+
 
 
 
 		// Settings.
 		FacebookInAppBrowser.settings.appId = '900651756709444';
-		FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+		FacebookInAppBrowser.settings.redirectUrl = 'http://www.appsonmobile.com';
 		FacebookInAppBrowser.settings.permissions = 'email';
 
 		// Optional
 		FacebookInAppBrowser.settings.timeoutDuration = 7500;
+
+
 
 		// Login(accessToken will be stored trough localStorage in 'accessToken');
 		FacebookInAppBrowser.login({
@@ -72,6 +58,8 @@ Ext.define('Contact.view.Login', {
 			},
 			success: function(access_token) {
 				console.log('done, access token: ' + access_token);
+				Ext.Viewport.getComponent('WelcomeScreen').destroy();
+
 
 			},
 			denied: function() {
@@ -89,15 +77,16 @@ Ext.define('Contact.view.Login', {
 				}
 			},
 			userInfo: function(userInfo) {
+
 				if(userInfo) {
-					var userInf = JSON.stringify(userInfo);
+				var userInf = JSON.stringify(userInfo);
 					console.log(userInf);
 
 					var info = userInf.split("\",\"");
 
 					var tmp = info[0].split("\":\"");
 					var email = tmp[1];
-					//console.log(email);
+
 					tmp = info[1].split("\":\"");
 					var loginName = tmp[1];
 
@@ -107,77 +96,109 @@ Ext.define('Contact.view.Login', {
 					tmp = info[3].split("\":\"");
 					var userId = tmp[1];
 
-					var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress','studionafisa@yahoo.com',0,true,false,false);
-					//console.log(store.getData());
-					//store.loadRecord();
-					//var view = Ext.create('Contact.view.Info');
-					//view.setRecord(record.getRecord());
-					//console.log(view.getData());
-					//Ext.Viewport.setActiveItem(view);
+					var record = Ext.getStore('MyJsonPStore').findRecord('loginEmail',email,0,true,false,false);
+
+					if(!record){
+						Ext.Msg.alert('Business could not be verified',"Please contact us at info@appsonmobile.com",
+						function(){
+							FacebookInAppBrowser.logout(function(){
+								window.localStorage.setItem('facebookAccessToken',null) ;
+								location.reload();
+							});
+						},null);
+
+					}
+					else {
+						var endDate = new Date(record.get('endDate'));
+						var today = new Date();
+						var storeUserDetails = Ext.getStore('UserDetails');
+						storeUserDetails.removeAll();
+						if(record.get('signupStatus') ==="Approved") {
+							if((record.get('planType')==="Free" && endDate >= today)||record.get('planType')==="Paid"){
+								storeUserDetails.add({'customerId' : record.get('customerId'),
+													  'email': email,
+													  'businessName': record.get('businessName'),
+													  'DealPictureURL': record.get('pictureURL'),
+													  'city': record.get('city'),
+													  'state': record.get('state')
+												  });
+								var view = Ext.Viewport.add({xtype:'panel'});
+								Ext.Viewport.getActiveItem().destroy();
+								Ext.Viewport.setActiveItem(view);
+
+						}
+						else
+						{
+							Ext.Msg.alert('Business could not be verified',
+										  "Please contact us at info@appsonmobile.com",
+										  function(){
+											FacebookInAppBrowser.logout(function(){
+											window.localStorage.setItem('facebookAccessToken',null) ;
+											location.reload();
+										});
+							},null);
+
+						}
+
+					}
+					else if(record.get('signupStatus') ==='Pending'){
+						Ext.Msg.alert('Business could not be verified',
+									  "Please contact us at info@appsonmobile.com",
+									  function(){
+									   FacebookInAppBrowser.logout(function(){
+									   window.localStorage.setItem('facebookAccessToken',null) ;
+									   location.reload();
+										});
+						},null);
+
+					}
+					else if(record.get('signupStatus') ==='Denied'){
+						Ext.Msg.alert('Business could not be verified',
+									   "Please contact us at info@appsonmobile.com",
+									   function(){
+									   FacebookInAppBrowser.logout(function(){
+										 window.localStorage.setItem('facebookAccessToken',null) ;
+										 location.reload();
 
 
-					var storeUserDetails = Ext.getStore('UserDetails');
-					storeUserDetails.removeAll();
+										});
+						},null);
 
-					storeUserDetails.add({'customerId' : record.get('customerId'),
-										  'email': email,
-										  'businessName': record.get('businessName')});
+					}
+					else if(record.get('signupStatus') ==='Cancelled'){
+						Ext.Msg.alert('Our records show that your account is not active',
+									   "Please contact us at info@appsonmobile.com if you would like to activate your account",
+									   function(){
+										 FacebookInAppBrowser.logout(function(){
+										 window.localStorage.setItem('facebookAccessToken',null) ;
+										 location.reload();
+										});
+									},null);
+					}
+					else {
+						Ext.Msg.alert('Cannot find your account',"Please contact us at info@appsonmobile.com",
+									  function(){
+									   FacebookInAppBrowser.logout(function(){
+										window.localStorage.setItem('facebookAccessToken',null) ;
+										location.reload();
+										});
+									},null);
 
-
-
-					//console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-
-		            var store = Ext.getStore('MyJsonPStore');
-					var view = Ext.create("Ext.tab.Panel", {
-						itemId: 'panel' ,
-		            fullscreen: true,
-		            tabBarPosition: 'bottom',
-
-
-
-
-
-		            items: [
-		                {
-		                    xtype: 'contactinfo',
-							title:'Home',
-							itemId:'home',
-							iconCls:'home'
-
-		                },
-		                {
-		                    xtype: 'DealsPanel',
-							title:'Buzz',
-							iconCls:'info'
-		                }
-		            ]
-		        });
+					}
 
 
-
-		        view.getComponent('home').setRecord(record);
-					Ext.Viewport.getActiveItem().destroy();
-		        Ext.Viewport.setActiveItem(view);
-
-					//Ext.Viewport.setActiveItem({xtype:'Panel'});
-					//console.log(view.getComponent('home').getItemId());
-					//view.setData(record.getData());
-					////view.setRecord(record);
-					// Ext.Viewport.setActiveItem(view);
-
-
-
-
-
-
-
-		//view.setData(record.getData());
-
-				} else {
-					console.log('no user info');
 				}
-			}
-		});
+
+
+
+
+
+						} else {
+							console.log('no user info');
+						}
+					}
+				});
+
 	}
 
 });

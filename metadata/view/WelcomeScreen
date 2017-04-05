@@ -1,0 +1,120 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|initialView": true,
+        "designer|userAlias": "WelcomeScreen",
+        "designer|userClassName": "WelcomeScreen",
+        "hidden": false,
+        "hideAnimation": "flip",
+        "id": "WelcomeScreen",
+        "itemId": "WelcomeScreen"
+    },
+    "name": "MyPanel",
+    "designerId": "348ac7a5-e8f8-4e26-8e1c-e0a99947ebc6",
+    "cn": [
+        {
+            "type": "Ext.Component",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": null,
+                "hidden": false,
+                "html": "<center><img src =\"resources/img/localbuzzicon.png\"/><br><div style=\"text-align:center;\"><h3 style=\"color:#00529D\"><b>Welcome to <br><br>Local Buzz For Merchants</h3></div></center>",
+                "id": "text1",
+                "left": "12%",
+                "style": "word-wrap:break-word;font-family:Arial;font-size:6vw",
+                "top": "15%"
+            },
+            "name": "MyComponent5",
+            "designerId": "1fe4c720-9899-4f18-9f9e-87298ad0ec36"
+        },
+        {
+            "type": "Ext.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|uiInterfaceName": "action",
+                "height": "9vh",
+                "hidden": false,
+                "left": "20%",
+                "margin": "50 0 0 0",
+                "style": "font-size:5vw;font-family:Arial",
+                "text": "Login",
+                "top": "35%",
+                "ui": "action",
+                "width": "60%"
+            },
+            "name": "MyButton8",
+            "designerId": "9287b60a-4cbf-4af9-bb34-bb81aa264438",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "designer|params": [
+                            "button",
+                            "e"
+                        ],
+                        "fn": "handler",
+                        "implHandler": [
+                            " Ext.Viewport.getActiveItem().destroy();",
+                            "var view = Ext.Viewport.add({xtype:'Login'});",
+                            "Ext.Viewport.setActiveItem(view);"
+                        ]
+                    },
+                    "name": "handler",
+                    "designerId": "3116754d-da46-4c2d-a807-425a13acf386"
+                }
+            ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onWelcomeScreenInitialize",
+                "implHandler": [
+                    "",
+                    "FacebookInAppBrowser.settings.appId = '900651756709444';",
+                    "FacebookInAppBrowser.settings.redirectUrl = 'http://www.appsonmobile.com';",
+                    "FacebookInAppBrowser.settings.permissions = 'email';",
+                    "        // Optional",
+                    "FacebookInAppBrowser.settings.timeoutDuration = 7500;",
+                    "FacebookInAppBrowser.getInfo(function(response) {",
+                    "",
+                    "if (response) {",
+                    "",
+                    "\tvar view = Ext.Viewport.add({",
+                    "                        xtype: 'Login'",
+                    "                    });",
+                    "",
+                    "                Ext.Viewport.setActiveItem(view);",
+                    "            }",
+                    "});",
+                    ""
+                ],
+                "name": "initialize"
+            },
+            "name": "onWelcomeScreenInitialize",
+            "designerId": "72737570-7276-4904-99bf-48682f0fdbd0"
+        }
+    ]
+}

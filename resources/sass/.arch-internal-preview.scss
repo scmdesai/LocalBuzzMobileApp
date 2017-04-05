@@ -2,8 +2,9 @@
 $base-color: rgb(25,133, 208);
 $font-family: Arial, Helvetica, sans-serif;
 $page-bg-color: rgb(255,255,255);
-$list-active-gradient: flat;
+$list-active-color: #fff;
 $list-bg-color: rgb(255,255,255);
+$list-header-bg-color: #fff;
 $form-field-border-bottom-color: #c0c0c0;
 $form-field-border-bottom-width: 2px;
 $form-field-height: 3em;
@@ -15,7 +16,7 @@ $form-textarea-height: 3em;
 $form-bg-color: rgb(255,255,255);
 $form-light: rgb(255,255,255);
 $tabs-dark: #FFF;
-$toolbar-gradient: flat;
+$tabs-dark-active-color: #00529D;
 $toolbar-input-bg: rgb(255,255,255);
 
 @import 'sencha-touch/default';
@@ -55,6 +56,9 @@ $list-header-bg-color: $base-color;
 @include icon-font('map-icons',
     inline-font-files('map-icons.woff', woff, 'map-icons.ttf', truetype,'map-icons.svg', svg));
 
+@include icon-font('icomoon_localbuzzicon',
+    inline-font-files('icomoon_localbuzzicon.woff', woff, 'icomoon_localbuzzicon.ttf', truetype,'icomoon_localbuzzicon.svg', svg));
+
 @include icon("icon-phone","!", "MyIcons");
 @include icon("icon-star-empty","#", "MyIcons");
 @include icon("icon-share","$", "MyIcons");
@@ -69,8 +73,15 @@ $list-header-bg-color: $base-color;
 @include icon("icon-car","\f1b9","fontawesome-webfont");
 @include icon("icon-search","\e900","icomoon2");
 @include icon("icon-home","\f015","fontawesome-webfont");
+@include icon("icon-buzzometer","\f0e4","fontawesome-webfont");
+@include icon("icon-edit","\f040","fontawesome-webfont");
+@include icon("icon-signout","\f08b","fontawesome-webfont");
+@include icon("icon-edit","\f044","fontawesome-webfont");
+@include icon("icon-menu","\f0c9","fontawesome-webfont");
+@include icon("icon-close","\f00d","fontawesome-webfont");
+@include icon("icon-plane","\f1d8","fontawesome-webfont");
 
-
+@include icon("icon-localbuzzicon_latest","\e900", "icomoon_localbuzzicon");
 
 
 
@@ -84,23 +95,64 @@ $list-header-bg-color: $base-color;
 @include icon('M');
 @include icon('s');
 @include icon('e');
+@include icon('K');
 
 
 
 
 /* Adding icon fonts in the Info Page */
 
+.icon-localbuzzicon_latest:before {
+    font-family: "icomoon_localbuzzicon";
+    content: "\e900";
+    display:inline-block;
+    font-size:7.1vw!important;
+    border: none;
+    color:#c0c0c0;
+    background-color:none;
+    padding-bottom: 10px!important;
 
+}
+
+.icon-key:before {
+    font-family: "pictos";
+    content: "K";
+    padding-left: 10px;
+    padding-top:10px;
+	padding-right: 10px;
+    display:inline-block;
+    padding-bottom:10px;
+    font-size:6vw;
+    border: none;
+    color:#000;
+    background-color:#fff;
+}
 
 .icon-email:before {
     font-family: "pictos";
     content: "M";
     padding-left: 10px;
-    padding-top:20px;
+    padding-top:10px;
+	padding-right: 10px;
+    display:inline-block;
+    padding-bottom:10px;
+    font-size:6vw;
+    border: none;
+    color:#000;
+    background-color:#fff;
+}
+
+
+.icon-email1:before {
+    font-family: "pictos";
+    content: "M";
+    padding-left: 10px;
+    padding-top:10px;
+	padding-bottom:10px;
 	padding-right: 10px;
     display:inline-block;
 
-    font-size:7vw;
+    font-size:5vw;
     border: none;
     color:#000;
     background-color:#fff;
@@ -116,6 +168,57 @@ $list-header-bg-color: $base-color;
     background-color:none;
 }
 
+.icon-buzzometer:before {
+    font-family: "fontawesome-webfont";
+    content: "\f0e4";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#c0c0c0;
+    background-color:none;
+}
+
+.icon-close:before {
+    font-family: "fontawesome-webfont";
+    content: "\f00d";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-signout:before {
+    font-family: "fontawesome-webfont";
+    content: "\f08b";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-menu:before {
+    font-family: "fontawesome-webfont";
+    content: "\f0c9";
+    display:inline-block;
+    font-size:4vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+.icon-edit:before {
+    font-family: "fontawesome-webfont";
+    content: "\f044";
+    display:inline-block;
+    font-size:5vw;
+    border: none;
+    color:#00529D;
+    background-color:none;
+}
+
+
 
 .icon-search:before {
     font-family: "icomoon2";
@@ -123,7 +226,7 @@ $list-header-bg-color: $base-color;
     display:inline-block;
     font-size:5vw;
     border: none;
-    color:#00529D;
+    color:#c0c0c0!important;
     background-color:none;
 }
 
@@ -133,7 +236,7 @@ $list-header-bg-color: $base-color;
     display:inline-block;
     font-size:6vw;
     border: none;
-    color:#00529D;
+    color:#c0c0c0!important;
     background-color:none;
 }
 
@@ -142,10 +245,25 @@ $list-header-bg-color: $base-color;
     content: "G";
     padding-left: 10px;
 	padding-right: 10px;
-    padding-top:20px;
+    padding-top:10px;
+	padding-bottom:10px;
     display:inline-block;
     padding-top: 20px;
-    font-size:7vw;
+    font-size:6vw;
+    border: none;
+    color:blue;
+    background-color:#fff;
+
+}
+
+.icon-globe1:before {
+    font-family: "pictos";
+    content: "G";
+    padding-left: 10px;
+    padding-top:10px;
+    display:inline-block;
+    padding-bottom: 2px;
+    font-size:5vw;
     border: none;
     color:blue;
     background-color:#fff;
@@ -162,10 +280,28 @@ a:link {
     content: "!";
     padding-left: 10px;
     padding-right: 10px;
-    padding-top:20px;
+    padding-top:10px;
+
     display:inline-block;
 
-    font-size:6vw;
+    font-size:5vw;
+    border: none;
+    color:#006600;
+    background-color:#fff;
+    vertical-align:middle !important;
+    position:asolute;
+}
+
+.icon-phone1:before {
+    font-family: "MyIcons";
+    content: "!";
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top:10px;
+	padding-bottom:10px;
+    display:inline-block;
+
+    font-size:5vw;
     border: none;
     color:#006600;
     background-color:#fff;
@@ -193,11 +329,25 @@ a:link {
     padding-left: 10px;
 	padding-right: 10px;
     display:inline-block;
-    padding-top: 20px;
+	padding-bottom:10px;
+    padding-top: 10px;
     font-size:6vw;
     border: none;
     color:#ff0000;
     background-color:#fff;
+}
+
+.icon-location1:before {
+    font-family: "MyIcons";
+    content: "\"";
+    padding-left: 10px;
+    display:inline-block;
+    padding-top: 20px;
+    font-size:5vw;
+    border: none;
+    color:#ff0000;
+    background-color:#fff;
+	vertical-align:middle!important;
 }
 
 
@@ -205,9 +355,9 @@ a:link {
     font-family: "Social-Media-Icons";
     content: "\e907";
     display:inline-block;
-    font-size:5vw;
+    font-size:4vw;
     border: none;
-    color:#00529D;
+    color:#c0c0c0!important;
     background-color:none;
 }
 
@@ -222,12 +372,21 @@ a:link {
     background-color:none;
 }
 
+.icon-plane:before {
+    font-family: "fontawesome-webfont";
+    content: "\f1d8";
+    display:inline-block;
+    font-size:4vw;
+    border: none;
+    color:#c0c0c0!important;
+    background-color:none;
+}
 
 .icon-buzz:before {
     font-family: "MyIcons";
     content: "\"";
     font-weight:'normal';
-    font-size:5vw;
+    font-size:4vw;
     border: none;
     color:#00529D;
     background-color:none;
@@ -294,6 +453,17 @@ a:link {
 
 }
 
+
+.edit_button{
+    font-family: "pictos";
+    content: "p";
+    color:#737373;
+    font-size: 1.2em;
+    border: none;
+    background:none;
+
+}
+
 .icon-star-favorite{
     font-family: "MyIcons1";
     content: "#";
@@ -311,15 +481,23 @@ a:link {
 
 .x-msgbox-dark
 {
-    background-color: #fff !important;
+    background-color: white !important;
+    color:#00529D;
+
+
+
+
 }
 
 // To change messagebox text properties
 
 .x-msgbox-dark .x-msgbox-text {
-    background-color: #fff !important;
-    color: $base-color !important;
-    font-family:'Arial';
+   // background-color: #fff !important;
+    color: #00529D !important;
+    font-style:normal;
+    font-weight:normal!important;
+    background: transparent !important;
+
 
 
 }
@@ -327,18 +505,25 @@ a:link {
 // To change messagebox title
 
 .x-msgbox-dark .x-title {
-    background-color: #fff !important;
-    color:$base-color !important;
-    font-family:'Arial';
+  //  background-color: #00529D !important;
+    color: #00529D !important;
+    font-weight:bold!important;
+
+
+
 
 }
 
 .x-msgbox-dark .x-field {
-    background-color: #fff !important;
-    color:$base-color !important;
-    border:1px solid #C0C0C0 !important;
-    font-family:'Arial';
+   // background-color: #fff !important;
+    color: #00529D !important;
+  //  border:1px solid #C0C0C0 !important;
+        font-weight:normal;
+        font-weight:normal!important;
+
+
 }
+
 
 .map-icon-label .map-icon {
 	font-size: 24px;
@@ -350,7 +535,14 @@ a:link {
 
 .styleLabel{background-color:#ffffff;font-weight:bold;border:2px #006699 solid;}
 
+.backButtonPanel{
+    background-color: #000000;
+    border-radius: 4px;
+    color: #FFFFFF;
+    max-width: 200px;
+    padding: 3px 8px;
 
+}
 .labels {
    /* border: 2px solid black;
     color: red;
@@ -407,5 +599,83 @@ a:link {
     font-style:'normal' !important;
     font-family:'Arial';
     border:none !important;
+
+}
+
+
+.x-tabbar-dark.x-docked-top .x-tab-active{
+-moz-border-radius:0px;
+  -webkit-border-radius:0px;
+  -moz-box-shadow:0 0 5px #888888;
+  -webkit-box-shadow:0 0 5px #888888;
+ background:#00529D;
+	color:#fff;
+}
+
+.x-tabbar-plain.x-docked-bottom .x-tab-active {
+
+	color:#00529d !important;
+
+}
+.x-tabbar-plain.x-docked-bottom .x-tab-active .x-button-icon:before {
+
+	color:#00529d !important;
+
+}
+.checkbox {
+cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 0;
+	border-radius: 4px;
+
+	-webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+}
+
+.checkbox label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 5px;
+	background: transparent;
+	top: 4px;
+	left: 4px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.checkbox label:hover::after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: 0.5;
+}
+
+.checkbox input[type=checkbox]:checked + label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+
+
 
 }

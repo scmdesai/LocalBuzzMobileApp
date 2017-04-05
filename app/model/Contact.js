@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.model.Contact', {
+Ext.define('LocalBuzzMerchantDemo.model.Contact', {
 	extend: 'Ext.data.Model',
 
 	requires: [
@@ -37,6 +37,10 @@ Ext.define('Contact.model.Contact', {
 			},
 			{
 				name: 'emailAddress',
+				type: 'string'
+			},
+			{
+				name: 'loginEmail',
 				type: 'string'
 			},
 			{
@@ -67,6 +71,18 @@ Ext.define('Contact.model.Contact', {
 			},
 			{
 				name: 'websiteDisplayName'
+			},
+			{
+				name: 'signupStatus'
+			},
+			{
+				name: 'startDate'
+			},
+			{
+				name: 'planType'
+			},
+			{
+				name: 'endDate'
 			}
 		]
 	}

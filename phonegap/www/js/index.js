@@ -48,6 +48,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 		console.log("Device is ready");
+		
 		//this.receivedEvent('deviceready');
 		
 		//StatusBar Overlay set to false

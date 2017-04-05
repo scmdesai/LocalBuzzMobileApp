@@ -23,7 +23,8 @@
             "codeClass": null,
             "userConfig": {
                 "callbackKey": null,
-                "url": "http://services.appsonmobile.com/deals"
+                "timeout": 300000,
+                "url": "http://services.appsonmobile.com/demoDeals"
             },
             "name": "MyJsonPProxy4",
             "designerId": "bc4564d9-e33b-4116-9f9f-85c6e6753e2a",
@@ -63,7 +64,7 @@
             "userConfig": {
                 "fn": "onJsonstoreAddrecords",
                 "implHandler": [
-                    "store.load();"
+                    ""
                 ],
                 "name": "addrecords"
             },
@@ -80,7 +81,8 @@
             "userConfig": {
                 "fn": "onJsonstoreRemoverecords",
                 "implHandler": [
-                    "store.load();"
+                    "store.load();",
+                    ""
                 ],
                 "name": "removerecords"
             },

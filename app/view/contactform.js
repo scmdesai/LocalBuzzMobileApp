@@ -13,12 +13,11 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.contactform', {
+Ext.define('LocalBuzzMerchantDemo.view.contactform', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.contactform',
 
 	requires: [
-		'Contact.view.Picture',
 		'Ext.Toolbar',
 		'Ext.Button',
 		'Ext.Spacer',
@@ -30,7 +29,6 @@ Ext.define('Contact.view.contactform', {
 		id: 'formpanel',
 		itemId: 'formpanel',
 		style: 'background:white',
-		styleHtmlContent: true,
 		ui: 'light',
 		autoDestroy: false,
 		modal: true,
@@ -45,15 +43,16 @@ Ext.define('Contact.view.contactform', {
 				xtype: 'toolbar',
 				cls: 'toolbarCls',
 				docked: 'top',
+				height: '12vh',
 				style: 'border-top:none',
 				ui: 'plain',
 				autoDestroy: false,
 				items: [
 					{
 						xtype: 'button',
+						height: '8vh',
 						itemId: 'cancelButton',
-						margin: '0 0 0 10',
-						styleHtmlContent: true,
+						margin: '10 0 10 10',
 						ui: 'decline',
 						width: '30%',
 						text: 'Cancel'
@@ -66,70 +65,35 @@ Ext.define('Contact.view.contactform', {
 						handler: function(button, e) {
 
 
+
 							var form = this.up('contactform');
+
 							var store = Ext.getStore('MyJsonPStore');
-
-
 							var record = form.getRecord();
-							var customerId= form.getRecord().get('customerId');
-
-							record.beginEdit(true,record.getChanges());
-
+							var customerId = form.getRecord().get('customerId');
+							/*record.beginEdit(true, record.getChanges());
 							form.updateRecord(record);
-
-							record.endEdit(true,record.getChanges());
-
+							record.endEdit(true, record.getChanges());
 							record.commit();
-
 							store.sync();
-							store.load();
+							store.load();*/
 
 
-							//form.fireEvent('updateRecord',this);
+
+
+
 
 
 
 							form.submit({
-
-								url: 'http://services.appsonmobile.com/updateStoreInfo/' + customerId,
+								url: 'http://services.appsonmobile.com/demoUpdateStoreInfo/' + customerId,
 								success: function(form, action) {
-									/*record.beginEdit(true, record.getChanges());
-									form.updateRecord(record);
-									record.endEdit(true, record.getChanges());
-									record.commit();
+
+									Ext.Msg.alert('Record updated', "Please login again to see the changes",null,null);
+
 									store.sync();
-									store.load();*/
-									Ext.Viewport.getComponent('panel').destroy();
-									var view = Ext.create("Ext.tab.Panel", {
-										fullscreen: true,
-										tabBarPosition: 'bottom',
-										itemId: 'panel',
-										cls:'toolbarCls',
-										ui:'plain',
-										style:"font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
-										items: [
-										{
-											xtype: 'contactinfo',
-											title: 'Home',
-											itemId: 'home',
-											iconCls: 'icon-home'
-										},
-										{
-											xtype: 'DealsPanel',
-											title: 'Buzz',
-											iconCls: 'icon-bubbles'
-										},
-										{
-											xtype:'buzzometer',
-											title:'BuzzOMeter',
-											iconCls:'info'
-										}
-										]
-									});
-									//Ext.getCmp('changePicButton').hide();
-									Ext.Viewport.setActiveItem(view);
-									view.getComponent('home').setRecord(record);
-									Ext.Msg.alert('Success', action.msg);
+									store.load();
+
 									form.destroy();
 
 
@@ -143,7 +107,7 @@ Ext.define('Contact.view.contactform', {
 								failure: function(form,action) {
 
 									store.load();
-									Ext.Msg.alert('Failure',action.msg);
+									Ext.Msg.alert('Oops.....!Something went wrong','Please check your internet connection or try again later',null,null);
 
 									form.destroy();
 
@@ -157,32 +121,16 @@ Ext.define('Contact.view.contactform', {
 
 
 
-
-							/*var record = form.getRecord();
-
-							view =Ext.Viewport.add({xtype: 'contactinfo'});
-							view.setRecord(record);
-
-
-							Ext.Viewport.setActiveItem(view);*/
 						},
 						cls: 'button',
+						height: '8vh',
 						itemId: 'saveContactButton',
-						margin: '0 10 0 0',
-						styleHtmlContent: true,
+						margin: '10 10 10 0',
 						ui: 'confirm',
 						width: '30%',
 						text: 'Save'
 					}
 				]
-			},
-			{
-				xtype: 'contactpic',
-				cls: 'x-panel-body',
-				docked: 'top',
-				height: '30%',
-				itemId: 'picture',
-				width: ''
 			},
 			{
 				xtype: 'button',
@@ -193,7 +141,7 @@ Ext.define('Contact.view.contactform', {
 					var businessName;
 
 					storeUserDetails.each(function(record){
-						//console.log('StoreUserDetails : ' +record.get('customerId'));
+						console.log('StoreUserDetails : ' +record.get('customerId'));
 						customerId = record.get('customerId');
 						businessName = record.get('businessName');
 
@@ -213,13 +161,12 @@ Ext.define('Contact.view.contactform', {
 					view.setRecord(record);
 					view.showBy(button);
 				},
-				flex: 1,
-				docked: 'top',
+				height: '20%',
 				id: 'changePicButton',
 				left: '0px',
 				margin: '5 5 5 5',
 				style: 'opacity:0.5;position:absolute',
-				top: '-10px',
+				top: '-1%',
 				ui: 'plain',
 				width: '20%',
 				iconCls: 'add'
@@ -227,12 +174,13 @@ Ext.define('Contact.view.contactform', {
 			{
 				xtype: 'textfield',
 				cls: 'customfield',
-				height: '15%',
+				hidden: true,
 				id: 'businessName',
 				itemId: 'businessName',
 				margin: '30 15 2 15',
 				styleHtmlContent: true,
-				name: 'businessName'
+				name: 'businessName',
+				placeHolder: 'Not Listed'
 			},
 			{
 				xtype: 'textfield',
@@ -240,11 +188,22 @@ Ext.define('Contact.view.contactform', {
 					'icon-phone',
 					'customfield'
 				],
+				height: '10vh',
 				id: 'phoneNumber',
 				itemId: 'phoneNumber',
 				margin: '0 15 2 15',
+				padding: '0 0 5 5',
 				styleHtmlContent: true,
-				name: 'phoneNumber'
+				top: '25%',
+				width: '95%',
+				component: {
+					xtype: 'input',
+					type: 'tel',
+					fastFocus: true
+				},
+				name: 'phoneNumber',
+				maxLength: 12,
+				placeHolder: 'Not Listed'
 			},
 			{
 				xtype: 'textareafield',
@@ -252,13 +211,18 @@ Ext.define('Contact.view.contactform', {
 					'customfield',
 					'icon-location'
 				],
-				height: '20%',
 				id: 'address',
 				itemId: 'address',
 				margin: '0 15 0 15',
+				maxHeight: '15vh',
+				minHeight: '10vh',
+				padding: '0 0 5 5',
 				styleHtmlContent: true,
+				top: '60%',
+				width: '95%',
 				name: 'address',
-				required: true
+				required: true,
+				placeHolder: 'Not Listed'
 			},
 			{
 				xtype: 'textfield',
@@ -277,6 +241,11 @@ Ext.define('Contact.view.contactform', {
 				xtype: 'textfield',
 				hidden: true,
 				name: 'emailAddress'
+			},
+			{
+				xtype: 'textfield',
+				hidden: true,
+				name: 'loginEmail'
 			},
 			{
 				xtype: 'textfield',
@@ -329,8 +298,60 @@ Ext.define('Contact.view.contactform', {
 				labelWrap: true,
 				name: 'websiteDisplayName',
 				required: true
+			},
+			{
+				xtype: 'container',
+				docked: 'bottom',
+				height: '40px',
+				html: '<p id="terms" style="font-size:2.5vw;" >To change the business name or website info, please <a>Contact Us</a> </p>',
+				itemId: 'mycontainer6',
+				margin: '5 5 5 10',
+				padding: '5 30 5 0',
+				styleHtmlContent: true,
+				layout: 'hbox',
+				listeners: [
+					{
+						fn: function(element, eOpts) {
+							element.addListener('tap',function(){
+								//Ext.Viewport.add({xtype:'Terms'}).show();
+								var url = "http://www.appsonmobile.com/index.php/contact-us/";
+								window.open(url, '_system', 'location=yes');
+							});
+						},
+						event: 'painted'
+					}
+				]
+			},
+			{
+				xtype: 'component',
+				cls: 'contact-name',
+				disabled: true,
+				docked: 'top',
+				height: '40vh',
+				id: 'storeImage1',
+				itemId: 'storeImage1'
+			}
+		],
+		listeners: [
+			{
+				fn: 'onPhoneNumberKeyup',
+				event: 'keyup',
+				delegate: '#phoneNumber'
 			}
 		]
+	},
+
+	onPhoneNumberKeyup: function(textfield, e, eOpts) {
+		var len = textfield.getValue().length;
+		if(len===3||len===7){
+			textfield.setValue(textfield.getValue() + '-');
+		}
+		 if(len===4){
+			  textfield.setValue(textfield.getValue().substr(0,3));
+		}
+		if(len===8){
+			  textfield.setValue(textfield.getValue().substr(0,7));
+		}
 	},
 
 	getValidationErrors: function() {
@@ -360,9 +381,9 @@ Ext.define('Contact.view.contactform', {
 			this.down('#businessName').setValue(record.data.businessName);
 			this.down('#phoneNumber').setValue(record.data.phoneNumber);
 			this.down('#address').setValue(record.data.address);
-			this.child('contactpic').setData(record.data);
+			//this.child('contactpic').setData(record.data);
 
-
+		    this.down('#storeImage1').setHtml('<img src = "'+record.get('pictureURL')+'" style="height:40vh;width:95%;margin-left:5px;margin-top:2px;"/>');
 
 
 		}

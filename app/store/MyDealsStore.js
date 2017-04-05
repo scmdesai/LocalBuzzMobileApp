@@ -13,11 +13,11 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.store.MyDealsStore', {
+Ext.define('LocalBuzzMerchantDemo.store.MyDealsStore', {
 	extend: 'Ext.data.Store',
 
 	requires: [
-		'Contact.model.Deal',
+		'LocalBuzzMerchantDemo.model.Deal',
 		'Ext.data.proxy.JsonP',
 		'Ext.data.reader.Json',
 		'Ext.data.writer.Json'
@@ -25,11 +25,12 @@ Ext.define('Contact.store.MyDealsStore', {
 
 	config: {
 		autoLoad: true,
-		model: 'Contact.model.Deal',
+		model: 'LocalBuzzMerchantDemo.model.Deal',
 		storeId: 'MyDealsStore',
 		proxy: {
 			type: 'jsonp',
-			url: 'http://services.appsonmobile.com/deals',
+			timeout: 300000,
+			url: 'http://services.appsonmobile.com/demoDeals',
 			reader: {
 				type: 'json'
 			},
@@ -51,11 +52,12 @@ Ext.define('Contact.store.MyDealsStore', {
 	},
 
 	onJsonstoreAddrecords: function(store, records, eOpts) {
-		store.load();
+
 	},
 
 	onJsonstoreRemoverecords: function(store, records, indices, eOpts) {
 		store.load();
+
 	}
 
 });

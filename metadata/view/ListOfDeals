@@ -6,6 +6,7 @@
     },
     "codeClass": null,
     "userConfig": {
+        "allowDeselect": true,
         "autoDestroy": false,
         "cls": [
             "customlist"
@@ -14,19 +15,19 @@
         "deselectOnContainerClick": false,
         "designer|userAlias": "listofdeals",
         "designer|userClassName": "ListOfDeals",
-        "emptyText": "Create Buzz!",
+        "emptyText": "Create a Buzz!",
         "height": "100%",
         "id": "ListOfDeals",
         "itemCls": "list-item",
         "itemId": "ListOfDeals",
         "margin": null,
         "mode": "MULTI",
-        "onItemDisclosure": false,
+        "onItemDisclosure": null,
         "pinHeaders": false,
         "preventSelectionOnDisclose": false,
         "refreshHeightOnUpdate": false,
         "store": "MyDealsStore",
-        "style": "",
+        "style": null,
         "ui": null,
         "useSimpleItems": false,
         "width": null
@@ -46,7 +47,7 @@
                 "implHandler": [
                     "",
                     "",
-                    "<div style=\"font-size:5vw;color:black;font-weight:normal;font-family:Arial\">{dealName}<button type=\"button\" class=\"delete_button\" style=\"float:right\">#</div>",
+                    "<div style=\"font-size:5vw;color:black;font-weight:normal;font-family:Arial\">{dealName}<button type=\"button\" id=\"delete\" class=\"delete_button\" style=\"float:right;padding:0px 15px 0px 15px;\">#<button type=\"button\" id=\"edit\" class=\"delete_button\" style=\"float:right\">p</div>",
                     "<tpl if=\"dealEndDate &lt; todayplusthreedays \">",
                     "<div class= expiringDate >Valid {dealStartDate} to {dealEndDate}</div>",
                     "<tpl else>\t",

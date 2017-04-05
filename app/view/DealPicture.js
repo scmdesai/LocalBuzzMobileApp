@@ -13,29 +13,23 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.DealPicture', {
+Ext.define('LocalBuzzMerchantDemo.view.DealPicture', {
 	extend: 'Ext.Panel',
 	alias: 'widget.dealPicture',
 
 	requires: [
-		'Ext.XTemplate',
 		'Ext.Toolbar',
-		'Ext.Button'
+		'Ext.Button',
+		'Ext.field.TextArea'
 	],
 
 	config: {
 		fullscreen: true,
-		height: '100%',
+		id: 'dealPicture',
 		itemId: 'dealPicture',
-		left: 'dealPicture',
-		style: 'overflow: hidden;background:#fff',
-		styleHtmlContent: true,
+		style: 'background:#fff',
 		width: '100%',
 		autoDestroy: false,
-		scrollable: false,
-		tpl: [
-			'<img src="{dealPictureURL}" style="margin:5px 5px 5px 5px;height:100%;width:100%;border:1px groove #C0C0C0;"/>'
-		],
 		layout: {
 			type: 'vbox',
 			align: 'stretchmax'
@@ -45,35 +39,268 @@ Ext.define('Contact.view.DealPicture', {
 				xtype: 'toolbar',
 				cls: 'toolbarCls',
 				docked: 'top',
+				height: '8vh',
 				ui: 'plain',
 				width: '100%',
 				scrollable: false,
 				layout: {
 					type: 'hbox',
-					align: 'stretchmax'
+					align: 'center'
 				},
 				items: [
 					{
 						xtype: 'button',
 						cls: 'icon-back-button',
+						docked: 'left',
+						height: '100%',
+						id: 'dealBackBtn',
 						itemId: 'dealBackBtn',
+						margin: '10 0 0 0',
 						style: 'font-size:8vw',
+						styleHtmlContent: true,
 						ui: 'plain'
 					},
 					{
 						xtype: 'button',
 						cls: 'icon-share',
 						docked: 'right',
+						id: 'share',
 						itemId: 'share',
 						minHeight: '100%',
 						style: 'border:none;font-size:7vw',
 						ui: 'plain',
 						iconAlign: 'center',
 						text: ''
+					},
+					{
+						xtype: 'component',
+						cls: 'contact-name',
+						disabled: true,
+						height: '100%',
+						html: '<b>Business Name</b>',
+						id: 'nameTxt1',
+						itemId: 'nameTxt1',
+						style: 'word-wrap:break-word;font-family:Arial;font-size:5vw;text-align:center',
+						width: '100%'
 					}
 				]
+			},
+			{
+				xtype: 'component',
+				cls: 'contact-name',
+				disabled: true,
+				height: '40vh',
+				id: 'dealimage',
+				itemId: 'dealimage',
+				left: '2%',
+				style: 'word-wrap:break-word;font-family:Arial;font-size:6vw;border:2px dotted #c0c0c0',
+				top: '1%',
+				width: '95%',
+				listeners: [
+					{
+						fn: function(element, eOpts) {
+							var record = Ext.getStore('LocalStore').getAt(0);
+							if(record.get('dealImageURL')){
+								element.addListener('tap', function() {
+									console.log('DealImage Tap');
+									var view = Ext.Viewport.add({
+										xtype: 'DealImage'
+									});
+									view.setRecord(record);
+									view.showBy(Ext.get('dealPicture'));
+
+								});
+							}
+
+						},
+						event: 'painted'
+					}
+				]
+			},
+			{
+				xtype: 'container',
+				cls: 'contact-name',
+				disabled: true,
+				html: '<p style="font-size:3vw;text-align:center">       Published through Local Buzz',
+				id: 'nameTxt2',
+				itemId: 'nameTxt2',
+				left: '40%',
+				margin: '10 5 5 5',
+				style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+				top: '51%',
+				width: '65%'
+			},
+			{
+				xtype: 'container',
+				cls: 'contact-name',
+				disabled: true,
+				hidden: false,
+				html: '<p style="font-size:2.3vw;"> Click on picture to enlarge</p>',
+				id: 'nameTxt3',
+				itemId: 'nameTxt3',
+				left: '40%',
+				margin: '10 5 5 5',
+				style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+				top: '43%',
+				width: '65%'
+			},
+			{
+				xtype: 'textfield',
+				cls: 'icon-phone1',
+				docked: 'bottom',
+				height: '8vh',
+				id: 'phoneNumber1',
+				itemId: 'phoneNumber1',
+				margin: '0 0 0 5',
+				padding: '0 0 10 10',
+				style: 'font-size:2vw !important',
+				styleHtmlContent: true,
+				top: '56%',
+				width: '90%',
+				clearIcon: false,
+				name: 'phoneNumber',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: 'icon-globe1',
+				docked: 'bottom',
+				height: '8vh',
+				id: 'website3',
+				itemId: 'website3',
+				margin: '0 0 0 5',
+				padding: '0 0 10 10',
+				style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+				styleHtmlContent: true,
+				top: '76%',
+				width: '90%',
+				clearIcon: false,
+				name: 'websiteDisplayName',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: 'icon-email1',
+				docked: 'bottom',
+				height: '8vh',
+				hidden: false,
+				id: 'email1',
+				itemId: 'email1',
+				margin: '0 0 0 5',
+				padding: '0 0 10 10',
+				style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+				styleHtmlContent: true,
+				top: '66%',
+				width: '90%',
+				clearIcon: false,
+				name: 'emailAddress',
+				placeHolder: 'Not Listed',
+				readOnly: true
+			},
+			{
+				xtype: 'textfield',
+				cls: 'icon-phone1',
+				docked: 'bottom',
+				hidden: true,
+				id: 'website2',
+				itemId: 'website2',
+				margin: '0 0 0 5',
+				padding: '0 0 10 10',
+				style: 'font-size:2vw !important',
+				styleHtmlContent: true,
+				top: '65%',
+				width: '90%',
+				clearIcon: false,
+				name: 'website',
+				readOnly: true
+			},
+			{
+				xtype: 'textareafield',
+				cls: [
+					'icon-location1',
+					'customfield1'
+				],
+				height: '9vh',
+				id: 'address1',
+				itemId: 'address1',
+				margin: '0 0 0 5',
+				style: 'font-size:4.2vw;font-family:Arial;',
+				styleHtmlContent: true,
+				top: '86%',
+				width: '95%',
+				clearIcon: false,
+				name: 'address',
+				readOnly: true
+			}
+		],
+		listeners: [
+			{
+				fn: 'onDealPictureInitialize',
+				event: 'initialize'
+			},
+			{
+				fn: 'onDealPictureShow',
+				event: 'show'
 			}
 		]
+	},
+
+	onDealPictureInitialize: function(component, eOpts) {
+		if (Ext.os.is('Android')) {
+			Ext.getCmp('dealBackBtn').hide();
+		}
+
+
+	},
+
+	onDealPictureShow: function(component, eOpts) {
+		var record = Ext.getStore('LocalStore').getAt(0);
+
+		if(record.get('dealImageURL')){
+
+		            this.down('#dealimage').setHtml('<img src="'+record.get('dealImageURL')+'" style="margin: 0px 5px 0px 5px;height:40vh;width:95%;border:none;"/>');
+		            this.down('#nameTxt3').show();
+		        }
+		            else {
+
+		            this.down('#dealimage').setHtml('<img src="resources/img/localbuzzicon.png" align="right" style="margin: 5px 5px 5px 5px"/><br><div style="font-size:6vw;">' + record.get('dealName')+'</div><br><br><div style="font-size:5vw;">'+record.get('dealDescription')+'</div><br><br><div style="font-size:4vw;margin:5px 5px 5px 5px;">Valid '+ record.get('dealStartDate')+' - '+ record.get('dealEndDate')+'</div>');
+		            this.down('#nameTxt3').hide();
+
+
+		        }
+
+
+	},
+
+	setRecord: function(record) {
+		        this.callParent(arguments);
+
+
+		        if (record) {
+
+
+		            var name = record.get('itemName');
+		            var businessName = record.get('businessName');
+
+		           this.down('#nameTxt1').setHtml(record.get('businessName'));
+		           var store = Ext.getStore('MyJsonPStore');
+		                    var rec = store.findRecord('businessName', businessName);
+		                    Ext.getCmp('phoneNumber1').setValue(rec.get('phoneNumber'));
+
+		                    Ext.getCmp('website3').setValue(rec.get('websiteDisplayName'));
+		                    Ext.getCmp('website2').setValue(rec.get('website'));
+		                    Ext.getCmp('address1').setValue(rec.get('address'));
+					        Ext.getCmp('email1').setValue(rec.get('emailAddress'));
+
+
+
+
+
+		        }
+
+
+
 	}
 
 });

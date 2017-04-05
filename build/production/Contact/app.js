@@ -32555,6 +32555,175 @@ this);
 ], function() {}));
 
 /**
+ * {@link Ext.Menu}'s are used with {@link Ext.Viewport#setMenu}. A menu can be linked with any side of the screen (top, left, bottom or right)
+ *  and will simply describe the contents of your menu. To use this menu you will call various menu related functions on the {@link Ext.Viewport}
+ * such as {@link Ext.Viewport#showMenu}, {@link Ext.Viewport#hideMenu}, {@link Ext.Viewport#toggleMenu}, {@link Ext.Viewport#hideOtherMenus},
+ * or {@link Ext.Viewport#hideAllMenus}.
+ *
+ *      @example preview
+ *      var menu = Ext.create('Ext.Menu', {
+ *          items: [
+ *              {
+ *                  text: 'Settings',
+ *                  iconCls: 'settings'
+ *              },
+ *              {
+ *                  text: 'New Item',
+ *                  iconCls: 'compose'
+ *              },
+ *              {
+ *                  text: 'Star',
+ *                  iconCls: 'star'
+ *              }
+ *          ]
+ *      });
+ *
+ *      Ext.Viewport.setMenu(menu, {
+ *          side: 'left',
+ *          reveal: true
+ *      });
+ *
+ *      Ext.Viewport.showMenu('left');
+ *
+ * The {@link #defaultType} of a Menu item is a {@link Ext.Button button}.
+ */
+(Ext.cmd.derive('Ext.Menu', Ext.Sheet, {
+    config: {
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        baseCls: 'x-menu',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        left: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        right: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        bottom: 0,
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        height: 'auto',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        width: 'auto',
+        /**
+         * @cfg
+         * @inheritdoc
+         */
+        defaultType: 'button',
+        /**
+         * @hide
+         */
+        showAnimation: null,
+        /**
+         * @hide
+         */
+        hideAnimation: null,
+        /**
+         * @hide
+         */
+        centered: false,
+        /**
+         * @hide
+         */
+        modal: true,
+        /**
+         * @hide
+         */
+        hidden: true,
+        /**
+         * @hide
+         */
+        hideOnMaskTap: true,
+        /**
+         * @hide
+         */
+        translatable: {
+            translationMethod: null
+        }
+    },
+    constructor: function() {
+        this.config.translatable.translationMethod = Ext.browser.is.AndroidStock2 ? 'cssposition' : 'csstransform';
+        Ext.Sheet.prototype.constructor.apply(this, arguments);
+    },
+    platformConfig: [
+        {
+            theme: [
+                'Windows'
+            ]
+        },
+        {
+            theme: [
+                'Blackberry',
+                'Blackberry103'
+            ],
+            ui: 'context',
+            layout: {
+                pack: 'center'
+            }
+        }
+    ],
+    updateUi: function(newUi, oldUi) {
+        Ext.Sheet.prototype.updateUi.apply(this, arguments);
+        if (newUi != oldUi && (Ext.theme.is.Blackberry || Ext.theme.is.Blackberry103)) {
+            if (newUi == 'context') {
+                this.innerElement.swapCls('x-vertical', 'x-horizontal');
+            } else if (newUi == 'application') {
+                this.innerElement.swapCls('x-horizontal', 'x-vertical');
+            }
+        }
+    },
+    updateHideOnMaskTap: function(hide) {
+        var mask = this.getModal();
+        if (mask) {
+            mask[hide ? 'on' : 'un'].call(mask, 'tap', function() {
+                Ext.Viewport.hideMenu(this.$side);
+            }, this);
+        }
+    },
+    /**
+     * Only fire the hide event if it is initialized
+     */
+    doSetHidden: function() {
+        if (this.initialized) {
+            Ext.Sheet.prototype.doSetHidden.apply(this, arguments);
+        }
+    }
+}, 1, [
+    "menu"
+], [
+    "component",
+    "container",
+    "panel",
+    "sheet",
+    "menu"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "sheet": true,
+    "menu": true
+}, [
+    "widget.menu"
+], 0, [
+    Ext,
+    'Menu'
+], 0));
+
+/**
  * {@link Ext.Title} is used for the {@link Ext.Toolbar#title} configuration in the {@link Ext.Toolbar} component.
  * @private
  */
@@ -65892,6 +66061,13 @@ Ext.define('Ext.picker.Picker', {
                 },
                 name: 'todayplusthreedays',
                 type: 'date'
+            },
+            {
+                name: 'dealDescription',
+                type: 'string'
+            },
+            {
+                name: 'dealImageURL'
             }
         ]
     }
@@ -65939,45 +66115,15 @@ Ext.define('Ext.picker.Picker', {
             },
             {
                 name: 'access_token'
+            },
+            {
+                name: 'DealPictureURL'
             }
         ]
     }
 }, 0, 0, 0, 0, 0, 0, [
     Contact.model,
     'UserDetails'
-], 0));
-
-/*
- * File: app/model/AnalyticsData.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.model.AnalyticsData', Ext.data.Model, {
-    config: {
-        fields: [
-            {
-                name: 'dealName'
-            },
-            {
-                name: 'numberOfHits'
-            },
-            {
-                name: 'zipcode'
-            }
-        ]
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Contact.model,
-    'AnalyticsData'
 ], 0));
 
 /*
@@ -66012,7 +66158,7 @@ Ext.define('Ext.picker.Picker', {
         },
         proxy: {
             type: 'jsonp',
-            url: 'http://services.appsonmobile.com/stores',
+            url: 'http://services.appsonmobile.com/demoStores',
             reader: {
                 type: 'json'
             },
@@ -66029,6 +66175,7 @@ Ext.define('Ext.picker.Picker', {
         ]
     },
     onJsonpstoreUpdaterecord: function(store, record, newIndex, oldIndex, modifiedFieldNames, modifiedValues, eOpts) {
+        console.log('Updating record');
         return record;
     }
 }, 0, 0, 0, 0, 0, 0, [
@@ -66057,7 +66204,7 @@ Ext.define('Ext.picker.Picker', {
         storeId: 'MyDealsStore',
         proxy: {
             type: 'jsonp',
-            url: 'http://services.appsonmobile.com/deals',
+            url: 'http://services.appsonmobile.com/demoDeals',
             reader: {
                 type: 'json'
             },
@@ -66143,7 +66290,7 @@ Ext.define('Ext.picker.Picker', {
 ], 0));
 
 /*
- * File: app/store/AnalyticsStore.js
+ * File: app/view/Login.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -66156,65 +66303,113 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.store.AnalyticsStore', Ext.data.Store, {
+(Ext.cmd.derive('Contact.view.Login', Ext.Container, {
     config: {
-        model: 'Contact.model.AnalyticsData',
-        storeId: 'AnalyticsStore'
-    }
-}, 0, 0, 0, 0, 0, 0, [
-    Contact.store,
-    'AnalyticsStore'
-], 0));
-
-/*
- * File: app/view/Picture.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.Picture', Ext.Container, {
-    config: {
-        overflow: 'hidden',
-        id: 'contactpic',
-        itemId: 'contactpic1',
-        margin: '5 5 5 5',
-        padding: '',
-        style: 'overflow: hidden;border:1px groove #000;background:none',
-        ui: '',
-        scrollable: false,
-        tpl: [
-            '',
-            '\t<img src="{pictureURL}" style="width:100%;height:30%"/>',
-            '\t'
-        ],
+        id: 'Login',
+        itemId: 'Login',
+        maxHeight: '',
+        style: '',
+        styleHtmlContent: true,
         layout: {
-            type: 'vbox',
-            align: 'stretchmax'
-        }
+            type: 'card',
+            animation: 'pop'
+        },
+        listeners: [
+            {
+                fn: 'onContainerPainted',
+                event: 'painted'
+            }
+        ]
+    },
+    onContainerPainted: function(element, eOpts) {
+        // Settings.
+        FacebookInAppBrowser.settings.appId = '900651756709444';
+        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
+        FacebookInAppBrowser.settings.permissions = 'email';
+        // Optional
+        FacebookInAppBrowser.settings.timeoutDuration = 7500;
+        // Login(accessToken will be stored trough localStorage in 'accessToken');
+        FacebookInAppBrowser.login({
+            send: function() {
+                console.log('login opened');
+            },
+            success: function(access_token) {
+                console.log('done, access token: ' + access_token);
+            },
+            denied: function() {
+                console.log('user denied');
+            },
+            timeout: function() {
+                console.log('a timeout has occurred, probably a bad internet connection');
+            },
+            complete: function(access_token) {
+                console.log('window closed');
+                if (access_token) {
+                    console.log(access_token);
+                } else {
+                    console.log('no access token');
+                }
+            },
+            userInfo: function(userInfo) {
+                if (userInfo) {
+                    var userInf = JSON.stringify(userInfo);
+                    console.log(userInf);
+                    var info = userInf.split("\",\"");
+                    var tmp = info[0].split("\":\"");
+                    var email = tmp[1];
+                    //console.log(email);
+                    tmp = info[1].split("\":\"");
+                    var loginName = tmp[1];
+                    tmp = info[2].split("\":\"");
+                    var gender = tmp[1];
+                    tmp = info[3].split("\":\"");
+                    var userId = tmp[1];
+                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', email, 0, true, false, false);
+                    //console.log(store.getData());
+                    //store.loadRecord();
+                    //var view = Ext.create('Contact.view.Info');
+                    //view.setRecord(record.getRecord());
+                    //console.log(view.getData());
+                    //Ext.Viewport.setActiveItem(view);
+                    if (!record) {
+                        Ext.Msg.alert('User not found', null, null, null);
+                        navigator.app.exitApp();
+                    }
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.removeAll();
+                    storeUserDetails.add({
+                        'customerId': record.get('customerId'),
+                        'email': email,
+                        'businessName': record.get('businessName'),
+                        'DealPictureURL': record.get('pictureURL')
+                    });
+                    var view = Ext.Viewport.add({
+                            xtype: 'panel'
+                        });
+                    //view.getComponent('home').setRecord(record);
+                    Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(view);
+                } else {
+                    console.log('no user info');
+                }
+            }
+        });
     }
 }, 0, [
-    "contactpic"
+    "Login"
 ], [
     "component",
     "container",
-    "contactpic"
+    "Login"
 ], {
     "component": true,
     "container": true,
-    "contactpic": true
+    "Login": true
 }, [
-    "widget.contactpic"
+    "widget.Login"
 ], 0, [
     Contact.view,
-    'Picture'
+    'Login'
 ], 0));
 
 /*
@@ -66234,9 +66429,8 @@ Ext.define('Ext.picker.Picker', {
 (Ext.cmd.derive('Contact.view.contactinfo', Ext.form.Panel, {
     config: {
         border: 5,
-        height: '100%',
+        id: 'info',
         itemId: 'info',
-        minHeight: '100%',
         style: 'background;#fff',
         styleHtmlContent: true,
         modal: true,
@@ -66253,14 +66447,12 @@ Ext.define('Ext.picker.Picker', {
                 ui: 'plain',
                 items: [
                     {
-                        xtype: 'button',
-                        docked: 'right',
-                        height: 48,
-                        itemId: 'editButton',
-                        style: 'color:#00529D',
-                        ui: 'plain',
-                        width: '20%',
-                        iconCls: 'compose'
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        html: '<b>First Name</b>',
+                        id: 'nameTxt',
+                        itemId: 'nameTxt'
                     },
                     {
                         xtype: 'spacer',
@@ -66268,82 +66460,247 @@ Ext.define('Ext.picker.Picker', {
                         width: 18
                     },
                     {
-                        xtype: 'component',
-                        cls: 'contact-name',
-                        disabled: true,
-                        html: '<b>First Name</b>',
-                        id: 'nameTxt',
-                        itemId: 'nameTxt'
+                        xtype: 'button',
+                        docked: 'right',
+                        itemId: 'mybutton10',
+                        style: 'color:#00529D',
+                        ui: 'plain',
+                        iconCls: 'icon-menu'
                     }
                 ]
             },
             {
-                xtype: 'textfield',
-                cls: 'icon-phone',
-                disabled: false,
-                height: '',
-                itemId: 'phoneNumber',
-                margin: '',
-                minWidth: '',
-                padding: '10 10 10 10',
-                clearIcon: false,
-                name: 'phoneNumber',
-                readOnly: true
-            },
-            {
-                xtype: 'textfield',
-                cls: 'icon-email',
-                disabled: false,
-                height: '',
-                itemId: 'email',
-                minWidth: '',
-                padding: '10 10 10 10',
-                clearIcon: false,
-                label: '',
-                name: 'emailAddress',
-                readOnly: true
-            },
-            {
-                xtype: 'textfield',
-                cls: 'icon-globe',
-                disabled: false,
-                height: '',
-                itemId: 'websiteDisplayName',
-                padding: '10 10 10 10',
-                style: 'font-size:2px !important',
-                clearIcon: false,
-                name: 'websiteDisplayName',
-                readOnly: true
+                xtype: 'component',
+                cls: 'contact-name',
+                disabled: true,
+                docked: 'top',
+                height: '40vh',
+                id: 'storeImage',
+                itemId: 'storeImage'
             },
             {
                 xtype: 'textareafield',
-                baseCls: '',
                 cls: [
-                    'icon-location',
+                    'icon-location1',
                     'customfield1'
                 ],
                 disabled: false,
+                docked: 'bottom',
                 height: '12vh',
+                hidden: false,
                 html: '',
                 itemId: 'address',
+                margin: '0 5 0 5',
                 maxHeight: '',
                 minHeight: '',
-                padding: '10 10 10 10',
-                style: '\'font-size:3.5vw;font-family: arial\'',
+                padding: '10 0 5 10',
+                style: 'font-size:3.5vw;',
+                styleHtmlContent: true,
                 clearIcon: false,
                 name: 'address',
+                placeHolder: 'Not Listed',
                 readOnly: true,
                 maxRows: 2
             },
             {
-                xtype: 'contactpic',
-                cls: 'x-panel-body',
-                docked: 'top',
-                height: '30%',
-                itemId: 'contactpic',
-                width: ''
+                xtype: 'textfield',
+                cls: [
+                    'icon-globe1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                itemId: 'websiteDisplayName',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:5vw;font-family: arial',
+                styleHtmlContent: true,
+                clearIcon: false,
+                name: 'websiteDisplayName',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-email1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                itemId: 'email',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:5vw;font-family: arial',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                label: '',
+                name: 'emailAddress',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: [
+                    'icon-phone1',
+                    'customfield2'
+                ],
+                disabled: false,
+                docked: 'bottom',
+                height: '1vh',
+                hidden: false,
+                itemId: 'phoneNumber',
+                margin: '0 5 0 5',
+                padding: '0 0 5 5',
+                style: 'font-size:4.5vw;font-family: arial;',
+                styleHtmlContent: true,
+                width: '95%',
+                clearIcon: false,
+                name: 'phoneNumber',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber1',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'city',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber2',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'state',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber3',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'zipcode',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber4',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'pictureURL',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber5',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'customerId',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber6',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'category',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                disabled: false,
+                height: '',
+                hidden: true,
+                itemId: 'phoneNumber7',
+                margin: '',
+                minWidth: '',
+                padding: '10 10 10 10',
+                clearIcon: false,
+                name: 'businessName',
+                readOnly: true
+            },
+            {
+                xtype: 'button',
+                hidden: true,
+                itemId: 'editButton',
+                margin: '5 5 5 5',
+                style: 'color:#00529D;font-size:6vw;',
+                styleHtmlContent: true,
+                ui: 'plain',
+                iconCls: 'compose'
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onMybutton10Tap',
+                event: 'tap',
+                delegate: '#mybutton10'
+            },
+            {
+                fn: 'onInfoPainted',
+                event: 'painted'
             }
         ]
+    },
+    onMybutton10Tap: function(button, e, eOpts) {
+        if (Ext.getCmp('menu').isHidden()) {
+            Ext.Viewport.showMenu('right');
+        } else {
+            Ext.Viewport.hideMenu('right');
+        }
+    },
+    onInfoPainted: function(element, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        var date = new Date();
+        var today = Ext.Date.format(date, 'n/j/Y');
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
+        });
+        var record = Ext.getStore('MyJsonPStore').findRecord('customerId', customerId);
+        this.setRecord(record);
     },
     setRecord: function(record) {
         (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
@@ -66351,8 +66708,57 @@ Ext.define('Ext.picker.Picker', {
             var name = record.get('businessName');
             var customerId = record.get('customerId');
             this.down('#nameTxt').setHtml(name);
-            this.down('contactpic').setData(record.data);
+            //this.down('contactpic').setData(record.data);
+            this.down('#storeImage').setHtml('<img src = "' + record.get('pictureURL') + '" style="height:100%;width:95%;margin-left:5px;margin-top:2px;"/>');
         }
+    },
+    initialize: function() {
+        Ext.form.Panel.prototype.initialize.call(this);
+        var menu = Ext.create('Ext.Menu', {
+                id: 'menu',
+                items: [
+                    {
+                        iconCls: 'icon-edit',
+                        handler: function() {
+                            Ext.Viewport.hideMenu('right');
+                            var storeUserDetails = Ext.getStore('UserDetails');
+                            storeUserDetails.load();
+                            var customerId;
+                            var businessName;
+                            storeUserDetails.each(function(record) {
+                                console.log('StoreUserDetails : ' + record.get('customerId'));
+                                customerId = record.get('customerId');
+                                businessName = record.get('businessName');
+                            });
+                            var form = Ext.Viewport.add({
+                                    xtype: 'contactform'
+                                });
+                            var record = Ext.getStore('MyJsonPStore').findRecord('customerId', customerId, 0, true, false, false);
+                            Ext.Viewport.setActiveItem(form);
+                            form.setRecord(record);
+                        }
+                    },
+                    {
+                        iconCls: 'icon-signout',
+                        handler: function() {
+                            Ext.Viewport.hideMenu('right');
+                            Ext.Msg.confirm('Logout', 'Are you sure you want to Logout?', function(btn) {
+                                if (btn == 'yes') {
+                                    FacebookInAppBrowser.logout(function() {
+                                        window.localStorage.setItem('facebookAccessToken', null);
+                                        location.reload();
+                                        navigator.app.exitApp();
+                                    });
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        Ext.Viewport.setMenu(menu, {
+            side: 'right',
+            reveal: true
+        });
     }
 }, 0, [
     "contactinfo"
@@ -66395,15 +66801,14 @@ Ext.define('Ext.picker.Picker', {
         height: '100%',
         id: 'ListOfDeals',
         itemId: 'ListOfDeals',
-        style: '',
         autoDestroy: false,
+        allowDeselect: true,
         deselectOnContainerClick: false,
         mode: 'MULTI',
         deferEmptyText: false,
         emptyText: 'Create Buzz!',
         itemCls: 'list-item',
         store: 'MyDealsStore',
-        onItemDisclosure: false,
         pinHeaders: false,
         preventSelectionOnDisclose: false,
         refreshHeightOnUpdate: false,
@@ -66411,7 +66816,7 @@ Ext.define('Ext.picker.Picker', {
         itemTpl: [
             '',
             '',
-            '<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" class="delete_button" style="float:right">#</div>',
+            '<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" id="delete" class="delete_button" style="float:right;padding:0px 15px 0px 15px;">#<button type="button" id="edit" class="delete_button" style="float:right">p</div>',
             '<tpl if="dealEndDate &lt; todayplusthreedays ">',
             '<div class= expiringDate >Valid {dealStartDate} to {dealEndDate}</div>',
             '<tpl else>\t',
@@ -66441,203 +66846,6 @@ Ext.define('Ext.picker.Picker', {
 ], 0));
 
 /*
- * File: app/view/DealsPanel.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.DealsPanel', Ext.form.Panel, {
-    config: {
-        baseCls: 'x-list',
-        id: 'dealsPanel',
-        itemId: 'dealsPanel',
-        minHeight: '80%',
-        padding: '5 5 5 5',
-        style: 'border:1px inset;',
-        styleHtmlContent: true,
-        url: '',
-        items: [
-            {
-                xtype: 'listofdeals',
-                docked: 'top',
-                height: '90%',
-                itemId: 'listofdeals',
-                width: '100%'
-            },
-            {
-                xtype: 'button',
-                docked: 'bottom',
-                height: '7%',
-                id: 'UploadDeal',
-                itemId: 'UploadDeal',
-                margin: '5 5 5 5',
-                style: 'font-size:5vw',
-                ui: 'confirm',
-                width: '',
-                text: 'Create Buzz'
-            }
-        ],
-        listeners: [
-            {
-                fn: 'onDealsPanelActivate',
-                event: 'activate'
-            }
-        ]
-    },
-    onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        console.log('Deals Panel Activated');
-        var storeUserDetails = Ext.getStore('UserDetails');
-        storeUserDetails.load();
-        var customerId;
-        var businessName;
-        var date = new Date();
-        var today = Ext.Date.format(date, 'n/j/Y');
-        storeUserDetails.each(function(record) {
-            //console.log('StoreUserDetails : ' +record.get('customerId'));
-            customerId = record.get('customerId');
-            businessName = record.get('businessName');
-        });
-        console.log(customerId);
-        var store = Ext.getStore('MyDealsStore');
-        store.clearFilter();
-        store.filter('customerId', customerId);
-        var records = [];
-        store.each(function(rec) {
-            //console.log('Deal End Date: ' + rec.get('dealEndDate'));
-            //console.log('Tdays date is : ' + today);
-            /*if(rec.get('dealEndDate') >= today) {
-
-		                           records.push(rec.get('itemName'));
-								   //console.log('Active deal ' + rec.get('dealName'));
-
-
-		                       }
-		                       else {
-		                           Ext.Array.remove(records,rec.get('itemName'));
-								   //console.log('Expired deal ' + rec.get('dealName'));
-								   var req = Ext.Ajax.request({
-
-						method:'POST',
-
-
-						url  : 'http://services.appsonmobile.com/deals/'+ rec.get('itemName')
-
-			});
-
-
-		                       }*/
-            if (rec.get('dealEndDate') < today) {
-                Ext.Ajax.request({
-                    method: 'POST',
-                    url: 'http://services.appsonmobile.com/deals/' + rec.get('itemName')
-                });
-            }
-        });
-        store.load();
-    }
-}, 0, [
-    "DealsPanel"
-], [
-    "component",
-    "container",
-    "panel",
-    "formpanel",
-    "DealsPanel"
-], {
-    "component": true,
-    "container": true,
-    "panel": true,
-    "formpanel": true,
-    "DealsPanel": true
-}, [
-    "widget.DealsPanel"
-], 0, [
-    Contact.view,
-    'DealsPanel'
-], 0));
-/* store.clearFilter();
-
-		      console.log(records.length);
-
-		        store.filterBy(function(record){
-		            return Ext.Array.indexOf(records, record.get('itemName')) !== -1;
-
-		        }, this);*/
-
-/*
- * File: app/view/BuzzOMeter.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.BuzzOMeter', Ext.Panel, {
-    config: {
-        listeners: [
-            {
-                fn: 'onPanelActivate',
-                event: 'activate'
-            }
-        ]
-    },
-    onPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-        var dealData;
-        var dataTable = Ext.getStore('AnalyticsStore');
-        var dealName;
-        var zipcode;
-        var numberOfHits;
-        $.getJSON("http://services.appsonmobile.com/analytics/v3/04", function(json) {
-            for (var i = 0; i < json.totalResults; i++) {
-                dealData = (json.rows[i]).toString();
-                var tmp = dealData.split(",");
-                console.log(tmp.length);
-                dealName = tmp[0];
-                zipcode = tmp[1];
-                numberOfHits = tmp[2];
-                dataTable.add({
-                    dealName: dealName,
-                    zipcode: zipcode,
-                    numberOfHits: numberOfHits
-                });
-                console.log(dataTable.getAllCount());
-            }
-        });
-    }
-}, 0, [
-    "buzzometer"
-], [
-    "component",
-    "container",
-    "panel",
-    "buzzometer"
-], {
-    "component": true,
-    "container": true,
-    "panel": true,
-    "buzzometer": true
-}, [
-    "widget.buzzometer"
-], 0, [
-    Contact.view,
-    'BuzzOMeter'
-], 0));
-
-/*
  * File: app/view/contactform.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
@@ -66657,7 +66865,6 @@ Ext.define('Ext.picker.Picker', {
         id: 'formpanel',
         itemId: 'formpanel',
         style: 'background:white',
-        styleHtmlContent: true,
         ui: 'light',
         autoDestroy: false,
         modal: true,
@@ -66672,15 +66879,16 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'toolbar',
                 cls: 'toolbarCls',
                 docked: 'top',
+                height: '12vh',
                 style: 'border-top:none',
                 ui: 'plain',
                 autoDestroy: false,
                 items: [
                     {
                         xtype: 'button',
+                        height: '8vh',
                         itemId: 'cancelButton',
-                        margin: '0 0 0 10',
-                        styleHtmlContent: true,
+                        margin: '10 0 10 10',
                         ui: 'decline',
                         width: '30%',
                         text: 'Cancel'
@@ -66701,46 +66909,9 @@ Ext.define('Ext.picker.Picker', {
                             record.commit();
                             store.sync();
                             store.load();
-                            //form.fireEvent('updateRecord',this);
                             form.submit({
-                                url: 'http://services.appsonmobile.com/updateStoreInfo/' + customerId,
+                                url: 'http://services.appsonmobile.com/demoUpdateStoreInfo/' + customerId,
                                 success: function(form, action) {
-                                    /*record.beginEdit(true, record.getChanges());
-									form.updateRecord(record);
-									record.endEdit(true, record.getChanges());
-									record.commit();
-									store.sync();
-									store.load();*/
-                                    Ext.Viewport.getComponent('panel').destroy();
-                                    var view = Ext.create("Ext.tab.Panel", {
-                                            fullscreen: true,
-                                            tabBarPosition: 'bottom',
-                                            itemId: 'panel',
-                                            cls: 'toolbarCls',
-                                            ui: 'plain',
-                                            style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
-                                            items: [
-                                                {
-                                                    xtype: 'contactinfo',
-                                                    title: 'Home',
-                                                    itemId: 'home',
-                                                    iconCls: 'icon-home'
-                                                },
-                                                {
-                                                    xtype: 'DealsPanel',
-                                                    title: 'Buzz',
-                                                    iconCls: 'icon-bubbles'
-                                                },
-                                                {
-                                                    xtype: 'buzzometer',
-                                                    title: 'BuzzOMeter',
-                                                    iconCls: 'info'
-                                                }
-                                            ]
-                                        });
-                                    //Ext.getCmp('changePicButton').hide();
-                                    Ext.Viewport.setActiveItem(view);
-                                    view.getComponent('home').setRecord(record);
                                     Ext.Msg.alert('Success', action.msg);
                                     form.destroy();
                                 },
@@ -66751,17 +66922,10 @@ Ext.define('Ext.picker.Picker', {
                                 }
                             });
                         },
-                        /*var record = form.getRecord();
-
-							view =Ext.Viewport.add({xtype: 'contactinfo'});
-							view.setRecord(record);
-
-
-							Ext.Viewport.setActiveItem(view);*/
                         cls: 'button',
+                        height: '8vh',
                         itemId: 'saveContactButton',
-                        margin: '0 10 0 0',
-                        styleHtmlContent: true,
+                        margin: '10 10 10 0',
                         ui: 'confirm',
                         width: '30%',
                         text: 'Save'
@@ -66769,12 +66933,43 @@ Ext.define('Ext.picker.Picker', {
                 ]
             },
             {
-                xtype: 'contactpic',
-                cls: 'x-panel-body',
+                xtype: 'dataview',
                 docked: 'top',
-                height: '30%',
-                itemId: 'picture',
-                width: ''
+                height: '40%',
+                itemId: 'mydataview1',
+                margin: '5 5 5 5',
+                padding: '',
+                style: 'overflow:hidden',
+                width: '98%',
+                scrollable: false,
+                disableSelection: false,
+                deferEmptyText: false,
+                itemTpl: [
+                    '<img src = "{pictureURL}" style="height:100%;width:95%;margin-left:5px;margin-top:2px;"/>'
+                ],
+                maxItemCache: 1,
+                scrollToTopOnRefresh: false,
+                store: 'MyJsonPStore',
+                listeners: [
+                    {
+                        fn: function(element, eOpts) {
+                            var storeUserDetails = Ext.getStore('UserDetails');
+                            storeUserDetails.load();
+                            var customerId;
+                            var store = Ext.getStore('MyJsonPStore');
+                            storeUserDetails.each(function(record) {
+                                //console.log('StoreUserDetails : ' +record.get('customerId'));
+                                customerId = record.get('customerId');
+                                businessName = record.get('businessName');
+                            });
+                            store.clearFilter();
+                            store.load();
+                            store.filter('customerId', customerId);
+                            element.repaint();
+                        },
+                        event: 'painted'
+                    }
+                ]
             },
             {
                 xtype: 'button',
@@ -66784,7 +66979,7 @@ Ext.define('Ext.picker.Picker', {
                     var customerId;
                     var businessName;
                     storeUserDetails.each(function(record) {
-                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        console.log('StoreUserDetails : ' + record.get('customerId'));
                         customerId = record.get('customerId');
                         businessName = record.get('businessName');
                     });
@@ -66809,12 +67004,12 @@ Ext.define('Ext.picker.Picker', {
             {
                 xtype: 'textfield',
                 cls: 'customfield',
-                height: '15%',
                 id: 'businessName',
                 itemId: 'businessName',
                 margin: '30 15 2 15',
                 styleHtmlContent: true,
-                name: 'businessName'
+                name: 'businessName',
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textfield',
@@ -66826,7 +67021,8 @@ Ext.define('Ext.picker.Picker', {
                 itemId: 'phoneNumber',
                 margin: '0 15 2 15',
                 styleHtmlContent: true,
-                name: 'phoneNumber'
+                name: 'phoneNumber',
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textareafield',
@@ -66840,7 +67036,8 @@ Ext.define('Ext.picker.Picker', {
                 margin: '0 15 0 15',
                 styleHtmlContent: true,
                 name: 'address',
-                required: true
+                required: true,
+                placeHolder: 'Not Listed'
             },
             {
                 xtype: 'textfield',
@@ -66935,7 +67132,6 @@ Ext.define('Ext.picker.Picker', {
             this.down('#businessName').setValue(record.data.businessName);
             this.down('#phoneNumber').setValue(record.data.phoneNumber);
             this.down('#address').setValue(record.data.address);
-            this.child('contactpic').setData(record.data);
         }
     }
 }, 0, [
@@ -66958,6 +67154,7 @@ Ext.define('Ext.picker.Picker', {
     Contact.view,
     'contactform'
 ], 0));
+//this.child('contactpic').setData(record.data);
 
 /*
  * File: app/controller/Contacts.js
@@ -67084,28 +67281,38 @@ Ext.define('Ext.picker.Picker', {
         var itemNames = [];
         var i = 0;
         if (e.target.type === 'button') {
-            var store = Ext.getStore('MyDealsStore');
-            var record = store.getAt(index);
-            var dealName = record.get('dealName');
-            Ext.Msg.confirm('Delete ' + dealName + '?', null, function(btnText) {
-                if (btnText === 'yes') {
-                    var itemName = record.get('itemName');
-                    var req = Ext.Ajax.request({
-                            method: 'POST',
-                            url: 'http://services.appsonmobile.com/deals/' + itemName,
-                            success: function(form, action) {
-                                Ext.Msg.alert('Success', action.msg);
-                                //console.log(action.msg);
-                                var dealsStore = Ext.getStore('MyDealsStore');
-                                dealsStore.load();
-                            },
-                            failure: function(form, action) {
-                                Ext.Msg.alert('Failure', action.msg);
-                            }
-                        });
-                }
-            }, //console.log(action.msg);
-            this);
+            if (e.target.id === 'delete') {
+                var store = Ext.getStore('MyDealsStore');
+                var record = store.getAt(index);
+                var dealName = record.get('dealName');
+                Ext.Msg.confirm('Delete ' + dealName + '?', null, function(btnText) {
+                    if (btnText === 'yes') {
+                        var itemName = record.get('itemName');
+                        var req = Ext.Ajax.request({
+                                method: 'POST',
+                                url: 'http://services.appsonmobile.com/demoDeals/' + itemName,
+                                success: function(form, action) {
+                                    Ext.Msg.alert('Success', action.msg);
+                                    //console.log(action.msg);
+                                    var dealsStore = Ext.getStore('MyDealsStore');
+                                    dealsStore.load();
+                                },
+                                failure: function(form, action) {
+                                    Ext.Msg.alert('Failure', action.msg);
+                                }
+                            });
+                    }
+                }, //console.log(action.msg);
+                this);
+            } else {
+                var store = Ext.getStore('MyDealsStore');
+                var record = store.getAt(index);
+                var view = Ext.Viewport.add({
+                        xtype: 'UpdateDealForm'
+                    });
+                view.setRecord(record);
+                Ext.Viewport.setActiveItem(view);
+            }
         } else {
             Ext.Viewport.add({
                 xtype: 'DealsPanel'
@@ -67121,10 +67328,8 @@ Ext.define('Ext.picker.Picker', {
         }
     },
     onEditButtonTap: function(button, e, eOpts) {
-        var referrer = Ext.Viewport.getActiveItem();
         var form = this.getContactform();
         var info = this.getContactinfo().getRecord();
-        form.referrer = referrer;
         Ext.Viewport.setActiveItem(form);
         form.setRecord(info);
     },
@@ -67201,10 +67406,6 @@ Ext.define('Ext.picker.Picker', {
     onCancelButtonTap: function(button, e, eOpts) {
         var form = this.getContactform();
         form.destroy();
-        //var btn = Ext.get('changePicButton');
-        //btn.hide();
-        Ext.Viewport.setActiveItem(form.referrer);
-        delete form.referrer;
     },
     onBackFromDealsPanelTap: function(button, e, eOpts) {
         var ds = Ext.StoreManager.lookup('MyJsonPStore');
@@ -67225,29 +67426,45 @@ Ext.define('Ext.picker.Picker', {
         Ext.Viewport.setActiveItem(info);
     },
     onUploadDealTap: function(button, e, eOpts) {
-        var storeUserDetails = Ext.getStore('UserDetails');
-        storeUserDetails.load();
-        var customerId;
-        var businessName;
-        //Ext.Viewport.getActiveItem().destroy();
         var view = Ext.Viewport.add({
-                xtype: 'UploadDealForm'
+                xtype: 'CreateBuzzOption'
             });
-        storeUserDetails.each(function(record) {
-            //console.log('StoreUserDetails : ' +record.get('customerId'));
-            customerId = record.get('customerId');
-            businessName = record.get('businessName');
-            view.setRecord(record);
-        });
-        //view.showBy(button);
-        var frame = document.createElement('iframe');
         Ext.Viewport.setActiveItem(view);
     },
+    //view.showBy(button);
     onShareTap: function(button, e, eOpts) {
         var record = Ext.getStore('LocalStore').getAt(0);
         //var record = Ext.getStore('MyDealsStore').findRecord('itemName',itemName,0,0,true,false,false);
         //var record = Ext.getStore('MyDealsStore').findRecord('customerId',customerId,0,true,false,false);
-        window.plugins.socialsharing.share(null, null, record.get('dealPictureURL'), null);
+        //window.plugins.socialsharing.share(null, null,record.get('dealPictureURL'),null);
+        Ext.getCmp('dealBackBtn').hide();
+        Ext.get('share').hide();
+        if (Ext.os.is('Android')) {
+            navigator.screenshot.URI(function(error, res) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    //html = '<img style="width:100%;" src="'+res.URI+'">';
+                    //document.body.innerHTML = html;
+                    window.plugins.socialsharing.share(null, 'Hi! Check out the Latest Buzz from LocalBuzz', res.URI, null);
+                }
+            }, 50);
+            Ext.get('share').show();
+            var view = Ext.Viewport.getComponent('dealPicture');
+            view.setRecord(record);
+            Ext.Viewport.setActiveItem(view);
+        } else {
+            navigator.screenshot.save(function(error, res) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    //Ext.Msg.alert(res.filePath,null,null,null); //should be path/to/myScreenshot.jpg
+                    window.plugins.socialsharing.share(null, 'Hi! Check out the Latest Buzz from LocalBuzz', res.filePath, null);
+                    Ext.getCmp('dealBackBtn').show();
+                    Ext.get('share').show();
+                }
+            }, 'jpg', 50, 'myScreenShot');
+        }
     },
     onManageDealsTap: function(button, e, eOpts) {
         var storeUserDetails = Ext.getStore('UserDetails');
@@ -67304,17 +67521,11 @@ Ext.define('Ext.picker.Picker', {
 (Ext.cmd.derive('Contact.view.DealPicture', Ext.Panel, {
     config: {
         fullscreen: true,
-        height: '100%',
+        id: 'dealPicture',
         itemId: 'dealPicture',
-        left: 'dealPicture',
-        style: 'overflow: hidden;background:#fff',
-        styleHtmlContent: true,
+        style: 'background:#fff',
         width: '100%',
         autoDestroy: false,
-        scrollable: false,
-        tpl: [
-            '<img src="{dealPictureURL}" style="margin:5px 5px 5px 5px;height:100%;width:100%;border:1px groove #C0C0C0;"/>'
-        ],
         layout: {
             type: 'vbox',
             align: 'stretchmax'
@@ -67324,35 +67535,239 @@ Ext.define('Ext.picker.Picker', {
                 xtype: 'toolbar',
                 cls: 'toolbarCls',
                 docked: 'top',
+                height: '8vh',
                 ui: 'plain',
                 width: '100%',
                 scrollable: false,
                 layout: {
                     type: 'hbox',
-                    align: 'stretchmax'
+                    align: 'center'
                 },
                 items: [
                     {
                         xtype: 'button',
                         cls: 'icon-back-button',
+                        docked: 'left',
+                        height: '100%',
+                        id: 'dealBackBtn',
                         itemId: 'dealBackBtn',
+                        margin: '10 0 0 0',
                         style: 'font-size:8vw',
+                        styleHtmlContent: true,
                         ui: 'plain'
                     },
                     {
                         xtype: 'button',
                         cls: 'icon-share',
                         docked: 'right',
+                        id: 'share',
                         itemId: 'share',
                         minHeight: '100%',
                         style: 'border:none;font-size:7vw',
                         ui: 'plain',
                         iconAlign: 'center',
                         text: ''
+                    },
+                    {
+                        xtype: 'component',
+                        cls: 'contact-name',
+                        disabled: true,
+                        height: '100%',
+                        html: '<b>Business Name</b>',
+                        id: 'nameTxt1',
+                        itemId: 'nameTxt1',
+                        style: 'word-wrap:break-word;font-family:Arial;font-size:5vw;text-align:center',
+                        width: '100%'
                     }
                 ]
+            },
+            {
+                xtype: 'component',
+                cls: 'contact-name',
+                disabled: true,
+                height: '40vh',
+                id: 'dealimage',
+                itemId: 'dealimage',
+                left: '2%',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw;border:2px dotted #c0c0c0',
+                top: '1%',
+                width: '95%',
+                listeners: [
+                    {
+                        fn: function(element, eOpts) {
+                            var record = Ext.getStore('LocalStore').getAt(0);
+                            if (record.get('dealImageURL')) {
+                                element.addListener('tap', function() {
+                                    console.log('DealImage Tap');
+                                    var view = Ext.Viewport.add({
+                                            xtype: 'DealImage'
+                                        });
+                                    view.setRecord(record);
+                                    view.showBy(Ext.get('dealPicture'));
+                                });
+                            }
+                        },
+                        event: 'painted'
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                cls: 'contact-name',
+                disabled: true,
+                html: '<p style="font-size:3vw;text-align:center">       Published through Local Buzz',
+                id: 'nameTxt2',
+                itemId: 'nameTxt2',
+                left: '40%',
+                margin: '10 5 5 5',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+                top: '51%',
+                width: '65%'
+            },
+            {
+                xtype: 'container',
+                cls: 'contact-name',
+                disabled: true,
+                hidden: false,
+                html: '<p style="font-size:2.3vw;"> Click on picture to enlarge</p>',
+                id: 'nameTxt3',
+                itemId: 'nameTxt3',
+                left: '40%',
+                margin: '10 5 5 5',
+                style: 'word-wrap:break-word;font-family:Arial;font-size:6vw',
+                top: '43%',
+                width: '65%'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-phone1',
+                docked: 'bottom',
+                height: '8vh',
+                id: 'phoneNumber1',
+                itemId: 'phoneNumber1',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'font-size:2vw !important',
+                styleHtmlContent: true,
+                top: '56%',
+                width: '90%',
+                clearIcon: false,
+                name: 'phoneNumber',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-globe1',
+                docked: 'bottom',
+                height: '8vh',
+                id: 'website3',
+                itemId: 'website3',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+                styleHtmlContent: true,
+                top: '76%',
+                width: '90%',
+                clearIcon: false,
+                name: 'websiteDisplayName',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-email1',
+                docked: 'bottom',
+                height: '8vh',
+                hidden: false,
+                id: 'email1',
+                itemId: 'email1',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;',
+                styleHtmlContent: true,
+                top: '66%',
+                width: '90%',
+                clearIcon: false,
+                name: 'emailAddress',
+                placeHolder: 'Not Listed',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                cls: 'icon-phone1',
+                docked: 'bottom',
+                hidden: true,
+                id: 'website2',
+                itemId: 'website2',
+                margin: '0 0 0 5',
+                padding: '0 0 10 10',
+                style: 'font-size:2vw !important',
+                styleHtmlContent: true,
+                top: '65%',
+                width: '90%',
+                clearIcon: false,
+                name: 'website',
+                readOnly: true
+            },
+            {
+                xtype: 'textareafield',
+                cls: [
+                    'icon-location1',
+                    'customfield1'
+                ],
+                height: '9vh',
+                id: 'address1',
+                itemId: 'address1',
+                margin: '0 0 0 5',
+                style: 'font-size:4.2vw;font-family:Arial;',
+                styleHtmlContent: true,
+                top: '86%',
+                width: '95%',
+                clearIcon: false,
+                name: 'address',
+                readOnly: true
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onDealPictureInitialize',
+                event: 'initialize'
+            },
+            {
+                fn: 'onDealPictureShow',
+                event: 'show'
             }
         ]
+    },
+    onDealPictureInitialize: function(component, eOpts) {
+        if (Ext.os.is('Android')) {
+            Ext.getCmp('dealBackBtn').hide();
+        }
+    },
+    onDealPictureShow: function(component, eOpts) {
+        var record = Ext.getStore('LocalStore').getAt(0);
+        if (record.get('dealImageURL')) {
+            this.down('#dealimage').setHtml('<img src="' + record.get('dealImageURL') + '" style="margin: 0px 5px 0px 5px;height:40vh;width:95%;border:none;"/>');
+            this.down('#nameTxt3').show();
+        } else {
+            this.down('#dealimage').setHtml('<img src="resources/img/localbuzzicon.png" align="right" style="margin: 5px 5px 5px 5px"/><br><div style="font-size:6vw;">' + record.get('dealName') + '</div><br><br><div style="font-size:5vw;">' + record.get('dealDescription') + '</div><br><br><div style="font-size:4vw;margin:5px 5px 5px 5px;">Valid ' + record.get('dealStartDate') + ' - ' + record.get('dealEndDate') + '</div>');
+            this.down('#nameTxt3').hide();
+        }
+    },
+    setRecord: function(record) {
+        (arguments.callee.$previous || Ext.Panel.prototype.setRecord).apply(this, arguments);
+        if (record) {
+            var name = record.get('itemName');
+            var businessName = record.get('businessName');
+            this.down('#nameTxt1').setHtml(record.get('businessName'));
+            var store = Ext.getStore('MyJsonPStore');
+            var rec = store.findRecord('businessName', businessName);
+            Ext.getCmp('phoneNumber1').setValue(rec.get('phoneNumber'));
+            Ext.getCmp('website3').setValue(rec.get('websiteDisplayName'));
+            Ext.getCmp('website2').setValue(rec.get('website'));
+            Ext.getCmp('address1').setValue(rec.get('address'));
+            Ext.getCmp('email1').setValue(rec.get('emailAddress'));
+        }
     }
 }, 0, [
     "dealPicture"
@@ -67374,7 +67789,7 @@ Ext.define('Ext.picker.Picker', {
 ], 0));
 
 /*
- * File: app/view/Login.js
+ * File: app/view/DealsPanel.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
  * http://www.sencha.com/products/architect/
@@ -67387,417 +67802,85 @@ Ext.define('Ext.picker.Picker', {
  *
  * Do NOT hand edit this file.
  */
-(Ext.cmd.derive('Contact.view.Login', Ext.Container, {
+(Ext.cmd.derive('Contact.view.DealsPanel', Ext.form.Panel, {
     config: {
-        html: '<h3><b>Welcome to Local Buzz!</b></h3> <p>With this app you can stay in touch with your customers.In order to use Local Buzz, you must sign in with your Facebook account.</p>',
-        maxHeight: '',
-        style: '',
+        baseCls: 'x-list',
+        id: 'dealsPanel',
+        itemId: 'dealsPanel',
+        minHeight: '80%',
+        padding: '5 5 5 5',
+        style: 'border:1px inset;',
         styleHtmlContent: true,
-        layout: {
-            type: 'card',
-            animation: 'pop'
-        },
+        url: '',
         items: [
             {
+                xtype: 'listofdeals',
+                docked: 'top',
+                height: '90%',
+                itemId: 'listofdeals',
+                width: '100%'
+            },
+            {
                 xtype: 'button',
-                centered: true,
-                html: '<img src="resources/images/login.png"/>',
-                id: 'Login',
-                itemId: 'Login',
-                maxHeight: '',
-                minHeight: '',
-                style: 'border:none;',
-                styleHtmlCls: '',
-                ui: 'plain',
-                iconAlign: 'top'
+                docked: 'bottom',
+                height: '7%',
+                id: 'UploadDeal',
+                itemId: 'UploadDeal',
+                margin: '5 5 5 5',
+                style: 'font-size:5vw',
+                ui: 'confirm',
+                width: '',
+                text: 'Create Buzz'
             }
         ],
         listeners: [
             {
-                fn: 'onLoginTap',
-                event: 'tap',
-                delegate: '#Login'
+                fn: 'onDealsPanelActivate',
+                event: 'activate'
+            },
+            {
+                fn: 'onDealsPanelPainted',
+                event: 'painted'
             }
         ]
     },
-    onLoginTap: function(button, e, eOpts) {
-        // Settings.
-        FacebookInAppBrowser.settings.appId = '900651756709444';
-        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
-        FacebookInAppBrowser.settings.permissions = 'email';
-        // Optional
-        FacebookInAppBrowser.settings.timeoutDuration = 7500;
-        // Login(accessToken will be stored trough localStorage in 'accessToken');
-        FacebookInAppBrowser.login({
-            send: function() {
-                console.log('login opened');
-            },
-            success: function(access_token) {
-                console.log('done, access token: ' + access_token);
-            },
-            denied: function() {
-                console.log('user denied');
-            },
-            timeout: function() {
-                console.log('a timeout has occurred, probably a bad internet connection');
-            },
-            complete: function(access_token) {
-                console.log('window closed');
-                if (access_token) {
-                    console.log(access_token);
-                } else {
-                    console.log('no access token');
-                }
-            },
-            userInfo: function(userInfo) {
-                if (userInfo) {
-                    var userInf = JSON.stringify(userInfo);
-                    console.log(userInf);
-                    var info = userInf.split("\",\"");
-                    var tmp = info[0].split("\":\"");
-                    var email = tmp[1];
-                    //console.log(email);
-                    tmp = info[1].split("\":\"");
-                    var loginName = tmp[1];
-                    tmp = info[2].split("\":\"");
-                    var gender = tmp[1];
-                    tmp = info[3].split("\":\"");
-                    var userId = tmp[1];
-                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'studionafisa@yahoo.com', 0, true, false, false);
-                    //console.log(store.getData());
-                    //store.loadRecord();
-                    //var view = Ext.create('Contact.view.Info');
-                    //view.setRecord(record.getRecord());
-                    //console.log(view.getData());
-                    //Ext.Viewport.setActiveItem(view);
-                    var storeUserDetails = Ext.getStore('UserDetails');
-                    storeUserDetails.removeAll();
-                    storeUserDetails.add({
-                        'customerId': record.get('customerId'),
-                        'email': email,
-                        'businessName': record.get('businessName')
-                    });
-                    //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-                    var store = Ext.getStore('MyJsonPStore');
-                    var view = Ext.create("Ext.tab.Panel", {
-                            itemId: 'panel',
-                            fullscreen: true,
-                            tabBarPosition: 'bottom',
-                            items: [
-                                {
-                                    xtype: 'contactinfo',
-                                    title: 'Home',
-                                    itemId: 'home',
-                                    iconCls: 'home'
-                                },
-                                {
-                                    xtype: 'DealsPanel',
-                                    title: 'Buzz',
-                                    iconCls: 'info'
-                                }
-                            ]
-                        });
-                    view.getComponent('home').setRecord(record);
-                    Ext.Viewport.getActiveItem().destroy();
-                    Ext.Viewport.setActiveItem(view);
-                } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
-                //console.log(view.getComponent('home').getItemId());
-                //view.setData(record.getData());
-                ////view.setRecord(record);
-                // Ext.Viewport.setActiveItem(view);
-                //view.setData(record.getData());
-                {
-                    console.log('no user info');
-                }
-            }
+    onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
+        var storeUserDetails = Ext.getStore('UserDetails');
+        storeUserDetails.load();
+        var customerId;
+        var businessName;
+        storeUserDetails.each(function(record) {
+            //console.log('StoreUserDetails : ' +record.get('customerId'));
+            customerId = record.get('customerId');
+            businessName = record.get('businessName');
         });
-    }
-}, 0, 0, [
-    "component",
-    "container"
-], {
-    "component": true,
-    "container": true
-}, 0, 0, [
-    Contact.view,
-    'Login'
-], 0));
-
-/*
- * File: app/view/UploadDealForm.js
- *
- * This file was generated by Sencha Architect version 3.2.0.
- * http://www.sencha.com/products/architect/
- *
- * This file requires use of the Sencha Touch 2.4.x library, under independent license.
- * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
- * details see http://www.sencha.com/license or contact license@sencha.com.
- *
- * This file will be auto-generated each and everytime you save your project.
- *
- * Do NOT hand edit this file.
- */
-(Ext.cmd.derive('Contact.view.UploadDealForm', Ext.form.Panel, {
-    config: {
-        cls: 'customfield',
-        height: '100%',
-        minHeight: '',
-        style: 'background:white',
-        enctype: 'multipart/form-data',
-        url: 'http://services.appsonmobile.com/uploadS3',
-        items: [
-            {
-                xtype: 'textfield',
-                cls: 'customfield',
-                margin: '5 5 5 5 ',
-                padding: '',
-                style: 'border:1px solid #C0C0C0!important',
-                styleHtmlContent: true,
-                width: '',
-                clearIcon: false,
-                label: 'Name',
-                labelWidth: '35%',
-                name: 'DealName'
-            },
-            {
-                xtype: 'selectfield',
-                cls: 'customfield',
-                itemId: 'dealStatus',
-                margin: '5 5 5 5 ',
-                maxHeight: '',
-                style: '',
-                styleHtmlContent: true,
-                label: 'Status',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'DealStatus',
-                value: 'Active',
-                placeHolder: 'Active',
-                autoSelect: false,
-                options: [
-                    {
-                        text: 'Active',
-                        value: 'Active'
-                    },
-                    {
-                        text: 'Expired',
-                        value: 'Expired'
-                    }
-                ]
-            },
-            {
-                xtype: 'datepickerfield',
-                cls: [
-                    'customfield',
-                    'x-field-select'
-                ],
-                id: 'DealStartDate',
-                itemId: 'DealStartDate',
-                margin: '5 5 5 5 ',
-                styleHtmlContent: true,
-                width: '97%',
-                label: 'Start Date',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'DealStartDate',
-                value: {
-                    day: new Date().getDate(),
-                    month: (new Date().getMonth() + 1),
-                    year: new Date().getFullYear()
-                },
-                placeHolder: 'mm/dd/yyyy',
-                autoSelect: false,
-                usePicker: true,
-                dateFormat: 'm/d/Y',
-                picker: {
-                    itemId: 'mydatepicker3',
-                    styleHtmlContent: true,
-                    stretchX: false,
-                    yearFrom: 2016
-                }
-            },
-            {
-                xtype: 'datepickerfield',
-                cls: [
-                    'customfield',
-                    'x-field-select'
-                ],
-                itemId: 'DealEndDate',
-                margin: '5 5 5 5 ',
-                styleHtmlContent: true,
-                width: '97%',
-                label: 'End Date',
-                labelWidth: '35%',
-                name: 'DealEndDate',
-                value: {
-                    day: new Date().getDate(),
-                    month: (new Date().getMonth() + 1),
-                    year: new Date().getFullYear()
-                },
-                placeHolder: 'mm/dd/yyyy',
-                usePicker: true,
-                picker: {
-                    styleHtmlContent: true,
-                    yearFrom: 2016
-                }
-            },
-            {
-                xtype: 'filefield',
-                cls: 'customfield',
-                id: 'myfilefield',
-                itemId: 'myfilefield',
-                margin: '5 5 5 5 ',
-                style: 'color:white',
-                styleHtmlContent: true,
-                clearIcon: false,
-                label: 'Image',
-                labelWidth: '35%',
-                labelWrap: true,
-                name: 'fileUpload',
-                capture: 'camera'
-            },
-            {
-                xtype: 'spacer',
-                maxHeight: ''
-            },
-            {
-                xtype: 'textfield',
-                hidden: true,
-                name: 'customerId'
-            },
-            {
-                xtype: 'textfield',
-                hidden: true,
-                name: 'businessName'
-            },
-            {
-                xtype: 'container',
-                height: 140,
-                margin: '10 10 10 10 10',
-                layout: 'fit',
-                scrollable: false,
-                items: [
-                    {
-                        xtype: 'spacer',
-                        maxWidth: '',
-                        minWidth: ''
-                    },
-                    {
-                        xtype: 'button',
-                        handler: function(button, e) {
-                            Ext.Viewport.getActiveItem().destroy();
-                        },
-                        height: '20%',
-                        style: 'font-size:5vw!important',
-                        styleHtmlContent: true,
-                        ui: 'decline',
-                        width: '40%',
-                        text: 'Cancel'
-                    },
-                    {
-                        xtype: 'button',
-                        handler: function(button, e) {
-                            var uForm = this.up('UploadDealForm');
-                            var file = uForm.getAt(4).getValue();
-                            //var dealStartDate = uForm.getAt(2).getValue().toDateString();
-                            //var dealEndDate = uForm.getAt(3).getValue();
-                            Ext.Date.format(uForm.getAt(2).getValue(), 'n/j/Y');
-                            Ext.Date.format(uForm.getAt(3).getValue(), 'n/j/Y');
-                            /*var startDate = uForm.getAt(2).getValue();
-
-							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
-							console.log(date);
-
-							uForm.getAt(2).setValue(date);
-
-
-							var startDate = uForm.getAt(3).getValue();
-
-							var date = (startDate.getMonth()+1)+"/"+ startDate.getDate() + "/" + startDate.getFullYear();
-							console.log(date);
-
-
-							uForm.getAt(3).setValue(date);
-
-
-							console.log(date);*/
-                            /*var startDate = dealStartDate.getDate();
-							var startMonth = dealStartDate.getMonth()+1;
-							var startYear = dealStartDate.getFullYear();
-
-							var dealStart = startDate + "/" + startMonth + "/" + startYear ;
-
-							console.log(dealStart);
-
-							uForm.getAt(2).setValue(dealStart);
-
-							var endDate = dealEndDate.getDate();
-							var endMonth = dealEndDate.getMonth()+1;
-							var endYear = dealEndDate.getFullYear();
-
-							var dealEnd = endDate + "/" + endMonth + "/" + endYear ;
-
-							uForm.getAt(3).setValue(dealEnd);
-							console.log(dealEnd);*/
-                            if (file) {
-                                uForm.submit({
-                                    url: 'http://services.appsonmobile.com/uploadS3',
-                                    xhr2: true,
-                                    waitMsg: 'Please Wait...',
-                                    timeout: 5000,
-                                    scope: this,
-                                    success: function(form, action) {
-                                        Ext.getStore('MyDealsStore').load();
-                                        Ext.Msg.alert('Success', action.msg);
-                                        //console.log("Action Msg is : " +action.success);
-                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
-                                        uForm.destroy();
-                                    },
-                                    failure: function(form, action) {
-                                        Ext.getStore('MyDealsStore').load();
-                                        Ext.Msg.alert('Failure', action.msg);
-                                        console.log("Action Msg is : " + action.msg);
-                                        //Ext.Viewport.setActiveItem({xtype:'DealsPanel'});
-                                        uForm.destroy();
-                                    }
-                                });
-                            } else {
-                                Ext.Msg.alert('Failure', 'No Image to Upload');
-                                uForm.destroy();
-                            }
-                        },
-                        docked: 'right',
-                        height: '20%',
-                        itemId: 'submit',
-                        style: 'font:size:4vw',
-                        styleHtmlContent: true,
-                        ui: 'confirm',
-                        width: '30%',
-                        text: 'Submit'
-                    }
-                ]
-            }
-        ]
+        var store = Ext.getStore('MyDealsStore');
+        store.clearFilter();
+        store.filter('customerId', customerId);
+    },
+    onDealsPanelPainted: function(element, eOpts) {
+        var store = Ext.getStore('MyDealsStore');
+        store.load();
     }
 }, 0, [
-    "UploadDealForm"
+    "DealsPanel"
 ], [
     "component",
     "container",
     "panel",
     "formpanel",
-    "UploadDealForm"
+    "DealsPanel"
 ], {
     "component": true,
     "container": true,
     "panel": true,
     "formpanel": true,
-    "UploadDealForm": true
+    "DealsPanel": true
 }, [
-    "widget.UploadDealForm"
+    "widget.DealsPanel"
 ], 0, [
     Contact.view,
-    'UploadDealForm'
+    'DealsPanel'
 ], 0));
 
 /*
@@ -67834,10 +67917,9 @@ Ext.define('Ext.picker.Picker', {
         items: [
             {
                 xtype: 'filefield',
-                baseCls: 'customfield1',
+                cls: 'customfield1',
                 itemId: 'myfilefield1',
                 margin: '5 5 5 5',
-                style: 'border:none',
                 styleHtmlContent: true,
                 width: 214,
                 clearIcon: false,
@@ -67853,28 +67935,35 @@ Ext.define('Ext.picker.Picker', {
                     var record = form.getRecord();
                     var customerId = form.getRecord().get('customerId');
                     var store = Ext.getStore('MyJsonPStore');
-                    form.submit({
-                        url: 'http://services.appsonmobile.com/stores/' + customerId,
-                        xhr2: true,
-                        cache: false,
-                        success: function(form, action) {
-                            var view = Ext.Viewport.getActiveItem();
-                            record.beginEdit(true, record.getChanges());
-                            form.updateRecord(record);
-                            record.endEdit(true, record.getChanges());
-                            record.commit();
-                            store.sync();
-                            store.load();
-                            Ext.Msg.alert('Success', action.msg);
-                            view.setRecord(record);
-                            form.destroy();
-                        },
-                        failure: function(form, action) {
-                            store.load();
-                            Ext.Msg.alert('Failure', action.msg);
-                            form.destroy();
-                        }
-                    });
+                    var file = form.getAt(0).getValue();
+                    if (file) {
+                        form.submit({
+                            url: 'http://services.appsonmobile.com/demoStores/' + customerId,
+                            xhr2: true,
+                            cache: false,
+                            waitMsg: 'Please Wait...',
+                            success: function(form, action) {
+                                var view = Ext.Viewport.getActiveItem();
+                                record.setDirty();
+                                record.beginEdit(true, record.getChanges());
+                                form.updateRecord(record);
+                                record.endEdit(true, record.getChanges());
+                                record.commit();
+                                store.sync();
+                                store.load();
+                                Ext.Msg.alert('Success', action.msg);
+                                form.destroy();
+                                view.setRecord(record);
+                            },
+                            failure: function(form, action) {
+                                store.load();
+                                Ext.Msg.alert('Failure', action.msg);
+                                form.destroy();
+                            }
+                        });
+                    } else {
+                        Ext.Msg.alert('Error!', 'No Image to upload ', null, null);
+                    }
                 },
                 bottom: 30,
                 centered: false,
@@ -67984,6 +68073,1494 @@ Ext.define('Ext.picker.Picker', {
 ], 0));
 
 /*
+ * File: app/view/panel.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.panel', Ext.tab.Panel, {
+    config: {
+        id: 'panel',
+        itemId: 'panel',
+        items: [
+            {
+                xtype: 'container',
+                title: 'Home',
+                iconCls: 'icon-home',
+                height: '',
+                id: 'home',
+                itemId: 'home',
+                items: [
+                    {
+                        xtype: 'contactinfo',
+                        height: '100%'
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                title: 'Manage Buzz',
+                iconCls: 'icon-plane',
+                items: [
+                    {
+                        xtype: 'DealsPanel',
+                        height: '100%'
+                    }
+                ]
+            },
+            {
+                xtype: 'tabpanel',
+                title: 'BuzzOMeter',
+                iconCls: 'icon-buzzometer',
+                id: 'buzzometer',
+                itemId: 'buzzometer',
+                style: 'font-size:5vw',
+                styleHtmlContent: true,
+                items: [
+                    {
+                        xtype: 'container',
+                        title: 'Buzz Popularity',
+                        height: '100%',
+                        html: '<div id="chart1"></div>',
+                        itemId: 'mypanel',
+                        styleHtmlContent: true,
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    var storeUserDetails = Ext.getStore('UserDetails');
+                                    storeUserDetails.load();
+                                    var customerId;
+                                    var businessName;
+                                    storeUserDetails.each(function(record) {
+                                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                                        customerId = record.get('customerId');
+                                        businessName = record.get('businessName');
+                                    });
+                                    // Set a callback to run when the Google Visualization API is loaded.
+                                    google.charts.setOnLoadCallback(drawChart);
+                                    function drawChart() {
+                                        //Bar Chart
+                                        var dataBarChart = new google.visualization.DataTable();
+                                        var dealName = [];
+                                        var numberOfClicks = [];
+                                        dataBarChart.addColumn('string', 'dealName');
+                                        dataBarChart.addColumn('number', 'Number Of Clicks');
+                                        $.getJSON('http://services.appsonmobile.com/analytics_buzz_popularity/v3/' + customerId, function(json) {
+                                            for (var i = 0,
+                                                j = i; i < json.totalResults; i++ , j++) {
+                                                dealData = json.rows[i].toString();
+                                                tmp = dealData.split(",");
+                                                dealName[j] = tmp[0];
+                                                numberOfClicks[j] = parseInt(tmp[1], 10);
+                                            }
+                                            for (j = 0; j < dealName.length; j++) {
+                                                dataBarChart.addRow([
+                                                    dealName[j],
+                                                    numberOfClicks[j]
+                                                ]);
+                                            }
+                                            // Set chart options
+                                            var optionsBarChart = {
+                                                    vAxis: {
+                                                        title: 'Number of Views',
+                                                        titleTextStyle: {
+                                                            color: '#00529D',
+                                                            fontSize: 16
+                                                        },
+                                                        minValue: 0,
+                                                        gridlines: {
+                                                            count: -1
+                                                        }
+                                                    },
+                                                    hAxis: {
+                                                        title: 'Buzz Name',
+                                                        titleTextStyle: {
+                                                            color: '#00529D',
+                                                            fontSize: 16
+                                                        }
+                                                    },
+                                                    legend: 'none',
+                                                    height: '400',
+                                                    orientation: 'horizontal',
+                                                    bar: {
+                                                        groupWidth: 20
+                                                    }
+                                                };
+                                            // Instantiate and draw our chart, passing in some options.
+                                            var chartBar = new google.visualization.BarChart(document.getElementById('chart1'));
+                                            chartBar.draw(dataBarChart, optionsBarChart);
+                                        });
+                                    }
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'container',
+                        title: 'User Location',
+                        height: '100%',
+                        html: '<div id="chart2"></div>',
+                        itemId: 'mypanel1',
+                        styleHtmlContent: true,
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    var storeUserDetails = Ext.getStore('UserDetails');
+                                    storeUserDetails.load();
+                                    var customerId;
+                                    var businessName;
+                                    storeUserDetails.each(function(record) {
+                                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                                        customerId = record.get('customerId');
+                                        businessName = record.get('businessName');
+                                    });
+                                    var dealName = [];
+                                    // Set a callback to run when the Google Visualization API is loaded.
+                                    google.charts.setOnLoadCallback(drawChart);
+                                    function drawChart() {
+                                        // Create the data table.
+                                        var data = new google.visualization.DataTable();
+                                        var zipcode = [];
+                                        var numberOfHits = [];
+                                        //data.addColumn('string', 'dealName');
+                                        data.addColumn('string', 'zipcode');
+                                        data.addColumn('number', 'Number Of Hits');
+                                        $.getJSON('http://services.appsonmobile.com/analytics_user_location/v3/' + customerId, function(json) {
+                                            for (var i = 0,
+                                                j = i; i < json.totalResults; i++ , j++) {
+                                                dealData = json.rows[i].toString();
+                                                tmp = dealData.split(",");
+                                                zipcode[j] = tmp[0];
+                                                numberOfHits[j] = parseInt(tmp[1], 10);
+                                            }
+                                            for (j = 0; j < zipcode.length; j++) {
+                                                data.addRow([
+                                                    zipcode[j],
+                                                    numberOfHits[j]
+                                                ]);
+                                            }
+                                            // Set chart options
+                                            var options = {
+                                                    'pieHole': 0.4,
+                                                    'pieSliceTextStyle': {
+                                                        color: 'black'
+                                                    },
+                                                    height: '600',
+                                                    width: '375',
+                                                    legend: 'top'
+                                                };
+                                            // Instantiate and draw our chart, passing in some options.
+                                            var chart = new google.visualization.PieChart(document.getElementById('chart2'));
+                                            chart.draw(data, options);
+                                        });
+                                    }
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        tabBar: {
+            docked: 'bottom',
+            height: '8%',
+            padding: '35 40 0 40',
+            style: 'color:#c0c0c0;background:#FFF;font-size:4vw',
+            ui: 'plain',
+            layout: {
+                type: 'hbox',
+                align: 'end',
+                pack: 'justify'
+            }
+        }
+    }
+}, 0, [
+    "panel"
+], [
+    "component",
+    "container",
+    "tabpanel",
+    "panel"
+], {
+    "component": true,
+    "container": true,
+    "tabpanel": true,
+    "panel": true
+}, [
+    "widget.panel"
+], 0, [
+    Contact.view,
+    'panel'
+], 0));
+
+/*
+ * File: app/view/UpdateDealForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.UpdateDealForm', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel1',
+        itemId: 'formpanel',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: false,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName1',
+                itemId: 'businessName',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId1',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                disabled: false,
+                id: 'DealName',
+                itemId: 'DealName',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Name',
+                labelWidth: '35%',
+                name: 'DealName',
+                readOnly: true
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                id: 'DealStatus',
+                itemId: 'DealStatus',
+                margin: '5 5 5 5 ',
+                maxHeight: '',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealStartDate1',
+                itemId: 'DealStartDate',
+                margin: '5 5 5 5 ',
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                options: {
+                    minDate: new Date()
+                },
+                usePicker: true,
+                dateFormat: 'm/d/Y',
+                picker: {
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealEndDate1',
+                itemId: 'DealEndDate',
+                margin: '5 5 5 5 ',
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                usePicker: true,
+                picker: {
+                    styleHtmlContent: true,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription',
+                itemId: 'DealDescription',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                disabled: false,
+                hidden: true,
+                id: 'DealImageURL',
+                itemId: 'DealImageURL',
+                margin: '5 5 5 5 ',
+                padding: '',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                labelWidth: '35%',
+                name: 'DealImageURL',
+                readOnly: true
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'itemName',
+                itemId: 'itemName',
+                name: 'itemName'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I Agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 10',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/index.php/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '10 10 10 10 10',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                        },
+                        height: '7vh',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('UpdateDealForm');
+                            var itemName = form.getAt(8).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            var dealName = form.getAt(0).getValue();
+                            var date = new Date();
+                            if (dealName) {
+                                if (endDate >= date) {
+                                    if (document.getElementById('chkbx').checked) {
+                                        form.submit({
+                                            url: 'http://services.appsonmobile.com/demoDeals/editDeal/' + itemName,
+                                            success: function(form, action) {
+                                                Ext.Msg.alert('Success', action.msg);
+                                                form.destroy();
+                                            },
+                                            failure: function(form, action) {
+                                                store.load();
+                                                Ext.Msg.alert('Failure', action.msg);
+                                                form.destroy();
+                                            }
+                                        });
+                                    } else {
+                                        Ext.Msg.alert(null, 'You must Agree to Terms & Conditions', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz Name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        style: 'font:size:4vw',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ]
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    },
+    setRecord: function(record) {
+        (arguments.callee.$previous || Ext.form.Panel.prototype.setRecord).apply(this, arguments);
+        if (record) {
+            this.down('#DealName').setValue(record.data.dealName);
+            this.down('#DealStatus').setValue(record.data.dealStatus);
+            this.down('#DealDescription').setValue(record.data.dealDescription);
+            this.down('#DealImageURL').setValue(record.data.dealImageURL);
+        }
+    }
+}, 0, [
+    "UpdateDealForm"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "UpdateDealForm"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "UpdateDealForm": true
+}, [
+    "widget.UpdateDealForm"
+], 0, [
+    Contact.view,
+    'UpdateDealForm'
+], 0));
+//this.child('contactpic').setData(record.data);
+//this.down('#DealStartDate').setValue(record.data.dealStartDate);
+//this.down('#DealEndDate').setValue(record.data.dealEndDate);
+
+/*
+ * File: app/view/UploadDealNoImageForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.UploadDealNoImageForm', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel2',
+        itemId: 'formpanel',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: false,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: false,
+                id: 'businessName2',
+                itemId: 'businessName',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                label: 'Name',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealName'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName3',
+                itemId: 'businessName1',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId2',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                id: 'DealStatus1',
+                itemId: 'DealStatus',
+                margin: '5 5 5 5 ',
+                maxHeight: '',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealStartDate2',
+                itemId: 'DealStartDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                options: {
+                    minDate: new Date()
+                },
+                usePicker: true,
+                component: {
+                    useMask: true,
+                    minValue: new Date()
+                },
+                dateFormat: 'm/d/Y',
+                picker: {
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    useTitles: true,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealEndDate2',
+                itemId: 'DealEndDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                usePicker: true,
+                picker: {
+                    useTitles: true,
+                    yearFrom: 2016
+                }
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription1',
+                itemId: 'DealDescription',
+                margin: '5 5 5 5 ',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealPictureURL1',
+                itemId: 'DealPictureURL',
+                name: 'DealPictureURL'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealImageURL2',
+                itemId: 'DealImageURL2',
+                name: 'DealImageURL'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I Agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 10',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/index.php/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '10 10 10 10 10',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                        },
+                        height: '7vh',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('UploadDealNoImageForm');
+                            var date = new Date();
+                            var dealName = form.getAt(0).getValue();
+                            var startDate = form.getAt(4).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            if (dealName) {
+                                if (endDate >= date) {
+                                    if (document.getElementById('chkbx').checked) {
+                                        form.submit({
+                                            url: 'http://services.appsonmobile.com/democreateNewDeal',
+                                            success: function(form, action) {
+                                                Ext.getStore('MyDealsStore').load();
+                                                Ext.Msg.alert('Success!', action.msg);
+                                                form.destroy();
+                                            },
+                                            failure: function(form, action) {
+                                                store.load();
+                                                Ext.Msg.alert('Failure', action.msg);
+                                                form.destroy();
+                                            }
+                                        });
+                                    } else {
+                                        Ext.Msg.alert(null, 'You must Agree to Terms & Conditions', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz Name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        style: 'font-size:5vw!important',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ]
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    }
+}, 0, [
+    "UploadDealNoImageForm"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "UploadDealNoImageForm"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "UploadDealNoImageForm": true
+}, [
+    "widget.UploadDealNoImageForm"
+], 0, [
+    Contact.view,
+    'UploadDealNoImageForm'
+], 0));
+
+/*
+ * File: app/view/UploadDealWithImageForm.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.UploadDealWithImageForm', Ext.form.Panel, {
+    config: {
+        html: '',
+        id: 'formpanel3',
+        itemId: 'formpanel',
+        padding: '0 0 35 0',
+        style: 'background:white',
+        ui: 'light',
+        autoDestroy: false,
+        modal: true,
+        scrollable: true,
+        multipartDetection: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                hidden: false,
+                id: 'businessName4',
+                itemId: 'businessName',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                label: 'Name',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealName'
+            },
+            {
+                xtype: 'textfield',
+                cls: 'customfield',
+                height: '15%',
+                hidden: true,
+                id: 'businessName5',
+                itemId: 'businessName1',
+                margin: '30 15 2 15',
+                styleHtmlContent: true,
+                name: 'businessName'
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'customerId3',
+                itemId: 'customerId',
+                name: 'customerId'
+            },
+            {
+                xtype: 'selectfield',
+                cls: 'customfield',
+                id: 'DealStatus2',
+                itemId: 'DealStatus',
+                margin: '5 5 5 5 ',
+                maxHeight: '',
+                style: '',
+                styleHtmlContent: true,
+                label: 'Status',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStatus',
+                value: 'Active',
+                placeHolder: 'Active',
+                autoSelect: false,
+                options: [
+                    {
+                        text: 'Active',
+                        value: 'Active'
+                    },
+                    {
+                        text: 'Expired',
+                        value: 'Expired'
+                    }
+                ]
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealStartDate3',
+                itemId: 'DealStartDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'Start Date',
+                labelWidth: '35%',
+                labelWrap: true,
+                name: 'DealStartDate',
+                value: {
+                    day: new Date().getDate(),
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                autoSelect: false,
+                usePicker: true,
+                component: {
+                    useMask: true,
+                    minValue: new Date()
+                },
+                dateFormat: 'm/d/Y',
+                picker: {
+                    id: 'startDatepicker',
+                    itemId: 'mydatepicker3',
+                    style: '',
+                    scrollable: false,
+                    stretchX: false,
+                    stretchY: false,
+                    useTitles: true,
+                    value: {
+                        year: 2016,
+                        month: 7,
+                        day: 16
+                    },
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'datepickerfield',
+                cls: [
+                    'customfield',
+                    'x-field-select'
+                ],
+                id: 'DealEndDate3',
+                itemId: 'DealEndDate',
+                margin: '5 5 5 5 ',
+                styleHtmlContent: true,
+                width: '97%',
+                label: 'End Date',
+                labelWidth: '35%',
+                name: 'DealEndDate',
+                value: {
+                    day: new Date().getDate() + 1,
+                    month: (new Date().getMonth() + 1),
+                    year: new Date().getFullYear()
+                },
+                placeHolder: 'mm/dd/yyyy',
+                options: {
+                    minValue: new Date()
+                },
+                usePicker: true,
+                component: {
+                    useMask: true
+                },
+                picker: {
+                    itemId: 'mydatepicker3',
+                    useTitles: true,
+                    yearFrom: 2016,
+                    yearTo: 2017
+                }
+            },
+            {
+                xtype: 'textfield',
+                hidden: true,
+                id: 'DealPictureURL2',
+                itemId: 'DealPictureURL',
+                name: 'DealPictureURL'
+            },
+            {
+                xtype: 'textareafield',
+                cls: 'customfield',
+                height: '100%',
+                id: 'DealDescription2',
+                itemId: 'DealDescription',
+                margin: '5 5 5 5 ',
+                style: 'border:1px solid #C0C0C0!important',
+                styleHtmlContent: true,
+                width: '',
+                clearIcon: false,
+                label: 'Description',
+                labelWidth: '35%',
+                name: 'DealDescription'
+            },
+            {
+                xtype: 'filefield',
+                cls: 'customfield',
+                itemId: 'myfilefield2',
+                margin: '5 5 0 5',
+                styleHtmlContent: true,
+                width: '97%',
+                clearIcon: false,
+                label: 'Add Image',
+                labelWidth: '29%',
+                labelWrap: true,
+                name: 'fileUpload',
+                capture: 'camera'
+            },
+            {
+                xtype: 'container',
+                left: '',
+                margin: '0 0 5 0',
+                layout: 'hbox',
+                items: [
+                    {
+                        xtype: 'container',
+                        docked: 'left',
+                        html: '<input type="checkbox" name="chkbx" id="chkbx">',
+                        left: '40%',
+                        margin: '5 5 5 15',
+                        top: '50%'
+                    },
+                    {
+                        xtype: 'container',
+                        docked: 'right',
+                        height: '40px',
+                        html: '<a id="terms" style="font-size:2.5vw;" > I Agree to Apps On Mobile LLC\'s Terms & Conditions</a>',
+                        itemId: 'mycontainer5',
+                        margin: '5 5 5 10',
+                        padding: '5 30 5 0',
+                        styleHtmlContent: true,
+                        layout: 'hbox',
+                        listeners: [
+                            {
+                                fn: function(element, eOpts) {
+                                    element.addListener('tap', function() {
+                                        //Ext.Viewport.add({xtype:'Terms'}).show();
+                                        var url = "http://www.appsonmobile.com/index.php/terms-and-conditions/";
+                                        window.open(url, '_system', 'location=yes');
+                                    });
+                                },
+                                event: 'painted'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'container',
+                height: 140,
+                margin: '0 10 50 10',
+                padding: '5 5 5 5',
+                styleHtmlContent: true,
+                layout: 'fit',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'spacer',
+                        maxWidth: '',
+                        minWidth: ''
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getActiveItem().destroy();
+                        },
+                        height: '7vh',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'decline',
+                        width: '40%',
+                        text: 'Cancel'
+                    },
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            var form = this.up('UploadDealWithImageForm');
+                            var date = new Date();
+                            //var dealName = form.getAt(0).getValue();
+                            var startDate = form.getAt(4).getValue();
+                            var endDate = form.getAt(5).getValue();
+                            var file = form.getAt(8).getValue();
+                            var dealName = form.getAt(0).getValue();
+                            if (dealName) {
+                                if (file) {
+                                    if (endDate >= date) {
+                                        if (document.getElementById('chkbx').checked) {
+                                            form.submit({
+                                                url: 'http://services.appsonmobile.com/demouploadS3/',
+                                                xhr2: true,
+                                                cache: false,
+                                                waitMsg: 'Please Wait...',
+                                                success: function(form, action) {
+                                                    Ext.Msg.alert('Success', action.msg);
+                                                    Ext.getStore('MyDealsStore').load();
+                                                    form.destroy();
+                                                },
+                                                failure: function(form, action) {
+                                                    Ext.Msg.alert('Failure', action.msg);
+                                                    Ext.getStore('MyDealsStore').load();
+                                                    form.destroy();
+                                                }
+                                            });
+                                        } else {
+                                            Ext.Msg.alert(null, 'You must agree to Terms & Conditions', null, null);
+                                        }
+                                    } else {
+                                        Ext.Msg.alert('Error!', 'Buzz end date error ', null, null);
+                                    }
+                                } else {
+                                    Ext.Msg.alert('Error!', 'No Image to upload ', null, null);
+                                }
+                            } else {
+                                Ext.Msg.alert('Error!', 'Buzz Name field is empty', null, null);
+                            }
+                        },
+                        docked: 'right',
+                        height: '7vh',
+                        itemId: 'submit',
+                        margin: '0 0 5 0',
+                        style: 'font-size:5vw!important',
+                        ui: 'confirm',
+                        width: '30%',
+                        text: 'Submit'
+                    }
+                ]
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onMydatepicker3Pick',
+                event: 'pick',
+                delegate: '#mydatepicker3'
+            }
+        ]
+    },
+    onMydatepicker3Pick: function(picker, value, slot, eOpts) {
+        var today = new Date();
+        if (value < today) {
+            picker.setValue(today);
+        }
+    },
+    getValidationErrors: function() {
+        var errors = [];
+        var reqFields = this.query('field[required=true]');
+        var i = 0,
+            ln = reqFields.length,
+            field;
+        for (; i < ln; i++) {
+            field = reqFields[i];
+            if (!field.getValue()) {
+                errors.push(field.getLabel() + ' must be completed.');
+            }
+        }
+        console.dir(errors);
+        return errors;
+    }
+}, 0, [
+    "UploadDealWithImageForm"
+], [
+    "component",
+    "container",
+    "panel",
+    "formpanel",
+    "UploadDealWithImageForm"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "formpanel": true,
+    "UploadDealWithImageForm": true
+}, [
+    "widget.UploadDealWithImageForm"
+], 0, [
+    Contact.view,
+    'UploadDealWithImageForm'
+], 0));
+
+/*
+ * File: app/view/CreateBuzzOption.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.CreateBuzzOption', Ext.ActionSheet, {
+    config: {
+        height: '100%',
+        id: 'CreateBuzzOption',
+        itemId: 'CreateBuzzOption',
+        style: 'background:white',
+        styleHtmlContent: true,
+        scrollable: false,
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax',
+            pack: 'center'
+        },
+        items: [
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.load();
+                    var customerId;
+                    var businessName;
+                    var DealPictureURL;
+                    Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({
+                            xtype: 'UploadDealWithImageForm'
+                        });
+                    storeUserDetails.each(function(record) {
+                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        customerId = record.get('customerId');
+                        businessName = record.get('businessName');
+                        DealPictureURL = record.get('DealPictureURL');
+                        view.setRecord(record);
+                    });
+                    //view.showBy(button);
+                    var frame = document.createElement('iframe');
+                    //Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(view);
+                },
+                height: '7vh',
+                margin: '10 10 20 10',
+                style: 'font-size:5vw',
+                ui: 'action',
+                text: 'Create Buzz With Image'
+            },
+            {
+                xtype: 'button',
+                handler: function(button, e) {
+                    var storeUserDetails = Ext.getStore('UserDetails');
+                    storeUserDetails.load();
+                    var customerId;
+                    var businessName;
+                    var DealPictureURL;
+                    Ext.Viewport.getActiveItem().destroy();
+                    var view = Ext.Viewport.add({
+                            xtype: 'UploadDealNoImageForm'
+                        });
+                    storeUserDetails.each(function(record) {
+                        //console.log('StoreUserDetails : ' +record.get('customerId'));
+                        customerId = record.get('customerId');
+                        businessName = record.get('businessName');
+                        DealPictureURL = record.get('DealPictureURL');
+                        view.setRecord(record);
+                    });
+                    //view.showBy(button);
+                    var frame = document.createElement('iframe');
+                    //Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(view);
+                },
+                height: '7vh',
+                margin: '20 10 10 10',
+                style: 'font-size:5vw',
+                ui: 'action',
+                text: 'Create Buzz No Image'
+            }
+        ]
+    }
+}, 0, [
+    "CreateBuzzOption"
+], [
+    "component",
+    "container",
+    "panel",
+    "sheet",
+    "actionsheet",
+    "CreateBuzzOption"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "sheet": true,
+    "actionsheet": true,
+    "CreateBuzzOption": true
+}, [
+    "widget.CreateBuzzOption"
+], 0, [
+    Contact.view,
+    'CreateBuzzOption'
+], 0));
+
+/*
+ * File: app/view/DealImage.js
+ *
+ * This file was generated by Sencha Architect version 3.2.0.
+ * http://www.sencha.com/products/architect/
+ *
+ * This file requires use of the Sencha Touch 2.4.x library, under independent license.
+ * License of Sencha Architect does not include license for Sencha Touch 2.4.x. For more
+ * details see http://www.sencha.com/license or contact license@sencha.com.
+ *
+ * This file will be auto-generated each and everytime you save your project.
+ *
+ * Do NOT hand edit this file.
+ */
+(Ext.cmd.derive('Contact.view.DealImage', Ext.Panel, {
+    config: {
+        height: '80%',
+        id: 'DealImage',
+        itemId: 'DealImage',
+        style: 'background:#FFF;border:1px solid #00529D',
+        width: '95%',
+        scrollable: true,
+        tpl: [
+            '<div id="wrapper" style="margin:0px 0px 0px 0px;height:100%;width:100%">',
+            '\t',
+            '\t<tpl if="dealImageURL">',
+            '\t<div id="scroller"><img src="{dealImageURL}" style="margin:0px 0px 0px 0px;height:100%;width:100%"/></div>',
+            '                            ',
+            '\t\t</tpl>',
+            '\t\t',
+            '\t</div>'
+        ],
+        layout: {
+            type: 'vbox',
+            align: 'stretchmax'
+        },
+        items: [
+            {
+                xtype: 'toolbar',
+                cls: 'toolbarCls',
+                docked: 'top',
+                height: '8vh',
+                items: [
+                    {
+                        xtype: 'button',
+                        handler: function(button, e) {
+                            Ext.Viewport.getComponent('DealImage').destroy();
+                        },
+                        cls: 'icon-close',
+                        docked: 'right',
+                        id: 'close',
+                        itemId: 'close',
+                        padding: '10 10 10 10',
+                        style: 'color:#00529D;font-size:5vw',
+                        ui: 'plain'
+                    }
+                ]
+            }
+        ],
+        listeners: [
+            {
+                fn: 'onDealImageShow',
+                event: 'show'
+            }
+        ]
+    },
+    onDealImageShow: function(component, eOpts) {
+        var myScroll = new IScroll('#wrapper', {
+                zoom: true,
+                scrollX: true,
+                scrollY: true,
+                mouseWheel: true,
+                wheelAction: 'zoom'
+            });
+    }
+}, 0, [
+    "DealImage"
+], [
+    "component",
+    "container",
+    "panel",
+    "DealImage"
+], {
+    "component": true,
+    "container": true,
+    "panel": true,
+    "DealImage": true
+}, [
+    "widget.DealImage"
+], 0, [
+    Contact.view,
+    'DealImage'
+], 0));
+
+/*
  * File: app.js
  *
  * This file was generated by Sencha Architect version 3.2.0.
@@ -68003,27 +69580,28 @@ Ext.application({
     models: [
         'Contact',
         'Deal',
-        'UserDetails',
-        'AnalyticsData'
+        'UserDetails'
     ],
     stores: [
         'MyJsonPStore',
         'MyDealsStore',
         'UserDetails',
-        'LocalStore',
-        'AnalyticsStore'
+        'LocalStore'
     ],
     views: [
         'contactform',
-        'Picture',
         'DealPicture',
         'ListOfDeals',
         'DealsPanel',
         'Login',
-        'UploadDealForm',
         'ChangeContactPicForm',
         'contactinfo',
-        'BuzzOMeter'
+        'panel',
+        'UpdateDealForm',
+        'UploadDealNoImageForm',
+        'UploadDealWithImageForm',
+        'CreateBuzzOption',
+        'DealImage'
     ],
     controllers: [
         'Contacts'
@@ -68038,122 +69616,140 @@ Ext.application({
         Ext.util.Format.undef = function(value, defaultValue) {
             return Ext.isDefined(value) ? value : defaultValue;
         };
+        var BackButtonPanel;
+        var exitApp = false;
+        BackButtonPanel = Ext.create('Ext.Panel', {
+            // fullscreen: true,
+            html: 'Press again to exit',
+            id: 'BackButtonPanel',
+            itemId: 'BackButtonPanel',
+            baseCls: 'x-box'
+        });
+        BackButtonPanel.setBottom('10%');
+        BackButtonPanel.setLeft('35%');
+        //BackButtonPanel.setHeight('50px');
+        BackButtonPanel.setWidth('100%');
+        BackButtonPanel.setCls('backButtonPanel');
+        //Load google charts
+        google.charts.load('current', {
+            'packages': [
+                'corechart'
+            ]
+        });
         if (Ext.os.is('Android')) {
+            var intval = setInterval(function() {
+                    exitApp = false;
+                }, 3000);
             document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);
             // add back button listener
-            function onBackKeyDown(eve) {
-                eve.preventDefault();
-                Ext.Msg.confirm("Exit", "", function(answer) {
-                    if (answer == 'yes') {
+            function onBackKeyDown(e) {
+                if (Ext.Viewport.getActiveItem().xtype === 'panel') {
+                    BackButtonPanel.show();
+                    setTimeout(function() {
+                        BackButtonPanel.hide();
+                    }, 3000);
+                    if (exitApp) {
+                        console.log('Exiting app');
+                        clearInterval(intval);
                         navigator.app.exitApp();
-                    } else {}
-                });
+                    } else {
+                        console.log('First time Back Button pressed');
+                        exitApp = true;
+                        Ext.Viewport.add(BackButtonPanel);
+                        BackButtonPanel.show();
+                        setTimeout(function() {
+                            BackButtonPanel.hide();
+                        }, 3000);
+                    }
+                } else if (Ext.Viewport.getActiveItem().getItemId() === 'dealPicture') {
+                    Ext.Viewport.getActiveItem().destroy();
+                    Ext.Viewport.setActiveItem(Ext.Viewport.getComponent('DealsPanel'));
+                    Ext.getStore('LocalStore').removeAt(0);
+                }
             }
         }
-        //do nothing
-        //FB login
-        // Settings.
-        FacebookInAppBrowser.settings.appId = '900651756709444';
-        FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
-        FacebookInAppBrowser.settings.permissions = 'email';
-        // Optional
-        FacebookInAppBrowser.settings.timeoutDuration = 7500;
-        // Login(accessToken will be stored trough localStorage in 'accessToken');
-        FacebookInAppBrowser.login({
-            send: function() {
-                console.log('login opened');
-            },
-            success: function(access_token) {
-                console.log('done, access token: ' + access_token);
-            },
-            denied: function() {
-                console.log('user denied');
-            },
-            timeout: function() {
-                console.log('a timeout has occurred, probably a bad internet connection');
-                Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
-            },
-            complete: function(access_token) {
-                console.log('window closed');
-                if (access_token) {
-                    console.log(access_token);
-                } else {
-                    console.log('no access token');
-                }
-            },
-            userInfo: function(userInfo) {
-                if (userInfo) {
-                    var userInf = JSON.stringify(userInfo);
-                    console.log(userInf);
-                    var info = userInf.split("\",\"");
-                    var tmp = info[0].split("\":\"");
-                    var email = tmp[1];
-                    //console.log(email);
-                    tmp = info[1].split("\":\"");
-                    var loginName = tmp[1];
-                    tmp = info[2].split("\":\"");
-                    var gender = tmp[1];
-                    tmp = info[3].split("\":\"");
-                    var userId = tmp[1];
-                    var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress', 'sterling@sterling.com', 0, true, false, false);
-                    //console.log(store.getData());
-                    //store.loadRecord();
-                    //var view = Ext.create('Contact.view.Info');
-                    //view.setRecord(record.getRecord());
-                    //console.log(view.getData());
-                    //Ext.Viewport.setActiveItem(view);
-                    if (record) {
-                        var storeUserDetails = Ext.getStore('UserDetails');
-                        storeUserDetails.removeAll();
-                        storeUserDetails.add({
-                            'customerId': record.get('customerId'),
-                            'email': email,
-                            'businessName': record.get('businessName')
-                        });
-                        //console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-                        var store = Ext.getStore('MyJsonPStore');
-                        var view = Ext.create("Ext.tab.Panel", {
-                                itemId: 'panel',
-                                fullscreen: true,
-                                tabBarPosition: 'bottom',
-                                cls: 'toolbarCls',
-                                ui: 'plain',
-                                style: "font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
-                                items: [
-                                    {
-                                        xtype: 'contactinfo',
-                                        title: 'Home',
-                                        itemId: 'home',
-                                        iconCls: 'icon-home'
-                                    },
-                                    {
-                                        xtype: 'DealsPanel',
-                                        title: 'Buzz',
-                                        iconCls: 'icon-bubbles'
-                                    },
-                                    {
-                                        xtype: 'buzzometer',
-                                        title: 'BuzzOMeter',
-                                        iconCls: 'info'
-                                    }
-                                ]
-                            });
-                        view.getComponent('home').setRecord(record);
-                        //Ext.Viewport.getActiveItem().destroy();
-                        Ext.Viewport.setActiveItem(view);
-                    } else //Ext.Viewport.setActiveItem({xtype:'Panel'});
-                    //console.log(view.getComponent('home').getItemId());
-                    //view.setData(record.getData());
-                    ////view.setRecord(record);
-                    // Ext.Viewport.setActiveItem(view);
-                    {
-                        Ext.msg.alert('Timeout Has Occured', 'Close Applications running in background and Try Again', null, null);
-                    }
-                } else //view.setData(record.getData());
-                {
-                    console.log('no user info');
-                }
-            }
+        document.addEventListener("resume", Ext.bind(onResume, this), false);
+        function onResume(e) {}
+        //Ext.Msg.alert('Resume',null,null,null);
+        /* var store = Ext.getStore('MyDealsStore');
+		    store.load();
+		    navigator.geolocation.getCurrentPosition(function showPosition(position) {
+		        Ext.getCmp('mymap').show();
+		        Ext.getCmp('locationOffText').hide();
+		        Ext.getCmp('lookUpZipcode').hide();
+		         var store1 = Ext.getStore('MyJsonPStore');
+		            store1.load();
+		            store1.clearFilter();
+		            store1.filterBy(function(record) {
+		                var address = record.get('address');
+		                var customerId;
+		                $.getJSON("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latitude + "," + longitude + "&destinations=" + address + "&key=AIzaSyDHFtBdpwHNSJ2Pu0HpRK1ce5uHCSGHKXM",
+		                   function(json) {
+		                       if(task){
+
+		                        task.cancel();
+		                        store.clearFilter();
+		                        store.load();
+
+		                        var store1 = Ext.getStore('calculateDistances');
+
+		                        var stores = [];
+
+		                      store1.each(function(record){
+		                      // stores.push(record.get('customerId'));
+		                          Ext.Array.include(stores,record.get('customerId'));
+
+
+		});
+		console.log(stores.length);
+
+		store.filterBy(function(record){
+		    return Ext.Array.indexOf(stores, record.get('customerId')) !== -1;
+
+		}, this);
+
+
+
+
+
+		                       }
+		                    var distance = json.rows[0].elements[0].distance.value;
+		                    if (distance <= 40234) {
+		                        storesNearBy.add({'customerId':record.get('customerId')});
+
+		                        return true;
+
+		                    } else {
+		                        return false;
+
+		                    }
+
+
+
+		                                      });
+		            });
+
+
+
+		var task = Ext.create('Ext.util.DelayedTask', function() {
+		    Ext.Viewport.mask({ xtype: 'loadmask',
+		                       message: "Loading Latest Buzz.." });
+		}, this);
+		},onError);
+
+
+
+		    function onError(error){
+
+		        Ext.getCmp('mymap').hide();
+		        Ext.getCmp('locationOffText').show();
+		        Ext.getCmp('lookUpZipcode').show();
+
+
+
+		    }*/
+        Ext.create('Contact.view.Login', {
+            fullscreen: true
         });
     }
 });

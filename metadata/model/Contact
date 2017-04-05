@@ -75,6 +75,20 @@
             },
             "codeClass": null,
             "userConfig": {
+                "name": "loginEmail",
+                "type": "string"
+            },
+            "name": "field31",
+            "designerId": "f567f98e-4f18-4130-8c95-d17c91dd85bb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "name": "address",
                 "type": "string"
             },
@@ -177,6 +191,58 @@
             },
             "name": "field18",
             "designerId": "44f4405e-641c-47d7-b70c-eee991377c49"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "signupStatus"
+            },
+            "name": "field33",
+            "designerId": "41f4a339-4672-441c-94ee-2e83642a7742"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startDate"
+            },
+            "name": "field34",
+            "designerId": "ef13c7c3-67bc-49cd-a474-22ac0b7d8ddf"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "planType"
+            },
+            "name": "field36",
+            "designerId": "54b18ef1-8c1d-447a-8273-f1258e94d0cf"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "endDate"
+            },
+            "name": "field35",
+            "designerId": "06d1521f-8523-485a-a5bd-5056be1b2d66"
         }
     ]
 }

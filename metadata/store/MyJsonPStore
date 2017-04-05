@@ -7,46 +7,36 @@
     "codeClass": null,
     "userConfig": {
         "autoLoad": true,
-        "autoSync": true,
+        "designer|userAlias": "MyJsonPStore",
         "designer|userClassName": "MyJsonPStore",
-        "groupField": "category",
         "model": "Contact",
         "storeId": "MyJsonPStore"
     },
-    "name": "MyJsonPStore",
-    "designerId": "f2b42ccc-3468-44fa-aeaa-c9a19d0d154a",
+    "name": "MyJsonPStore1",
+    "designerId": "09e69479-32d8-4f8e-b6de-9a13baf312a8",
     "cn": [
         {
-            "type": "Ext.util.Grouper",
+            "type": "Ext.data.proxy.JsonP",
             "reference": {
-                "name": "grouper",
+                "name": "proxy",
                 "type": "object"
             },
             "codeClass": null,
             "userConfig": {
-                "sortProperty": ""
+                "url": "http://services.appsonmobile.com/demoStores"
             },
-            "name": "MyGrouper1",
-            "designerId": "288d3628-cff8-4a2b-95d4-c299016a0db4",
+            "name": "MyJsonPProxy",
+            "designerId": "2a3063ec-e484-4a89-b6a8-98acd7fe3e9f",
             "cn": [
                 {
-                    "type": "fixedfunction",
+                    "type": "Ext.data.reader.Json",
                     "reference": {
-                        "name": "items",
-                        "type": "array"
+                        "name": "reader",
+                        "type": "object"
                     },
                     "codeClass": null,
-                    "userConfig": {
-                        "designer|params": [
-                            "item"
-                        ],
-                        "fn": "groupFn",
-                        "implHandler": [
-                            "return record.get('category');"
-                        ]
-                    },
-                    "name": "groupFn",
-                    "designerId": "b3b00b23-700b-43b0-b3b5-5d8910580afc"
+                    "name": "MyJsonReader1",
+                    "designerId": "744fe233-e470-4e6b-8d83-e5d00370d5a9"
                 }
             ]
         },
@@ -58,7 +48,7 @@
             },
             "codeClass": null,
             "name": "MySorter1",
-            "designerId": "2676e446-360f-47ee-ac40-0a28df13b702",
+            "designerId": "73e263be-7659-4dbd-a1ed-efc94a913321",
             "cn": [
                 {
                     "type": "fixedfunction",
@@ -81,65 +71,38 @@
             ]
         },
         {
-            "type": "Ext.data.proxy.JsonP",
+            "type": "Ext.util.Grouper",
             "reference": {
-                "name": "proxy",
+                "name": "grouper",
                 "type": "object"
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://services.appsonmobile.com/stores"
+                "sortProperty": ""
             },
-            "name": "MyJsonPProxy1",
-            "designerId": "1846d814-355e-4617-8cca-9776e4b1c013",
+            "name": "MyGrouper1",
+            "designerId": "8d7393a9-52dd-45a1-9c0c-a3e95a08cb1a",
             "cn": [
                 {
-                    "type": "Ext.data.reader.Json",
+                    "type": "fixedfunction",
                     "reference": {
-                        "name": "reader",
-                        "type": "object"
-                    },
-                    "codeClass": null,
-                    "name": "MyJsonReader",
-                    "designerId": "9a8ff3cf-738a-4902-a9f3-952958f8b949"
-                },
-                {
-                    "type": "Ext.data.writer.Json",
-                    "reference": {
-                        "name": "writer",
-                        "type": "object"
+                        "name": "items",
+                        "type": "array"
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "encode": true
+                        "designer|params": [
+                            "item"
+                        ],
+                        "fn": "groupFn",
+                        "implHandler": [
+                            "return record.get('category');"
+                        ]
                     },
-                    "name": "MyJsonWriter1",
-                    "designerId": "521f6c8a-38c4-4360-8f5d-534d8bf7be27"
+                    "name": "groupFn",
+                    "designerId": "b3b00b23-700b-43b0-b3b5-5d8910580afc"
                 }
             ]
-        },
-        {
-            "type": "basiceventbinding",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onJsonpstoreUpdaterecord",
-                "implHandler": [
-                    "",
-                    "",
-                    "",
-                    "",
-                    "return record;",
-                    ""
-                ],
-                "name": "updaterecord",
-                "single": null
-            },
-            "name": "onJsonpstoreUpdaterecord",
-            "designerId": "562d0273-ef50-4669-9588-54e9c86206f1"
         }
     ]
 }

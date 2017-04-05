@@ -293,11 +293,6 @@ Ext.apply(Ext, {
             elementSize: {
                 xclass: 'Ext.event.publisher.ElementSize'
             }
-            //<feature charts>
-            ,seriesItemEvents: {
-                xclass: 'Ext.chart.series.ItemPublisher'
-            }
-            //</feature>
         },
 
         //<feature logger>

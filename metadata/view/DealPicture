@@ -12,33 +12,19 @@
         "designer|userAlias": "dealPicture",
         "designer|userClassName": "DealPicture",
         "fullscreen": true,
-        "height": "100%",
+        "height": null,
+        "id": "dealPicture",
         "itemId": "dealPicture",
         "layout": "vbox",
-        "left": "dealPicture",
-        "scrollable": false,
-        "style": "overflow: hidden;background:#fff",
-        "styleHtmlContent": true,
+        "left": null,
+        "margin": null,
+        "padding": null,
+        "scrollable": null,
+        "style": "background:#fff",
         "width": "100%"
     },
     "designerId": "b78d5436-71c8-48eb-ba05-2d08234588cd",
     "cn": [
-        {
-            "type": "Ext.XTemplate",
-            "reference": {
-                "name": "tpl",
-                "type": "object"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "designer|displayName": "tpl",
-                "implHandler": [
-                    "<img src=\"{dealPictureURL}\" style=\"margin:5px 5px 5px 5px;height:100%;width:100%;border:1px groove #C0C0C0;\"/>"
-                ]
-            },
-            "name": "tpl",
-            "designerId": "4e0e035c-51d3-4815-917e-7e49cd179054"
-        },
         {
             "type": "Ext.Toolbar",
             "reference": {
@@ -51,9 +37,10 @@
                 "cls": [
                     "toolbarCls"
                 ],
-                "container|align": "stretchmax",
+                "container|align": "center",
                 "designer|uiInterfaceName": "plain",
                 "docked": "top",
+                "height": "8vh",
                 "scrollable": false,
                 "style": null,
                 "ui": "plain",
@@ -75,9 +62,13 @@
                             "icon-back-button"
                         ],
                         "designer|uiInterfaceName": "plain",
-                        "docked": null,
+                        "docked": "left",
+                        "height": "100%",
+                        "id": "dealBackBtn",
                         "itemId": "dealBackBtn",
+                        "margin": "10 0 0 0",
                         "style": "font-size:8vw",
+                        "styleHtmlContent": true,
                         "text": null,
                         "ui": "plain",
                         "width": null
@@ -101,6 +92,7 @@
                         "docked": "right",
                         "iconAlign": "center",
                         "iconCls": null,
+                        "id": "share",
                         "itemId": "share",
                         "margin": null,
                         "minHeight": "100%",
@@ -111,8 +103,382 @@
                     },
                     "name": "MyButton5",
                     "designerId": "160c4bf8-6df2-478c-a6bb-e646072873fe"
+                },
+                {
+                    "type": "Ext.Component",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "cls": [
+                            "contact-name"
+                        ],
+                        "disabled": true,
+                        "height": "100%",
+                        "html": "<b>Business Name</b>",
+                        "id": "nameTxt1",
+                        "itemId": "nameTxt1",
+                        "style": "word-wrap:break-word;font-family:Arial;font-size:5vw;text-align:center",
+                        "width": "100%"
+                    },
+                    "name": "MyComponent1",
+                    "designerId": "041611f6-1f57-4ea7-9594-4c2426591e88"
                 }
             ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDealPictureInitialize",
+                "implHandler": [
+                    "if (Ext.os.is('Android')) {",
+                    "\tExt.getCmp('dealBackBtn').hide();",
+                    "}",
+                    "",
+                    ""
+                ],
+                "name": "initialize"
+            },
+            "name": "onDealPictureInitialize",
+            "designerId": "7563b397-e84e-4ea4-a6a5-928dba75cdf8"
+        },
+        {
+            "type": "Ext.Component",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "contact-name"
+                ],
+                "disabled": true,
+                "height": "40vh",
+                "html": null,
+                "id": "dealimage",
+                "itemId": "dealimage",
+                "left": "2%",
+                "padding": null,
+                "style": "word-wrap:break-word;font-family:Arial;font-size:6vw;border:2px dotted #c0c0c0",
+                "top": "1%",
+                "width": "95%"
+            },
+            "name": "MyComponent2",
+            "designerId": "8c8c5e85-99be-4806-8d2b-9624f25e818e",
+            "cn": [
+                {
+                    "type": "basiceventbinding",
+                    "reference": {
+                        "name": "listeners",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "onDealimagePainted",
+                        "implHandler": [
+                            "var record = Ext.getStore('LocalStore').getAt(0);",
+                            "  if(record.get('dealImageURL')){",
+                            "\t\t  element.addListener('tap', function() {",
+                            "\t\t  console.log('DealImage Tap');",
+                            "\t\t var view = Ext.Viewport.add({",
+                            "\t\t\t  xtype: 'DealImage'",
+                            "\t\t   });",
+                            "\t     view.setRecord(record);",
+                            "\t\t view.showBy(Ext.get('dealPicture'));",
+                            "",
+                            "  });",
+                            "  }",
+                            ""
+                        ],
+                        "name": "painted"
+                    },
+                    "name": "onDealimagePainted",
+                    "designerId": "3e347cb2-2cfa-4bf7-a3b8-0bebd86ebe13"
+                }
+            ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDealPictureShow",
+                "implHandler": [
+                    "var record = Ext.getStore('LocalStore').getAt(0);",
+                    "",
+                    "if(record.get('dealImageURL')){",
+                    "",
+                    "            this.down('#dealimage').setHtml('<img src=\"'+record.get('dealImageURL')+'\" style=\"margin: 0px 5px 0px 5px;height:40vh;width:95%;border:none;\"/>');",
+                    "            this.down('#nameTxt3').show();",
+                    "        }",
+                    "            else {",
+                    "",
+                    "            this.down('#dealimage').setHtml('<img src=\"resources/img/localbuzzicon.png\" align=\"right\" style=\"margin: 5px 5px 5px 5px\"/><br><div style=\"font-size:6vw;\">' + record.get('dealName')+'</div><br><br><div style=\"font-size:5vw;\">'+record.get('dealDescription')+'</div><br><br><div style=\"font-size:4vw;margin:5px 5px 5px 5px;\">Valid '+ record.get('dealStartDate')+' - '+ record.get('dealEndDate')+'</div>');",
+                    "            this.down('#nameTxt3').hide();",
+                    "",
+                    "",
+                    "        }",
+                    "",
+                    ""
+                ],
+                "name": "show"
+            },
+            "name": "onDealPictureShow",
+            "designerId": "5c1a4b2c-af65-41e9-b247-649404eb2840"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "contact-name"
+                ],
+                "disabled": true,
+                "docked": null,
+                "html": "<p style=\"font-size:3vw;text-align:center\">       Published through Local Buzz",
+                "id": "nameTxt2",
+                "itemId": "nameTxt2",
+                "left": "40%",
+                "margin": "10 5 5 5",
+                "style": "word-wrap:break-word;font-family:Arial;font-size:6vw",
+                "top": "51%",
+                "width": "65%"
+            },
+            "name": "MyContainer11",
+            "designerId": "9157a64a-449f-40ea-ade6-4f41794cfec4"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "contact-name"
+                ],
+                "disabled": true,
+                "height": null,
+                "hidden": false,
+                "html": "<p style=\"font-size:2.3vw;\"> Click on picture to enlarge</p>",
+                "id": "nameTxt3",
+                "itemId": "nameTxt3",
+                "left": "40%",
+                "margin": "10 5 5 5",
+                "style": "word-wrap:break-word;font-family:Arial;font-size:6vw",
+                "top": "43%",
+                "width": "65%"
+            },
+            "name": "MyContainer10",
+            "designerId": "7e42074c-d44a-4196-ada7-31f5d93c8506"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "record"
+                ],
+                "fn": "setRecord",
+                "implHandler": [
+                    "        this.callParent(arguments);",
+                    "",
+                    "",
+                    "        if (record) {",
+                    "",
+                    "",
+                    "            var name = record.get('itemName');",
+                    "            var businessName = record.get('businessName');",
+                    "",
+                    "           this.down('#nameTxt1').setHtml(record.get('businessName'));",
+                    "           var store = Ext.getStore('MyJsonPStore');",
+                    "                    var rec = store.findRecord('businessName', businessName);",
+                    "                    Ext.getCmp('phoneNumber1').setValue(rec.get('phoneNumber'));",
+                    "",
+                    "                    Ext.getCmp('website3').setValue(rec.get('websiteDisplayName'));",
+                    "                    Ext.getCmp('website2').setValue(rec.get('website'));",
+                    "                    Ext.getCmp('address1').setValue(rec.get('address'));",
+                    "\t\t\t        Ext.getCmp('email1').setValue(rec.get('emailAddress'));",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "        }",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            "name": "setRecord",
+            "designerId": "2708bddd-6262-4ab7-b612-f08bbd9daeed"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "icon-phone1"
+                ],
+                "docked": "bottom",
+                "height": "8vh",
+                "id": "phoneNumber1",
+                "itemId": "phoneNumber1",
+                "label": null,
+                "margin": "0 0 0 5",
+                "name": "phoneNumber",
+                "padding": "0 0 10 10",
+                "readOnly": true,
+                "style": "font-size:2vw !important",
+                "styleHtmlContent": true,
+                "top": "56%",
+                "width": "90%"
+            },
+            "name": "MyTextField22",
+            "designerId": "ed6a1e34-314f-45ca-bed9-645b1dfc8b6c"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "icon-globe1"
+                ],
+                "docked": "bottom",
+                "height": "8vh",
+                "id": "website3",
+                "itemId": "website3",
+                "label": null,
+                "margin": "0 0 0 5",
+                "name": "websiteDisplayName",
+                "padding": "0 0 10 10",
+                "placeHolder": "Not Listed",
+                "readOnly": true,
+                "style": "color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;",
+                "styleHtmlContent": true,
+                "top": "76%",
+                "width": "90%"
+            },
+            "name": "MyTextField42",
+            "designerId": "859a7cc8-2f50-4b8c-91d7-3ee540fe3508"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "icon-email1"
+                ],
+                "docked": "bottom",
+                "height": "8vh",
+                "hidden": false,
+                "id": "email1",
+                "itemId": "email1",
+                "label": null,
+                "margin": "0 0 0 5",
+                "name": "emailAddress",
+                "padding": "0 0 10 10",
+                "placeHolder": "Not Listed",
+                "readOnly": true,
+                "style": "color:black;text-decoration:underline;font-family:Arial;font-size:4.5vw;",
+                "styleHtmlContent": true,
+                "top": "66%",
+                "width": "90%"
+            },
+            "name": "MyTextField43",
+            "designerId": "b3ae3037-3482-460f-93d4-c908b390aa34"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "icon-phone1"
+                ],
+                "docked": "bottom",
+                "hidden": true,
+                "id": "website2",
+                "itemId": "website2",
+                "label": null,
+                "margin": "0 0 0 5",
+                "name": "website",
+                "padding": "0 0 10 10",
+                "readOnly": true,
+                "style": "font-size:2vw !important",
+                "styleHtmlContent": true,
+                "top": "65%",
+                "width": "90%"
+            },
+            "name": "MyTextField40",
+            "designerId": "8b610a58-43ad-41bb-a4bb-e2b2bda514c9"
+        },
+        {
+            "type": "Ext.field.TextArea",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "clearIcon": false,
+                "cls": [
+                    "icon-location1",
+                    "customfield1"
+                ],
+                "height": "9vh",
+                "id": "address1",
+                "itemId": "address1",
+                "label": null,
+                "margin": "0 0 0 5",
+                "name": "address",
+                "readOnly": true,
+                "style": "font-size:4.2vw;font-family:Arial;",
+                "styleHtmlContent": true,
+                "top": "86%",
+                "width": "95%"
+            },
+            "name": "MyTextArea2",
+            "designerId": "0ffa95e8-4c44-4b7f-a66e-6b4d5b92fcdb"
         }
     ]
 }

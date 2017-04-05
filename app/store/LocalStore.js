@@ -13,15 +13,15 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.store.LocalStore', {
+Ext.define('LocalBuzzMerchantDemo.store.LocalStore', {
 	extend: 'Ext.data.Store',
 
 	requires: [
-		'Contact.model.Deal'
+		'LocalBuzzMerchantDemo.model.Deal'
 	],
 
 	config: {
-		model: 'Contact.model.Deal',
+		model: 'LocalBuzzMerchantDemo.model.Deal',
 		storeId: 'LocalStore'
 	}
 });

@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.ListOfDeals', {
+Ext.define('LocalBuzzMerchantDemo.view.ListOfDeals', {
 	extend: 'Ext.dataview.List',
 	alias: 'widget.listofdeals',
 
@@ -26,15 +26,14 @@ Ext.define('Contact.view.ListOfDeals', {
 		height: '100%',
 		id: 'ListOfDeals',
 		itemId: 'ListOfDeals',
-		style: '',
 		autoDestroy: false,
+		allowDeselect: true,
 		deselectOnContainerClick: false,
 		mode: 'MULTI',
 		deferEmptyText: false,
-		emptyText: 'Create Buzz!',
+		emptyText: 'Create a Buzz!',
 		itemCls: 'list-item',
 		store: 'MyDealsStore',
-		onItemDisclosure: false,
 		pinHeaders: false,
 		preventSelectionOnDisclose: false,
 		refreshHeightOnUpdate: false,
@@ -42,7 +41,7 @@ Ext.define('Contact.view.ListOfDeals', {
 		itemTpl: [
 			'',
 			'',
-			'<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" class="delete_button" style="float:right">#</div>',
+			'<div style="font-size:5vw;color:black;font-weight:normal;font-family:Arial">{dealName}<button type="button" id="delete" class="delete_button" style="float:right;padding:0px 15px 0px 15px;">#<button type="button" id="edit" class="delete_button" style="float:right">p</div>',
 			'<tpl if="dealEndDate &lt; todayplusthreedays ">',
 			'<div class= expiringDate >Valid {dealStartDate} to {dealEndDate}</div>',
 			'<tpl else>	',

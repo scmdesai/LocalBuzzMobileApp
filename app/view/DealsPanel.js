@@ -13,12 +13,12 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.view.DealsPanel', {
+Ext.define('LocalBuzzMerchantDemo.view.DealsPanel', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.DealsPanel',
 
 	requires: [
-		'Contact.view.ListOfDeals',
+		'LocalBuzzMerchantDemo.view.ListOfDeals',
 		'Ext.dataview.List',
 		'Ext.Button'
 	],
@@ -41,12 +41,17 @@ Ext.define('Contact.view.DealsPanel', {
 				width: '100%'
 			},
 			{
+				xtype: 'component',
+				docked: 'bottom',
+				html: '<p style="font-size:2.5vw;text-align:center" > As per our Fair Use Policy,there cannot be more than 5 Active Buzz per account </p>'
+			},
+			{
 				xtype: 'button',
 				docked: 'bottom',
-				height: '7%',
+				height: '7vh',
 				id: 'UploadDeal',
 				itemId: 'UploadDeal',
-				margin: '5 5 5 5',
+				margin: '0 5 0 5',
 				style: 'font-size:5vw',
 				ui: 'confirm',
 				width: '',
@@ -57,19 +62,21 @@ Ext.define('Contact.view.DealsPanel', {
 			{
 				fn: 'onDealsPanelActivate',
 				event: 'activate'
+			},
+			{
+				fn: 'onDealsPanelPainted',
+				event: 'painted'
 			}
 		]
 	},
 
 	onDealsPanelActivate: function(newActiveItem, container, oldActiveItem, eOpts) {
-		console.log('Deals Panel Activated');
+
 		var storeUserDetails = Ext.getStore('UserDetails');
 		storeUserDetails.load();
 		var customerId;
 		var businessName;
-		var date = new Date();
 
-		var today = Ext.Date.format(date, 'n/j/Y');
 
 		storeUserDetails.each(function(record){
 			//console.log('StoreUserDetails : ' +record.get('customerId'));
@@ -78,73 +85,65 @@ Ext.define('Contact.view.DealsPanel', {
 
 		});
 
-		console.log(customerId);
+
 		var store = Ext.getStore('MyDealsStore');
 		store.clearFilter();
 		store.filter('customerId',customerId);
 
-		 var records= [];
-
-
-		        store.each(function(rec)
-		                   {
-
-
-							   //console.log('Deal End Date: ' + rec.get('dealEndDate'));
-							   //console.log('Tdays date is : ' + today);
-		                       /*if(rec.get('dealEndDate') >= today) {
-
-		                           records.push(rec.get('itemName'));
-								   //console.log('Active deal ' + rec.get('dealName'));
-
-
-		                       }
-		                       else {
-		                           Ext.Array.remove(records,rec.get('itemName'));
-								   //console.log('Expired deal ' + rec.get('dealName'));
-								   var req = Ext.Ajax.request({
-
-						method:'POST',
-
-
-						url  : 'http://services.appsonmobile.com/deals/'+ rec.get('itemName')
-
-			});
-
-
-		                       }*/
-
-							   if(rec.get('dealEndDate') < today) {
-
-								   Ext.Ajax.request({
-
-						method:'POST',
-
-
-						url  : 'http://services.appsonmobile.com/deals/'+ rec.get('itemName')
-
-
-
-							   });
 
 
 
 
 
-							   }});
+
+
+
+
+
+
+
+
+
+
+
+	},
+
+	onDealsPanelPainted: function(element, eOpts) {
+
+
+		var store = Ext.getStore('MyDealsStore');
 		store.load();
-		    /* store.clearFilter();
 
-		      console.log(records.length);
+	},
 
-		        store.filterBy(function(record){
-		            return Ext.Array.indexOf(records, record.get('itemName')) !== -1;
+	initialize: function() {
+		this.callParent();
+		var storeUserDetails = Ext.getStore('UserDetails');
+		storeUserDetails.load();
+		var customerId;
+		var businessName;
 
-		        }, this);*/
 
 
+		storeUserDetails.each(function(record){
+			//console.log('StoreUserDetails : ' +record.get('customerId'));
+			customerId = record.get('customerId');
+			businessName = record.get('businessName');
 
 
+		});
+
+
+		var store = Ext.getStore('MyDealsStore');
+		store.clearFilter();
+		store.filter('customerId',customerId);
+		if(store.getCount() >= 5){
+			Ext.getCmp('UploadDeal').disable();
+
+		}
+		else {
+			Ext.getCmp('UploadDeal').enable();
+		}
 	}
 
 });

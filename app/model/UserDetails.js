@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.model.UserDetails', {
+Ext.define('LocalBuzzMerchantDemo.model.UserDetails', {
 	extend: 'Ext.data.Model',
 
 	requires: [
@@ -42,6 +42,15 @@ Ext.define('Contact.model.UserDetails', {
 			},
 			{
 				name: 'access_token'
+			},
+			{
+				name: 'DealPictureURL'
+			},
+			{
+				name: 'city'
+			},
+			{
+				name: 'state'
 			}
 		]
 	}

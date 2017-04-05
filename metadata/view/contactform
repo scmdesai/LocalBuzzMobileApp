@@ -21,7 +21,6 @@
         "multipartDetection": false,
         "scrollable": false,
         "style": "background:white",
-        "styleHtmlContent": true,
         "ui": "light"
     },
     "name": "MyFormPanel",
@@ -78,9 +77,9 @@
                     "\tthis.down('#businessName').setValue(record.data.businessName);",
                     "\tthis.down('#phoneNumber').setValue(record.data.phoneNumber);",
                     "\tthis.down('#address').setValue(record.data.address);",
-                    "\tthis.child('contactpic').setData(record.data);",
+                    "\t//this.child('contactpic').setData(record.data);",
                     "",
-                    "",
+                    "    this.down('#storeImage1').setHtml('<img src = \"'+record.get('pictureURL')+'\" style=\"height:40vh;width:95%;margin-left:5px;margin-top:2px;\"/>');",
                     "",
                     "",
                     "}",
@@ -107,6 +106,7 @@
                 "designer|createAlias": null,
                 "designer|uiInterfaceName": "plain",
                 "docked": "top",
+                "height": "12vh",
                 "style": "border-top:none",
                 "ui": "plain"
             },
@@ -123,11 +123,11 @@
                     "userConfig": {
                         "baseCls": null,
                         "designer|uiInterfaceName": "decline",
+                        "height": "8vh",
                         "itemId": "cancelButton",
-                        "margin": "0 0 0 10",
+                        "margin": "10 0 10 10",
                         "padding": null,
                         "style": null,
-                        "styleHtmlContent": true,
                         "text": "Cancel",
                         "ui": "decline",
                         "width": "30%"
@@ -159,12 +159,11 @@
                             "button"
                         ],
                         "designer|uiInterfaceName": "confirm",
-                        "height": null,
+                        "height": "8vh",
                         "iconCls": null,
                         "itemId": "saveContactButton",
-                        "margin": "0 10 0 0",
+                        "margin": "10 10 10 0",
                         "style": null,
-                        "styleHtmlContent": true,
                         "text": "Save",
                         "ui": "confirm",
                         "width": "30%"
@@ -188,71 +187,36 @@
                                 "implHandler": [
                                     "",
                                     "",
+                                    "",
                                     "var form = this.up('contactform');",
+                                    "",
                                     "var store = Ext.getStore('MyJsonPStore');",
-                                    "",
-                                    "",
                                     "var record = form.getRecord();",
-                                    "var customerId= form.getRecord().get('customerId');",
-                                    "",
-                                    "record.beginEdit(true,record.getChanges());",
-                                    "",
+                                    "var customerId = form.getRecord().get('customerId');",
+                                    "/*record.beginEdit(true, record.getChanges());",
                                     "form.updateRecord(record);",
-                                    "",
-                                    "record.endEdit(true,record.getChanges());",
-                                    "",
+                                    "record.endEdit(true, record.getChanges());",
                                     "record.commit();",
-                                    "",
                                     "store.sync();",
-                                    "store.load();",
+                                    "store.load();*/",
                                     "",
                                     "",
-                                    "//form.fireEvent('updateRecord',this);",
+                                    "",
+                                    "",
+                                    "",
                                     "",
                                     "",
                                     "",
                                     "form.submit({",
-                                    "",
-                                    "\turl: 'http://services.appsonmobile.com/updateStoreInfo/' + customerId,",
+                                    "\turl: 'http://services.appsonmobile.com/demoUpdateStoreInfo/' + customerId,",
                                     "\tsuccess: function(form, action) {",
-                                    "\t\t/*record.beginEdit(true, record.getChanges());",
-                                    "\t\tform.updateRecord(record);",
-                                    "\t\trecord.endEdit(true, record.getChanges());",
-                                    "\t\trecord.commit();",
-                                    "\t\tstore.sync();",
-                                    "\t\tstore.load();*/",
-                                    "\t\tExt.Viewport.getComponent('panel').destroy();",
-                                    "\t\tvar view = Ext.create(\"Ext.tab.Panel\", {",
-                                    "\t\t\tfullscreen: true,",
-                                    "\t\t\ttabBarPosition: 'bottom',",
-                                    "\t\t\titemId: 'panel',",
-                                    "\t\t\tcls:'toolbarCls',",
-                                    "\t\t\tui:'plain',",
-                                    "\t\t\t\tstyle:\"font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D\",",
-                                    "\t\t\titems: [",
-                                    "\t\t\t\t{",
-                                    "\t\t\t\t\txtype: 'contactinfo',",
-                                    "\t\t\t\t\ttitle: 'Home',",
-                                    "\t\t\t\t\titemId: 'home',",
-                                    "\t\t\t\t\ticonCls: 'icon-home'",
-                                    "\t\t\t\t},",
-                                    "\t\t\t\t{",
-                                    "\t\t\t\t\txtype: 'DealsPanel',",
-                                    "\t\t\t\t\ttitle: 'Buzz',",
-                                    "\t\t\t\t\ticonCls: 'icon-bubbles'",
-                                    "\t\t\t\t},",
-                                    "\t\t\t\t{",
-                                    "\t\t\t\t\t\txtype:'buzzometer',",
-                                    "\t\t\t\t\t\ttitle:'BuzzOMeter',",
-                                    "\t\t\t\t\t\ticonCls:'info'",
-                                    "\t\t\t\t\t}",
-                                    "\t\t\t]",
-                                    "\t\t});",
-                                    "\t\t//Ext.getCmp('changePicButton').hide();",
-                                    "\t\tExt.Viewport.setActiveItem(view);",
-                                    "\t\tview.getComponent('home').setRecord(record);",
-                                    "\t\tExt.Msg.alert('Success', action.msg);",
-                                    "\t\tform.destroy();",
+                                    "",
+                                    "\t\tExt.Msg.alert('Record updated', \"Please login again to see the changes\",null,null);",
+                                    "",
+                                    "         store.sync();",
+                                    "         store.load();",
+                                    "",
+                                    "        form.destroy();",
                                     "",
                                     "",
                                     "",
@@ -262,10 +226,10 @@
                                     "",
                                     "",
                                     "\t},",
-                                    "\tfailure: function(form,action) {",
+                                    "\t    failure: function(form,action) {",
                                     "",
                                     "\t\tstore.load();",
-                                    "\t\tExt.Msg.alert('Failure',action.msg);",
+                                    "\t\tExt.Msg.alert('Oops.....!Something went wrong','Please check your internet connection or try again later',null,null);",
                                     "",
                                     "\t\tform.destroy();",
                                     "",
@@ -278,15 +242,7 @@
                                     "",
                                     "",
                                     "",
-                                    "",
-                                    "",
-                                    "/*var record = form.getRecord();",
-                                    "",
-                                    "view =Ext.Viewport.add({xtype: 'contactinfo'});",
-                                    "\t\t\tview.setRecord(record);",
-                                    "",
-                                    "",
-                                    "Ext.Viewport.setActiveItem(view);*/"
+                                    ""
                                 ]
                             },
                             "name": "handler",
@@ -297,28 +253,6 @@
             ]
         },
         {
-            "type": "linkedinstance",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "baseCls": null,
-                "cls": [
-                    "x-panel-body"
-                ],
-                "docked": "top",
-                "height": "30%",
-                "itemId": "picture",
-                "maxWidth": null,
-                "width": ""
-            },
-            "name": "picture",
-            "designerId": "6b989aef-ff8a-4e18-b8f9-30b88d181162",
-            "masterInstanceId": "b037ea3a-5bcd-4f85-930a-abaa1bdc4dcd"
-        },
-        {
             "type": "Ext.Button",
             "reference": {
                 "name": "items",
@@ -327,15 +261,16 @@
             "codeClass": null,
             "userConfig": {
                 "designer|uiInterfaceName": "plain",
-                "docked": "top",
+                "docked": null,
+                "height": "20%",
                 "iconCls": "add",
                 "id": "changePicButton",
-                "layout|flex": 1,
+                "layout|flex": null,
                 "left": "0px",
                 "margin": "5 5 5 5",
                 "style": "opacity:0.5;position:absolute",
                 "text": null,
-                "top": "-10px",
+                "top": "-1%",
                 "ui": "plain",
                 "width": "20%"
             },
@@ -362,7 +297,7 @@
                             "var businessName;",
                             "",
                             "storeUserDetails.each(function(record){",
-                            "//console.log('StoreUserDetails : ' +record.get('customerId'));",
+                            "console.log('StoreUserDetails : ' +record.get('customerId'));",
                             "customerId = record.get('customerId');",
                             "businessName = record.get('businessName');",
                             "",
@@ -400,12 +335,14 @@
                     "customfield"
                 ],
                 "designer|displayName": "businessName",
-                "height": "15%",
+                "height": null,
+                "hidden": true,
                 "id": "businessName",
                 "itemId": "businessName",
                 "label": null,
                 "margin": "30 15 2 15",
                 "name": "businessName",
+                "placeHolder": "Not Listed",
                 "styleHtmlContent": true
             },
             "name": "MyTextField1",
@@ -423,18 +360,53 @@
                     "icon-phone",
                     "customfield"
                 ],
+                "component": [
+                    "{\"xtype\":\"input\",\"type\":\"tel\",\"fastFocus\":true}"
+                ],
                 "designer|displayName": "phoneNumber",
-                "height": null,
+                "height": "10vh",
                 "id": "phoneNumber",
                 "itemId": "phoneNumber",
                 "label": null,
                 "margin": "0 15 2 15",
+                "maxLength": 12,
                 "name": "phoneNumber",
-                "placeHolder": null,
-                "styleHtmlContent": true
+                "padding": "0 0 5 5",
+                "placeHolder": "Not Listed",
+                "styleHtmlContent": true,
+                "top": "25%",
+                "width": "95%"
             },
             "name": "MyTextField2",
-            "designerId": "92163730-5474-4339-8359-13f2745f3c5b"
+            "designerId": "92163730-5474-4339-8359-13f2745f3c5b",
+            "cn": [
+                {
+                    "type": "basiceventbinding",
+                    "reference": {
+                        "name": "listeners",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "onPhoneNumberKeyup",
+                        "implHandler": [
+                            "var len = textfield.getValue().length;",
+                            "if(len===3||len===7){",
+                            "\ttextfield.setValue(textfield.getValue() + '-');",
+                            "}",
+                            " if(len===4){",
+                            "\t  textfield.setValue(textfield.getValue().substr(0,3));",
+                            "}",
+                            "if(len===8){",
+                            "\t  textfield.setValue(textfield.getValue().substr(0,7));",
+                            "}"
+                        ],
+                        "name": "keyup"
+                    },
+                    "name": "onPhoneNumberKeyup",
+                    "designerId": "6186f0bb-1ca8-434a-beea-2db9307194c0"
+                }
+            ]
         },
         {
             "type": "Ext.field.TextArea",
@@ -449,7 +421,7 @@
                     "icon-location"
                 ],
                 "docked": null,
-                "height": "20%",
+                "height": null,
                 "id": "address",
                 "inputCls": null,
                 "itemId": "address",
@@ -457,11 +429,16 @@
                 "labelCls": null,
                 "layout|flex": null,
                 "margin": "0 15 0 15",
-                "minHeight": null,
+                "maxHeight": "15vh",
+                "minHeight": "10vh",
                 "name": "address",
+                "padding": "0 0 5 5",
+                "placeHolder": "Not Listed",
                 "required": true,
                 "style": null,
-                "styleHtmlContent": true
+                "styleHtmlContent": true,
+                "top": "60%",
+                "width": "95%"
             },
             "name": "MyTextArea1",
             "designerId": "b663c637-0afa-4f11-be97-fca204bbf3d3"
@@ -513,6 +490,22 @@
             },
             "name": "MyTextField8",
             "designerId": "5e7236bc-1904-430b-8fbb-ac12e8b65efb"
+        },
+        {
+            "type": "Ext.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "hidden": true,
+                "id": null,
+                "itemId": null,
+                "name": "loginEmail"
+            },
+            "name": "MyTextField37",
+            "designerId": "eb8bb0a0-e9ef-44c2-a3a3-8846f52b4a36"
         },
         {
             "type": "Ext.field.Text",
@@ -643,6 +636,73 @@
             },
             "name": "MyTextField28",
             "designerId": "537ae2f5-66a1-4caa-a145-5d751a8d0bd0"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "bottom",
+                "height": "40px",
+                "html": "<p id=\"terms\" style=\"font-size:2.5vw;\" >To change the business name or website info, please <a>Contact Us</a> </p>",
+                "itemId": "mycontainer6",
+                "layout": "hbox",
+                "margin": "5 5 5 10",
+                "padding": "5 30 5 0",
+                "styleHtmlContent": true,
+                "width": null
+            },
+            "name": "MyContainer9",
+            "designerId": "1dfa6133-3e1b-41e5-98e8-3c4fc31b74aa",
+            "cn": [
+                {
+                    "type": "basiceventbinding",
+                    "reference": {
+                        "name": "listeners",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "onMycontainer5Painted111",
+                        "implHandler": [
+                            "element.addListener('tap',function(){",
+                            "\t//Ext.Viewport.add({xtype:'Terms'}).show();",
+                            "\tvar url = \"http://www.appsonmobile.com/index.php/contact-us/\";",
+                            "window.open(url, '_system', 'location=yes');",
+                            "});"
+                        ],
+                        "name": "painted"
+                    },
+                    "name": "onMycontainer5Painted111",
+                    "designerId": "9e384950-e534-4de1-92f5-58a3952c0aad"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Component",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "cls": [
+                    "contact-name"
+                ],
+                "disabled": true,
+                "docked": "top",
+                "height": "40vh",
+                "html": null,
+                "id": "storeImage1",
+                "itemId": "storeImage1",
+                "left": null,
+                "padding": null
+            },
+            "name": "MyComponent4",
+            "designerId": "8409cdc0-3fbf-437a-b938-704a4afcf43a"
         }
     ]
 }

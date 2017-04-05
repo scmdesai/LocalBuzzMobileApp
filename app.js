@@ -28,33 +28,35 @@ Ext.application({
 	models: [
 		'Contact',
 		'Deal',
-		'UserDetails',
-		'AnalyticsData'
+		'UserDetails'
 	],
 	stores: [
-		'MyJsonPStore',
 		'MyDealsStore',
 		'UserDetails',
 		'LocalStore',
-		'AnalyticsStore'
+		'MyJsonPStore'
 	],
 	views: [
 		'contactform',
-		'Picture',
 		'DealPicture',
 		'ListOfDeals',
 		'DealsPanel',
 		'Login',
-		'UploadDealForm',
 		'ChangeContactPicForm',
 		'contactinfo',
-		'BuzzOMeter'
+		'panel',
+		'UpdateDealForm',
+		'CreateNewBuzzWithImage',
+		'DealImage',
+		'WelcomeScreen',
+		'CreateNewBuzzNoImage',
+		'CreateNewBuzzOption'
 	],
 	controllers: [
-		'Contacts'
+		'LocalBuzzMerchantDemo'
 	],
 	icon: 'icon.png',
-	name: 'Contact',
+	name: 'LocalBuzzMerchantDemo',
 	startupImage: 'icon.png',
 
 	launch: function() {
@@ -66,162 +68,189 @@ Ext.application({
 			return Ext.isDefined(value) ? value : defaultValue;
 		};
 
+		var BackButtonPanel;
+		    var exitApp = false;
+		    BackButtonPanel = Ext.create('Ext.Panel', {
+		        // fullscreen: true,
+		        html: 'Press again to exit',
+		        id:'BackButtonPanel',
+		        itemId:'BackButtonPanel',
+		        baseCls: 'x-box'
+
+
+		    });
+		    BackButtonPanel.setBottom('10%');
+		    BackButtonPanel.setLeft('35%');
+
+		    //BackButtonPanel.setHeight('50px');
+		    BackButtonPanel.setWidth('100%');
+		    BackButtonPanel.setCls('backButtonPanel');
+
+
+		//Load google charts
+		google.charts.load('current', {'packages':['corechart']});
+
+
+
+
 
 		if (Ext.os.is('Android')) {
-			document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
 
-			function onBackKeyDown(eve) {
-				eve.preventDefault();
-				Ext.Msg.confirm("Exit", "",  function ( answer ) {
-					if ( answer == 'yes') {
-						navigator.app.exitApp();
-					} else {
-						//do nothing
-					}
-				});
-			}
+
+
+
+		    var intval = setInterval(function () { exitApp = false; }, 3000);
+		    document.addEventListener("backbutton", Ext.bind(onBackKeyDown, this), false);  // add back button listener
+
+		    function onBackKeyDown(e) {
+
+
+
+
+		        if(Ext.Viewport.getActiveItem().xtype==='panel'){
+
+
+					 BackButtonPanel.show();
+					setTimeout(function () {BackButtonPanel.hide();}, 3000);
+
+		            if (exitApp) {
+
+						console.log('Exiting app');
+
+		                clearInterval(intval);
+
+		               navigator.app.exitApp();
+		            }
+		            else {
+						console.log('First time Back Button pressed');
+		                exitApp = true;
+		                Ext.Viewport.add(BackButtonPanel);
+		                BackButtonPanel.show();
+
+		               setTimeout(function () {BackButtonPanel.hide();}, 3000);
+
+		            }
+
+
+
+				}
+
+		        else if(Ext.Viewport.getActiveItem().getItemId()==='dealPicture'){
+
+
+		            Ext.Viewport.getActiveItem().destroy();
+
+		             Ext.Viewport.setActiveItem(Ext.Viewport.getComponent('DealsPanel'));
+
+		            Ext.getStore('LocalStore').removeAt(0);
+				}
+
+
+
+		}
 		}
 
-		//FB login
-		// Settings.
-		FacebookInAppBrowser.settings.appId = '900651756709444';
-		FacebookInAppBrowser.settings.redirectUrl = 'http://appsonmobile.com';
-		FacebookInAppBrowser.settings.permissions = 'email';
-
-		// Optional
-		FacebookInAppBrowser.settings.timeoutDuration = 7500;
-
-		// Login(accessToken will be stored trough localStorage in 'accessToken');
-		FacebookInAppBrowser.login({
-			send: function() {
-				console.log('login opened');
-			},
-			success: function(access_token) {
-				console.log('done, access token: ' + access_token);
-
-			},
-			denied: function() {
-				console.log('user denied');
-			},
-			timeout: function(){
-				console.log('a timeout has occurred, probably a bad internet connection');
-				Ext.msg.alert('Timeout Has Occured','Close Applications running in background and Try Again',null,null);
-			},
-			complete: function(access_token) {
-				console.log('window closed');
-				if(access_token) {
-					console.log(access_token);
-				} else {
-					console.log('no access token');
-				}
-			},
-			userInfo: function(userInfo) {
-				if(userInfo) {
-					var userInf = JSON.stringify(userInfo);
-					console.log(userInf);
-
-					var info = userInf.split("\",\"");
-
-					var tmp = info[0].split("\":\"");
-					var email = tmp[1];
-					//console.log(email);
-					tmp = info[1].split("\":\"");
-					var loginName = tmp[1];
-
-					tmp = info[2].split("\":\"");
-					var gender = tmp[1];
-
-					tmp = info[3].split("\":\"");
-					var userId = tmp[1];
-
-					var record = Ext.getStore('MyJsonPStore').findRecord('emailAddress','sterling@sterling.com',0,true,false,false);
-					//console.log(store.getData());
-					//store.loadRecord();
-					//var view = Ext.create('Contact.view.Info');
-					//view.setRecord(record.getRecord());
-					//console.log(view.getData());
-					//Ext.Viewport.setActiveItem(view);
-		           if(record){
-
-					var storeUserDetails = Ext.getStore('UserDetails');
-					storeUserDetails.removeAll();
-
-					storeUserDetails.add({'customerId' : record.get('customerId'),
-										  'email': email,
-										  'businessName': record.get('businessName')
-										  });
 
 
 
-					//console.log("User details are : " + email +','+ record.get('customerId') +','+ record.get('businessName'));
-
-					var store = Ext.getStore('MyJsonPStore');
-					var view = Ext.create("Ext.tab.Panel", {
-						itemId: 'panel' ,
-						fullscreen: true,
-						tabBarPosition: 'bottom',
-						cls: 'toolbarCls',
-						ui:'plain',
-						style:"font-size:5vw;border-top:1px solid #eee;background:white;color:#00529D",
+		document.addEventListener("resume", Ext.bind(onResume, this), false);
 
 
 
 
+		function onResume(e) {
 
-						items: [
-							{
-								xtype: 'contactinfo',
-								title:'Home',
-								itemId:'home',
-								iconCls:'icon-home',
+		    //Ext.Msg.alert('Resume',null,null,null);
+		    /* var store = Ext.getStore('MyDealsStore');
+		    store.load();
+		    navigator.geolocation.getCurrentPosition(function showPosition(position) {
+		        Ext.getCmp('mymap').show();
+		        Ext.getCmp('locationOffText').hide();
+		        Ext.getCmp('lookUpZipcode').hide();
+		         var store1 = Ext.getStore('MyJsonPStore');
+		            store1.load();
+		            store1.clearFilter();
+		            store1.filterBy(function(record) {
+		                var address = record.get('address');
+		                var customerId;
+		                $.getJSON("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + latitude + "," + longitude + "&destinations=" + address + "&key=AIzaSyDHFtBdpwHNSJ2Pu0HpRK1ce5uHCSGHKXM",
+		                   function(json) {
+		                       if(task){
 
+		                        task.cancel();
+		                        store.clearFilter();
+		                        store.load();
 
-							},
-							{
-								xtype: 'DealsPanel',
-								title:'Buzz',
-								iconCls:'icon-bubbles'
-							},
-							{
-								xtype:'buzzometer',
-								title:'BuzzOMeter',
-								iconCls:'info'
-							}
-						]
-					});
+		                        var store1 = Ext.getStore('calculateDistances');
 
+		                        var stores = [];
 
-
-					view.getComponent('home').setRecord(record);
-					//Ext.Viewport.getActiveItem().destroy();
-					Ext.Viewport.setActiveItem(view);
-
-					//Ext.Viewport.setActiveItem({xtype:'Panel'});
-					//console.log(view.getComponent('home').getItemId());
-					//view.setData(record.getData());
-					////view.setRecord(record);
-					// Ext.Viewport.setActiveItem(view);
-				   }
-					else{
-						Ext.msg.alert('Timeout Has Occured','Close Applications running in background and Try Again',null,null);
-					}
+		                      store1.each(function(record){
+		                      // stores.push(record.get('customerId'));
+		                          Ext.Array.include(stores,record.get('customerId'));
 
 
-
-
-
-
-
-					//view.setData(record.getData());
-
-				} else {
-					console.log('no user info');
-				}
-			}
 		});
+		console.log(stores.length);
+
+		store.filterBy(function(record){
+		    return Ext.Array.indexOf(stores, record.get('customerId')) !== -1;
+
+		}, this);
 
 
 
+
+
+		                       }
+		                    var distance = json.rows[0].elements[0].distance.value;
+		                    if (distance <= 40234) {
+		                        storesNearBy.add({'customerId':record.get('customerId')});
+
+		                        return true;
+
+		                    } else {
+		                        return false;
+
+		                    }
+
+
+
+		                                      });
+		            });
+
+
+
+		var task = Ext.create('Ext.util.DelayedTask', function() {
+		    Ext.Viewport.mask({ xtype: 'loadmask',
+		                       message: "Loading Latest Buzz.." });
+		}, this);
+		},onError);
+
+
+
+		    function onError(error){
+
+		        Ext.getCmp('mymap').hide();
+		        Ext.getCmp('locationOffText').show();
+		        Ext.getCmp('lookUpZipcode').show();
+
+
+
+		    }*/
+		}
+
+
+
+
+
+
+
+
+
+
+
+		Ext.create('LocalBuzzMerchantDemo.view.WelcomeScreen', {fullscreen: true});
 	}
 
 });

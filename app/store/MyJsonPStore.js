@@ -13,60 +13,38 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Contact.store.MyJsonPStore', {
+Ext.define('LocalBuzzMerchantDemo.store.MyJsonPStore', {
 	extend: 'Ext.data.Store',
+	alias: 'store.MyJsonPStore',
 
 	requires: [
-		'Contact.model.Contact',
-		'Ext.util.Grouper',
+		'LocalBuzzMerchantDemo.model.Contact',
 		'Ext.data.proxy.JsonP',
 		'Ext.data.reader.Json',
-		'Ext.data.writer.Json'
+		'Ext.util.Grouper'
 	],
 
 	config: {
 		autoLoad: true,
-		autoSync: true,
-		groupField: 'category',
-		model: 'Contact.model.Contact',
+		model: 'LocalBuzzMerchantDemo.model.Contact',
 		storeId: 'MyJsonPStore',
-		grouper: {
-			groupFn: function(item) {
-				return record.get('category');
-			},
-			sortProperty: ''
+		proxy: {
+			type: 'jsonp',
+			url: 'http://services.appsonmobile.com/demoStores',
+			reader: {
+				type: 'json'
+			}
 		},
 		sorters: {
 			sorterFn: function(first, second) {
 
 			}
 		},
-		proxy: {
-			type: 'jsonp',
-			url: 'http://services.appsonmobile.com/stores',
-			reader: {
-				type: 'json'
+		grouper: {
+			groupFn: function(item) {
+				return record.get('category');
 			},
-			writer: {
-				type: 'json',
-				encode: true
-			}
-		},
-		listeners: [
-			{
-				fn: 'onJsonpstoreUpdaterecord',
-				event: 'updaterecord'
-			}
-		]
-	},
-
-	onJsonpstoreUpdaterecord: function(store, record, newIndex, oldIndex, modifiedFieldNames, modifiedValues, eOpts) {
-
-
-
-
-		return record;
-
+			sortProperty: ''
+		}
 	}
-
 });
